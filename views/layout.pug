@@ -10,5 +10,21 @@ html(lang="en")
 
   body
     block header
-    .content
+      header
+        nav(class='nav__primary')
+          .container
+            .navprimary__logo
+              .logo
+                img(src="https://www.clio.com/wp-content/uploads/2019/01/Mailchimp_Logo-Horizontal_Black.png")
+              div
+
+    main.content
       block content
+    block footer
+      footer
+        .container.footer__container
+          .footer__mainContent
+            h1 I am the footer header 1
+            h2 I am the footer header 2
+            h3 I am the footer header 3
+            p I am the footer text

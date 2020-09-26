@@ -1,0 +1,22 @@
+footer {
+	display: block;
+	background: $yellow;
+
+	.footer__container {
+		width: 100%;
+		box-sizing: border-box;
+		max-width: 100em;
+		margin-left: auto;
+		margin-right: auto;
+		padding-left: 1.875rem;
+		padding-right: 1.875rem;
+	}
+
+	.footer_mainContent {
+		display: flex;
+		flex-wrap: nowrap;
+		margin-bottom: 1.75rem;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
