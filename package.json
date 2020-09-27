@@ -8,7 +8,7 @@
         "start": "node index.js",
         "watch": " nodemon index.js --ignore public/",
         "dev": "concurrently \"npm run watch\" \"npm run assets\" --names \"💻,📦\" --prefix name ",
-        "assets": "webpack -w --display-max-modules 0 --mode=production",
+        "assets": "webpack -w --display-max-modules 0",
         "sample": "node ./data/load-data.js",
         "blowitallaway": "node ./data/load-data.js"
     },
@@ -41,7 +41,8 @@
         "pg": "^8.3.3",
         "pug": "^3.0.0",
         "pug-html-loader": "^1.1.5",
-        "sqlite3": "^5.0.0"
+        "sqlite3": "^5.0.0",
+        "tailwindcss": "^1.8.10"
     },
     "devDependencies": {
         "autoprefixer": "^9.8.6",

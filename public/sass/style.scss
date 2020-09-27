@@ -3,11 +3,13 @@
  * Copyright (c) 2020 Mark Ambrocio
  * CC BY-NC-SA 4.0
  */
+@import "partials/variables";
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 // this is where we import other files
-@import "partials/variables";
 @import "partials/normalize";
 @import "partials/layout";
-@import "partials/header";
-@import "partials/footer";
 @import "partials/typography";

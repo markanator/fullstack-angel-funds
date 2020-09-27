@@ -3,28 +3,24 @@
 doctype html
 html(lang="en")
   head
-    //- title= `${title} | ${h.siteName}`
+    title= `${title} | ${h.siteName}`
     link(rel='stylesheet', href='/dist/style.css')
-    //- link(rel="shortcut icon" type="image/png" href="/images/icons/doughnut.png")
     meta(name="viewport" content="width=device-width, initial-scale=1")
 
-  body
-    block header
-      header
-        nav(class='nav__primary')
-          .container
-            .navprimary__logo
-              .logo
-                img(src="https://www.clio.com/wp-content/uploads/2019/01/Mailchimp_Logo-Horizontal_Black.png")
-              div
+  body.w-full.min-h-full.flex.flex-col.justify-start.inline-flex.items-start.flex-none
+    header.w-full.shadow-md.flex.flex-none.mb-4
+      nav#nav__container.max-w-6xl.w-full.mx-auto.flex.justify-between.inline-flex.items-center.h-auto.flex-none
+        #nav__logo.logo.w-12.justify-center.inline-flex.items-center.flex-none
+          //- span(class='w-6 h-6 mdi mdi-twitter text-white flex-none')
+          img(src="https://picsum.photos/200", alt="company logo" width='60px' height="60px")
+        #nav__links.flex.justify-center.inline-flex.items-center.space-x-8.text-white.container
+          a(href="/#1") HOME
+          a(href="/#2") ABOUT
+          a(href="/#3") THREE
 
-    main.content
-      block content
+    main.w-full
+      #container.container.mx-auto
+        block content
+
     block footer
-      footer
-        .container.footer__container
-          .footer__mainContent
-            h1 I am the footer header 1
-            h2 I am the footer header 2
-            h3 I am the footer header 3
-            p I am the footer text
+      include includes/foot.pug

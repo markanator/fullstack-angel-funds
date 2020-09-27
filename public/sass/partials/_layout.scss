@@ -1,16 +1,12 @@
 html {
-	font-size: 10px;
+    font-size: 10px;
 }
 
 body {
-	background: $purple;
-	background: #efefef;
+    background: $purple;
+    background: #efefef;
 }
 
-.container {
-	max-width: 900px;
-	margin: 0 auto;
-	@media all and (max-width: 900px) {
-		padding: 2rem;
-	}
+header {
+    background-color: $yellow;
 }
