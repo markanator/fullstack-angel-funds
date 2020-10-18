@@ -1,22 +1,33 @@
 
-
 doctype html
 html(lang="en")
   head
     title= `${title} | ${h.siteName}`
     link(rel='stylesheet', href='/dist/style.css')
+    link(rel="icon" type="image/x-icon" href="/favicon.ico")
+    link(rel='stylesheet' href='https://use.fontawesome.com/releases/v5.15.1/css/all.css' integrity='sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp' crossorigin='anonymous')
     meta(name="viewport" content="width=device-width, initial-scale=1")
 
   body.w-full.min-h-full.flex.flex-col.justify-start.inline-flex.items-start.flex-none
-    header.w-full.shadow-md.flex.flex-none.mb-4
-      nav#nav__container.max-w-6xl.w-full.mx-auto.flex.justify-between.inline-flex.items-center.h-auto.flex-none
-        #nav__logo.logo.w-12.justify-center.inline-flex.items-center.flex-none
-          //- span(class='w-6 h-6 mdi mdi-twitter text-white flex-none')
-          img(src="https://picsum.photos/200", alt="company logo" width='60px' height="60px")
-        #nav__links.flex.justify-center.inline-flex.items-center.space-x-8.text-white.container
-          a(href="/#1") HOME
-          a(href="/#2") ABOUT
-          a(href="/#3") THREE
+    header.w-full.border-b-2.py-2
+      div.container.mx-auto.py-2
+        nav.w-full.flex.flex-row.justify-between.items-center.text-xl.text-gray-700
+          div.flex.text-xl.text-gray-700
+            p VR Funding
+          div.flex.flex-row
+            span.mr-6
+              i.far.fa-compass.mr-2.text-blue-400.text-2xl
+              | Explore
+            span.ml-6 Start a Project
+          div
+            ul.flex.flex-row.items-center
+              li.mr-4
+                i.fas.fa-search
+              li.mr-4.border-2.border-gray-400.rounded-full.py-2.px-6
+                i.fas.fa-wallet.mr-4
+                span.font-semibold Wallet
+              li
+                img(class="rounded-full h-12 w-12" src='https://i.imgur.com/vKBxTj7.jpg' alt='user')
 
     main.w-full
       #container.container.mx-auto

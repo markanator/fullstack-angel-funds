@@ -1,0 +1,31 @@
+mixin projectCard()
+  article.bg-white.w-64.h-auto.rounded-lg.shadow-lg
+    // IMAGE
+    div
+      img.rounded-t-lg(src='https://ksr-ugc.imgix.net/assets/030/983/684/854ef125cb780f0fca91cb4b546ba795_original.jpg?ixlib=rb-2.1.0&w=680&fit=max&v=1602585274&auto=format&frame=1&q=92&s=be13bed1f9a2e923f398a09743a5326d' alt='project')
+    // CARD BODY
+    .py-3.px-4.w-full
+      // TOP HEADER
+      span.flex.justify-between.items-baseline
+        h3.font-semibold A new Project!
+        span.text-xs.bg-orange-300.px-3.py-1.rounded-full.font-bold.upper.text-orange-500 Art
+      // Description
+      span
+        p.text-sm.text-gray-500.pt-6.pb-4 A crowdfunded esports team that is sponsored by Taco Bell.
+      // PROGRESS
+      p.text-xs.text-center.text-gray-500.font-bold 50%
+      .shadow.relative.pt-1
+        .overflow-hidden.h-2.mb-4.text-xs.flex.rounded.bg-blue-200
+          span.shadow-none.flex.flex-col.text-center.whitespace-nowrap.text-white.justify-center.bg-blue-500(style='width: 55%')
+      // Too Early, NO STATS
+      div
+        // <p class="text-sm text-center text-gray-500 font-semibold py-4">Stats not available at this stage!</p>
+      // FUNDED / GOAL
+      .flex.flex-row.justify-between.px-8.py-1.text-gray-700
+        .flex.flex-col.items-center
+          span.font-bold.text-lg $125K
+          span.uppercase.text-xs.-mt-1 Funded
+        hr.border.border-gray-200.h-12
+        .flex.flex-col.items-center.text-gray-500
+          span.font-bold.text-lg $250K
+          span.uppercase.text-xs.-mt-1 Goal
