@@ -75,6 +75,7 @@ export default function HomeInvitation() {
   );
 }
 
+// eslint-disable-next-line react/prop-types
 function Card({ children, title, text, link }) {
   return (
     <a

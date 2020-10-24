@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FiYoutube, FiTwitter, FiSlack, FiGithub } from 'react-icons/fi';
+import { FiTwitter, FiSlack, FiGithub } from 'react-icons/fi';
 import { FaTwitch } from 'react-icons/fa';
 
 export default function Footer() {
