@@ -14,6 +14,9 @@ function App() {
         <Route path="/project/:slug">
           <ProjectDetails />
         </Route>
+        <Route>
+          <p>Oops</p>
+        </Route>
       </Switch>
     </>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaRegCompass, FaSearch, FaWallet } from 'react-icons/fa';
+import { FaRegCompass, FaSearch, FaUserAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 export default function Navbar() {
@@ -8,16 +8,24 @@ export default function Navbar() {
       <div className="container m-auto py-2">
         <nav className="w-full flex flex-row justify-between items-center text-xl text-gray-700">
           <div className="flex text-xl text-gray-700">
-            <p>VR Funding</p>
+            <Link to="/" className="font-bold hover:underline">
+              VR Funding
+            </Link>
           </div>
           <div className="flex flex-row">
             {/* LINKS */}
-            <span className="mr-6 flex items-center">
+            <Link
+              to="/explore"
+              className="mr-6 flex items-center hover:underline"
+            >
               <FaRegCompass className="mr-2 text-blue-400 text-2xl" />
               Explore
-            </span>
+            </Link>
             {/* LINKS */}
-            <span className="ml-6">Start a Project</span>
+            {/* NEEDS CONTEXT */}
+            <Link to="/" className="ml-6 hover:underline">
+              Start a Project
+            </Link>
           </div>
           <div className="flex flex-row items-center">
             <Link to="/" className="mr-4">
@@ -25,9 +33,9 @@ export default function Navbar() {
               <FaSearch />
               {/* </span> */}
             </Link>
-            <Link to="/">
+            <Link to="/login">
               <span className="mr-4 border-2 border-gray-400 rounded-full py-2 px-2 transition-colors duration-300 hover:bg-gray-400 focus:bg-gray-500 focus:border-gray-500 flex items-center">
-                <FaWallet className="" />
+                <FaUserAlt className="" />
               </span>
             </Link>
             {/* <Link to="/">

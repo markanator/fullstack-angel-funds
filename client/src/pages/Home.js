@@ -2,32 +2,58 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 // locals
 import Layout from '../components/Layout';
+import Hero from '../components/homeHero/Hero';
+import FlowShowcase from '../components/homeShowcase/FlowShowcase';
+import HomeInvitation from '../components/homeInvitation/HomeInvitation';
 
 export default function Home() {
   return (
     <Layout>
       <main className="container m-auto">
-        <div className="flex flex-row w-full justify-end mx-auto items-center my-20">
-          <div className="w-1/2 px-4 mr-4">
-            <img
-              src="https://img.favpng.com/14/14/18/business-card-design-business-cards-project-manager-visiting-card-png-favpng-pztaaG7AfXZBk5YFvxz2MwvkB.jpg"
-              alt="projects"
-            />
+        {/* Hero Section */}
+        <Hero />
+        {/* Featured on Section */}
+        <section className="m-auto py-8">
+          <div className="text-center">
+            <h4 className="text-gray-400 text-sm uppercase font-semibold">
+              Featured on
+            </h4>
           </div>
-          <div className="w-1/2 px-4 ml-4">
-            <h1 className="text-5xl font-bold mb-6 leading-none">
-              <span className="text-gray-500">Here</span> ideas
-              <br />
-              <span className="text-gray-500">become</span> reality.
-            </h1>
-            <Link
-              className="bg-teal-400 text-white tracking-widest text-sm py-3 px-6 rounded-full shadow-xl transition-colors duration-200 hover:bg-teal-500 hover:text-gray-200 focus:bg-teal-600 focus:text-gray-500"
-              to="/project/test-slug-here"
-            >
-              Discover Projects
-            </Link>
+        </section>
+        {/* Flow Showcase Section */}
+        <FlowShowcase />
+        {/* JOIN THE COMMUNITY */}
+        <HomeInvitation />
+        {/* GET STARTED */}
+        <section className="">
+          <div className="m-auto max-w-5xl my-20">
+            <div className="w-full items-center m-auto">
+              <div className="inner max-w-4xl m-auto">
+                <div className="shadow-md border-purple-500 py-4 px-8 rounded-lg flex flex-col border-t-8 w-full">
+                  <div className="flex flex-row justify-between items-center">
+                    <span className="flex flex-col">
+                      <h4 className="font-bold text-base leading-4 text-gray-600">
+                        Ready to start?
+                      </h4>
+                      <h3 className="text-gray-800 text-2xl font-bold leading-7">
+                        Join today, start from scratch <br />
+                        and launch tomorrow!
+                      </h3>
+                    </span>
+                    <span>
+                      <Link
+                        to="/signup"
+                        className="bg-purple-500 font-bold uppercase text-white tracking-widest text-base py-3 px-6 rounded-full shadow-lg transition-colors duration-200 hover:bg-purple-600 hover:text-gray-200 focus:bg-purple-600 focus:text-gray-500"
+                      >
+                        Sign up!
+                      </Link>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
       </main>
     </Layout>
   );
