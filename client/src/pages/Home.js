@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 // locals
 import Layout from '../components/Layout';
 import Hero from '../components/homeHero/Hero';
 import FlowShowcase from '../components/homeShowcase/FlowShowcase';
 import HomeInvitation from '../components/homeInvitation/HomeInvitation';
+// context
+import { UserContext } from '../context/user/userContext';
 
 export default function Home() {
+  const [userState, setUserState] = useContext(UserContext);
   return (
     <Layout>
       <main className="container m-auto">
@@ -42,10 +45,10 @@ export default function Home() {
                     </span>
                     <span>
                       <Link
-                        to="/signup"
+                        to={`${userState.isOnline ? '/dashboard' : '/signup'}`}
                         className="bg-purple-500 font-bold uppercase text-white tracking-widest text-base py-3 px-6 rounded-full shadow-lg transition-colors duration-200 hover:bg-purple-600 hover:text-gray-200 focus:bg-purple-600 focus:text-gray-500"
                       >
-                        Sign up!
+                        {userState.isOnline ? 'Get Started!' : 'Sign Up!'}
                       </Link>
                     </span>
                   </div>

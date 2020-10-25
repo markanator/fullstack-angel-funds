@@ -5,10 +5,12 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import ProjectDetails from './pages/ProjectDatails';
 import Signup from './pages/Signup';
+// context Provider
+import UserProvider from './context/user/userContext';
 
 function App() {
   return (
-    <>
+    <UserProvider>
       <Switch>
         <Route exact path="/">
           <Home />
@@ -26,7 +28,7 @@ function App() {
           <p>Oops</p>
         </Route>
       </Switch>
-    </>
+    </UserProvider>
   );
 }
 

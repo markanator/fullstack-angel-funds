@@ -34,7 +34,7 @@ export default function HomeInvitation() {
                   />
                   <span className="flex flex-col">
                     <h4 className="font-bold text-xl leading-4">Gabi</h4>
-                    <p className="text-gray-600">Founder, Pa'Lante Games</p>
+                    <p className="text-gray-600">Founder, Pa'Lante Studios</p>
                   </span>
                 </div>
               </div>
