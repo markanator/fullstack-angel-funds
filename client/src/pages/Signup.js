@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+// icons
 import { FaLock, FaUser } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
+// form validation
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+// auth stuff
+import { useAuth } from '../context/AuthContext';
 // locals
 import Layout from '../components/Layout';
 // Signup Schema
@@ -18,6 +22,7 @@ const SignupSchema = Yup.object().shape({
 
 export default function Signup() {
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const { signup } = useAuth();
 
   return (
     <Layout>
@@ -35,6 +40,7 @@ export default function Signup() {
               onSubmit={async (values) => {
                 await sleep(500);
                 console.log(values);
+                signup(values.email, values.password);
               }}
             >
               {({ errors, touched }) => (

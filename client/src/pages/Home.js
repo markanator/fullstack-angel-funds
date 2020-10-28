@@ -6,7 +6,7 @@ import Hero from '../components/homeHero/Hero';
 import FlowShowcase from '../components/homeShowcase/FlowShowcase';
 import HomeInvitation from '../components/homeInvitation/HomeInvitation';
 // context
-import { UserContext } from '../context/user/userContext';
+import { UserContext } from '../context/userContext';
 
 export default function Home() {
   const [userState, setUserState] = useContext(UserContext);

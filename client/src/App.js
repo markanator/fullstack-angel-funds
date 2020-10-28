@@ -6,29 +6,35 @@ import Login from './pages/Login';
 import ProjectDetails from './pages/ProjectDatails';
 import Signup from './pages/Signup';
 // context Provider
-import UserProvider from './context/user/userContext';
+import UserProvider from './context/userContext';
+// private route
+import PrivateRoutes from './utils/PrivateRoutes';
+import AuthProvider from './context/AuthContext';
 
 function App() {
   return (
-    <UserProvider>
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/signup">
-          <Signup />
-        </Route>
-        <Route path="/project/:slug">
-          <ProjectDetails />
-        </Route>
-        <Route>
-          <p>Oops</p>
-        </Route>
-      </Switch>
-    </UserProvider>
+    <AuthProvider>
+      <UserProvider>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/signup">
+            <Signup />
+          </Route>
+          <Route path="/project/:slug">
+            <ProjectDetails />
+          </Route>
+          <PrivateRoutes path="/test" />
+          <Route>
+            <p>Oops</p>
+          </Route>
+        </Switch>
+      </UserProvider>
+    </AuthProvider>
   );
 }
 

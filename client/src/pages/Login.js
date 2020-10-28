@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 // locals
 import Layout from '../components/Layout';
 // context
-import { UserContext } from '../context/user/userContext';
+import { UserContext } from '../context/userContext';
 
 // login Schema
 const LoginSchema = Yup.object().shape({

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { FaRegCompass, FaSearch, FaUserAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 // context
-import { UserContext } from '../context/user/userContext';
+import { UserContext } from '../context/userContext';
 
 export default function Navbar() {
   const [userState, setUserState] = useContext(UserContext);
