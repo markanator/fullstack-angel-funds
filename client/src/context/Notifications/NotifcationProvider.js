@@ -17,12 +17,18 @@ function useCreateDomElement() {
   const [domElement, setDomElement] = React.useState(null);
 
   React.useEffect(() => {
+    const root = document.getElementById('root');
     const element = document.createElement('div');
     element.id = 'notifications';
-    document.body.appendChild(element);
+    element.classList.add('container');
+    element.classList.add('flex');
+    element.classList.add('flex-col');
+    element.classList.add('items-center');
+    element.classList.add('m-auto');
+    root.appendChild(element);
     setDomElement(element);
 
-    return () => document.body.removeChild(element);
+    return () => root.removeChild(element);
   }, []);
 
   return domElement;
@@ -46,10 +52,11 @@ function useNotifications() {
     // eslint-disable-next-line no-shadow
     setNotifications((notifications) => [
       ...notifications,
+      // default on close action
       { id, onClose: removeNotification, ...notificationPayload },
     ]);
 
-    setTimeout(removeNotification, 2000);
+    setTimeout(removeNotification, 5000);
   }, []);
 
   return { notify, notifications };
@@ -68,8 +75,8 @@ export default function NotificationProvider({ children }) {
       {notificationRoot &&
         createPortal(
           <div
-            className="container m-auto z-10 absolute w-full"
-            style={{ top: '75px' }}
+            className="container m-auto z-20 absolute w-full"
+            style={{ top: '74px' }}
           >
             <AnimatePresence>
               {notifications.map((alert) => (

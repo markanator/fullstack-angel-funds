@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FaLock } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
@@ -7,8 +7,8 @@ import * as Yup from 'yup';
 // locals
 import Layout from '../components/Layout';
 // context
-import { UserContext } from '../context/userContext';
 import { useAuth } from '../context/AuthContext';
+import { useNotify } from '../context/Notifications/NotifcationProvider';
 
 // login Schema
 const LoginSchema = Yup.object().shape({
@@ -17,7 +17,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 export default function Login() {
-  // const [userState, setUserState] = useContext(UserContext);
+  const notify = useNotify();
   const history = useHistory();
   const { login, currentUser } = useAuth();
   const [actionErr, setActionErr] = useState('');
@@ -43,9 +43,11 @@ export default function Login() {
                   await login(values.email, values.password);
                   history.push('/dashboard');
                 } catch {
-                  setActionErr(
-                    'Failed to log you in. Make Sure your login information is correct.'
-                  );
+                  notify({
+                    type: 'danger',
+                    text:
+                      'Failed to log you in. Make Sure your login information is correct.',
+                  });
                 }
               }}
             >

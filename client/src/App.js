@@ -10,8 +10,9 @@ import UserProvider from './context/userContext';
 // private route
 import PrivateRoutes from './utils/PrivateRoutes';
 import AuthProvider from './context/AuthContext';
-import Dashbaord from './pages/Dashbaord';
+import Dashboard from './pages/Dashboard';
 import ForgotPass from './pages/ForgotPass';
+import Account from './pages/Account';
 
 function App() {
   return (
@@ -33,8 +34,11 @@ function App() {
           <Route path="/project/:slug">
             <ProjectDetails />
           </Route>
-          <PrivateRoutes path="/dashboard">
-            <Dashbaord />
+          <PrivateRoutes exact path="/dashboard">
+            <Dashboard />
+          </PrivateRoutes>
+          <PrivateRoutes exact path="/dashboard/account">
+            <Account />
           </PrivateRoutes>
           <Route>
             <p>Oops</p>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 // locals
 import Layout from '../components/Layout';
@@ -6,10 +6,10 @@ import Hero from '../components/homeHero/Hero';
 import FlowShowcase from '../components/homeShowcase/FlowShowcase';
 import HomeInvitation from '../components/homeInvitation/HomeInvitation';
 // context
-import { UserContext } from '../context/userContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function Home() {
-  const [userState, setUserState] = useContext(UserContext);
+  const { currentUser } = useAuth();
   return (
     <Layout>
       <main className="container m-auto">
@@ -45,10 +45,16 @@ export default function Home() {
                     </span>
                     <span>
                       <Link
-                        to={`${userState.isOnline ? '/dashboard' : '/signup'}`}
+                        to={`${
+                          currentUser && currentUser.email
+                            ? '/dashboard'
+                            : '/signup'
+                        }`}
                         className="bg-purple-500 font-bold uppercase text-white tracking-widest text-base py-3 px-6 rounded-full shadow-lg transition-colors duration-200 hover:bg-purple-600 hover:text-gray-200 focus:bg-purple-600 focus:text-gray-500"
                       >
-                        {userState.isOnline ? 'Get Started!' : 'Sign Up!'}
+                        {currentUser && currentUser.email
+                          ? 'Get Started!'
+                          : 'Sign Up!'}
                       </Link>
                     </span>
                   </div>

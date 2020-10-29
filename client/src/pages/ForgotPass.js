@@ -17,9 +17,7 @@ const resetSchema = Yup.object().shape({
 export default function ForgotPass() {
   const notify = useNotify();
   const { resetPassword } = useAuth();
-  const [actionErr, setActionErr] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState('');
 
   return (
     <Layout>
@@ -32,18 +30,21 @@ export default function ForgotPass() {
               }}
               validationSchema={resetSchema}
               onSubmit={async (values) => {
-                // console.log(values);
+                setIsLoading(true);
                 try {
-                  setMessage('');
-                  setActionErr('');
-                  // await resetPassword(values.email);
+                  await resetPassword(values.email);
+                  setIsLoading(false);
                   notify({
                     type: 'info',
                     text:
                       'If the email exists, please be sure to check your inbox for further instructions.',
                   });
                 } catch {
-                  setActionErr('Failed to reset password!');
+                  notify({
+                    type: 'danger',
+                    text: 'Failed to reset password!',
+                  });
+                  setIsLoading(false);
                 }
               }}
             >
@@ -114,6 +115,7 @@ export default function ForgotPass() {
                     <div>
                       <button
                         type="submit"
+                        disabled={isLoading}
                         className="mt-3 text-lg font-semibold bg-gray-800 w-full text-white rounded-b-lg px-6 py-3
                     block shadow-xl hover:text-white hover:bg-black"
                       >
