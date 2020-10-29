@@ -14,7 +14,7 @@ export default function Alert({ type, text, onClose }) {
   if (type === typeEnum.INFO) {
     color = 'blue';
   } else if (type === typeEnum.SUCCESS) {
-    color = 'gree';
+    color = 'green';
   } else if (type === typeEnum.DANGER) {
     color = 'red';
   } else if (type === typeEnum.WARNING) {

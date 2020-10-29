@@ -5,9 +5,9 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
 // locals
-import Layout from '../components/Layout';
-import { useAuth } from '../context/AuthContext';
-import { useNotify } from '../context/Notifications/NotifcationProvider';
+import Layout from '../../components/Layout';
+import { useAuth } from '../../context/AuthContext';
+import { useNotify } from '../../context/Notifications/NotifcationProvider';
 
 // validation
 const resetSchema = Yup.object().shape({

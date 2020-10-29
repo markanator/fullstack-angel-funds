@@ -5,10 +5,10 @@ import { MdEmail } from 'react-icons/md';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 // locals
-import Layout from '../components/Layout';
+import Layout from '../../components/Layout';
 // context
-import { useAuth } from '../context/AuthContext';
-import { useNotify } from '../context/Notifications/NotifcationProvider';
+import { useAuth } from '../../context/AuthContext';
+import { useNotify } from '../../context/Notifications/NotifcationProvider';
 
 // login Schema
 const LoginSchema = Yup.object().shape({

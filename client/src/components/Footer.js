@@ -16,12 +16,12 @@ export default function Footer() {
           <section className="w-1/4">
             <h3 className="text-base font-bold">Company</h3>
             <ul className="flex flex-col text-sm">
-              <Link to="/">About</Link>
-              <Link to="/">Causes</Link>
-              <Link to="/">Blog</Link>
-              <Link to="/">Terms of Use</Link>
-              <Link to="/">Privacy Policy</Link>
-              <Link to="/">Sitemap</Link>
+              <Link to="/#about">About</Link>
+              <Link to="/#causes">Causes</Link>
+              <Link to="/#blog">Blog</Link>
+              <Link to="/#tou">Terms of Use</Link>
+              <Link to="/#privacy">Privacy Policy</Link>
+              <Link to="/#sitemap">Sitemap</Link>
             </ul>
           </section>
           <section className="w-1/4">

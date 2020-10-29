@@ -7,9 +7,9 @@ import { MdEmail } from 'react-icons/md';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 // auth stuff
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 // locals
-import Layout from '../components/Layout';
+import Layout from '../../components/Layout';
 // Signup Schema
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email('Invalid Email').required('Required'),

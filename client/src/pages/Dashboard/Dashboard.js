@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 // locals
-import Layout from '../components/Layout';
-import { useAuth } from '../context/AuthContext';
-import { useNotify } from '../context/Notifications/NotifcationProvider';
+import Layout from '../../components/Layout';
+import { useAuth } from '../../context/AuthContext';
+import { useNotify } from '../../context/Notifications/NotifcationProvider';
 
 export default function Dashboard() {
   const { path } = useRouteMatch();

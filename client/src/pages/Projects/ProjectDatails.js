@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 // locals
-import Layout from '../components/Layout';
+import Layout from '../../components/Layout';
 
 export default function ProjectDatails() {
   const { slug } = useParams();

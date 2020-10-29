@@ -1,7 +1,7 @@
 import React from 'react';
 // locals
-import Layout from '../components/Layout';
-import { useAuth } from '../context/AuthContext';
+import Layout from '../../components/Layout';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Account() {
   return (
