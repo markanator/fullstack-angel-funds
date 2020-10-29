@@ -10,6 +10,8 @@ import UserProvider from './context/userContext';
 // private route
 import PrivateRoutes from './utils/PrivateRoutes';
 import AuthProvider from './context/AuthContext';
+import Dashbaord from './pages/Dashbaord';
+import ForgotPass from './pages/ForgotPass';
 
 function App() {
   return (
@@ -25,10 +27,15 @@ function App() {
           <Route path="/signup">
             <Signup />
           </Route>
+          <Route path="/forgot-password">
+            <ForgotPass />
+          </Route>
           <Route path="/project/:slug">
             <ProjectDetails />
           </Route>
-          <PrivateRoutes path="/test" />
+          <PrivateRoutes path="/dashboard">
+            <Dashbaord />
+          </PrivateRoutes>
           <Route>
             <p>Oops</p>
           </Route>

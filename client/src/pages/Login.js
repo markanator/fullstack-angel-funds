@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FaLock } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import Layout from '../components/Layout';
 // context
 import { UserContext } from '../context/userContext';
+import { useAuth } from '../context/AuthContext';
 
 // login Schema
 const LoginSchema = Yup.object().shape({
@@ -16,34 +17,36 @@ const LoginSchema = Yup.object().shape({
 });
 
 export default function Login() {
-  const [userState, setUserState] = useContext(UserContext);
+  // const [userState, setUserState] = useContext(UserContext);
   const history = useHistory();
+  const { login, currentUser } = useAuth();
+  const [actionErr, setActionErr] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <Layout>
       <main className="py-20 bg-gray-100">
         <div className="container m-auto flex flex-col items-center">
           <div className="flex flex-col items-center">
+            {actionErr}
+            {currentUser && currentUser.email}
             <Formik
               initialValues={{
                 email: '',
                 password: '',
               }}
               validationSchema={LoginSchema}
-              onSubmit={(values) => {
-                // ! TODO remove
-                if (
-                  values.email === userState.userInfo.email &&
-                  values.password === userState.userInfo.password
-                ) {
-                  console.log('## User logged in!!!');
-                  setUserState({ ...userState, isOnline: true });
-                  // transition to homepage
-                  history.push('/');
-                } else {
-                  console.log('## FAILED LOGIN!!!');
+              onSubmit={async (values) => {
+                try {
+                  setActionErr('');
+                  setIsLoading(false);
+                  await login(values.email, values.password);
+                  history.push('/dashboard');
+                } catch {
+                  setActionErr(
+                    'Failed to log you in. Make Sure your login information is correct.'
+                  );
                 }
-                // console.log(values);
               }}
             >
               {({ errors, touched }) => (
@@ -137,12 +140,19 @@ export default function Login() {
                         ) : null}
                       </div>
                     </div>
+                    {/* FORGOT PASSWORD */}
+                    <div className="px-8 text-center -mt-4 mb-4">
+                      <Link to="/forgot-password" className="hover:underline">
+                        Forgot Password
+                      </Link>
+                    </div>
                     {/* button */}
                     <div>
                       <button
                         type="submit"
                         className="mt-3 text-lg font-semibold bg-gray-800 w-full text-white rounded-b-lg px-6 py-3
                     block shadow-xl hover:text-white hover:bg-black"
+                        disabled={isLoading}
                       >
                         Login
                       </button>

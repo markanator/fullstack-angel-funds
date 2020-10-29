@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 // icons
 import { FaLock, FaUser } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
@@ -22,13 +22,17 @@ const SignupSchema = Yup.object().shape({
 
 export default function Signup() {
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-  const { signup } = useAuth();
+  const { signup, currentUser } = useAuth();
+  const [actionErr, setActionErr] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
 
   return (
     <Layout>
       <main className="py-20 bg-gray-100">
         <div className="container m-auto flex flex-col items-center">
           <div className="flex flex-col items-center">
+            {currentUser && currentUser.email}
             <Formik
               initialValues={{
                 email: '',
@@ -40,7 +44,14 @@ export default function Signup() {
               onSubmit={async (values) => {
                 await sleep(500);
                 console.log(values);
-                signup(values.email, values.password);
+                try {
+                  setActionErr('');
+                  setIsLoading(true);
+                  await signup(values.email, values.password);
+                  history.push('/dashboard');
+                } catch {
+                  setActionErr('Oops, an error occured.');
+                }
               }}
             >
               {({ errors, touched }) => (
@@ -200,11 +211,15 @@ export default function Signup() {
                         ) : null}
                       </div>
                     </div>
+                    {actionErr ? <p>{actionErr}</p> : null}
                     {/* button */}
                     <div>
                       <button
                         type="submit"
-                        className="mt-3 text-lg font-semibold bg-gray-800 w-full text-white rounded-b-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black"
+                        className={`mt-3 text-lg font-semibold bg-gray-800 w-full text-white rounded-b-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black ${
+                          isLoading ? 'bg-gray-400' : ''
+                        }`}
+                        disabled={isLoading}
                       >
                         Sign Up
                       </button>

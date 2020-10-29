@@ -12,16 +12,31 @@ export function useAuth() {
 // main provider for auth
 export default function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // signup logic
+  // sign up logic
   function signup(email, password) {
     // returns a promise
     return auth.createUserWithEmailAndPassword(email, password);
   }
+  // sign in function
+  function login(email, password) {
+    return auth.signInWithEmailAndPassword(email, password);
+  }
+  // sign out
+  function signout() {
+    return auth.signOut();
+  }
+  // forgot password
+  function resetPassword(email) {
+    return auth.sendPasswordResetEmail(email);
+  }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      // set user before we set loading
       setCurrentUser(user);
+      setLoading(false);
     });
 
     return unsubscribe;
@@ -32,9 +47,15 @@ export default function AuthProvider({ children }) {
   const authState = {
     currentUser,
     signup,
+    login,
+    signout,
+    resetPassword,
   };
 
   return (
-    <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={authState}>
+      {/* only render if we're done loading */}
+      {!loading && children}
+    </AuthContext.Provider>
   );
 }

@@ -6,6 +6,10 @@
   border: none !important;
 }
 
+#notifications {
+  @apply m-auto;
+}
+
 .lds-dual-ring {
   display: inline-block;
   width: 80px;
