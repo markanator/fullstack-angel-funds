@@ -43,7 +43,7 @@ export default function Signup() {
               validationSchema={SignupSchema}
               onSubmit={async (values) => {
                 await sleep(500);
-                console.log(values);
+                // console.log(values);
                 try {
                   setActionErr('');
                   setIsLoading(true);

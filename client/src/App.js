@@ -9,16 +9,16 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import Account from './pages/Dashboard/Account';
 import CreateProject from './pages/Dashboard/CreateProject';
 import ProjectDetails from './pages/Projects/ProjectDatails';
-// context Provider
-import UserProvider from './context/userContext';
 // private route
 import PrivateRoutes from './utils/PrivateRoutes';
+// context Provider
 import AuthProvider from './context/AuthContext';
+import NewProjectProvider from './context/CreateProject/NewProjectContext';
 
 function App() {
   return (
     <AuthProvider>
-      <UserProvider>
+      <NewProjectProvider>
         <Switch>
           <Route exact path="/">
             <Home />
@@ -42,9 +42,12 @@ function App() {
           <PrivateRoutes exact path="/dashboard/account">
             <Account />
           </PrivateRoutes>
-          <PrivateRoutes exact path="/dashboard/create">
+
+          {/* ROUTES TO MAKE PROJECT */}
+          <PrivateRoutes path="/dashboard/create/:pageID">
             <CreateProject />
           </PrivateRoutes>
+
           {/* catch all  */}
           <Route>
             <main className="container m-auto">
@@ -53,7 +56,7 @@ function App() {
             </main>
           </Route>
         </Switch>
-      </UserProvider>
+      </NewProjectProvider>
     </AuthProvider>
   );
 }

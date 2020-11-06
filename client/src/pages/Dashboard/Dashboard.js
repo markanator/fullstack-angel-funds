@@ -21,7 +21,7 @@ export default function Dashboard() {
     }
   }
 
-  console.log(currentUser);
+  // console.log(currentUser);
   return (
     <Layout>
       <main className="container m-auto">

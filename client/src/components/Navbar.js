@@ -6,7 +6,6 @@ import { UserContext } from '../context/userContext';
 import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
-  const [userState, setUserState] = useContext(UserContext);
   const { currentUser } = useAuth();
 
   return (
@@ -32,7 +31,7 @@ export default function Navbar() {
             <Link
               to={`${
                 currentUser && currentUser.email
-                  ? '/dashboard/create'
+                  ? '/dashboard/create/1'
                   : '/login'
               }`}
               className="ml-6 hover:underline"
@@ -58,9 +57,8 @@ export default function Navbar() {
                 <span>
                   <img
                     className="rounded-full h-12 w-12"
-                    src={userState.userInfo.avatar}
-                    alt={userState.userInfo.username}
-                    title={userState.userInfo.username}
+                    src="https://uifaces.co/our-content/donated/gPZwCbdS.jpg"
+                    alt="test user"
                   />
                 </span>
               </Link>
