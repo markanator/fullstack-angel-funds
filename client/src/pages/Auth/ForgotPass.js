@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import Layout from '../../components/Layout';
 import { useAuth } from '../../context/AuthContext';
 import { useNotify } from '../../context/Notifications/NotifcationProvider';
+import SEO from '../../components/SEO';
 
 // validation
 const resetSchema = Yup.object().shape({
@@ -21,6 +22,7 @@ export default function ForgotPass() {
 
   return (
     <Layout>
+      <SEO title="Forgot Password" />
       <main className="py-20 bg-gray-100">
         <div className="container m-auto flex flex-col items-center justify-between">
           <div className="flex flex-col items-center">

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
-import { Link, useParams, useRouteMatch } from 'react-router-dom';
+import { useParams, useRouteMatch } from 'react-router-dom';
 // icons
 import {
   FaListUl,
@@ -14,6 +14,7 @@ import CreateLayout from '../../components/CreateLayout';
 // import { useNewProject } from '../../context/CreateProject/NewProjectContext';
 import CreatePage1 from './Create/CreatePage1';
 import CreatePage2 from './Create/CreatePage2';
+import SEO from '../../components/SEO';
 
 export default function CreateProject({ children }) {
   const { path } = useRouteMatch();
@@ -23,6 +24,7 @@ export default function CreateProject({ children }) {
 
   return (
     <CreateLayout>
+      <SEO title="New Projecet" />
       <main className="w-full h-full">
         <div
           className="w-full flex flex-row flex-no-wrap"

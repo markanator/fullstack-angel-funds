@@ -9,6 +9,7 @@ import Layout from '../../components/Layout';
 // context
 import { useAuth } from '../../context/AuthContext';
 import { useNotify } from '../../context/Notifications/NotifcationProvider';
+import SEO from '../../components/SEO';
 
 // login Schema
 const LoginSchema = Yup.object().shape({
@@ -25,6 +26,7 @@ export default function Login() {
 
   return (
     <Layout>
+      <SEO title="Log In" />
       <main className="py-20 bg-gray-100">
         <div className="container m-auto flex flex-col items-center">
           <div className="flex flex-col items-center">

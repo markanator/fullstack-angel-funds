@@ -5,6 +5,7 @@ import Layout from '../components/Layout';
 import Hero from '../components/homeHero/Hero';
 import FlowShowcase from '../components/homeShowcase/FlowShowcase';
 import HomeInvitation from '../components/homeInvitation/HomeInvitation';
+import SEO from '../components/SEO';
 // context
 import { useAuth } from '../context/AuthContext';
 
@@ -12,6 +13,7 @@ export default function Home() {
   const { currentUser } = useAuth();
   return (
     <Layout>
+      <SEO title="Home" />
       <main className="container m-auto">
         {/* Hero Section */}
         <Hero />

@@ -2,20 +2,22 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 // locals
 import Layout from '../../components/Layout';
+import SEO from '../../components/SEO';
 
 export default function ProjectDatails() {
   const { slug } = useParams();
+  const imageURL =
+    'https://images.unsplash.com/photo-1587400520111-af8b9a6ea5ed?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=50';
+  const projectDescription =
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla lectus risus, blandit in eros nec, pretium fermentum urna.';
   return (
     <Layout>
+      <SEO title={slug} image={imageURL} description={projectDescription} />
       <main className="container m-auto mt-16">
         <div className="flex flex-row w-full h-auto">
           {/* <!-- leftside --> */}
           <div className="w-1/2 flex flex-col p-4">
-            <img
-              className="rounded-lg"
-              src="https://images.unsplash.com/photo-1587400520111-af8b9a6ea5ed?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=900&q=50"
-              alt="test"
-            />
+            <img className="rounded-lg" src={imageURL} alt="test" />
           </div>
           {/* <!-- RIGHT side --> */}
           <div className="w-1/2 flex flex-col p-4 justify-between">
@@ -26,10 +28,7 @@ export default function ProjectDatails() {
             </div>
             {/* <!-- DESCRIPTION --> */}
             <div className="mb-4">
-              <p className="text-gray-600">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-                lectus risus, blandit in eros nec, pretium fermentum urna.
-              </p>
+              <p className="text-gray-600">{projectDescription}</p>
             </div>
             {/* <!-- PROGRESS --> */}
             <div className="relative pt-1">

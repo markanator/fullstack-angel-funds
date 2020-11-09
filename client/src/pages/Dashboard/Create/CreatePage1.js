@@ -71,7 +71,7 @@ export default function CreatePage1({ setPageCount, pageCount, linkFix }) {
             type="button"
             className="text-base text-gray-600 px-8 py-3 bg-gray-200 rounded-full mr-2 shadow font-bold hover:bg-gray-300"
             onClick={(e) => {
-              setPageCount(pageCount - 1);
+              setPageCount(1);
               handleCancel();
             }}
           >

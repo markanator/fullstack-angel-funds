@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 // locals
 import Layout from '../../components/Layout';
+import SEO from '../../components/SEO';
 import { useAuth } from '../../context/AuthContext';
 import { useNotify } from '../../context/Notifications/NotifcationProvider';
 
@@ -24,6 +25,7 @@ export default function Dashboard() {
   // console.log(currentUser);
   return (
     <Layout>
+      <SEO title="Dashboard" />
       <main className="container m-auto">
         <div className="flex flex-col items-center">
           <span>

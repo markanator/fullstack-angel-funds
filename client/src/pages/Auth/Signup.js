@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import { useAuth } from '../../context/AuthContext';
 // locals
 import Layout from '../../components/Layout';
+import SEO from '../../components/SEO';
 // Signup Schema
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email('Invalid Email').required('Required'),
@@ -29,6 +30,7 @@ export default function Signup() {
 
   return (
     <Layout>
+      <SEO title="Sign Up" />
       <main className="py-20 bg-gray-100">
         <div className="container m-auto flex flex-col items-center">
           <div className="flex flex-col items-center">
