@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useState } from 'react';
 import md5 from 'md5';
-import { auth } from '../utils/Firebase';
+import app, { auth } from '../utils/Firebase';
 
 const AuthContext = React.createContext();
 
@@ -27,26 +27,35 @@ export default function AuthProvider({ children }) {
 
     const newEmail = md5Email(email);
 
+    const newUserDoc = app.functions().httpsCallable('newUserDoc');
+    newUserDoc({
+      email,
+      username,
+      photoURL: `https://www.gravatar.com/avatar/${newEmail}?s=500`,
+      userID: newUser.user.uid,
+    });
+
     // eslint-disable-next-line no-return-await
     return await newUser.user.updateProfile({
       displayName: username,
-      photoURL: `https://www.gravatar.com/avatar/${newEmail}?s=500&d=identicon`,
+      photoURL: `https://www.gravatar.com/avatar/${newEmail}?s=500`,
     });
   }
   // sign in function
   function login(email, password) {
+    // CALL JWT
     return auth.signInWithEmailAndPassword(email, password);
   }
   // sign out
   function signout() {
+    // REMOVE JWT
     return auth.signOut();
   }
   // forgot password
   function resetPassword(email) {
     return auth.sendPasswordResetEmail(email);
   }
-
-  // upadet email
+  // update email
   function updateEmail(email) {
     return auth.currentUser.updateEmail(email);
   }
@@ -54,6 +63,7 @@ export default function AuthProvider({ children }) {
   function updatePassword(password) {
     return auth.currentUser.updatePassword(password);
   }
+  // set user func
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {

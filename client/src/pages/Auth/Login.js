@@ -20,8 +20,8 @@ const LoginSchema = Yup.object().shape({
 export default function Login() {
   const notify = useNotify();
   const history = useHistory();
-  const { login, currentUser } = useAuth();
-  const [actionErr, setActionErr] = useState('');
+  const { login } = useAuth();
+  // const [actionErr, setActionErr] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -30,8 +30,8 @@ export default function Login() {
       <main className="py-20 bg-gray-100">
         <div className="container m-auto flex flex-col items-center">
           <div className="flex flex-col items-center">
-            {actionErr}
-            {currentUser && currentUser.email}
+            {/* {actionErr} */}
+            {/* {currentUser && currentUser.email} */}
             <Formik
               initialValues={{
                 email: '',
@@ -40,7 +40,7 @@ export default function Login() {
               validationSchema={LoginSchema}
               onSubmit={async (values) => {
                 try {
-                  setActionErr('');
+                  // setActionErr('');
                   setIsLoading(false);
                   await login(values.email, values.password);
                   history.push('/dashboard');

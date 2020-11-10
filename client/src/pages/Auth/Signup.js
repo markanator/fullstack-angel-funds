@@ -22,7 +22,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 export default function Signup() {
-  const { signup, currentUser } = useAuth();
+  const { signup } = useAuth();
   const [actionErr, setActionErr] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
@@ -33,7 +33,7 @@ export default function Signup() {
       <main className="py-20 bg-gray-100">
         <div className="container m-auto flex flex-col items-center">
           <div className="flex flex-col items-center">
-            {currentUser && currentUser.email}
+            {/* {currentUser && currentUser.email} */}
             <Formik
               initialValues={{
                 email: '',
