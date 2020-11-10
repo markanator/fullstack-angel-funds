@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { useRouteMatch } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
-export default function SEO({ children, location, title, image }) {
+export default function SEO({ children, title, image }) {
   const { url } = useRouteMatch();
   const description = 'This is the site description';
   // change this later

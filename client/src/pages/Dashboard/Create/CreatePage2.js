@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 // locals
@@ -18,12 +18,11 @@ const projectSchema = Yup.object().shape({
 });
 
 export default function CreatePage2({ setPageCount, pageCount, linkFix }) {
-  // const [pageCount, setPageCount] = useState(1);
-  const { newProject, setTitle, setDescription } = useNewProject();
+  const { newProject, setOverviewDeets } = useNewProject();
   const history = useHistory();
   const { pageID } = useParams();
 
-  const handleCancel = (e) => {
+  const handleCancel = () => {
     console.log('User wants to go back...');
     history.push(`${linkFix}/1`);
   };
@@ -37,10 +36,12 @@ export default function CreatePage2({ setPageCount, pageCount, linkFix }) {
       validationSchema={projectSchema}
       onSubmit={(values) => {
         setPageCount(pageCount + 1);
-        setTitle(values.title);
-        setDescription(values.description);
-        console.log('user submitted content');
-        history.push(`${linkFix}/3`);
+        // setTitle(values.title);
+        setTimeout(() => {
+          console.log('user submitted content');
+          setOverviewDeets(values.title, values.description);
+          history.push(`${linkFix}/3`);
+        }, 500);
       }}
     >
       {({ errors, touched }) => (
@@ -49,7 +50,7 @@ export default function CreatePage2({ setPageCount, pageCount, linkFix }) {
           <header className="border-b-2 border-gray-200 py-6 px-2 flex flex-row justify-between items-center">
             {/* EDIT STEP NAME HERE */}
             <h1 className="text-3xl">
-              Project <b>Category</b>
+              Project <b>Overview</b>
             </h1>
             <span>
               {/* CANCEL BTN */}
@@ -57,6 +58,7 @@ export default function CreatePage2({ setPageCount, pageCount, linkFix }) {
                 type="button"
                 className="text-base text-gray-600 px-8 py-3 bg-gray-200 rounded-full mr-2 shadow font-bold hover:bg-gray-300"
                 onClick={(e) => {
+                  e.preventDefault();
                   setPageCount(pageCount - 1);
                   handleCancel();
                 }}
@@ -90,9 +92,8 @@ export default function CreatePage2({ setPageCount, pageCount, linkFix }) {
                 <Field
                   type="text"
                   name="title"
-                  id="title"
                   placeholder="Project Title"
-                  className="text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-indigo-400 focus:outline-none"
+                  className="text-sm p-1 sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-indigo-400 focus:outline-none"
                 />
               </label>
               {errors.title && touched.title ? (
@@ -105,12 +106,13 @@ export default function CreatePage2({ setPageCount, pageCount, linkFix }) {
                 <br />
                 {/* eslint-disable-next-line react/self-closing-comp */}
                 <Field
+                  as="textarea"
                   type="textarea"
                   name="description"
                   cols="30"
                   rows="10"
                   placeholder="Enter a Project description"
-                  className="text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-indigo-400 focus:outline-none"
+                  className="text-sm p-1 sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-indigo-400 focus:outline-none"
                 ></Field>
               </label>
               {errors.description && touched.description ? (

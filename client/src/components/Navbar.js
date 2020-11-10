@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { FaRegCompass, FaSearch, FaUserAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 // context
-import { UserContext } from '../context/userContext';
 import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
@@ -56,9 +55,9 @@ export default function Navbar() {
               <Link to="/dashboard">
                 <span>
                   <img
+                    src={currentUser.photoURL}
+                    alt={currentUser.displayName}
                     className="rounded-full h-12 w-12"
-                    src="https://uifaces.co/our-content/donated/gPZwCbdS.jpg"
-                    alt="test user"
                   />
                 </span>
               </Link>

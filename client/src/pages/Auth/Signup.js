@@ -22,7 +22,6 @@ const SignupSchema = Yup.object().shape({
 });
 
 export default function Signup() {
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const { signup, currentUser } = useAuth();
   const [actionErr, setActionErr] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -44,12 +43,10 @@ export default function Signup() {
               }}
               validationSchema={SignupSchema}
               onSubmit={async (values) => {
-                await sleep(500);
-                // console.log(values);
                 try {
                   setActionErr('');
                   setIsLoading(true);
-                  await signup(values.email, values.password);
+                  await signup(values.email, values.password, values.username);
                   history.push('/dashboard');
                 } catch {
                   setActionErr('Oops, an error occured.');

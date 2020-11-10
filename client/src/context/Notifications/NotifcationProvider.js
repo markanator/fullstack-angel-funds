@@ -2,7 +2,7 @@ import React, { createContext, useContext, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { nanoid } from 'nanoid';
 import { AnimatePresence } from 'framer-motion';
-// locals
+// local imports
 import Alert from './Alert';
 
 // export context

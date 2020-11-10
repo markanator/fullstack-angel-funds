@@ -16,35 +16,44 @@ export default function NewProjectProvider({ children }) {
         category: 'Experience',
         title: '',
         description: '',
-        project_image: '',
+        project_images: [],
         fund_goal: '',
         start_date: '',
         end_date: '',
     });
 
     // set category function
+    // for step 1
     function setCat(category) {
         console.log(`User wants to set the category as: ${category}`);
         setNewProject({ ...newProject, category });
     }
-    // title
-    function setTitle(title){
-        console.log(`User wants to set the title as: ${title}`);
-        setNewProject({ ...newProject, title });
+
+    // function to set title and details
+    // for step 2
+    function setOverviewDeets(title,desc){
+        setNewProject({...newProject,
+        title,
+        description: desc,
+    })
     }
 
-    // description
-    function setDescription(description){
-        console.log(`User wants to set the description as: ${description}`);
-        setNewProject({ ...newProject, description });
+    function setImageContent(imageLinksArray){
+        imageLinksArray.forEach(link => {
+            setNewProject({...newProject,
+                project_images: newProject.project_images.push(link),
+            })
+        });
+
+        return newProject.project_images;
     }
 
     // we can use these exports with our #useNewProject
     const newProjectState = {
         newProject,
         setCat,
-        setTitle,
-        setDescription
+        setOverviewDeets,
+        setImageContent
     };
 
     return (

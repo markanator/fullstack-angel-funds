@@ -1,14 +1,18 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { FaCheckCircle } from 'react-icons/fa';
 //
 import { useNewProject } from '../../../context/CreateProject/NewProjectContext';
 
-export default function CreatePage1({ setPageCount, pageCount, linkFix }) {
+export default function CreatePage1({
+  setPageCount,
+  pageCount,
+  linkFix,
+  openModal,
+}) {
   // const [pageCount, setPageCount] = useState(1);
   const { newProject, setCat } = useNewProject();
-  const history = useHistory();
   const { pageID } = useParams();
 
   const projectTypes = [
@@ -52,11 +56,6 @@ export default function CreatePage1({ setPageCount, pageCount, linkFix }) {
     </button>
   );
 
-  const handleCancel = () => {
-    console.log('User wants to stop...');
-    history.push('/dashboard');
-  };
-
   return (
     <div className="w-full max-w-5xl">
       {/* header */}
@@ -70,9 +69,9 @@ export default function CreatePage1({ setPageCount, pageCount, linkFix }) {
           <button
             type="button"
             className="text-base text-gray-600 px-8 py-3 bg-gray-200 rounded-full mr-2 shadow font-bold hover:bg-gray-300"
-            onClick={(e) => {
+            onClick={() => {
               setPageCount(1);
-              handleCancel();
+              openModal();
             }}
           >
             {pageCount > 1 ? 'Back' : 'Cancel'}
@@ -81,9 +80,8 @@ export default function CreatePage1({ setPageCount, pageCount, linkFix }) {
           {pageID < 5 ? (
             <Link
               type="button"
-              onClick={(e) => {
+              onClick={() => {
                 setPageCount(pageCount + 1);
-                // e.preventDefault();
               }}
               className="text-base text-white px-8 py-3 bg-indigo-500 rounded-full shadow-lg font-bold hover:bg-indigo-600"
               to={`${linkFix}/${pageCount + 1}`}

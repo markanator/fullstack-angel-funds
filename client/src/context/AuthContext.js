@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useState } from 'react';
+import md5 from 'md5';
 import { auth } from '../utils/Firebase';
 
 const AuthContext = React.createContext();
@@ -9,15 +10,28 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
+// to be used with gravatar
+function md5Email(email) {
+  return md5(email);
+}
+
 // main provider for auth
 export default function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // sign up logic
-  function signup(email, password) {
+  async function signup(email, password, username) {
     // returns a promise
-    return auth.createUserWithEmailAndPassword(email, password);
+    const newUser = await auth.createUserWithEmailAndPassword(email, password);
+
+    const newEmail = md5Email(email);
+
+    // eslint-disable-next-line no-return-await
+    return await newUser.user.updateProfile({
+      displayName: username,
+      photoURL: `https://www.gravatar.com/avatar/${newEmail}?s=500&d=identicon`,
+    });
   }
   // sign in function
   function login(email, password) {

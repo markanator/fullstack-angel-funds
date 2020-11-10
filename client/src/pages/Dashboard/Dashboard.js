@@ -30,6 +30,7 @@ export default function Dashboard() {
         <div className="flex flex-col items-center">
           <span>
             <h1>Profile:</h1>
+            <h3>{currentUser.displayName || 'username not availavle'}</h3>
             <p>{currentUser && currentUser.email}</p>
 
             <Link to={`${path}/account`} className="hover:underline">
