@@ -23,14 +23,6 @@ export default function CreatePage1({
     'Security',
     'Security1',
     'Security2',
-    'Security3',
-    'Security4',
-    'Security5',
-    'Security6',
-    'Security7',
-    'Security8',
-    'Security9',
-    'Security10',
   ];
 
   const CategoryButton = ({ title }) => (
@@ -55,6 +47,10 @@ export default function CreatePage1({
       )}
     </button>
   );
+
+  React.useEffect(() => {
+    setPageCount(1);
+  }, []);
 
   return (
     <div className="w-full max-w-5xl">

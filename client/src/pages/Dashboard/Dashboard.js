@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 // locals
 import Layout from '../../components/Layout';
 import SEO from '../../components/SEO';
+import { db } from '../../utils/Firebase';
 import { useAuth } from '../../context/AuthContext';
 import { useNotify } from '../../context/Notifications/NotifcationProvider';
 
 export default function Dashboard() {
   const { path } = useRouteMatch();
-
+  const history = useHistory();
   const notify = useNotify();
   const { currentUser, signout } = useAuth();
-  const history = useHistory();
-
+  const [userProjects, setUserProjects] = useState(null);
   async function handleLogout() {
     try {
       await signout();
@@ -21,8 +21,21 @@ export default function Dashboard() {
       notify({ type: 'danger', text: 'Failed to logout. Try again later.' });
     }
   }
+  const dbRef = db.collection('projects');
 
-  // console.log(currentUser);
+  useEffect(() => {
+    dbRef.onSnapshot((querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push(doc.data());
+      });
+      setUserProjects(items);
+    });
+  }, []);
+
+  console.log(userProjects[0]);
+
+  // console.log(db.collection('projects'));
   return (
     <Layout>
       <SEO title="Dashboard" />

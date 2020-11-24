@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
+// import axios from 'axios';
 //
 import { useNewProject } from '../../../context/CreateProject/NewProjectContext';
 
@@ -10,15 +11,16 @@ import { useNewProject } from '../../../context/CreateProject/NewProjectContext'
 export default function CreatePage3({ setPageCount, pageCount, linkFix }) {
   const history = useHistory();
   const { pageID } = useParams();
-  const { newProject, setImageContent } = useNewProject();
+  const { newProject, setImageContent, uploadImages } = useNewProject();
   // dropzone stuff
-  const [files, setFiles] = useState(newProject.project_images || []);
+  const [files, setFiles] = useState([...newProject.project_images] || []);
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 3,
     maxSize: 2000000,
     disabled: files.length >= 3,
     accept: 'image/jpeg,image/png',
-    onDrop: (acceptedFiles) => {
+    onDropAccepted: (acceptedFiles) => {
+      // console.log(acceptedFiles);
       setFiles(
         acceptedFiles.map((file) =>
           Object.assign(file, {
@@ -26,9 +28,13 @@ export default function CreatePage3({ setPageCount, pageCount, linkFix }) {
           })
         )
       );
+      setTimeout(() => {
+        setImageContent([...acceptedFiles]);
+      }, 200);
     },
-    onDropRejected: () => {
-      alert('Image size is greater than 2mb!');
+    onDropRejected: (event) => {
+      // console.log(event);
+      alert(event[0]?.errors[0]?.message);
     },
   });
 
@@ -39,8 +45,10 @@ export default function CreatePage3({ setPageCount, pageCount, linkFix }) {
     history.push(`${linkFix}/2`);
   };
 
-  const handleNext = () => {
-    console.log(files);
+  const handleNext = async () => {
+    console.log('uploading files');
+    const imageRes = await uploadImages();
+    console.log(imageRes);
   };
 
   return (

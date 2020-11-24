@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const cors = require('cors')({ origin: true });
 
 admin.initializeApp();
 
@@ -27,4 +28,24 @@ exports.authDeleteUser = functions.auth.user().onDelete((user) => {
   // console.log('user DELETED', user.email, user.uid);
   const doc = admin.firestore().collection(USERS).doc(user.uid);
   return doc.delete();
+});
+
+exports.uploadFile = functions.https.onRequest((req, res) => {
+  cors(req, res, () => {
+    // ensure a call to this endpoint is POST
+    if (req.method !== 'POST') {
+      return res.status(500).json({
+        message: 'Not allowed!',
+      });
+    }
+
+    // all good
+    res.status(201).json({
+      message: 'it worked.',
+    });
+  });
+});
+
+exports.createNewProject = functions.https.onCall((data, ctx) => {
+  console.log(data);
 });

@@ -7,6 +7,10 @@ import { useAuth } from '../context/AuthContext';
 export default function Navbar() {
   const { currentUser } = useAuth();
 
+  const handleStartProject = () => {
+    console.log('user wants to create a new project...');
+  };
+
   return (
     <header className="w-full border-b-2 py-2">
       <div className="container m-auto py-2">
@@ -33,6 +37,7 @@ export default function Navbar() {
                   ? '/dashboard/create/1'
                   : '/login'
               }`}
+              onClick={handleStartProject}
               className="ml-6 hover:underline"
             >
               Start a Project
