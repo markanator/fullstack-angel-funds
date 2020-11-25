@@ -27,23 +27,24 @@ export class Project extends BaseEntity {
   description!: string;
 
   @Field() //typeGQL string[]
-  @Column()
+  @Column({ default: "" })
   image: string;
 
   @Field()
   @Column({ type: "int" })
   fundTarget!: number;
 
-  @Field()
+  @Field(() => String)
   @Column()
   publishDate!: Date;
 
-  @Field()
+  @Field(() => String)
   @Column()
   targetDate!: Date;
 
   @Field()
   @Column({ type: "int", default: 0 })
+  // TODO make this a fieldresolver?
   totalDonation_sum: number;
 
   @Field()

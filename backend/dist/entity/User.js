@@ -28,7 +28,7 @@ __decorate([
 ], User.prototype, "fullName", void 0);
 __decorate([
     type_graphql_1.Field(),
-    typeorm_1.Column({ nullable: true }),
+    typeorm_1.Column({ default: "" }),
     __metadata("design:type", String)
 ], User.prototype, "avatarUrl", void 0);
 __decorate([

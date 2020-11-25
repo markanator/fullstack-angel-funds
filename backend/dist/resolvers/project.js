@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -22,6 +25,40 @@ exports.ProjectResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const Project_1 = require("../entity/Project");
+const isAuthed_1 = require("../middleware/isAuthed");
+let ProjectInput = class ProjectInput {
+};
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], ProjectInput.prototype, "title", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], ProjectInput.prototype, "description", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], ProjectInput.prototype, "image", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", Number)
+], ProjectInput.prototype, "fundTarget", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], ProjectInput.prototype, "publishDate", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], ProjectInput.prototype, "targetDate", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", Number)
+], ProjectInput.prototype, "authorId", void 0);
+ProjectInput = __decorate([
+    type_graphql_1.ObjectType()
+], ProjectInput);
 let ProjectResolver = class ProjectResolver {
     projects() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -33,6 +70,27 @@ let ProjectResolver = class ProjectResolver {
             return projects;
         });
     }
+    getProjectById(id) {
+        return Project_1.Project.findOne(id);
+    }
+    createProject(input, { req }) {
+        return Project_1.Project.create(Object.assign(Object.assign({}, input), { authorId: req.session.userId })).save();
+    }
+    updateProject(id, input, { req }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const res = yield typeorm_1.getConnection()
+                .createQueryBuilder()
+                .update(Project_1.Project)
+                .set(Object.assign({}, input))
+                .where("id = :id and authorId = :authorId", {
+                id,
+                authorId: req.session.id,
+            })
+                .returning("*")
+                .execute();
+            return res.raw[0];
+        });
+    }
 };
 __decorate([
     type_graphql_1.Query(() => [Project_1.Project]),
@@ -40,6 +98,32 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], ProjectResolver.prototype, "projects", null);
+__decorate([
+    type_graphql_1.Mutation(() => Project_1.Project, { nullable: true }),
+    __param(0, type_graphql_1.Arg("id", () => type_graphql_1.Int)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], ProjectResolver.prototype, "getProjectById", null);
+__decorate([
+    type_graphql_1.Mutation(() => Project_1.Project),
+    type_graphql_1.UseMiddleware(isAuthed_1.isAuthed),
+    __param(0, type_graphql_1.Arg("input")),
+    __param(1, type_graphql_1.Ctx()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [ProjectInput, Object]),
+    __metadata("design:returntype", Promise)
+], ProjectResolver.prototype, "createProject", null);
+__decorate([
+    type_graphql_1.Mutation(() => Project_1.Project, { nullable: true }),
+    type_graphql_1.UseMiddleware(isAuthed_1.isAuthed),
+    __param(0, type_graphql_1.Arg("id")),
+    __param(1, type_graphql_1.Arg("input")),
+    __param(2, type_graphql_1.Ctx()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, ProjectInput, Object]),
+    __metadata("design:returntype", Promise)
+], ProjectResolver.prototype, "updateProject", null);
 ProjectResolver = __decorate([
     type_graphql_1.Resolver(Project_1.Project)
 ], ProjectResolver);

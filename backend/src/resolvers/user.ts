@@ -13,6 +13,7 @@ import { EmailPasswordInput } from "../utils/EmailPasswordInput";
 import { ValidateRegister } from "../utils/ValidateRegister";
 import argon2 from "argon2";
 import { getConnection } from "typeorm";
+import { COOKIE_NAME } from "../utils/constants";
 
 @ObjectType() //can return
 class FieldError {
@@ -34,11 +35,7 @@ class UserResponse {
 
 @Resolver(User)
 export class UserResolver {
-  @Query(() => String)
-  hellerrrr() {
-    return "Hello world from the resolver!";
-  }
-
+  // REGISTER
   @Mutation(() => UserResponse)
   async register(
     @Arg("options") options: EmailPasswordInput,
@@ -86,20 +83,24 @@ export class UserResolver {
     return { user };
   }
 
+  // LOGIN
   @Mutation(() => UserResponse)
   async login(
     @Arg("email") email: string,
     @Arg("password") password: string,
     @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
-    const user = await User.findOne(email);
+    // console.log(email, password);
+    const user = await User.findOne({ where: { email: email } });
+    // console.log("user: ", user);
+
     // oops, didn't find anything
     if (!user) {
       return {
         errors: [
           {
-            field: "usernameOrEmail",
-            message: "that username doesn't exist",
+            field: "email",
+            message: "That user doesn't exist.",
           },
         ],
       };
@@ -118,7 +119,58 @@ export class UserResolver {
     }
     // all good, login
     req.session.userId = user.id;
+    console.log("## LOGIN ### Cookie Set");
 
     return { user };
+  }
+
+  // LOGOUT
+  @Mutation(() => Boolean)
+  logout(@Ctx() { req, res }: MyContext) {
+    return new Promise((resolve) => {
+      req.session.destroy((err: any) => {
+        // destroy cookie!!
+        res.clearCookie(COOKIE_NAME);
+        // check for errors
+        if (err) {
+          console.error(err);
+          resolve(false);
+          return;
+        }
+        // all good
+        resolve(true);
+      });
+    });
+  }
+
+  // GETBY USERID
+  @Mutation(() => UserResponse)
+  async getUserById(@Arg("id") id: number): Promise<UserResponse> {
+    const user = await User.findOne(id);
+    // oops, didn't find anything
+    if (!user) {
+      return {
+        errors: [
+          {
+            field: "error",
+            message: "That user doesn't exist.",
+          },
+        ],
+      };
+    }
+    // TODO if not user only return certain data
+    return {
+      user,
+    };
+  }
+
+  // GET ME-self foo!
+  @Query(() => User, { nullable: true })
+  async me(@Ctx() { req }: MyContext) {
+    if (!req.session.userId) {
+      return null;
+    }
+    // all good
+    return User.findOne({ id: req.session.userId });
   }
 }

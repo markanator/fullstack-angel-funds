@@ -33,7 +33,7 @@ __decorate([
 ], Project.prototype, "description", void 0);
 __decorate([
     type_graphql_1.Field(),
-    typeorm_1.Column(),
+    typeorm_1.Column({ default: "" }),
     __metadata("design:type", String)
 ], Project.prototype, "image", void 0);
 __decorate([
@@ -42,12 +42,12 @@ __decorate([
     __metadata("design:type", Number)
 ], Project.prototype, "fundTarget", void 0);
 __decorate([
-    type_graphql_1.Field(),
+    type_graphql_1.Field(() => String),
     typeorm_1.Column(),
     __metadata("design:type", Date)
 ], Project.prototype, "publishDate", void 0);
 __decorate([
-    type_graphql_1.Field(),
+    type_graphql_1.Field(() => String),
     typeorm_1.Column(),
     __metadata("design:type", Date)
 ], Project.prototype, "targetDate", void 0);
