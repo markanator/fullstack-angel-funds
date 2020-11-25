@@ -1,75 +1,42 @@
-import React from 'react';
-import { FaRegCompass, FaSearch, FaUserAlt } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-// context
-import { useAuth } from '../context/AuthContext';
+import React from 'react'
+import { Flex,Box,Heading,Link,Button  } from "@chakra-ui/react"
+import {FaCompass,FaProjectDiagram,FaSearch,FaLock,FaRegUserCircle} from 'react-icons/fa';
 
 export default function Navbar() {
-  const { currentUser } = useAuth();
-
-  const handleStartProject = () => {
-    console.log('user wants to create a new project...');
-  };
-
   return (
-    <header className="w-full border-b-2 py-2">
-      <div className="container m-auto py-2">
-        <nav className="w-full flex flex-row justify-between items-center text-xl text-gray-700">
-          <div className="flex text-xl text-gray-700">
-            <Link to="/" className="font-bold hover:underline">
-              VR Funding
-            </Link>
-          </div>
-          <div className="flex flex-row">
-            {/* LINKS */}
-            <Link
-              to="/explore"
-              className="mr-6 flex items-center hover:underline"
-            >
-              <FaRegCompass className="mr-2 text-blue-400 text-2xl" />
-              Explore
-            </Link>
-            {/* LINKS */}
-            {/* NEEDS CONTEXT */}
-            <Link
-              to={`${
-                currentUser && currentUser.email
-                  ? '/dashboard/create/1'
-                  : '/login'
-              }`}
-              onClick={handleStartProject}
-              className="ml-6 hover:underline"
-            >
-              Start a Project
-            </Link>
-          </div>
-          <div className="flex flex-row items-center">
-            <Link to="/" className="mr-4">
-              {/* <span className="mr-4"> */}
-              <FaSearch />
-              {/* </span> */}
-            </Link>
-            {currentUser == null ? (
-              <Link to="/login">
-                <span className="mr-4 border-2 border-gray-400 rounded-full py-2 px-2 transition-colors duration-300 hover:bg-gray-400 focus:bg-gray-500 focus:border-gray-500 flex items-center">
-                  <FaUserAlt className="" />
-                </span>
-              </Link>
-            ) : null}
-            {currentUser ? (
-              <Link to="/dashboard">
-                <span>
-                  <img
-                    src={currentUser.photoURL}
-                    alt={currentUser.displayName}
-                    className="rounded-full h-12 w-12"
-                  />
-                </span>
-              </Link>
-            ) : null}
-          </div>
-        </nav>
-      </div>
-    </header>
-  );
+    <Box as="header" p={8} borderWidth='2px'>
+      <Flex justifyContent='space-between' alignItems='center'>
+        {/* HEADER */}
+        <Link>
+          <Heading fontSize='2xl'>VR Funding</Heading>
+        </Link>
+
+        {/* MIDDLE */}
+        <Box as='nav'>
+          <Link display='inline-flex' mr={6}  alignItems='center' fontSize='lg' fontWeight={600} >
+            <FaCompass style={{fontSize: "1.5rem",marginRight: ".5rem"}} />
+            Explore
+          </Link>
+          <Link display='inline-flex' ml={4}  alignItems='center' fontSize='lg' fontWeight={600} >
+            <FaProjectDiagram style={{fontSize: "1.5rem",marginRight: ".5rem"}} />
+            Start a Project
+          </Link>
+        </Box>
+
+        {/* RIGHT */}
+        <Flex alignItems='center'>
+          <Link display='inline-flex' mr={4}  alignItems='center' fontSize='lg' >
+            <FaSearch style={{fontSize: "1.5rem",marginRight: ".5rem"}} />
+          </Link>
+          <Button colorScheme='teal' mr={4} fontSize='lg' leftIcon={<FaLock />}>
+            Wallet
+          </Button>
+          <Link display='inline-flex' ml={4}  alignItems='center' fontSize='lg' >
+            <FaRegUserCircle style={{fontSize: "1.5rem",marginRight: ".5rem"}} />
+            Login/Register
+          </Link>
+        </Flex>
+      </Flex>
+    </Box>
+  )
 }

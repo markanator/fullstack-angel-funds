@@ -1,16 +1,15 @@
-import React from 'react';
-// locals
+import { Box } from '@chakra-ui/react';
+import React from 'react'
 import Navbar from './Navbar';
-import Footer from './Footer';
-// context
+import Wrapper from './Wrapper';
 
-// eslint-disable-next-line react/prop-types
-export default function Layout({ children }) {
+export default function Layout({children,variant}) {
   return (
-    <>
+    <Box>
+      {/* Header */}
       <Navbar />
-      {children}
-      <Footer />
-    </>
-  );
+        <Wrapper variant={variant}>{children}</Wrapper>
+      {/* FOOTER */}
+    </Box>
+  )
 }
