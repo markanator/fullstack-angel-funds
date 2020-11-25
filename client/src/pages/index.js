@@ -1,6 +1,6 @@
 import { Code, Text } from '@chakra-ui/react';
 import Layout from '../components/Layout';
-import {Hero} from '../components/Hero'
+import {Hero} from '../components/homePageFeatures/Hero'
 
 
 const Index = () => (
