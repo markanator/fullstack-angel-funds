@@ -35,6 +35,11 @@ __decorate([
     type_graphql_1.Field(),
     typeorm_1.Column({ default: "" }),
     __metadata("design:type", String)
+], Project.prototype, "category", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    typeorm_1.Column({ default: "" }),
+    __metadata("design:type", String)
 ], Project.prototype, "image", void 0);
 __decorate([
     type_graphql_1.Field(),

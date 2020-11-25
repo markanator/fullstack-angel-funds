@@ -27,82 +27,7 @@ const typeorm_1 = require("typeorm");
 const Project_1 = require("../entity/Project");
 const User_1 = require("../entity/User");
 const isAuthed_1 = require("../middleware/isAuthed");
-const user_1 = require("./user");
-let CreateProjectInput = class CreateProjectInput {
-};
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", String)
-], CreateProjectInput.prototype, "title", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", String)
-], CreateProjectInput.prototype, "description", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", String)
-], CreateProjectInput.prototype, "image", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", Number)
-], CreateProjectInput.prototype, "fundTarget", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", String)
-], CreateProjectInput.prototype, "publishDate", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", String)
-], CreateProjectInput.prototype, "targetDate", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", Number)
-], CreateProjectInput.prototype, "authorId", void 0);
-CreateProjectInput = __decorate([
-    type_graphql_1.InputType()
-], CreateProjectInput);
-let UpdateProjectInput = class UpdateProjectInput {
-};
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", String)
-], UpdateProjectInput.prototype, "title", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", String)
-], UpdateProjectInput.prototype, "description", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", String)
-], UpdateProjectInput.prototype, "image", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", Number)
-], UpdateProjectInput.prototype, "fundTarget", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", String)
-], UpdateProjectInput.prototype, "publishDate", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", String)
-], UpdateProjectInput.prototype, "targetDate", void 0);
-UpdateProjectInput = __decorate([
-    type_graphql_1.InputType()
-], UpdateProjectInput);
-let ProjectResponse = class ProjectResponse {
-};
-__decorate([
-    type_graphql_1.Field(() => [user_1.FieldError], { nullable: true }),
-    __metadata("design:type", Array)
-], ProjectResponse.prototype, "errors", void 0);
-__decorate([
-    type_graphql_1.Field(() => Project_1.Project, { nullable: true }),
-    __metadata("design:type", Project_1.Project)
-], ProjectResponse.prototype, "project", void 0);
-ProjectResponse = __decorate([
-    type_graphql_1.ObjectType()
-], ProjectResponse);
+const ProjectTypes_1 = require("../types/ProjectTypes");
 let ProjectResolver = class ProjectResolver {
     author(project, { userLoader }) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -115,6 +40,7 @@ let ProjectResolver = class ProjectResolver {
                 .createQueryBuilder()
                 .select("*")
                 .from(Project_1.Project, "project")
+                .limit(10)
                 .getMany();
             return projects;
         });
@@ -166,14 +92,21 @@ let ProjectResolver = class ProjectResolver {
     }
     deleteProject(id, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                yield Project_1.Project.delete({ id, authorId: req.session.userId });
-                return true;
-            }
-            catch (err) {
-                console.error(err);
+            const res = yield typeorm_1.getConnection()
+                .createQueryBuilder()
+                .delete()
+                .from(Project_1.Project)
+                .where("id = :id and authorId = :authorId", {
+                id,
+                authorId: req.session.userId,
+            })
+                .returning("*")
+                .execute();
+            if ((res === null || res === void 0 ? void 0 : res.affected) < 1 || (res === null || res === void 0 ? void 0 : res.raw.length) <= 0) {
                 return false;
             }
+            console.log("### PROJECT DELETED!");
+            return true;
         });
     }
 };
@@ -203,17 +136,17 @@ __decorate([
     __param(0, type_graphql_1.Arg("input")),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [CreateProjectInput, Object]),
+    __metadata("design:paramtypes", [ProjectTypes_1.CreateProjectInput, Object]),
     __metadata("design:returntype", Promise)
 ], ProjectResolver.prototype, "createProject", null);
 __decorate([
-    type_graphql_1.Mutation(() => ProjectResponse),
+    type_graphql_1.Mutation(() => ProjectTypes_1.ProjectResponse),
     type_graphql_1.UseMiddleware(isAuthed_1.isAuthed),
     __param(0, type_graphql_1.Arg("id", () => type_graphql_1.Int)),
     __param(1, type_graphql_1.Arg("input")),
     __param(2, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, UpdateProjectInput, Object]),
+    __metadata("design:paramtypes", [Number, ProjectTypes_1.UpdateProjectInput, Object]),
     __metadata("design:returntype", Promise)
 ], ProjectResolver.prototype, "updateProject", null);
 __decorate([

@@ -26,7 +26,11 @@ export class Project extends BaseEntity {
   @Column()
   description!: string;
 
-  @Field() //typeGQL string[]
+  @Field()
+  @Column({ default: "" })
+  category!: string;
+
+  @Field()
   @Column({ default: "" })
   image: string;
 

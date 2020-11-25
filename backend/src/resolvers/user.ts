@@ -1,37 +1,12 @@
-import {
-  Arg,
-  Ctx,
-  Field,
-  Mutation,
-  ObjectType,
-  Query,
-  Resolver,
-} from "type-graphql";
+import argon2 from "argon2";
+import { Arg, Ctx, Int, Mutation, Query, Resolver } from "type-graphql";
+import { getConnection } from "typeorm";
 import { User } from "../entity/User";
 import { MyContext } from "../types/MyContext";
+import { UserResponse } from "../types/UserTypes";
+import { COOKIE_NAME } from "../utils/constants";
 import { EmailPasswordInput } from "../utils/EmailPasswordInput";
 import { ValidateRegister } from "../utils/ValidateRegister";
-import argon2 from "argon2";
-import { getConnection } from "typeorm";
-import { COOKIE_NAME } from "../utils/constants";
-
-@ObjectType() //can return
-export class FieldError {
-  @Field()
-  field: string;
-
-  @Field()
-  message: string;
-}
-
-@ObjectType() //can return
-class UserResponse {
-  @Field(() => [FieldError], { nullable: true })
-  errors?: FieldError[];
-
-  @Field(() => User, { nullable: true })
-  user?: User;
-}
 
 @Resolver(User)
 export class UserResolver {
@@ -145,7 +120,7 @@ export class UserResolver {
 
   // GETBY USERID
   @Mutation(() => UserResponse)
-  async getUserById(@Arg("id") id: number): Promise<UserResponse> {
+  async getUserById(@Arg("id", () => Int) id: number): Promise<UserResponse> {
     const user = await User.findOne(id);
     // oops, didn't find anything
     if (!user) {

@@ -1,12 +1,9 @@
 import {
   Arg,
   Ctx,
-  Field,
   FieldResolver,
-  InputType,
   Int,
   Mutation,
-  ObjectType,
   Query,
   Resolver,
   Root,
@@ -17,50 +14,11 @@ import { Project } from "../entity/Project";
 import { User } from "../entity/User";
 import { isAuthed } from "../middleware/isAuthed";
 import { MyContext } from "../types/MyContext";
-import { FieldError } from "./user";
-
-@InputType()
-class CreateProjectInput {
-  @Field()
-  title: string;
-  @Field()
-  description: string;
-  @Field()
-  image: string;
-  @Field()
-  fundTarget: number;
-  @Field()
-  publishDate: string;
-  @Field()
-  targetDate: string;
-  @Field()
-  authorId: number;
-}
-
-@InputType()
-class UpdateProjectInput {
-  @Field()
-  title: string;
-  @Field()
-  description: string;
-  @Field()
-  image: string;
-  @Field()
-  fundTarget: number;
-  @Field()
-  publishDate: string;
-  @Field()
-  targetDate: string;
-}
-
-@ObjectType() //can return
-class ProjectResponse {
-  @Field(() => [FieldError], { nullable: true })
-  errors?: FieldError[];
-
-  @Field(() => Project, { nullable: true })
-  project?: Project;
-}
+import {
+  CreateProjectInput,
+  ProjectResponse,
+  UpdateProjectInput,
+} from "../types/ProjectTypes";
 
 @Resolver(Project)
 export class ProjectResolver {
@@ -75,10 +33,12 @@ export class ProjectResolver {
   // GET PROJECTS ARRAY
   @Query(() => [Project])
   async projects() {
+    // cacheing
     const projects = await getConnection()
       .createQueryBuilder()
       .select("*")
       .from(Project, "project")
+      .limit(10)
       .getMany();
 
     return projects;
@@ -117,7 +77,6 @@ export class ProjectResolver {
     const projRes = await Project.findOne({ id });
     // see if they match
     if (req.session.userId !== projRes?.authorId) {
-      // console.log("ERROR", projRes);
       return {
         errors: [
           {
@@ -127,6 +86,7 @@ export class ProjectResolver {
         ],
       };
     }
+    // MAIN ACTION
     try {
       const res = await getConnection()
         .createQueryBuilder()
@@ -142,6 +102,7 @@ export class ProjectResolver {
 
       return { project: res.raw[0] };
     } catch (err) {
+      // ERROR CATCHING
       console.error(err);
 
       return {
@@ -162,17 +123,24 @@ export class ProjectResolver {
     @Arg("id", () => Int) id: number,
     @Ctx() { req }: MyContext
   ): Promise<Boolean> {
-    // TODO error catch
+    const res = await getConnection()
+      .createQueryBuilder()
+      .delete()
+      .from(Project)
+      .where("id = :id and authorId = :authorId", {
+        id,
+        authorId: req.session.userId,
+      })
+      .returning("*")
+      .execute();
+    // await Project.delete({ id, authorId: req.session.userId });
 
-    try {
-      await Project.delete({ id, authorId: req.session.userId });
-
-      return true;
-    } catch (err) {
-      console.error(err);
-
+    if ((res?.affected as number) < 1 || res?.raw.length <= 0) {
       return false;
     }
+
+    console.log("### PROJECT DELETED!");
+    return true;
   }
 
   // TODO 1) add vote logic
