@@ -42,6 +42,11 @@ __decorate([
     __metadata("design:type", Number)
 ], Project.prototype, "fundTarget", void 0);
 __decorate([
+    type_graphql_1.Field(),
+    typeorm_1.Column({ type: "int", default: 0 }),
+    __metadata("design:type", Number)
+], Project.prototype, "currentFunds", void 0);
+__decorate([
     type_graphql_1.Field(() => String),
     typeorm_1.Column(),
     __metadata("design:type", Date)
@@ -72,7 +77,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Project.prototype, "authorId", void 0);
 __decorate([
-    type_graphql_1.Field(),
+    type_graphql_1.Field(() => User_1.User),
     typeorm_1.ManyToOne(() => User_1.User, (user) => user.posts),
     __metadata("design:type", User_1.User)
 ], Project.prototype, "author", void 0);

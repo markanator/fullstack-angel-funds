@@ -10,6 +10,7 @@ import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 // locals
 import { createConnection } from "typeorm";
+import { createUserLoader } from "./dataloaders/createUserLoader";
 import { Project } from "./entity/Project";
 import { Upvote } from "./entity/Upvote";
 import { User } from "./entity/User";
@@ -83,6 +84,7 @@ const main = async () => {
       req,
       res,
       redis,
+      userLoader: createUserLoader(),
     }),
   });
 

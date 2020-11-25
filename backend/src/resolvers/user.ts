@@ -16,7 +16,7 @@ import { getConnection } from "typeorm";
 import { COOKIE_NAME } from "../utils/constants";
 
 @ObjectType() //can return
-class FieldError {
+export class FieldError {
   @Field()
   field: string;
 

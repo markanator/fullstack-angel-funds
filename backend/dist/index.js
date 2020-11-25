@@ -42,6 +42,7 @@ const path_1 = __importDefault(require("path"));
 require("reflect-metadata");
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
+const createUserLoader_1 = require("./dataloaders/createUserLoader");
 const Project_1 = require("./entity/Project");
 const Upvote_1 = require("./entity/Upvote");
 const User_1 = require("./entity/User");
@@ -99,6 +100,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             req,
             res,
             redis,
+            userLoader: createUserLoader_1.createUserLoader(),
         }),
     });
     apolloServer.applyMiddleware({ app, cors: false });

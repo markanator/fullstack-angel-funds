@@ -34,6 +34,10 @@ export class Project extends BaseEntity {
   @Column({ type: "int" })
   fundTarget!: number;
 
+  @Field()
+  @Column({ type: "int", default: 0 })
+  currentFunds!: number;
+
   @Field(() => String)
   @Column()
   publishDate!: Date;
@@ -60,7 +64,7 @@ export class Project extends BaseEntity {
   authorId!: number;
 
   // RELATIONSHIPS
-  @Field() // expose
+  @Field(() => User) // expose
   @ManyToOne(() => User, (user) => user.posts)
   author: User; // manyToOne
 

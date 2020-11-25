@@ -24,7 +24,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserResolver = void 0;
+exports.UserResolver = exports.FieldError = void 0;
 const type_graphql_1 = require("type-graphql");
 const User_1 = require("../entity/User");
 const EmailPasswordInput_1 = require("../utils/EmailPasswordInput");
@@ -45,6 +45,7 @@ __decorate([
 FieldError = __decorate([
     type_graphql_1.ObjectType()
 ], FieldError);
+exports.FieldError = FieldError;
 let UserResponse = class UserResponse {
 };
 __decorate([
