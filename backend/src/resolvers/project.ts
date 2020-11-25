@@ -36,7 +36,7 @@ export class ProjectResolver {
     // cacheing
     const projects = await getConnection()
       .createQueryBuilder()
-      .select("*")
+      .select("project")
       .from(Project, "project")
       .limit(10)
       .getMany();

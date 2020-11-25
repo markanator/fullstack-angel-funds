@@ -38,7 +38,7 @@ let ProjectResolver = class ProjectResolver {
         return __awaiter(this, void 0, void 0, function* () {
             const projects = yield typeorm_1.getConnection()
                 .createQueryBuilder()
-                .select("*")
+                .select("project")
                 .from(Project_1.Project, "project")
                 .limit(10)
                 .getMany();

@@ -1,14 +1,15 @@
 import { Code, Text } from '@chakra-ui/react';
 import Layout from '../components/Layout';
 import {Hero} from '../components/homePageFeatures/Hero'
+import FlowShowcase from '../components/homePageFeatures/FlowShowcase'
 
 
 const Index = () => (
   <Layout >
     <Hero />
-      <Text>
-        Example repository of <Code>Next.js</Code> + <Code>chakra-ui</Code>.
-      </Text>
+    {/* FEATURED */}
+    {/* FLOW SHOWCASE */}
+    <FlowShowcase />
   </Layout>
 )
 
