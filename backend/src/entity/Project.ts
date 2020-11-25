@@ -26,37 +26,37 @@ export class Project extends BaseEntity {
   @Column()
   description!: string;
 
-  @Field()
+  @Field() //typeGQL string[]
   @Column()
-  images: string[];
+  image: string;
 
   @Field()
   @Column({ type: "int" })
-  fund_target!: number;
+  fundTarget!: number;
 
   @Field()
   @Column()
-  publish_date!: Date;
+  publishDate!: Date;
 
   @Field()
   @Column()
-  target_date!: Date;
+  targetDate!: Date;
 
   @Field()
   @Column({ type: "int", default: 0 })
-  total_donation_sum: number;
+  totalDonation_sum: number;
 
   @Field()
   @Column({ type: "int", default: 0 })
-  view_count: number;
+  viewCount: number;
 
   @Field()
   @Column({ type: "int", default: 0 })
-  vote_points: number;
+  votePoints: number;
 
   @Field()
   @Column()
-  author_id!: number;
+  authorId!: number;
 
   // RELATIONSHIPS
   @Field() // expose
@@ -73,9 +73,9 @@ export class Project extends BaseEntity {
 
   @Field(() => String)
   @CreateDateColumn()
-  created_at: Date;
+  createdAt: Date;
 
   @Field(() => String)
   @CreateDateColumn()
-  updated_at: Date;
+  updatedAt: Date;
 }

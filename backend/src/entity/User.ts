@@ -23,7 +23,7 @@ export class User extends BaseEntity {
   fullName: string;
 
   @Field()
-  @Column()
+  @Column({ nullable: true })
   avatarUrl: string;
 
   @Field()
