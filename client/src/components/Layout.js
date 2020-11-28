@@ -1,15 +1,17 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react'
+import { Footer } from './sharedNav/Footer';
 import Navbar from './sharedNav/Navbar';
-import Wrapper from './Wrapper';
+// import Wrapper from './Wrapper';
 
 export default function Layout({children,variant}) {
   return (
     <Box>
       {/* Header */}
       <Navbar />
-        <Wrapper variant={variant}>{children}</Wrapper>
+        <>{children}</>
       {/* FOOTER */}
+      <Footer/>
     </Box>
   )
 }
