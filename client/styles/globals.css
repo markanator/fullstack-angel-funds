@@ -1,3 +1,15 @@
+:root {
+  --color_primary: #1c2826;
+  --color_alt: #ee6352;
+  --color_icon: #29f0b4;
+  --text_primary: #1b1f2e;
+  --text_secondary: #7a7a7a;
+  --text_tertiary: #838694;
+  --progress_bg: #e9ecef;
+  --testimonial_bg: #f7f7f9;
+  --white: #fff;
+}
+
 .hero::before {
   content: "";
   position: absolute;
@@ -5,4 +17,20 @@
   height: inherit;
   display: block;
   background: rgba(0, 0, 0, 0.6);
+}
+
+.cardsm__parent:hover {
+  box-shadow: 10px 18px 20px 0px rgba(0, 0, 0, 0.03);
+}
+.cardsm__parent:hover > .cardsm__content {
+  background: var(--white);
+  transition: all 0.3s ease-in-out;
+}
+.cardsm__parent:hover .cardsm__content .__norm {
+  transition: all 0.3s ease-in-out;
+  color: #838694;
+}
+.cardsm__parent:hover .cardsm__content .__dark {
+  transition: all 0.3s ease-in-out;
+  color: var(--text_primary);
 }

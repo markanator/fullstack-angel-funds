@@ -1,6 +1,6 @@
 import { Box, Link, Container, Flex, Heading, Text } from '@chakra-ui/react'
 
-export const Hero = () => {
+const Hero = () => {
   return (<Flex
     as='section'
     className='hero'
@@ -23,7 +23,7 @@ export const Hero = () => {
         Raising Money Has Never Been So Easy
       </Text>
       <Heading as='h1' fontSize='4rem' mb='3rem' lineHeight='4.5rem'  textShadow="0 1px 0 black" >
-        We help surface innovations created by minorities
+        We help low-income, minorities bring their ideas to market
       </Heading >
       <Link bgColor='color_alt' color='text_primary' px='2rem' py='1rem' fontSize='1rem' fontFamily='montserrat' fontWeight='500' textDecoration='none'>
         Start a Project
@@ -35,3 +35,4 @@ export const Hero = () => {
 )
 }
 
+export default Hero;
