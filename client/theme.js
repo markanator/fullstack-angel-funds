@@ -21,6 +21,7 @@ const theme = extendTheme({
     text_primary: '#1B1F2E',
     text_secondary: '#7A7A7A',
     text_tertiary: '#838694',
+    text_four: 'rgba(255,255,255,0.7)',
     progress_bg: '#E9ECEF',
     testimonial_bg: '#F7F7F9',
   },

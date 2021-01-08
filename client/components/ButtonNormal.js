@@ -1,21 +1,20 @@
 import {Link} from '@chakra-ui/react';
 import React from 'react'
 
-export default function ButtonNormal() {
+export default function ButtonNormal({url,text}) {
   return (
     <Link
-      href='#'
-      bgColor="text_primary"
-      color='white'
-      px='2rem'
-      py='1rem'
-      fontSize='.875rem'
-      textTransform='uppercase'
-      fontFamily='montserrat'
-      fontWeight='500'
-      textDecoration='none'
+    href={url || "#"}
+    bgColor='color_alt'
+    color='text_primary'
+    px='2rem'
+    py='1rem'
+    fontSize='1rem'
+    fontFamily='montserrat'
+    fontWeight='500'
+    textDecoration='none'
     >
-      Start a Project
+        {text || "Start a Project" }
     </Link>
   )
 }

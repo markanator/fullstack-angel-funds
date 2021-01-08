@@ -1,4 +1,5 @@
 import { Box, Link, Container, Flex, Heading, Text } from '@chakra-ui/react'
+import ButtonNormal from '../ButtonNormal';
 
 const Hero = () => {
   return (<Flex
@@ -25,9 +26,7 @@ const Hero = () => {
       <Heading as='h1' fontSize='4rem' mb='3rem' lineHeight='4.5rem'  textShadow="0 1px 0 black" >
         We help low-income, minorities bring their ideas to market
       </Heading >
-      <Link bgColor='color_alt' color='text_primary' px='2rem' py='1rem' fontSize='1rem' fontFamily='montserrat' fontWeight='500' textDecoration='none'>
-        Start a Project
-      </Link>
+      <ButtonNormal url="#" text="Start a Project" />
       </Container>
     </Flex>
     </Container>
