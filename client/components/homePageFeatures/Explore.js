@@ -11,7 +11,7 @@ export default function Explore() {
           <Text textAlign='center' fontSize='1.125rem' color='color_alt' mb='1rem'>Projects you can back</Text>
           <Heading textAlign='center' fontSize='3.5rem' mb='3rem'>Explore Projects</Heading>
 
-          <Flex w='full' justifyContent='space-between'>
+          <Flex w='full' flexDirection={['column','column','row']} justifyContent={['space-between']}>
             <ProjectCardLG />
             <ProjectCardLG />
             <ProjectCardLG />

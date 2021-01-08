@@ -11,21 +11,29 @@ export default function TopCategories() {
       as='section'
       pos='relative'
       w='full'
-      h='full'
+      h='full !important'
       py='7rem'
       backgroundColor='color_primary'
       backgroundImage={`url('/images/waves.svg')`}
       backgroundRepeat='repeat'
       // backgroundSize='15%'
     >
-      <Container display='flex' flexDir='row' maxW='7xl' color='white' h='380px'>
+      <Container
+        display='flex'
+        flexDir={['column','column','row','row']}
+        w='full'
+        h={['full','full','380px']}
+        maxW='7xl'
+        color='white'
+      >
         <Flex
           direction='column'
-          w='35%'
+          w={['full','full','35%']}
           h='full'
           pr='.5rem'
           justifyContent='space-between'
           alignItems='flex-start'
+          mb={['3rem','3rem','0']}
         >
           <Text fontSize='1.125rem' >Which Category  Interests You?</Text>
           <Heading fontSize='3rem' mb='1rem'>Top Categories</Heading>
@@ -39,8 +47,22 @@ export default function TopCategories() {
             </Flex>
           </Flex>
         </Flex>
-        <Flex w='65%'  pl='1rem'>
-          <List className='das__list' display='flex' flexDirection='row' flexWrap='wrap' justifyContent='flex-end'>
+        <Flex
+          w={['full','full','65%']}
+          h='full'
+          pl={['0','0','0','1rem']}
+          flexDirection={['column','column','column','row']}
+          m='auto'
+        >
+          <List
+            className='das__list'
+            display='flex'
+            flexDirection={['column','column','row','row']}
+            w='full'
+            h='full !important'
+            flexWrap='wrap'
+            justifyContent='flex-end'
+          >
             <CategoryIconBox Icon={FiCpu} text="Tech" />
             <CategoryIconBox Icon={FaPhotoVideo} text="Video" />
             <CategoryIconBox Icon={FaBook} text="Story" />
@@ -58,21 +80,21 @@ export default function TopCategories() {
 function CategoryIconBox({Icon, text}) {
   return (<ListItem
               display='flex'
-              flexDirection='column'
               w='full'
               h='full'
-              maxH='188px'
-              maxW='198px'
+              maxW={['full','full','198px']}
+              maxH={['full','full','188px']}
               px='5rem'
               m='0 2px 4px 2px'
               bg='white'
             >
               <Flex
-              flex='1 0 33%'
               direction='column'
               justifyContent='center'
+              m='auto'
               alignItems='center'
               color='color_alt'
+              py={['2rem','2rem','0']}
               >
                 <Icon fontSize='3rem' />
                 <Text mt='1rem' color='text_primary'>
