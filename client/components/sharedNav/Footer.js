@@ -2,14 +2,13 @@ import { Box, Container, Flex, Heading, Link, List, ListItem, Text } from '@chak
 import { FiTwitter, FiSlack, FiGithub } from 'react-icons/fi';
 import { FaTwitch } from 'react-icons/fa';
 
-export const Footer = (props) => {
+export const Footer = () => {
 
 return(
   <Flex
     as='footer'
     w='100%'
     direction='column'
-
     textAlign='center'
     m='auto'
     bgColor='text_primary'
@@ -18,12 +17,14 @@ return(
     alignItems='center'>
       <Flex mt={12} textColor='text_four' mb={8} alignItems='start' textAlign='left' w='full'>
       <Box w='25%'>
-        <Link fontWeight='700' fontFamily='Montserrat' mb='1.5rem'>
-          VR Funding
+        <Link mb='1.5rem'>
+          <Heading fontSize='2rem' fontWeight='500'>
+            VR Funding
+          </Heading>
         </Link>
       </Box>
-      <Box w='25%'>
-        <Heading fontSize='md' mb={1} fontWeight='700' mb='1.5rem'>
+      <Box w='25%' mt='1rem'>
+        <Heading fontSize='1.25rem' mb={1}  mb='1.5rem'>
           Company
         </Heading>
         <List display='flex' flexDirection='column'>
@@ -59,8 +60,8 @@ return(
           </ListItem>
         </List>
       </Box>
-      <Box w='25%'>
-        <Heading fontSize='md' mb={2} fontWeight='700'  mb='1.5rem'>Find Us</Heading>
+      <Box w='25%' mt='1rem'>
+        <Heading fontSize='1.25rem' mb={2}  mb='1.5rem'>Find Us</Heading>
         <List display='flex' flexDirection='row' fontSize='2xl'>
           <ListItem mr={2}>
             <Link>
@@ -84,8 +85,8 @@ return(
           </ListItem>
         </List>
       </Box>
-      <Box w='25%'>
-        <Heading fontSize='md' mb={1} fontWeight='700'  mb='1.5rem'>Newsletter</Heading>
+      <Box w='25%' mt='1rem'>
+        <Heading fontSize='1.25rem' mb={1}  mb='1.5rem'>Newsletter</Heading>
         <Text fontSize='sm'>We respect your privacy and won't annoy you.</Text>
       </Box>
       </Flex>

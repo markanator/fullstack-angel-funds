@@ -1,11 +1,13 @@
 import {Link} from '@chakra-ui/react';
 import React from 'react'
 
-export default function ButtonAlternate() {
+export default function ButtonAlternate({url,text}) {
   return (
     <Link
-      href='#'
+      href={url || "#"}
       bgColor="text_primary"
+      // display='inline-block'
+      whiteSpace='nowrap'
       color='white'
       px='2rem'
       py='1rem'
@@ -15,7 +17,7 @@ export default function ButtonAlternate() {
       fontWeight='500'
       textDecoration='none'
     >
-      Start a Project
+      {text || "Start a Project"}
     </Link>
   )
 }

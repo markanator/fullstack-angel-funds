@@ -6,7 +6,9 @@ export default function Navbar() {
   return (
     <Flex as="header" w='full'  direction='column' boxShadow='md'>
       {/* TOP */}
-      <Flex direction='row' background='color_primary' color='white' w='full'>
+      <Flex direction='row' background='color_primary' color='white' w='full'
+      display={["none",'none','block']}
+      >
         <Container maxW='7xl' display='flex' flexDirection='row' py=".5rem">
           {/* LEFT */}
           <Flex w="50%" direction='row'>

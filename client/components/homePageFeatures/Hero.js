@@ -4,16 +4,17 @@ import ButtonNormal from '../ButtonNormal';
 const Hero = () => {
   return (<Flex
     as='section'
-    className='hero'
+    className='overlay'
     position='relative'
     justifyContent="flex-start"
     alignItems="center"
-    h='75vh'
+    h={['50vh','50vh','75vh']}
     w='full'
     bgImage={`url('/images/hero.jpg')`}
-    bgSize='125%'
-    bgPos='center'
+    bgSize='cover'
+    bgPos='25% 25%'
     bgRepeat='no-repeat'
+    bgAttachment='fixed'
   >
     <Box className='hero__inner' pos='relative'></Box>
     <Container pos='relative' maxW='7xl' display='flex'>
@@ -23,7 +24,7 @@ const Hero = () => {
       <Text fontSize='1.25rem' textDecoration='underline'>
         Raising Money Has Never Been So Easy
       </Text>
-      <Heading as='h1' fontSize='4rem' mb='3rem' lineHeight='4.5rem'  textShadow="0 1px 0 black" >
+      <Heading as='h1' fontSize={['2rem','3rem','4rem']} mb='3rem' lineHeight='4.5rem'  textShadow="0 1px 0 black" >
         We help low-income, minorities bring their ideas to market
       </Heading >
       <ButtonNormal url="#" text="Start a Project" />

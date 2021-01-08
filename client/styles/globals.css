@@ -10,16 +10,7 @@
   --white: #fff;
 }
 
-.hero::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: inherit;
-  display: block;
-  background: rgba(0, 0, 0, 0.6);
-}
-
-.cta2::before {
+.overlay::before {
   content: "";
   position: absolute;
   width: 100%;
@@ -54,7 +45,7 @@
 }
 .splide__arrows {
   position: absolute;
-  bottom: 22px;
+  bottom: 0;
   left: 25px;
   z-index: 2;
 }

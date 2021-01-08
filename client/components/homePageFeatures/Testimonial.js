@@ -1,6 +1,13 @@
 import { Box, Container, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import dynamic from 'next/dynamic'
 import React from 'react'
-import { Splide, SplideSlide } from '@splidejs/react-splide';
+
+const Splide = dynamic(()=> import('@splidejs/react-splide').then((mod)=>mod.Splide))
+const SplideSlide = dynamic(()=> import('@splidejs/react-splide').then((mod)=>mod.SplideSlide))
+
+// import { Splide, SplideSlide } from '@splidejs/react-splide';
+
+
 
 export default function Testimonial() {
   return (

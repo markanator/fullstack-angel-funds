@@ -12,6 +12,7 @@ import SeenOn from '../components/homePageFeatures/SeenOn';
 import Testimonial from '../components/homePageFeatures/Testimonial';
 import TopCategories from '../components/homePageFeatures/TopCategories';
 import Layout from '../components/Layout';
+import Newsletter from '../components/Newsletter';
 
 
 const Index = () => (
@@ -21,12 +22,13 @@ const Index = () => (
     <CTA />
     <FeaturedProjects />
     <About />
-    <Flex as='section' w='full' mt='-312px' bgColor='color_primary' padding='432px 0 0'></Flex>
+    <Flex as='section' w='full' mt='-311px' bgColor='color_primary' padding='451px 0 0'></Flex>
     <Explore />
     <CTA2 />
     <SeenOn />
     <Testimonial />
     <HomeTeamSection />
+    <Newsletter />
   </Layout>
 )
 

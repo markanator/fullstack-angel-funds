@@ -8,10 +8,12 @@ export default function CTA2() {
       as='section'
       w='full'
       pos='relative'
-      className='cta2'
+      className='overlay'
       backgroundImage="url(https://images.unsplash.com/photo-1607219739284-8523775a5868?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1300&q=80)"
       backgroundSize='cover'
       backgroundPosition='center'
+      bgRepeat='no-repeat'
+      backgroundAttachment='fixed'
     >
       <Container maxW='5xl' py='6rem' zIndex='1' display='flex' alignItems='center' flexDirection='column'>
         <Text textAlign='center' fontSize='1.125rem' color='color_alt' mb='1rem'>Projects you can back</Text>
