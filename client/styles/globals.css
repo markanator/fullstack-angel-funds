@@ -43,3 +43,51 @@
   transition: all 0.3s ease-in-out;
   color: var(--text_primary);
 }
+
+/* JS SLIDER */
+#splide__main {
+  margin-top: 1.5rem;
+}
+
+.splide__slide {
+  margin: 0 1rem 0 1rem !important;
+}
+.splide__arrows {
+  position: absolute;
+  bottom: 22px;
+  left: 25px;
+  z-index: 2;
+}
+
+.splide__arrow svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.splide__arrow--prev svg {
+  fill: #000;
+  transform: rotate(180deg);
+}
+.splide__arrow--prev:hover svg {
+  fill: #fff;
+  /* transform: rotate(180deg); */
+}
+.splide__arrow--prev {
+  padding: 0.875rem;
+  background-color: #fff;
+  margin-right: 0.875rem;
+}
+.splide__arrow--prev:hover {
+  background-color: var(--color_primary);
+}
+
+.splide__arrow--next svg {
+  fill: #fff;
+}
+.splide__arrow--next {
+  padding: 0.875rem;
+  background-color: var(--color_alt);
+}
+.splide__arrow--next:hover {
+  background-color: var(--color_primary);
+}
