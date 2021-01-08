@@ -18,7 +18,7 @@ export default function TopCategories() {
       backgroundRepeat='repeat'
       // backgroundSize='15%'
     >
-      <Container display='flex' flexDir='row' maxW='6xl' color='white' h='380px'>
+      <Container display='flex' flexDir='row' maxW='7xl' color='white' h='380px'>
         <Flex
           direction='column'
           w='35%'
@@ -27,7 +27,7 @@ export default function TopCategories() {
           justifyContent='space-between'
           alignItems='flex-start'
         >
-          <Text >Which Category  Interests You?</Text>
+          <Text fontSize='1.125rem' >Which Category  Interests You?</Text>
           <Heading fontSize='3rem' mb='1rem'>Top Categories</Heading>
           <Text lineHeight='2rem'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dolor ex, laoreet ac scelerisque eu, lobortis sit amet nibh. Quisque ultricies ipsum volutpat, auctor augue at, volutpat ligula.</Text>
           <Flex mt='1rem'h='full' w='full' h='auto' alignItems='flex-end'>

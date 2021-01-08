@@ -7,7 +7,7 @@ export default function Navbar() {
     <Flex as="header" w='full'  direction='column' boxShadow='md'>
       {/* TOP */}
       <Flex direction='row' background='color_primary' color='white' w='full'>
-        <Container maxW='6xl' display='flex' flexDirection='row' py=".5rem">
+        <Container maxW='7xl' display='flex' flexDirection='row' py=".5rem">
           {/* LEFT */}
           <Flex w="50%" direction='row'>
             <Link mr='2rem'>
@@ -37,7 +37,7 @@ export default function Navbar() {
         </Container>
       </Flex>
       {/* NAVIGATION */}
-      <Container as='nav' maxW='6xl' display='flex' flexDirection='row' py='1.5rem'>
+      <Container as='nav' maxW='7xl' display='flex' flexDirection='row' py='1.5rem'>
         <Box w="50%">
           <Box display='inline-block'>
           <Link textColor='text_primary'>

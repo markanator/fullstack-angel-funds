@@ -15,7 +15,7 @@ const Hero = () => {
     bgRepeat='no-repeat'
   >
     <Box className='hero__inner' pos='relative'></Box>
-    <Container pos='relative' maxW='6xl' display='flex'>
+    <Container pos='relative' maxW='7xl' display='flex'>
     <Flex direction='column' color='white' >
       <Container maxW='3xl'>
 
