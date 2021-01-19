@@ -1,6 +1,7 @@
 import React from 'react'
 import { Flex,Box,Heading,Link,List,ListItem, Container,  } from "@chakra-ui/react"
 import NextLink from 'next/link'
+import ALink from '../ALink';
 
 export default function Navbar() {
   return (
@@ -9,10 +10,12 @@ export default function Navbar() {
       <Flex direction='row' background='color_primary' color='white' w='full'
       display={["none",'none','block']}
       >
-        <Container maxW='7xl' display='flex' flexDirection='row' py=".5rem">
+        <Container maxW='7xl' display='flex' flexDirection='row' py=".5rem"
+          fontSize='.875rem'
+        >
           {/* LEFT */}
           <Flex w="50%" direction='row'>
-            <Link mr='2rem'>
+            <Link href='mailto:hey@markambrocio.com' mr='2rem'>
               <a>
                 contact@vrfunds.com
               </a>
@@ -25,16 +28,16 @@ export default function Navbar() {
           </Flex>
           {/* RIGHT */}
           <Flex w="50%" justifyContent='flex-end' direction='row'>
-            <Link mr='1rem'>
+            <ALink href='/auth' mr='1rem'>
               <a>
                 Sign In or Register
               </a>
-            </Link>
-            <Link>
+            </ALink>
+            <ALink href='/auth' mr='1rem'>
               <a>
                 Add a Project
               </a>
-            </Link>
+            </ALink>
           </Flex>
         </Container>
       </Flex>
