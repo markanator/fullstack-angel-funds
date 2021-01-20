@@ -6,7 +6,7 @@ import Navbar from './sharedNav/Navbar';
 
 export default function Layout({children}) {
   return (
-    <Box>
+    <Box bgColor='white'>
       {/* Header */}
       <Navbar />
         <>{children}</>

@@ -7,36 +7,29 @@ export default function Navbar() {
   return (
     <Flex as="header" w='full'  direction='column' boxShadow='md'>
       {/* TOP */}
-      <Flex direction='row' background='color_primary' color='white' w='full'
+      <Flex direction='row' bgColor='color_primary' color='white' w='full'
       display={["none",'none','block']}
       >
         <Container maxW='7xl' display='flex' flexDirection='row' py=".5rem"
           fontSize='.875rem'
+          textColor='white'
         >
           {/* LEFT */}
           <Flex w="50%" direction='row'>
-            <Link href='mailto:hey@markambrocio.com' mr='2rem'>
-              <a>
+            <ALink href='mailto:hey@markambrocio.com' mr='2rem'>
                 contact@vrfunds.com
-              </a>
-            </Link>
-            <Link>
-              <a>
+            </ALink>
+            <ALink href='#'>
                 123 Main St., Chicago, IL
-              </a>
-            </Link>
+            </ALink>
           </Flex>
           {/* RIGHT */}
           <Flex w="50%" justifyContent='flex-end' direction='row'>
             <ALink href='/auth' mr='1rem'>
-              <a>
                 Sign In or Register
-              </a>
             </ALink>
             <ALink href='/auth' mr='1rem'>
-              <a>
                 Add a Project
-              </a>
             </ALink>
           </Flex>
         </Container>
@@ -45,41 +38,33 @@ export default function Navbar() {
       <Container as='nav' maxW='7xl' display='flex' flexDirection='row' py='1.5rem'>
         <Box w="50%">
           <Box display='inline-block'>
-          <Link textColor='text_primary'>
-            <Heading as='p' fontSize='20px'>
+          <ALink textColor='text_primary' href='/#'>
+            <Heading as='p' fontSize='20px' textColor='text_primary'>
               VR Funds
             </Heading>
-          </Link>
+          </ALink>
           </Box>
         </Box>
         <List w='50%' display='inline-flex' justifyContent='flex-end'>
           <ListItem mr='1rem'>
-            <Link textColor='text_primary'>
-              <a>
+            <ALink textColor='text_primary' href='/#' color='white'>
                 Home
-              </a>
-            </Link>
+            </ALink>
           </ListItem>
           <ListItem mr='1rem'>
-            <Link textColor='text_primary'>
-              <a>
+            <ALink textColor='text_primary' href='/#' color='white'>
                 Explore
-              </a>
-            </Link>
+            </ALink>
           </ListItem>
           <ListItem mr='1rem'>
-            <Link textColor='text_primary'>
-              <a>
+            <ALink textColor='text_primary' href='/#' color='white'>
                 About
-              </a>
-            </Link>
+            </ALink>
           </ListItem>
           <ListItem>
-            <Link textColor='text_primary'>
-              <a>
+            <ALink textColor='text_primary' href='/#' color='white'>
                 Contact
-              </a>
-            </Link>
+            </ALink>
           </ListItem>
         </List>
       </Container>

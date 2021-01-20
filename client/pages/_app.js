@@ -10,13 +10,7 @@ import "../styles/globals.css"
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider resetCSS theme={theme}>
-      <ColorModeProvider
-        options={{
-          useSystemColorMode: false,
-        }}
-      >
         <Component {...pageProps} />
-      </ColorModeProvider>
     </ChakraProvider>
   )
 }

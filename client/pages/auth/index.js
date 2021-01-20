@@ -8,7 +8,10 @@ export default function index() {
   return (
     <Layout>
       {/* BANNER */}
-      <Banner bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg" title='Login' />
+      <Banner
+        bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
+        title='Login'
+      />
 
       <Container maxW='7xl'>
       <Alert status="info" mt='2rem'>
@@ -30,7 +33,7 @@ export default function index() {
             as='form'
             flexDirection='column'
             border='1px solid'
-            borderColor='gray.500'
+            borderColor='gray.300'
             bgColor='white'
             p='2rem'
           >
@@ -78,7 +81,7 @@ export default function index() {
             as='form'
             flexDirection='column'
             border='1px solid'
-            borderColor='gray.500'
+            borderColor='gray.300'
             bgColor='white'
             p='2rem'
           >
