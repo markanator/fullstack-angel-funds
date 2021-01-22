@@ -5,11 +5,6 @@ import ALink from '../ALink';
 export default function Navbar({user}) {
   console.log("navbar props.user:: ", user);
 
-  // React.useEffect(async ()=>{
-  //   const res = await fetch('/api/auth/me').then(res=> res.json());
-  //   console.log(res);
-  // }, []);
-
   return (
     <Flex as="header" w='full'  direction='column' boxShadow='md'>
       {/* TOP */}
@@ -31,16 +26,22 @@ export default function Navbar({user}) {
           </Flex>
           {/* RIGHT */}
           <Flex w="50%" justifyContent='flex-end' direction='row'>
-            { user !== 'undefined' && user !== null ?
+            { !!user ?
+              (<>
+              <ALink href='/my-account' mr='2rem'>
+                Dashboard
+              </ALink>
               <a href='/api/auth/logout'>
                 Logout
-            </a> :
-            <a href='/api/auth/login'>
-            Sign In or Register
-            </a>
+              </a>
+              </>)
+              :
+              <a href='/api/auth/login'>
+              Sign In or Register
+              </a>
             }
 
-            <ALink href='/auth' ml='1rem'>
+            <ALink href='/my-account/add-project' ml='2rem'>
                 Add a Project
             </ALink>
           </Flex>

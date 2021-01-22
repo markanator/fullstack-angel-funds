@@ -4,7 +4,7 @@ import auth0 from './api/utils/auth0';
 
 export default function explore({user}) {
   return (
-    <Layout user={user}>
+    <Layout user={user} SEO={{title: "Explore Projects - VR Funds"}}>
       EXPLORE
     </Layout>
   )
@@ -14,7 +14,6 @@ export async function getServerSideProps({req,res}) {
   const session = await auth0.getSession(req);
 
   if (!session || !session.user) {
-    res.end();
     return {props: {}};
   }
 
