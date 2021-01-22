@@ -1,80 +1,94 @@
-import { Button, Checkbox, Container, Divider, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Select, Textarea } from '@chakra-ui/react';
-import React from 'react'
-import {useForm} from 'react-hook-form'
-import {useRouter} from 'next/router'
+import {
+  Button,
+  Checkbox,
+  Container,
+  Divider,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
+  Input,
+  Select,
+  Textarea,
+} from "@chakra-ui/react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 //
-import AuthBanner from '../../components/authShared/AuthBanner';
-import Layout from '../../components/Layout';
-import auth0 from '../api/utils/auth0';
+import AuthBanner from "../../components/authShared/AuthBanner";
+import Layout from "../../components/Layout";
+import auth0 from "../api/utils/auth0";
+import { GetServerSidePropsContext } from "next";
 
-export default function AddProjectPage({user}) {
+interface IAddProjectPage {
+  user: any;
+}
+
+export default function AddProjectPage({ user }: IAddProjectPage) {
   const { register, handleSubmit, errors, formState } = useForm();
   const router = useRouter();
 
-  const onSubmit = data => alert(JSON.stringify(data,null,2));
+  const onSubmit = (data: any) => alert(JSON.stringify(data, null, 2));
 
-
-  console.log("add project props",user);
+  console.log("add project props", user);
   return (
-    <Layout user={user} SEO={{title: "Add a Project - VR Funds"}}>
+    <Layout user={user} SEO={{ title: "Add a Project - VR Funds" }}>
       <AuthBanner
         bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
-        title='Add a Project'
+        title="Add a Project"
       />
-      <Container maxW='6xl' py='5rem'>
+      <Container maxW="6xl" py="5rem">
         <Flex
-          as='form'
-          flexDirection='column'
+          as="form"
+          flexDirection="column"
           onSubmit={handleSubmit(onSubmit)}
-          border='1px solid'
+          border="1px solid"
           borderColor="progress_bg"
-          p='2rem'
-          boxShadow='lg'
-          bgColor='white'
+          p="2rem"
+          boxShadow="lg"
+          bgColor="white"
         >
           {/* TITLE */}
-          <FormControl mb='1.125rem'>
-            <FormLabel htmlFor='title'>Title</FormLabel>
-            <Input name='title'
+          <FormControl mb="1.125rem">
+            <FormLabel htmlFor="title">Title</FormLabel>
+            <Input
+              name="title"
               ref={register}
-              border='1px solid'
-              borderColor='progress_bg'
-              rounded='none'
-              boxShadow='0 0 2px 2px rgba(0, 0, 0, 0.02) inset'
+              border="1px solid"
+              borderColor="progress_bg"
+              rounded="none"
+              boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
             />
-            <FormHelperText>
-            Put the campaign title here
-            </FormHelperText>
+            <FormHelperText>Put the campaign title here</FormHelperText>
             <FormErrorMessage>
               {errors.title && errors.title.message}
             </FormErrorMessage>
           </FormControl>
 
           {/* Description */}
-          <FormControl  mb='1.125rem'>
-            <FormLabel htmlFor='description'>Description</FormLabel>
+          <FormControl mb="1.125rem">
+            <FormLabel htmlFor="description">Description</FormLabel>
             <Textarea
-              name='description'
+              name="description"
               ref={register}
               row="6"
-              col='6'
+              col="6"
               // type='textarea'
-              border='1px solid'
-              borderColor='progress_bg'
-              rounded='none'
-              boxShadow='0 0 2px 2px rgba(0, 0, 0, 0.02) inset'
+              border="1px solid"
+              borderColor="progress_bg"
+              rounded="none"
+              boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
             />
-            <FormHelperText>
-            Put the campaign description here
-            </FormHelperText>
+            <FormHelperText>Put the campaign description here</FormHelperText>
             <FormErrorMessage>
               {errors.description && errors.description.message}
             </FormErrorMessage>
           </FormControl>
 
           {/* Category */}
-          <FormControl  mb='1.125rem'>
-            <FormLabel htmlFor='category'>Category</FormLabel>
+          <FormControl mb="1.125rem">
+            <FormLabel htmlFor="category">Category</FormLabel>
             <Select placeholder="Select option">
               <option value="Design">Design</option>
               <option value="Education">Education</option>
@@ -83,46 +97,43 @@ export default function AddProjectPage({user}) {
               <option value="Medical">Medical</option>
               <option value="Technology">Technology</option>
             </Select>
-            <FormHelperText>
-            Select your campaign category
-            </FormHelperText>
+            <FormHelperText>Select your campaign category</FormHelperText>
             <FormErrorMessage>
               {errors.category && errors.category.message}
             </FormErrorMessage>
           </FormControl>
 
           {/* Image */}
-          <FormControl  mb='1.125rem'>
-            <FormLabel htmlFor='image'>Feature Image</FormLabel>
-            <Input name='image'
+          <FormControl mb="1.125rem">
+            <FormLabel htmlFor="image">Feature Image</FormLabel>
+            <Input
+              name="image"
               ref={register}
-              placeholder='https://...'
-              border='1px solid'
-              borderColor='progress_bg'
-              rounded='none'
-              boxShadow='0 0 2px 2px rgba(0, 0, 0, 0.02) inset'
+              placeholder="https://..."
+              border="1px solid"
+              borderColor="progress_bg"
+              rounded="none"
+              boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
             />
-            <FormHelperText>
-            Upload a campaign feature image
-            </FormHelperText>
+            <FormHelperText>Upload a campaign feature image</FormHelperText>
             <FormErrorMessage>
               {errors.image && errors.image.message}
             </FormErrorMessage>
           </FormControl>
 
-          <Flex direction='row'>
+          <Flex direction="row">
             {/* fundTarget */}
-            <FormControl  mb='1.125rem' mr='1rem'>
-              <FormLabel htmlFor='currentFunds'>Starting Amount</FormLabel>
+            <FormControl mb="1.125rem" mr="1rem">
+              <FormLabel htmlFor="currentFunds">Starting Amount</FormLabel>
               <Input
-                name='currentFunds'
-                type='number'
+                name="currentFunds"
+                type="number"
                 ref={register}
-                placeholder='0'
-                border='1px solid'
-                borderColor='progress_bg'
-                rounded='none'
-                boxShadow='0 0 2px 2px rgba(0, 0, 0, 0.02) inset'
+                placeholder="0"
+                border="1px solid"
+                borderColor="progress_bg"
+                rounded="none"
+                boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
               />
               <FormHelperText>Campaign funding goal</FormHelperText>
               <FormErrorMessage>
@@ -131,17 +142,17 @@ export default function AddProjectPage({user}) {
             </FormControl>
 
             {/* fundTarget */}
-            <FormControl  mb='1.125rem' ml='1rem'>
-              <FormLabel htmlFor='fundTarget'>Fund Target</FormLabel>
+            <FormControl mb="1.125rem" ml="1rem">
+              <FormLabel htmlFor="fundTarget">Fund Target</FormLabel>
               <Input
-                name='fundTarget'
-                type='number'
-                placeholder='0'
+                name="fundTarget"
+                type="number"
+                placeholder="0"
                 ref={register}
-                border='1px solid'
-                borderColor='progress_bg'
-                rounded='none'
-                boxShadow='0 0 2px 2px rgba(0, 0, 0, 0.02) inset'
+                border="1px solid"
+                borderColor="progress_bg"
+                rounded="none"
+                boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
               />
               <FormHelperText>Campaign funding goal</FormHelperText>
               <FormErrorMessage>
@@ -150,42 +161,38 @@ export default function AddProjectPage({user}) {
             </FormControl>
           </Flex>
 
-          <Flex direction='row'>
+          <Flex direction="row">
             {/* publishDate */}
-            <FormControl  mb='1.125rem' mr='1rem'>
-              <FormLabel htmlFor='publishDate'>Start Date</FormLabel>
+            <FormControl mb="1.125rem" mr="1rem">
+              <FormLabel htmlFor="publishDate">Start Date</FormLabel>
               <Input
-                name='publishDate'
-                type='date'
+                name="publishDate"
+                type="date"
                 ref={register}
-                border='1px solid'
-                borderColor='progress_bg'
-                rounded='none'
-                boxShadow='0 0 2px 2px rgba(0, 0, 0, 0.02) inset'
+                border="1px solid"
+                borderColor="progress_bg"
+                rounded="none"
+                boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
               />
-              <FormHelperText>
-              Campaign start date (mm-dd-yyyy)
-              </FormHelperText>
+              <FormHelperText>Campaign start date (mm-dd-yyyy)</FormHelperText>
               <FormErrorMessage>
                 {errors.publishDate && errors.publishDate.message}
               </FormErrorMessage>
             </FormControl>
 
             {/* targetDate */}
-            <FormControl  mb='1.125rem' ml='1rem'>
-              <FormLabel htmlFor='targetDate'>End Date</FormLabel>
+            <FormControl mb="1.125rem" ml="1rem">
+              <FormLabel htmlFor="targetDate">End Date</FormLabel>
               <Input
-                name='targetDate'
-                type='date'
+                name="targetDate"
+                type="date"
                 ref={register}
-                border='1px solid'
-                borderColor='progress_bg'
-                rounded='none'
-                boxShadow='0 0 2px 2px rgba(0, 0, 0, 0.02) inset'
+                border="1px solid"
+                borderColor="progress_bg"
+                rounded="none"
+                boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
               />
-              <FormHelperText>
-              Campaign end date (mm-dd-yyyy)
-              </FormHelperText>
+              <FormHelperText>Campaign end date (mm-dd-yyyy)</FormHelperText>
               <FormErrorMessage>
                 {errors.targetDate && errors.targetDate.message}
               </FormErrorMessage>
@@ -193,29 +200,30 @@ export default function AddProjectPage({user}) {
           </Flex>
 
           {/* terms and conditions */}
-          <FormControl  mb='1.125rem'>
-              <Divider my='1.125rem' />
-              <FormLabel htmlFor='terms' aria-hidden='true' visibility='hidden'>Agree to site Terms and Conditions.</FormLabel>
-              <Checkbox
-                name='terms'
-                type='date'
-                ref={register({required: true,})}
-              >
-                I agree to the Terms and Condition.
-              </Checkbox>
-              <FormErrorMessage>
-                {errors.terms && errors.terms.message}
-              </FormErrorMessage>
-            </FormControl>
+          <FormControl mb="1.125rem">
+            <Divider my="1.125rem" />
+            <FormLabel htmlFor="terms" aria-hidden="true" visibility="hidden">
+              Agree to site Terms and Conditions.
+            </FormLabel>
+            <Checkbox
+              name="terms"
+              type="date"
+              ref={register({ required: true })}
+            >
+              I agree to the Terms and Condition.
+            </Checkbox>
+            <FormErrorMessage>
+              {errors.terms && errors.terms.message}
+            </FormErrorMessage>
+          </FormControl>
 
-
-          <Flex direction='row' justifyContent='space-between'>
+          <Flex direction="row" justifyContent="space-between">
             <Button
-              onClick={()=> router.push('/my-account')}
+              onClick={() => router.push("/my-account")}
               my="1rem"
               type="button"
-              colorScheme='red'
-              size='lg'
+              colorScheme="red"
+              size="lg"
             >
               Cancel
             </Button>
@@ -224,31 +232,33 @@ export default function AddProjectPage({user}) {
               my="1rem"
               type="submit"
               isloading={formState.isSubmitting}
-              colorScheme='blue'
-              size='lg'
+              colorScheme="blue"
+              size="lg"
             >
               Submit Project
             </Button>
           </Flex>
-
         </Flex>
       </Container>
     </Layout>
-  )
+  );
 }
 
-export async function getServerSideProps({req,res}) {
+export async function getServerSideProps({
+  req,
+  res,
+}: GetServerSidePropsContext) {
   const session = await auth0.getSession(req);
   if (!session || !session.user) {
     res.writeHead(302, {
-      Location: '/api/auth/login'
+      Location: "/api/auth/login",
     });
     res.end();
     return;
   }
   return {
     props: {
-      user: session.user
-    }
-  }
+      user: session.user,
+    },
+  };
 }

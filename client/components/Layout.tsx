@@ -1,19 +1,25 @@
-import { Box } from '@chakra-ui/react';
-import React from 'react'
-import Page from './Page';
-import { Footer } from './sharedNav/Footer';
-import Navbar from './sharedNav/Navbar';
+import { Box } from "@chakra-ui/react";
+import React from "react";
+import Page from "./Page";
+import { Footer } from "./sharedNav/Footer";
+import Navbar from "./sharedNav/NavBar";
 // import Wrapper from './Wrapper';
 
-export default function Layout({children, user, SEO}) {
+interface ILayoutProps {
+  children: React.ReactNodeArray;
+  user: any | null;
+  SEO?: any;
+}
+
+export default function Layout({ children, user, SEO }: ILayoutProps) {
   return (
-    <Box bgColor='white' textColor='text_primary'>
+    <Box bgColor="white" textColor="text_primary">
       <Page {...SEO} />
       {/* Header */}
       <Navbar user={user} />
-        <>{children}</>
+      <>{children}</>
       {/* FOOTER */}
-      <Footer/>
+      <Footer />
     </Box>
-  )
+  );
 }
