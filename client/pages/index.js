@@ -9,14 +9,17 @@ import FeaturedProjects from '../components/homePageFeatures/FeaturedProjects';
 import Hero from '../components/homePageFeatures/Hero';
 import HomeTeamSection from '../components/homePageFeatures/HomeTeamSection';
 import SeenOn from '../components/homePageFeatures/SeenOn';
-import Testimonial from '../components/homePageFeatures/Testimonial';
+// import Testimonial from '../components/homePageFeatures/Testimonial';
 import TopCategories from '../components/homePageFeatures/TopCategories';
 import Layout from '../components/Layout';
 import Newsletter from '../components/Newsletter';
+import auth0 from './api/utils/auth0';
 
 
-const Index = () => (
-  <Layout >
+const Index = ({user}) => {
+
+  return (
+  <Layout user={user} >
     <Hero />
     <TopCategories />
     <CTA />
@@ -26,10 +29,25 @@ const Index = () => (
     <Explore />
     <CTA2 />
     <SeenOn />
-    <Testimonial />
+    {/* <Testimonial /> */}
     <HomeTeamSection />
     <Newsletter />
   </Layout>
-)
+)}
 
-export default Index
+export default Index;
+
+export async function getServerSideProps({req,res}) {
+  const session = await auth0.getSession(req);
+
+  if (!session || !session.user) {
+    res.end();
+    return {props: {}};
+  }
+
+  return {
+    props: {
+      user: session.user || null
+    }
+  }
+}

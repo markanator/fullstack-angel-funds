@@ -2,9 +2,9 @@ import React from 'react'
 import AuthBanner from '../../components/authShared/AuthBanner';
 import Layout from '../../components/Layout';
 
-export default function projects() {
+export default function projects({user}) {
   return (
-    <Layout>
+    <Layout user={user}>
       <AuthBanner
         bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
         title='My Projects'
@@ -12,4 +12,23 @@ export default function projects() {
       USER projects
     </Layout>
   )
+}
+
+export async function getServerSideProps({req,res}) {
+  const session = await auth0.getSession(req);
+
+  if (!session || !session.user) {
+    res.writeHead(302, {
+      Location: '/api/auth/login'
+    });
+    res.end();
+    return;
+  }
+
+
+  return {
+    props: {
+      user: session.user
+    }
+  }
 }

@@ -1,9 +1,15 @@
-import React from 'react'
-import { Flex,Box,Heading,Link,List,ListItem, Container,  } from "@chakra-ui/react"
-import NextLink from 'next/link'
+import { Box, Container, Flex, Heading, List, ListItem } from "@chakra-ui/react";
+import React from 'react';
 import ALink from '../ALink';
 
-export default function Navbar() {
+export default function Navbar({user}) {
+  console.log("navbar props.user:: ", user);
+
+  // React.useEffect(async ()=>{
+  //   const res = await fetch('/api/auth/me').then(res=> res.json());
+  //   console.log(res);
+  // }, []);
+
   return (
     <Flex as="header" w='full'  direction='column' boxShadow='md'>
       {/* TOP */}
@@ -19,16 +25,22 @@ export default function Navbar() {
             <ALink href='mailto:hey@markambrocio.com' mr='2rem'>
                 contact@vrfunds.com
             </ALink>
-            <ALink href='#'>
+            <ALink href='/#'>
                 123 Main St., Chicago, IL
             </ALink>
           </Flex>
           {/* RIGHT */}
           <Flex w="50%" justifyContent='flex-end' direction='row'>
-            <ALink href='/auth' mr='1rem'>
-                Sign In or Register
-            </ALink>
-            <ALink href='/auth' mr='1rem'>
+            { user !== 'undefined' && user !== null ?
+              <a href='/api/auth/logout'>
+                Logout
+            </a> :
+            <a href='/api/auth/login'>
+            Sign In or Register
+            </a>
+            }
+
+            <ALink href='/auth' ml='1rem'>
                 Add a Project
             </ALink>
           </Flex>

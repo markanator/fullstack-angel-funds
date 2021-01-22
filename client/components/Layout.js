@@ -4,11 +4,11 @@ import { Footer } from './sharedNav/Footer';
 import Navbar from './sharedNav/Navbar';
 // import Wrapper from './Wrapper';
 
-export default function Layout({children}) {
+export default function Layout({children, user}) {
   return (
     <Box bgColor='white' textColor='text_primary'>
       {/* Header */}
-      <Navbar />
+      <Navbar user={user} />
         <>{children}</>
       {/* FOOTER */}
       <Footer/>

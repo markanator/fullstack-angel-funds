@@ -2,14 +2,13 @@ import { Box, Container, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import dynamic from 'next/dynamic'
 import React from 'react'
 
-const Splide = dynamic(()=> import('@splidejs/react-splide').then((mod)=>mod.Splide))
-const SplideSlide = dynamic(()=> import('@splidejs/react-splide').then((mod)=>mod.SplideSlide))
+// const Splide = dynamic(()=> import('@splidejs/react-splide').then((mod)=>mod.Splide),{ssr: false})
 
-// import { Splide, SplideSlide } from '@splidejs/react-splide';
-
+// const SplideSlide = dynamic(()=> import('@splidejs/react-splide').then((mod)=>mod.SplideSlide), {ssr: false})
 
 
 export default function Testimonial() {
+
   return (
     <Flex as='section' w='full' py='6rem'>
       <Container maxW='7xl' display='flex' flexDirection='column'>
@@ -20,14 +19,14 @@ export default function Testimonial() {
           <Heading textAlign='left' color='text_primary' fontSize='3.5rem' mb='3rem'>
             What They Say
           </Heading>
-          <Splide
-            id='splide__main'
-            options={ {
-              rewind : true,
-              perPage: 1,
-              perMove: 1,
-              pagination: false,
-            }}
+          {/* <Splide
+          id='splide__main'
+          options={ {
+            rewind : true,
+            perPage: 1,
+            perMove: 1,
+            pagination: false,
+          }}
           >
             <SplideSlide>
               <TestimonialSlide />
@@ -38,7 +37,7 @@ export default function Testimonial() {
             <SplideSlide>
               <TestimonialSlide />
             </SplideSlide>
-          </Splide>
+          </Splide> */}
         </Flex>
       </Container>
     </Flex>
