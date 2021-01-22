@@ -45,7 +45,7 @@ export class ProjectResolver {
   }
 
   // GET PROJECT BY ID
-  @Mutation(() => Project, { nullable: true })
+  @Query(() => Project, { nullable: true })
   getProjectById(
     @Arg("id", () => Int) id: number
   ): Promise<Project | undefined> {

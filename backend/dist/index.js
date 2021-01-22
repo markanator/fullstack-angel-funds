@@ -51,7 +51,7 @@ const project_1 = require("./resolvers/project");
 const user_1 = require("./resolvers/user");
 const constants_1 = require("./utils/constants");
 dotenv.config();
-const PORT = process.env.PORT || 6969;
+const PORT = process.env.PORT || 7777;
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const dbConnection = yield typeorm_1.createConnection({
         name: "default",

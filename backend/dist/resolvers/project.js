@@ -124,7 +124,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProjectResolver.prototype, "projects", null);
 __decorate([
-    type_graphql_1.Mutation(() => Project_1.Project, { nullable: true }),
+    type_graphql_1.Query(() => Project_1.Project, { nullable: true }),
     __param(0, type_graphql_1.Arg("id", () => type_graphql_1.Int)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),

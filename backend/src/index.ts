@@ -20,7 +20,7 @@ import { UserResolver } from "./resolvers/user";
 import { COOKIE_NAME, __prod__ } from "./utils/constants";
 dotenv.config();
 
-const PORT = process.env.PORT || 6969;
+const PORT = process.env.PORT || 7777;
 
 const main = async () => {
   // setup connection
