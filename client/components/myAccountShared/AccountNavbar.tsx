@@ -5,7 +5,10 @@ import ALink from '../ALink';
 
 export default function AccountNavbar() {
   return (
-    <Flex p='1rem' boxShadow='lg' bgColor='white' direction='row'
+    <Flex p='1rem'
+      boxShadow='lg'
+      bgColor='white'
+      direction='row'
       justifyContent='space-between'
       alignItems='center'
     >

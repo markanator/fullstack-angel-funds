@@ -7,7 +7,6 @@ export default class Document extends NextDocument {
       <Html lang="en">
         <Head>
         <meta content="IE=edge" httpEquiv="X-UA-Compatible" />
-          <meta content="width=device-width, initial-scale=1" name="viewport" />
         </Head>
         <body>
           <ColorModeScript initialColorMode="light" />

@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@apollo/client": "^3.3.7",
     "@auth0/nextjs-auth0": "^0.16.0",
     "@chakra-ui/react": "^1.1.2",
     "@emotion/react": "^11.1.4",
@@ -15,9 +16,11 @@
     "@splidejs/react-splide": "^0.4.4",
     "date-fns": "^2.16.1",
     "framer-motion": "^3.1.4",
+    "graphql": "^15.4.0",
     "next": "10.0.5",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-hook-form": "^6.14.2",
     "react-icons": "^4.1.0",
     "title": "^3.4.2",
     "typeface-dancing-script": "^1.1.13",
@@ -25,7 +28,9 @@
     "typeface-roboto": "^1.1.13"
   },
   "devDependencies": {
+    "@types/react": "^17.0.0",
     "globby": "^11.0.2",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "typescript": "^4.1.3"
   }
 }
