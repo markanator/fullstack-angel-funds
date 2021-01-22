@@ -9,9 +9,18 @@ export default function Newsletter() {
       <Text textAlign='center' fontSize='1.25rem' color='text_primary' mb='1rem'>Get Our Complete</Text>
       <Heading textAlign='center' color='text_primary' fontSize='3.5rem' mb='2rem'>Crowdfunding Guide</Heading>
       <Flex  w='full' justifyContent='center' alignItems='center'>
-        <Input type='text' name='newsletter_email' mr='2rem' bg='white'
+        <Input
+          type='text'
+          name='newsletter_email'
+          mr='2rem'
+          bg='white'
           rounded='0px'
           placeholder='Enter E-Mail Address'
+          textColor='text_primary'
+          fontSize='1.125rem'
+          _placeholder={{
+            color: "text_tertiary",
+          }}
           py='1.5rem'
         />
         <ButtonAlternate url='#' text='Subscribe' />

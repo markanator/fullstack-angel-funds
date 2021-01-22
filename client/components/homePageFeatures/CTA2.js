@@ -18,7 +18,7 @@ export default function CTA2() {
       <Container maxW='5xl' py='6rem' zIndex='1' display='flex' alignItems='center' flexDirection='column'>
         <Text textAlign='center' fontSize='1.125rem' color='color_alt' mb='1rem'>Projects you can back</Text>
         <Heading textAlign='center' color='white' fontSize='3.5rem' mb='2rem'>Together We can Bring More Creativity into the World</Heading>
-        <ButtonNormal url="#" text="Start a Project" />
+        <ButtonNormal url="/my-account/add-project" text="Start a Project" />
       </Container>
     </Flex>
   )

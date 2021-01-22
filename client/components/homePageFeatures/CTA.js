@@ -11,7 +11,7 @@ export default function CTA() {
         <Flex bgColor='color_alt' w='full' justifyContent='center' alignItems='center' py="6rem">
           <Flex justifyContent='space-between' alignItems='center' w='4xl'>
             <Heading as='p' fontSize='2.125rem'>Ready to Raise Funds for your Idea?</Heading>
-            <ButtonAlternate />
+            <ButtonAlternate url="/my-account/add-project" />
           </Flex>
         </Flex>
       </Container>

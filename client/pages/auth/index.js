@@ -1,25 +1,25 @@
 import { Alert, AlertIcon, Box, Button, Checkbox, Container, Flex, FormControl, FormHelperText, FormLabel, Heading, Input } from '@chakra-ui/react';
 import React from 'react'
 import ALink from '../../components/ALink';
-import Banner from '../../components/authShared/banner';
+import AuthBanner from '../../components/authShared/AuthBanner';
 import Layout from '../../components/Layout';
 
 export default function index() {
   return (
     <Layout>
       {/* BANNER */}
-      <Banner
+      <AuthBanner
         bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
         title='Login'
       />
 
       <Container maxW='7xl'>
-      <Alert status="info" mt='2rem'>
+      <Alert status="info" mt='2rem' textColor='text_primary'>
         <AlertIcon />
         We have a demo account setup. Username:{" "} <strong>{" "}demo{" "}</strong> {" "}and Password: {" "}<strong>demo</strong>
       </Alert>
       {/* FORMS */}
-      <Flex dir='row' pt='2rem' pb='6rem'  justifyContent='space-evenly'>
+      <Flex dir='row' pt='2rem' pb='6rem'  justifyContent='space-evenly' textColor='text_primary'>
         {/* LEFT SIDE */}
         <Flex
           w='50%'
@@ -47,7 +47,7 @@ export default function index() {
               />
             </FormControl>
 
-            <FormControl id="password" mt='1rem'>
+            <FormControl id="login_password" mt='1rem'>
               <FormLabel>Password address</FormLabel>
               <Input type="password"
               border='1px solid'
@@ -62,9 +62,7 @@ export default function index() {
             >Login</Button>
 
           <ALink href='/auth/lost-password' mt='1rem'>
-            <a>
               Forgot Password
-            </a>
           </ALink>
           </Flex>
         </Flex>
@@ -85,7 +83,7 @@ export default function index() {
             bgColor='white'
             p='2rem'
           >
-            <FormControl id="email">
+            <FormControl id="reg_email">
               <FormLabel>Email address</FormLabel>
               <Input
                 type="email"
@@ -96,7 +94,7 @@ export default function index() {
               />
             </FormControl>
 
-            <FormControl id="password" mt='1rem'>
+            <FormControl id="reg_password" mt='1rem'>
               <FormLabel>Password address</FormLabel>
               <Input type="password"
               border='1px solid'
@@ -106,7 +104,7 @@ export default function index() {
             </FormControl>
 
             <FormControl id="password" mt='1rem'>
-              <Checkbox colorScheme="red" defaultIsChecked>
+              <Checkbox colorScheme="red">
                 I agree to the Terms and Conditions and Privacy Policy.
               </Checkbox>
             </FormControl>

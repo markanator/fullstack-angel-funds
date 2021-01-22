@@ -2,14 +2,14 @@ import React from 'react'
 import AuthBanner from '../../components/authShared/AuthBanner';
 import Layout from '../../components/Layout';
 
-export default function settings() {
+export default function projects() {
   return (
     <Layout>
       <AuthBanner
         bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
-        title='My Settings'
+        title='My Projects'
       />
-      SETTINGS
+      USER projects
     </Layout>
   )
 }

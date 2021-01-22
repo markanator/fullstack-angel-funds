@@ -1,14 +1,14 @@
-import { Button, Container, Flex } from '@chakra-ui/react';
-import React from 'react'
-import ALink from '../../components/ALink';
+import { Button, Container, Flex, Link } from '@chakra-ui/react';
+import React from 'react';
 // Locals
-import Banner from '../../components/authShared/Banner';
+import ALink from '../../components/ALink';
+import AuthBanner from '../../components/authShared/AuthBanner';
 import Layout from '../../components/Layout';
 
 export default function index() {
   return (
     <Layout>
-      <Banner
+      <AuthBanner
         bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
         title='My Account'
       />
@@ -18,18 +18,18 @@ export default function index() {
           alignItems='center'
         >
           <Flex>
-            <ALink href='#' mr='1.5rem'>
+            <ALink href='/my-account' mr='1.5rem'>
               Dashboard
             </ALink>
-            <ALink href='#' mr='1.5rem'>
+            <ALink href='/my-account/settings' mr='1.5rem'>
               My Account
             </ALink>
-            <ALink href='#'>
+            <ALink href='/my-account/projects'>
               Projects
             </ALink>
           </Flex>
 
-          <Button colorScheme="blue" rounded='0' color='black'>
+          <Button as={Link} href='/my-account/add-project' colorScheme="blue" rounded='0' color='black'>
             Add New Project
           </Button>
         </Flex>

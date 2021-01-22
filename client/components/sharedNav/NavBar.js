@@ -38,31 +38,31 @@ export default function Navbar() {
       <Container as='nav' maxW='7xl' display='flex' flexDirection='row' py='1.5rem'>
         <Box w="50%">
           <Box display='inline-block'>
-          <ALink textColor='text_primary' href='/#'>
+          <ALink textColor='text_primary' href='/'>
             <Heading as='p' fontSize='20px' textColor='text_primary'>
-              VR Funds
+              Virtual Reality Funds
             </Heading>
           </ALink>
           </Box>
         </Box>
         <List w='50%' display='inline-flex' justifyContent='flex-end'>
           <ListItem mr='1rem'>
-            <ALink textColor='text_primary' href='/#' color='white'>
+            <ALink textColor='text_primary' href='/' color='white'>
                 Home
             </ALink>
           </ListItem>
           <ListItem mr='1rem'>
-            <ALink textColor='text_primary' href='/#' color='white'>
+            <ALink textColor='text_primary' href='/explore' color='white'>
                 Explore
             </ALink>
           </ListItem>
           <ListItem mr='1rem'>
-            <ALink textColor='text_primary' href='/#' color='white'>
+            <ALink textColor='text_primary' href='/about' color='white'>
                 About
             </ALink>
           </ListItem>
           <ListItem>
-            <ALink textColor='text_primary' href='/#' color='white'>
+            <ALink textColor='text_primary' href='/contact' color='white'>
                 Contact
             </ALink>
           </ListItem>

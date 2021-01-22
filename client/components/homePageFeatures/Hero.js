@@ -27,7 +27,7 @@ const Hero = () => {
       <Heading as='h1' fontSize={['2rem','3rem','4rem']} mb='3rem' lineHeight='4.5rem'  textShadow="0 1px 0 black" >
         We help low-income, minorities bring their ideas to market
       </Heading >
-      <ButtonNormal url="#" text="Start a Project" />
+      <ButtonNormal url="/my-account/add-project" text="Start a Project" />
       </Container>
     </Flex>
     </Container>

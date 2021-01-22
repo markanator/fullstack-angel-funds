@@ -20,7 +20,7 @@ export default function About() {
           {/* LEFT - TOP */}
           <Flex w='full' h='full'>
             <Flex w='290px' h='full' maxH='311px' bgColor='color_alt' justifyContent='center' alignItems='center' m='0 1px 0 0'>
-                <Heading fontSize='1.875rem' maxW='185px'  textAlign='center' textAlign='left'>
+                <Heading fontSize='1.875rem' maxW='185px'  textAlign='left' textColor='white' >
                 We’re a trusted platform
                 </Heading>
             </Flex>

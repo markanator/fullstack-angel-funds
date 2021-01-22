@@ -1,8 +1,8 @@
-import { Alert, AlertIcon, Button, Container, Flex, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { Alert, AlertIcon, Button, Container, Flex, FormControl, FormLabel, Input, Text } from '@chakra-ui/react';
 import React from 'react';
 import {useRouter} from 'next/router'
 // locals
-import Banner from '../../components/authShared/Banner';
+import Banner from '../../components/authShared/AuthBanner';
 import Layout from '../../components/Layout';
 
 export default function LostPassword() {
@@ -41,7 +41,8 @@ export default function LostPassword() {
             onSubmit={handleSubmit}
           >
             <FormControl id="email">
-              <FormLabel>Enter your email. You will receive a link to create a new password via email.</FormLabel>
+              <Text mb='1.5rem' textColor='text_secondary'>Enter your email. You will receive a link to create a new password via email.</Text>
+              <FormLabel>Email:</FormLabel>
               <Input
                 type="email"
                 border='1px solid'
