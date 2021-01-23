@@ -8,25 +8,21 @@ import {
   Heading,
   Input,
 } from "@chakra-ui/react";
-import { GetServerSidePropsContext } from "next";
 import React from "react";
 import { useForm } from "react-hook-form";
 import AuthBanner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
 import AccountNavbar from "../../components/myAccountShared/AccountNavbar";
-import auth0 from "../api/utils/auth0";
 
-interface ISettingProps {
-  user: any | null;
-}
+interface ISettingProps {}
 
-export default function settings({ user }: ISettingProps) {
+export default function settings({}: ISettingProps) {
   const { register, handleSubmit, errors, formState } = useForm();
 
   const onSubmit = (data: any) => alert(JSON.stringify(data, null, 2));
 
   return (
-    <Layout user={user} SEO={{ title: "My Settings - VR Funds" }}>
+    <Layout SEO={{ title: "My Settings - VR Funds" }}>
       <AuthBanner
         bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
         title="My Settings"
@@ -146,24 +142,4 @@ export default function settings({ user }: ISettingProps) {
       </Container>
     </Layout>
   );
-}
-
-// make sure user is logged in
-export async function getServerSideProps({
-  req,
-  res,
-}: GetServerSidePropsContext) {
-  const session = await auth0.getSession(req);
-  if (!session || !session.user) {
-    res.writeHead(302, {
-      Location: "/api/auth/login",
-    });
-    res.end();
-    return;
-  }
-  return {
-    props: {
-      user: session.user,
-    },
-  };
 }

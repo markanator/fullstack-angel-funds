@@ -12,28 +12,24 @@ import {
   Select,
   Textarea,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
 //
 import AuthBanner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
-import auth0 from "../api/utils/auth0";
-import { GetServerSidePropsContext } from "next";
 
-interface IAddProjectPage {
-  user: any;
-}
+interface IAddProjectPage {}
 
-export default function AddProjectPage({ user }: IAddProjectPage) {
+export default function AddProjectPage({}: IAddProjectPage) {
   const { register, handleSubmit, errors, formState } = useForm();
   const router = useRouter();
 
   const onSubmit = (data: any) => alert(JSON.stringify(data, null, 2));
 
-  console.log("add project props", user);
+  // console.log("add project props", user);
   return (
-    <Layout user={user} SEO={{ title: "Add a Project - VR Funds" }}>
+    <Layout SEO={{ title: "Add a Project - VR Funds" }}>
       <AuthBanner
         bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
         title="Add a Project"
@@ -242,23 +238,4 @@ export default function AddProjectPage({ user }: IAddProjectPage) {
       </Container>
     </Layout>
   );
-}
-
-export async function getServerSideProps({
-  req,
-  res,
-}: GetServerSidePropsContext) {
-  const session = await auth0.getSession(req);
-  if (!session || !session.user) {
-    res.writeHead(302, {
-      Location: "/api/auth/login",
-    });
-    res.end();
-    return;
-  }
-  return {
-    props: {
-      user: session.user,
-    },
-  };
 }

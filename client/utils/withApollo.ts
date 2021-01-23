@@ -1,11 +1,10 @@
 import { createWithApollo } from "./createWithApollo";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
-// import { PaginatedPosts } from "../generated/grahpql";
 import { NextPageContext } from "next";
 
 const createClient = (ctx: NextPageContext) =>
   new ApolloClient({
-    uri: process.env.NEXT_PUBLIC_API_URL as string,
+    uri: process.env.NEXT_PUBLIC_BACKEND as string,
     credentials: "include",
     headers: {
       cookie:
@@ -13,13 +12,7 @@ const createClient = (ctx: NextPageContext) =>
           ? ctx?.req?.headers.cookie
           : undefined) || "",
     },
-    cache: new InMemoryCache({
-      typePolicies: {
-        Query: {
-          fields: {},
-        },
-      },
-    }),
+    cache: new InMemoryCache(),
   });
 
 export const withApollo = createWithApollo(createClient);

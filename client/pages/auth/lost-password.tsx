@@ -15,11 +15,9 @@ import React from "react";
 import Banner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
 
-interface ILostMyPasswordProps {
-  user: any | null;
-}
+interface ILostMyPasswordProps {}
 
-export default function LostPassword({ user }: ILostMyPasswordProps) {
+export default function LostPassword({}: ILostMyPasswordProps) {
   const router = useRouter();
 
   const handleSubmit = (e: any) => {
@@ -29,7 +27,7 @@ export default function LostPassword({ user }: ILostMyPasswordProps) {
   };
 
   return (
-    <Layout user={user} SEO={{ title: "Reset Password - VR Funds" }}>
+    <Layout SEO={{ title: "Reset Password - VR Funds" }}>
       <Banner
         bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
         title="Forgot Password"

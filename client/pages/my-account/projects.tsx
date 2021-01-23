@@ -1,18 +1,14 @@
 import { Container } from "@chakra-ui/react";
-import { GetServerSidePropsContext } from "next";
 import React from "react";
 import AuthBanner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
 import AccountNavbar from "../../components/myAccountShared/AccountNavbar";
-import auth0 from "../api/utils/auth0";
 
-interface IProjectsProps {
-  user: any | null;
-}
+interface IProjectsProps {}
 
-export default function projects({ user }: IProjectsProps) {
+export default function projects({}: IProjectsProps) {
   return (
-    <Layout user={user} SEO={{ title: "My Projects - VR Funds" }}>
+    <Layout SEO={{ title: "My Projects - VR Funds" }}>
       <AuthBanner
         bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
         title="My Projects"
@@ -23,25 +19,4 @@ export default function projects({ user }: IProjectsProps) {
       USER projects
     </Layout>
   );
-}
-
-export async function getServerSideProps({
-  req,
-  res,
-}: GetServerSidePropsContext) {
-  const session = await auth0.getSession(req);
-
-  if (!session || !session.user) {
-    res.writeHead(302, {
-      Location: "/api/auth/login",
-    });
-    res.end();
-    return;
-  }
-
-  return {
-    props: {
-      user: session.user,
-    },
-  };
 }

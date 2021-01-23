@@ -1,33 +1,13 @@
-import { GetServerSidePropsContext } from "next";
 import React from "react";
 import Layout from "../components/Layout";
-import auth0 from "./api/utils/auth0";
 
-interface IAboutProps {
-  user: any | null;
-}
+interface IAboutProps {}
 
-export default function about({ user }: IAboutProps) {
+export default function about({}: IAboutProps) {
   return (
-    <Layout user={user} SEO={{ title: "About Us - VR Funds" }}>
-      About Page
+    <Layout SEO={{ title: "About Us - VR Funds" }}>
+      <p>About</p>
+      Page
     </Layout>
   );
-}
-
-export async function getServerSideProps({
-  req,
-  res,
-}: GetServerSidePropsContext) {
-  const session = await auth0.getSession(req);
-
-  if (!session || !session.user) {
-    return { props: {} };
-  }
-
-  return {
-    props: {
-      user: session.user || null,
-    },
-  };
 }

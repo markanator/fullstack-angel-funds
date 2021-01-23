@@ -17,11 +17,9 @@ import Newsletter from "../components/Newsletter";
 import { useFetchMeQuery } from "../generated/grahpql";
 import { isServer } from "../utils/isServer";
 
-interface IHomeProps {
-  user: any | null;
-}
+interface IHomeProps {}
 
-const Index = ({ user }: IHomeProps) => {
+const Index = ({}: IHomeProps) => {
   // const [] = useRegisterMutation();
 
   const { data, loading } = useFetchMeQuery({
@@ -31,7 +29,7 @@ const Index = ({ user }: IHomeProps) => {
   if (!loading) {
     console.log("me data", data);
   }
-  console.log("server user data", user);
+  // console.log("server user data", user);
 
   return (
     <Layout SEO={{ title: "Home - VR Funds" }}>
@@ -57,4 +55,4 @@ const Index = ({ user }: IHomeProps) => {
   );
 };
 
-export default withApollo({ ssr: true })(Index);
+export default Index;

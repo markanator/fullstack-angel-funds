@@ -1,27 +1,13 @@
-import {
-  Alert,
-  AlertIcon,
-  Button,
-  Checkbox,
-  Container,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-} from "@chakra-ui/react";
+import { Alert, AlertIcon, Container, Flex, Heading } from "@chakra-ui/react";
 import LoginForm from "components/authShared/LoginForm";
 import RegisterForm from "components/authShared/RegisterForm";
 import React from "react";
-import ALink from "../../components/ALink";
 import AuthBanner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
 
-interface IAuthProps {
-  user: any | null;
-}
+interface IAuthProps {}
 
-export default function index({ user }: IAuthProps) {
+function Index() {
   return (
     <Layout SEO={{ title: "Login/Register - VR Funds" }}>
       {/* BANNER */}
@@ -62,3 +48,5 @@ export default function index({ user }: IAuthProps) {
     </Layout>
   );
 }
+
+export default Index;

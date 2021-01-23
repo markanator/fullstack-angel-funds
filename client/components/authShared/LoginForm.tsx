@@ -13,6 +13,10 @@ export default function LoginForm({}: Props): ReactElement {
       borderColor="gray.300"
       bgColor="white"
       p="2rem"
+      onSubmit={(e) => {
+        e.preventDefault();
+        return null;
+      }}
     >
       <FormControl id="email">
         <FormLabel>Email address</FormLabel>
@@ -26,7 +30,7 @@ export default function LoginForm({}: Props): ReactElement {
       </FormControl>
 
       <FormControl id="login_password" mt="1rem">
-        <FormLabel>Password address</FormLabel>
+        <FormLabel>Password</FormLabel>
         <Input
           type="password"
           border="1px solid"
