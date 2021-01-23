@@ -1,0 +1,8 @@
+query FetchMe {
+  me {
+    id
+    fullName
+    avatarUrl
+    email
+  }
+}

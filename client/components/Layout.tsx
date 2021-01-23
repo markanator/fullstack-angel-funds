@@ -7,16 +7,15 @@ import Navbar from "./sharedNav/NavBar";
 
 interface ILayoutProps {
   children: React.ReactNodeArray;
-  user: any | null;
   SEO?: any;
 }
 
-export default function Layout({ children, user, SEO }: ILayoutProps) {
+export default function Layout({ children, SEO }: ILayoutProps) {
   return (
     <Box bgColor="white" textColor="text_primary">
       <Page {...SEO} />
       {/* Header */}
-      <Navbar user={user} />
+      <Navbar />
       <>{children}</>
       {/* FOOTER */}
       <Footer />

@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
-import { GetServerSidePropsContext } from "next";
 import React from "react";
+import { withApollo } from "utils/withApollo";
 import About from "../components/homePageFeatures/About";
 // locals
 import CTA from "../components/homePageFeatures/CTA";
@@ -14,15 +14,27 @@ import Testimonial from "../components/homePageFeatures/Testimonial";
 import TopCategories from "../components/homePageFeatures/TopCategories";
 import Layout from "../components/Layout";
 import Newsletter from "../components/Newsletter";
-import auth0 from "./api/utils/auth0";
+import { useFetchMeQuery } from "../generated/grahpql";
+import { isServer } from "../utils/isServer";
 
 interface IHomeProps {
   user: any | null;
 }
 
 const Index = ({ user }: IHomeProps) => {
+  // const [] = useRegisterMutation();
+
+  const { data, loading } = useFetchMeQuery({
+    skip: isServer(),
+  });
+
+  if (!loading) {
+    console.log("me data", data);
+  }
+  console.log("server user data", user);
+
   return (
-    <Layout user={user} SEO={{ title: "Home - VR Funds" }}>
+    <Layout SEO={{ title: "Home - VR Funds" }}>
       <Hero />
       <TopCategories />
       <CTA />
@@ -45,21 +57,4 @@ const Index = ({ user }: IHomeProps) => {
   );
 };
 
-export default Index;
-
-export async function getServerSideProps({
-  req,
-  res,
-}: GetServerSidePropsContext) {
-  const session = await auth0.getSession(req);
-
-  if (!session?.user) {
-    return { props: {} };
-  }
-
-  return {
-    props: {
-      user: session.user,
-    },
-  };
-}
+export default withApollo({ ssr: true })(Index);

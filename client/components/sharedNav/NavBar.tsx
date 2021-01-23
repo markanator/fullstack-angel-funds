@@ -6,15 +6,21 @@ import {
   List,
   ListItem,
 } from "@chakra-ui/react";
+import { useFetchMeQuery } from "generated/grahpql";
 import React from "react";
+import { isServer } from "utils/isServer";
 import ALink from "../ALink";
 
 interface INavbarProps {
   user: any | null;
 }
 
-export default function Navbar({ user = null }: INavbarProps) {
-  console.log("navbar props.user:: ", user);
+export default function Navbar() {
+  const { data, loading } = useFetchMeQuery({
+    skip: isServer(),
+  });
+
+  console.log("navbar props.user:: ", data);
 
   return (
     <Flex as="header" w="full" direction="column" boxShadow="md">
@@ -43,7 +49,7 @@ export default function Navbar({ user = null }: INavbarProps) {
           </Flex>
           {/* RIGHT */}
           <Flex w="50%" justifyContent="flex-end" direction="row">
-            {!!user ? (
+            {!!data ? (
               <>
                 <ALink href="/my-account" mr="2rem">
                   Dashboard
@@ -51,7 +57,7 @@ export default function Navbar({ user = null }: INavbarProps) {
                 <a href="/api/auth/logout">Logout</a>
               </>
             ) : (
-              <a href="/api/auth/login">Sign In or Register</a>
+              <ALink href="/auth">Sign In or Register</ALink>
             )}
 
             <ALink href="/my-account/add-project" ml="2rem">
