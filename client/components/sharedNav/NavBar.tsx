@@ -1,12 +1,15 @@
+import { useApolloClient } from "@apollo/client";
 import {
   Box,
   Container,
   Flex,
   Heading,
+  Link,
   List,
   ListItem,
 } from "@chakra-ui/react";
-import { useFetchMeQuery } from "generated/grahpql";
+import { useFetchMeQuery, useLogoutMutation } from "generated/grahpql";
+import { useRouter } from "next/router";
 import React from "react";
 import { isServer } from "utils/isServer";
 import ALink from "../ALink";
@@ -16,11 +19,14 @@ interface INavbarProps {
 }
 
 export default function Navbar() {
+  const router = useRouter();
   const { data, loading } = useFetchMeQuery({
     skip: isServer(),
   });
+  const [logout, { loading: logoutFetching }] = useLogoutMutation();
+  const apolloClient = useApolloClient();
 
-  console.log("navbar props.user:: ", data);
+  // console.log("navbar props.user:: ", data);
 
   return (
     <Flex as="header" w="full" direction="column" boxShadow="md">
@@ -54,7 +60,18 @@ export default function Navbar() {
                 <ALink href="/my-account" mr="2rem">
                   Dashboard
                 </ALink>
-                <a href="/api/auth/logout">Logout</a>
+                <Link
+                  onClick={async () => {
+                    const res = await logout();
+                    await apolloClient.resetStore();
+
+                    if (res.data?.logout?.valueOf()) {
+                      router.push("/");
+                    }
+                  }}
+                >
+                  Logout
+                </Link>
               </>
             ) : (
               <ALink href="/auth">Sign In or Register</ALink>

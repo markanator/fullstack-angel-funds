@@ -81,6 +81,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             httpOnly: true,
             sameSite: "lax",
             secure: constants_1.__prod__,
+            domain: constants_1.__prod__ ? ".ambrocio.dev" : undefined,
         },
         saveUninitialized: false,
         secret: process.env.SESSION_SECRET,
@@ -103,7 +104,13 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             userLoader: createUserLoader_1.createUserLoader(),
         }),
     });
-    apolloServer.applyMiddleware({ app, cors: false });
+    apolloServer.applyMiddleware({
+        app,
+        cors: {
+            origin: process.env.CORS_ORIGIN,
+            credentials: true,
+        },
+    });
     app.listen(PORT, () => console.log(`### server started on http://localhost:${PORT}/graphql`));
 });
 main().catch((err) => console.error(err));

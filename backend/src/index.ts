@@ -48,6 +48,7 @@ const main = async () => {
   const redis = new Redis();
   // cors
   app.use(cors());
+
   // session MW b4 Apollo
   app.use(
     session({
@@ -61,7 +62,7 @@ const main = async () => {
         httpOnly: true, // non secure for dev
         sameSite: "lax", // csrf protections
         secure: __prod__, //cookie only works in https
-        // domain: __prod__ ? ".codeponder.com" : undefined, // don't need?
+        domain: __prod__ ? ".ambrocio.dev" : undefined, // don't need?
       },
       saveUninitialized: false, // create sesh by default regardless of !data
       secret: process.env.SESSION_SECRET as string,
@@ -88,7 +89,13 @@ const main = async () => {
     }),
   });
 
-  apolloServer.applyMiddleware({ app, cors: false });
+  apolloServer.applyMiddleware({
+    app,
+    cors: {
+      origin: process.env.CORS_ORIGIN,
+      credentials: true,
+    },
+  });
 
   app.listen(PORT, () =>
     console.log(`### server started on http://localhost:${PORT}/graphql`)

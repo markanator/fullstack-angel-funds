@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRegisterMutation } from "generated/grahpql";
+import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -39,7 +40,8 @@ const Schema = yup.object().shape({
 });
 
 export default function RegisterForm({}: Props): ReactElement {
-  const { register, handleSubmit, errors } = useForm({
+  const router = useRouter();
+  const { register, handleSubmit, errors, setError } = useForm({
     mode: "all",
     resolver: yupResolver(Schema),
   });
@@ -49,15 +51,32 @@ export default function RegisterForm({}: Props): ReactElement {
   const onSubmit = async (formData: IFormInputs) => {
     const options = {
       email: formData.reg_email,
-      ...formData,
+      fullName: formData.fullName,
+      password: formData.password,
     };
-    // alert(JSON.stringify(options, null, 2));
 
     const res = await registerMutation({
       variables: {
-        options: options,
+        options,
       },
     });
+
+    //! set errors from server
+    if (res.data?.register?.errors) {
+      res.data?.register?.errors.forEach((element) => {
+        setError(element.field, {
+          message: element.message,
+        });
+      });
+    } else if (res.data?.register?.user) {
+      // * All good
+      if (typeof router.query.next === "string") {
+        router.push(router.query.next);
+      } else {
+        // it worked
+        router.push("/my-account");
+      }
+    }
 
     console.log("REGISTER response", res);
   };

@@ -1,6 +1,5 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
-import { withApollo } from "utils/withApollo";
 import About from "../components/homePageFeatures/About";
 // locals
 import CTA from "../components/homePageFeatures/CTA";
