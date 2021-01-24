@@ -35,6 +35,10 @@ export class Project extends BaseEntity {
   image: string;
 
   @Field()
+  @Column({ default: "" })
+  slug: string;
+
+  @Field()
   @Column({ type: "int" })
   fundTarget!: number;
 

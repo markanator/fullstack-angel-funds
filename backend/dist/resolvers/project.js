@@ -20,9 +20,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProjectResolver = void 0;
 const type_graphql_1 = require("type-graphql");
+const slugify_1 = __importDefault(require("slugify"));
 const typeorm_1 = require("typeorm");
 const Project_1 = require("../entity/Project");
 const User_1 = require("../entity/User");
@@ -48,8 +52,16 @@ let ProjectResolver = class ProjectResolver {
     getProjectById(id) {
         return Project_1.Project.findOne(id);
     }
+    getProjectBySlug(slug) {
+        return Project_1.Project.findOne({ where: { slug } });
+    }
     createProject(input, { req }) {
-        return Project_1.Project.create(Object.assign(Object.assign({}, input), { authorId: req.session.userId })).save();
+        const slug = slugify_1.default(input.title, {
+            lower: true,
+            strict: true,
+            remove: /[*+~.()'"!:@]/g,
+        });
+        return Project_1.Project.create(Object.assign(Object.assign({}, input), { slug, authorId: req.session.userId })).save();
     }
     updateProject(id, input, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -130,6 +142,13 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], ProjectResolver.prototype, "getProjectById", null);
+__decorate([
+    type_graphql_1.Query(() => Project_1.Project, { nullable: true }),
+    __param(0, type_graphql_1.Arg("slug")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ProjectResolver.prototype, "getProjectBySlug", null);
 __decorate([
     type_graphql_1.Mutation(() => Project_1.Project),
     type_graphql_1.UseMiddleware(isAuthed_1.isAuthed),

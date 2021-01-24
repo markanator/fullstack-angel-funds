@@ -9,6 +9,7 @@ import {
   Root,
   UseMiddleware,
 } from "type-graphql";
+import slugify from "slugify";
 import { getConnection } from "typeorm";
 import { Project } from "../entity/Project";
 import { User } from "../entity/User";
@@ -33,6 +34,7 @@ export class ProjectResolver {
   // GET PROJECTS ARRAY
   @Query(() => [Project])
   async projects() {
+    // TODO FUTURE paginate the response
     // cacheing
     const projects = await getConnection()
       .createQueryBuilder()
@@ -52,6 +54,12 @@ export class ProjectResolver {
     return Project.findOne(id);
   }
 
+  // GET PROJECT BY SLUG
+  @Query(() => Project, { nullable: true })
+  getProjectBySlug(@Arg("slug") slug: string): Promise<Project | undefined> {
+    return Project.findOne({ where: { slug } });
+  }
+
   // CREATE PROJECT
   @Mutation(() => Project)
   @UseMiddleware(isAuthed)
@@ -59,8 +67,14 @@ export class ProjectResolver {
     @Arg("input") input: CreateProjectInput,
     @Ctx() { req }: MyContext
   ): Promise<Project> {
+    const slug = slugify(input.title, {
+      lower: true,
+      strict: true,
+      remove: /[*+~.()'"!:@]/g,
+    });
     return Project.create({
       ...input,
+      slug,
       authorId: req.session.userId,
     }).save();
   }

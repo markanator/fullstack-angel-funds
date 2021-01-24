@@ -43,6 +43,11 @@ __decorate([
 ], Project.prototype, "image", void 0);
 __decorate([
     type_graphql_1.Field(),
+    typeorm_1.Column({ default: "" }),
+    __metadata("design:type", String)
+], Project.prototype, "slug", void 0);
+__decorate([
+    type_graphql_1.Field(),
     typeorm_1.Column({ type: "int" }),
     __metadata("design:type", Number)
 ], Project.prototype, "fundTarget", void 0);
