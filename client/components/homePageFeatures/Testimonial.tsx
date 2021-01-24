@@ -1,18 +1,19 @@
 import { Box, Container, Flex, Heading, Image, Text } from "@chakra-ui/react";
-import dynamic from "next/dynamic";
 import React from "react";
-
-const Splide = dynamic(
-  () => import("@splidejs/react-splide").then((mod) => mod.Splide),
-  { ssr: false }
-);
-
-const SplideSlide = dynamic(
-  () => import("@splidejs/react-splide").then((mod) => mod.SplideSlide),
-  { ssr: false }
-);
+import Slider from "react-slick";
 
 export default function Testimonial() {
+  var settings = {
+    dots: true,
+    arrows: true,
+    infinite: true,
+    speed: 650,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+  };
+
   return (
     <Flex as="section" w="full" py="6rem">
       <Container maxW="7xl" display="flex" flexDirection="column">
@@ -33,25 +34,17 @@ export default function Testimonial() {
           >
             What They Say
           </Heading>
-          <Splide
-            // className='splide__main'
-            options={{
-              rewind: true,
-              perPage: 1,
-              perMove: 1,
-              pagination: false,
-            }}
-          >
-            <SplideSlide>
+          <Slider className="ethiopian__caterpillar" {...settings}>
+            <li>
               <TestimonialSlide />
-            </SplideSlide>
-            <SplideSlide>
+            </li>
+            <li>
               <TestimonialSlide />
-            </SplideSlide>
-            <SplideSlide>
+            </li>
+            <li>
               <TestimonialSlide />
-            </SplideSlide>
-          </Splide>
+            </li>
+          </Slider>
         </Flex>
       </Container>
     </Flex>
@@ -116,3 +109,17 @@ const TestimonialSlide = () => (
     </Flex>
   </Box>
 );
+
+function PrevArrow(props) {
+  const { className, onClick } = props;
+
+  return (
+    <div className={`${className} prev_arr`} style={{}} onClick={onClick} />
+  );
+}
+
+function NextArrow(props) {
+  const { className, onClick } = props;
+
+  return <div className={`${className} next_arr`} onClick={onClick} />;
+}

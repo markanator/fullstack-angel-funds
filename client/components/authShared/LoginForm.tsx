@@ -1,10 +1,88 @@
-import { Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { useApolloClient } from "@apollo/client";
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Text,
+} from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import ALink from "components/ALink";
+import {
+  FetchMeDocument,
+  useFetchMeQuery,
+  useLoginMutation,
+} from "generated/grahpql";
+import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
 
 interface Props {}
 
+interface IFormInputs {
+  log_email: string;
+  log_pass: string;
+}
+
+const LoginSchema = yup.object().shape({
+  log_email: yup
+    .string()
+    .email("Must be valid email.")
+    .required("Please enter an email address."),
+  log_pass: yup.string().required("Please enter a password."),
+});
+
 export default function LoginForm({}: Props): ReactElement {
+  const router = useRouter();
+  const apolloClient = useApolloClient();
+  const { register, handleSubmit, errors, setError } = useForm({
+    mode: "all",
+    resolver: yupResolver(LoginSchema),
+  });
+
+  const [login] = useLoginMutation();
+
+  const onSubmit = async (LogFormData: IFormInputs) => {
+    // * make call
+    const res = await login({
+      variables: {
+        email: LogFormData.log_email,
+        password: LogFormData.log_pass,
+      },
+    });
+
+    // ! error handle
+    if (res.data?.login?.errors) {
+      res.data?.login?.errors.forEach((element) => {
+        if (element.field == "password") {
+          setError("log_pass", {
+            message: element.message,
+          });
+        } else {
+          setError("log_email", {
+            message: element.message,
+          });
+        }
+      });
+    } else if (res.data?.login?.user) {
+      apolloClient.writeQuery({
+        query: FetchMeDocument,
+        data: {
+          me: { ...res.data?.login?.user },
+        },
+      });
+      //? All good
+      if (typeof router.query.next === "string") {
+        router.push(router.query.next);
+      } else {
+        // it worked
+        router.push("/my-account");
+      }
+    }
+  };
+
   return (
     <Flex
       as="form"
@@ -13,31 +91,42 @@ export default function LoginForm({}: Props): ReactElement {
       borderColor="gray.300"
       bgColor="white"
       p="2rem"
-      onSubmit={(e) => {
-        e.preventDefault();
-        return null;
-      }}
+      onSubmit={handleSubmit(onSubmit)}
     >
-      <FormControl id="email">
-        <FormLabel>Email address</FormLabel>
+      {/* EMAIL */}
+      <FormControl id="log_email">
+        <FormLabel htmlFor="log_email">Email</FormLabel>
         <Input
+          name="log_email"
           type="email"
+          ref={register}
+          isInvalid={errors?.log_email}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
           boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
         />
+        <Text fontSize="sm" color="color_alt">
+          {errors.log_email?.message}
+        </Text>
       </FormControl>
 
-      <FormControl id="login_password" mt="1rem">
-        <FormLabel>Password</FormLabel>
+      {/* PASS */}
+      <FormControl id="log_pass" mt="1rem">
+        <FormLabel htmlFor="log_pass">Password</FormLabel>
         <Input
+          name="log_pass"
           type="password"
+          ref={register}
+          isInvalid={errors?.log_pass}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
           boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
         />
+        <Text fontSize="sm" color="color_alt">
+          {errors.log_pass?.message}
+        </Text>
       </FormControl>
 
       <Button

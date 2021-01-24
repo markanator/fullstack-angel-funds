@@ -1,3 +1,4 @@
+import { useApolloClient } from "@apollo/client";
 import {
   Alert,
   AlertIcon,
@@ -8,22 +9,60 @@ import {
   FormLabel,
   Input,
   Text,
+  useToast,
 } from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import React from "react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
 // locals
 import Banner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
+import { useForgotPasswordMutation } from "../../generated/grahpql";
 
 interface ILostMyPasswordProps {}
 
-export default function LostPassword({}: ILostMyPasswordProps) {
-  const router = useRouter();
+interface IFormInputs {
+  forgot_email: string;
+}
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    console.log("User is being moved...");
-    router.push("/my-account");
+const ForgotSchema = yup.object().shape({
+  forgot_email: yup
+    .string()
+    .email("Must be valid email.")
+    .required("Please enter an email address."),
+});
+
+export default function LostPassword({}: ILostMyPasswordProps) {
+  // const router = useRouter();
+  // const apolloClient = useApolloClient();
+  const toast = useToast();
+  const { register, handleSubmit, errors } = useForm({
+    mode: "all",
+    resolver: yupResolver(ForgotSchema),
+  });
+
+  const [forgotPassword] = useForgotPasswordMutation();
+
+  const onSubmit = async (formData: IFormInputs) => {
+    // alert(JSON.stringify(formData.forgot_email, null, 2));
+    // router.push("/my-account");
+    const res = await forgotPassword({
+      variables: {
+        email: formData.forgot_email,
+      },
+    });
+
+    if (res.data?.forgotPassword) {
+      toast({
+        title: "Email Sent!",
+        description:
+          "If the email address exists, we will immediately send instructions to you.",
+        isClosable: true,
+        duration: 9000,
+      });
+    }
   };
 
   return (
@@ -46,21 +85,27 @@ export default function LostPassword({}: ILostMyPasswordProps) {
             borderColor="gray.300"
             bgColor="white"
             p="2rem"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
           >
-            <FormControl id="email">
-              <Text mb="1.5rem" textColor="text_secondary">
+            <FormControl id="forgot_email">
+              <Text mb="1.5rem" fontSize="md" textColor="text_secondary">
                 Enter your email. You will receive a link to create a new
                 password via email.
               </Text>
-              <FormLabel>Email:</FormLabel>
+              <FormLabel htmlFor="forgot_email">Email</FormLabel>
               <Input
+                name="forgot_email"
                 type="email"
                 border="1px solid"
+                ref={register}
+                isInvalid={errors?.forgot_email}
                 borderColor="progress_bg"
                 rounded="none"
                 boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
               />
+              <Text fontSize="sm" color="color_alt">
+                {errors.forgot_email?.message}
+              </Text>
             </FormControl>
 
             <Button

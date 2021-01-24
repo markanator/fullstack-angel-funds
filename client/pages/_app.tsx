@@ -2,6 +2,8 @@ import { ApolloProvider } from "@apollo/client";
 import { ChakraProvider } from "@chakra-ui/react";
 import "@splidejs/splide/dist/css/splide-core.min.css";
 import { AppProps } from "next/app";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import "typeface-dancing-script";
 import "typeface-montserrat";
 import "typeface-roboto";

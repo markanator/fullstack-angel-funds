@@ -55,7 +55,7 @@ export default function Navbar() {
           </Flex>
           {/* RIGHT */}
           <Flex w="50%" justifyContent="flex-end" direction="row">
-            {!!data ? (
+            {!!data?.me ? (
               <>
                 <ALink href="/my-account" mr="2rem">
                   Dashboard
@@ -63,9 +63,8 @@ export default function Navbar() {
                 <Link
                   onClick={async () => {
                     const res = await logout();
-                    await apolloClient.resetStore();
-
                     if (res.data?.logout?.valueOf()) {
+                      await apolloClient.resetStore();
                       router.push("/");
                     }
                   }}

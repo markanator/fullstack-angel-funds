@@ -1,3 +1,4 @@
+import { useApolloClient } from "@apollo/client";
 import {
   Button,
   Checkbox,
@@ -8,7 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRegisterMutation } from "generated/grahpql";
+import { FetchMeDocument, useRegisterMutation } from "generated/grahpql";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import { useForm } from "react-hook-form";
@@ -23,7 +24,7 @@ interface IFormInputs {
   terms: boolean;
 }
 
-const Schema = yup.object().shape({
+const RegSchema = yup.object().shape({
   fullName: yup.string().min(4, "Too short.").required("Required"),
   reg_email: yup
     .string()
@@ -41,9 +42,10 @@ const Schema = yup.object().shape({
 
 export default function RegisterForm({}: Props): ReactElement {
   const router = useRouter();
+  const apolloClient = useApolloClient();
   const { register, handleSubmit, errors, setError } = useForm({
     mode: "all",
-    resolver: yupResolver(Schema),
+    resolver: yupResolver(RegSchema),
   });
 
   const [registerMutation] = useRegisterMutation();
@@ -69,6 +71,12 @@ export default function RegisterForm({}: Props): ReactElement {
         });
       });
     } else if (res.data?.register?.user) {
+      apolloClient.writeQuery({
+        query: FetchMeDocument,
+        data: {
+          me: { ...res.data?.register?.user },
+        },
+      });
       // * All good
       if (typeof router.query.next === "string") {
         router.push(router.query.next);
@@ -110,7 +118,7 @@ export default function RegisterForm({}: Props): ReactElement {
       </FormControl>
 
       <FormControl id="reg_email" mt="1rem">
-        <FormLabel htmlFor="reg_email">Email:</FormLabel>
+        <FormLabel htmlFor="reg_email">Email</FormLabel>
         <Input
           name="reg_email"
           type="reg_email"
