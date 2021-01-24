@@ -18,12 +18,18 @@ export type Query = {
   hello: Scalars['String'];
   projects: Array<Project>;
   getProjectById?: Maybe<Project>;
+  getProjectBySlug?: Maybe<Project>;
   me?: Maybe<User>;
 };
 
 
 export type QueryGetProjectByIdArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryGetProjectBySlugArgs = {
+  slug: Scalars['String'];
 };
 
 export type Project = {
@@ -33,6 +39,7 @@ export type Project = {
   description: Scalars['String'];
   category: Scalars['String'];
   image: Scalars['String'];
+  slug: Scalars['String'];
   fundTarget: Scalars['Float'];
   currentFunds: Scalars['Float'];
   publishDate: Scalars['String'];
@@ -150,6 +157,20 @@ export type EmailPasswordInput = {
   password: Scalars['String'];
 };
 
+export type FullUserDetailsFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'id' | 'fullName' | 'avatarUrl' | 'email' | 'created_at'>
+);
+
+export type ProjectResponseWAuthorFragment = (
+  { __typename?: 'Project' }
+  & Pick<Project, 'id' | 'title' | 'description' | 'category' | 'image' | 'fundTarget' | 'currentFunds' | 'publishDate' | 'targetDate' | 'totalDonation_sum' | 'viewCount' | 'votePoints' | 'slug'>
+  & { author: (
+    { __typename?: 'User' }
+    & FullUserDetailsFragment
+  ) }
+);
+
 export type CreateProjectMutationVariables = Exact<{
   input: CreateProjectInput;
 }>;
@@ -159,7 +180,7 @@ export type CreateProjectMutation = (
   { __typename?: 'Mutation' }
   & { createProject: (
     { __typename?: 'Project' }
-    & Pick<Project, 'id' | 'title' | 'description' | 'category' | 'image' | 'fundTarget' | 'currentFunds' | 'publishDate' | 'targetDate' | 'totalDonation_sum' | 'viewCount' | 'votePoints'>
+    & ProjectResponseWAuthorFragment
   ) }
 );
 
@@ -188,7 +209,7 @@ export type LoginMutation = (
       & Pick<FieldError, 'field' | 'message'>
     )>>, user?: Maybe<(
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'fullName' | 'avatarUrl' | 'email' | 'created_at'>
+      & FullUserDetailsFragment
     )> }
   ) }
 );
@@ -215,7 +236,7 @@ export type RegisterMutation = (
       & Pick<FieldError, 'field' | 'message'>
     )>>, user?: Maybe<(
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'fullName' | 'avatarUrl' | 'email' | 'created_at'>
+      & FullUserDetailsFragment
     )> }
   ) }
 );
@@ -227,7 +248,7 @@ export type FetchAllProjectsQuery = (
   { __typename?: 'Query' }
   & { projects: Array<(
     { __typename?: 'Project' }
-    & Pick<Project, 'id' | 'title' | 'description'>
+    & ProjectResponseWAuthorFragment
   )> }
 );
 
@@ -238,29 +259,59 @@ export type FetchMeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'fullName' | 'avatarUrl' | 'email'>
+    & FullUserDetailsFragment
   )> }
 );
 
+export type GetbySlugQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
 
+
+export type GetbySlugQuery = (
+  { __typename?: 'Query' }
+  & { getProjectBySlug?: Maybe<(
+    { __typename?: 'Project' }
+    & ProjectResponseWAuthorFragment
+  )> }
+);
+
+export const FullUserDetailsFragmentDoc = gql`
+    fragment FullUserDetails on User {
+  id
+  fullName
+  avatarUrl
+  email
+  created_at
+}
+    `;
+export const ProjectResponseWAuthorFragmentDoc = gql`
+    fragment ProjectResponseWAuthor on Project {
+  id
+  title
+  description
+  category
+  image
+  fundTarget
+  currentFunds
+  publishDate
+  targetDate
+  totalDonation_sum
+  viewCount
+  votePoints
+  slug
+  author {
+    ...FullUserDetails
+  }
+}
+    ${FullUserDetailsFragmentDoc}`;
 export const CreateProjectDocument = gql`
     mutation CreateProject($input: CreateProjectInput!) {
   createProject(input: $input) {
-    id
-    title
-    description
-    category
-    image
-    fundTarget
-    currentFunds
-    publishDate
-    targetDate
-    totalDonation_sum
-    viewCount
-    votePoints
+    ...ProjectResponseWAuthor
   }
 }
-    `;
+    ${ProjectResponseWAuthorFragmentDoc}`;
 export type CreateProjectMutationFn = Apollo.MutationFunction<CreateProjectMutation, CreateProjectMutationVariables>;
 
 /**
@@ -324,15 +375,11 @@ export const LoginDocument = gql`
       message
     }
     user {
-      id
-      fullName
-      avatarUrl
-      email
-      created_at
+      ...FullUserDetails
     }
   }
 }
-    `;
+    ${FullUserDetailsFragmentDoc}`;
 export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
@@ -396,15 +443,11 @@ export const RegisterDocument = gql`
       message
     }
     user {
-      id
-      fullName
-      avatarUrl
-      email
-      created_at
+      ...FullUserDetails
     }
   }
 }
-    `;
+    ${FullUserDetailsFragmentDoc}`;
 export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
 /**
@@ -433,12 +476,10 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutatio
 export const FetchAllProjectsDocument = gql`
     query FetchAllProjects {
   projects {
-    id
-    title
-    description
+    ...ProjectResponseWAuthor
   }
 }
-    `;
+    ${ProjectResponseWAuthorFragmentDoc}`;
 
 /**
  * __useFetchAllProjectsQuery__
@@ -467,13 +508,10 @@ export type FetchAllProjectsQueryResult = Apollo.QueryResult<FetchAllProjectsQue
 export const FetchMeDocument = gql`
     query FetchMe {
   me {
-    id
-    fullName
-    avatarUrl
-    email
+    ...FullUserDetails
   }
 }
-    `;
+    ${FullUserDetailsFragmentDoc}`;
 
 /**
  * __useFetchMeQuery__
@@ -499,3 +537,36 @@ export function useFetchMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Fe
 export type FetchMeQueryHookResult = ReturnType<typeof useFetchMeQuery>;
 export type FetchMeLazyQueryHookResult = ReturnType<typeof useFetchMeLazyQuery>;
 export type FetchMeQueryResult = Apollo.QueryResult<FetchMeQuery, FetchMeQueryVariables>;
+export const GetbySlugDocument = gql`
+    query getbySlug($slug: String!) {
+  getProjectBySlug(slug: $slug) {
+    ...ProjectResponseWAuthor
+  }
+}
+    ${ProjectResponseWAuthorFragmentDoc}`;
+
+/**
+ * __useGetbySlugQuery__
+ *
+ * To run a query within a React component, call `useGetbySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetbySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetbySlugQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useGetbySlugQuery(baseOptions: Apollo.QueryHookOptions<GetbySlugQuery, GetbySlugQueryVariables>) {
+        return Apollo.useQuery<GetbySlugQuery, GetbySlugQueryVariables>(GetbySlugDocument, baseOptions);
+      }
+export function useGetbySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetbySlugQuery, GetbySlugQueryVariables>) {
+          return Apollo.useLazyQuery<GetbySlugQuery, GetbySlugQueryVariables>(GetbySlugDocument, baseOptions);
+        }
+export type GetbySlugQueryHookResult = ReturnType<typeof useGetbySlugQuery>;
+export type GetbySlugLazyQueryHookResult = ReturnType<typeof useGetbySlugLazyQuery>;
+export type GetbySlugQueryResult = Apollo.QueryResult<GetbySlugQuery, GetbySlugQueryVariables>;

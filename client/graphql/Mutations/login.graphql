@@ -5,11 +5,7 @@ mutation Login($password: String!, $email: String!) {
       message
     }
     user {
-      id
-      fullName
-      avatarUrl
-      email
-      created_at
+      ...FullUserDetails
     }
   }
 }

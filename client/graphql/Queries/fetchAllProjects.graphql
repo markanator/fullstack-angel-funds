@@ -1,7 +1,5 @@
 query FetchAllProjects {
   projects {
-    id
-    title
-    description
+    ...ProjectResponseWAuthor
   }
 }

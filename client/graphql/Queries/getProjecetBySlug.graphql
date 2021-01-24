@@ -1,0 +1,5 @@
+query getbySlug($slug: String!) {
+  getProjectBySlug(slug: $slug) {
+    ...ProjectResponseWAuthor
+  }
+}
