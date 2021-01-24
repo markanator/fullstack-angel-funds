@@ -49,8 +49,8 @@ let ProjectResolver = class ProjectResolver {
             return projects;
         });
     }
-    getProjectById(id) {
-        return Project_1.Project.findOne(id);
+    getProjectsByUserID(id) {
+        return Project_1.Project.find({ where: { authorId: id } });
     }
     getProjectBySlug(slug) {
         return Project_1.Project.findOne({ where: { slug } });
@@ -136,12 +136,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProjectResolver.prototype, "projects", null);
 __decorate([
-    type_graphql_1.Query(() => Project_1.Project, { nullable: true }),
+    type_graphql_1.Query(() => [Project_1.Project], { nullable: true }),
     __param(0, type_graphql_1.Arg("id", () => type_graphql_1.Int)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], ProjectResolver.prototype, "getProjectById", null);
+], ProjectResolver.prototype, "getProjectsByUserID", null);
 __decorate([
     type_graphql_1.Query(() => Project_1.Project, { nullable: true }),
     __param(0, type_graphql_1.Arg("slug")),

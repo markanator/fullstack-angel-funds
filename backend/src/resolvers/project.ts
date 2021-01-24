@@ -46,12 +46,12 @@ export class ProjectResolver {
     return projects;
   }
 
-  // GET PROJECT BY ID
-  @Query(() => Project, { nullable: true })
-  getProjectById(
+  // GET PROJECT BY UserID
+  @Query(() => [Project], { nullable: true })
+  getProjectsByUserID(
     @Arg("id", () => Int) id: number
-  ): Promise<Project | undefined> {
-    return Project.findOne(id);
+  ): Promise<Project[] | undefined> {
+    return Project.find({ where: { authorId: id } });
   }
 
   // GET PROJECT BY SLUG
