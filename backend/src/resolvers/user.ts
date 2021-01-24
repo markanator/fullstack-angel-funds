@@ -1,12 +1,15 @@
 import argon2 from "argon2";
+import { sendEmail } from "../utils/sendEmail";
 import { Arg, Ctx, Int, Mutation, Query, Resolver } from "type-graphql";
 import { getConnection } from "typeorm";
+import { v4 } from "uuid";
 import { User } from "../entity/User";
 import { MyContext } from "../types/MyContext";
 import { UserResponse } from "../types/UserTypes";
-import { COOKIE_NAME } from "../utils/constants";
+import { COOKIE_NAME, FORGOT_PASSWORD_PREFIX } from "../utils/constants";
 import { EmailPasswordInput } from "../utils/EmailPasswordInput";
 import { ValidateRegister } from "../utils/ValidateRegister";
+import WelcomeEmail from "../emails/WelcomeEmail";
 
 @Resolver(User)
 export class UserResolver {
@@ -37,6 +40,12 @@ export class UserResolver {
         .execute();
 
       user = res.raw[0];
+
+      sendEmail(
+        options.email,
+        WelcomeEmail(options.fullName, options.email),
+        "Welcome to VR Funds Platform"
+      );
     } catch (err) {
       if (err.code === "23505" || err.detail.includes("already exists")) {
         // duplicate username error
@@ -116,6 +125,38 @@ export class UserResolver {
         resolve(true);
       });
     });
+  }
+
+  // FORGOT PASSWORD
+  @Mutation(() => Boolean) // decorator
+  async forgotPassword(
+    @Arg("email") email: string,
+    @Ctx() { redis }: MyContext
+  ) {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      // the email is not in the DB
+      // but we'// still send true
+      return true;
+    }
+
+    const token = v4();
+
+    await redis.set(
+      FORGOT_PASSWORD_PREFIX + token,
+      user.id,
+      "ex",
+      1000 * 60 * 60 * 24 * 3
+    );
+
+    // send the email
+    sendEmail(
+      email,
+      `<a href="${process.env.CORS_ORIGIN}/change-password/${token}">reset password</a>`,
+      "Change Password Requested"
+    );
+
+    return true;
   }
 
   // GETBY USERID

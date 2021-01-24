@@ -61,15 +61,19 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         username: process.env.DB_USER,
         password: process.env.DB_PASS,
         database: process.env.DB_NAME,
+        migrations: [path_1.default.join(__dirname, "./migrations/*")],
         entities: [User_1.User, Project_1.Project, Upvote_1.Upvote],
         logging: true,
         synchronize: true,
-        migrations: [path_1.default.join(__dirname, "./migrations/*")],
     });
     const app = express_1.default();
     const RedisStore = connect_redis_1.default(express_session_1.default);
-    const redis = new ioredis_1.default();
-    app.use(cors_1.default());
+    const redis = new ioredis_1.default(process.env.REDIS_URL);
+    app.set("trust proxy", 1);
+    app.use(cors_1.default({
+        origin: process.env.CORS_ORIGIN,
+        credentials: true,
+    }));
     app.use(express_session_1.default({
         name: constants_1.COOKIE_NAME,
         store: new RedisStore({
@@ -106,10 +110,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     });
     apolloServer.applyMiddleware({
         app,
-        cors: {
-            origin: process.env.CORS_ORIGIN,
-            credentials: true,
-        },
+        cors: false,
     });
     app.listen(PORT, () => console.log(`### server started on http://localhost:${PORT}/graphql`));
 });

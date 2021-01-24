@@ -26,13 +26,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
 const argon2_1 = __importDefault(require("argon2"));
+const sendEmail_1 = require("../utils/sendEmail");
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
+const uuid_1 = require("uuid");
 const User_1 = require("../entity/User");
 const UserTypes_1 = require("../types/UserTypes");
 const constants_1 = require("../utils/constants");
 const EmailPasswordInput_1 = require("../utils/EmailPasswordInput");
 const ValidateRegister_1 = require("../utils/ValidateRegister");
+const WelcomeEmail_1 = __importDefault(require("../emails/WelcomeEmail"));
 let UserResolver = class UserResolver {
     register(options, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -54,6 +57,7 @@ let UserResolver = class UserResolver {
                     .returning("*")
                     .execute();
                 user = res.raw[0];
+                sendEmail_1.sendEmail(options.email, WelcomeEmail_1.default(options.fullName, options.email), "Welcome to VR Funds Platform");
             }
             catch (err) {
                 if (err.code === "23505" || err.detail.includes("already exists")) {
@@ -114,6 +118,18 @@ let UserResolver = class UserResolver {
             });
         });
     }
+    forgotPassword(email, { redis }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield User_1.User.findOne({ where: { email } });
+            if (!user) {
+                return true;
+            }
+            const token = uuid_1.v4();
+            yield redis.set(constants_1.FORGOT_PASSWORD_PREFIX + token, user.id, "ex", 1000 * 60 * 60 * 24 * 3);
+            sendEmail_1.sendEmail(email, `<a href="${process.env.CORS_ORIGIN}/change-password/${token}">reset password</a>`, "Change Password Requested");
+            return true;
+        });
+    }
     getUserById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield User_1.User.findOne(id);
@@ -165,6 +181,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UserResolver.prototype, "logout", null);
+__decorate([
+    type_graphql_1.Mutation(() => Boolean),
+    __param(0, type_graphql_1.Arg("email")),
+    __param(1, type_graphql_1.Ctx()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "forgotPassword", null);
 __decorate([
     type_graphql_1.Mutation(() => UserTypes_1.UserResponse),
     __param(0, type_graphql_1.Arg("id", () => type_graphql_1.Int)),

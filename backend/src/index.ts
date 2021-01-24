@@ -33,10 +33,10 @@ const main = async () => {
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     // url: process.env.DATABASE_URL,
+    migrations: [path.join(__dirname, "./migrations/*")],
     entities: [User, Project, Upvote],
     logging: true,
     synchronize: true,
-    migrations: [path.join(__dirname, "./migrations/*")],
   });
 
   // await dbConnection.runMigrations(); // run migrations
@@ -45,9 +45,15 @@ const main = async () => {
   const app = express();
   // redis
   const RedisStore = connectRedis(session);
-  const redis = new Redis();
+  const redis = new Redis(process.env.REDIS_URL);
+  app.set("trust proxy", 1);
   // cors
-  app.use(cors());
+  app.use(
+    cors({
+      origin: process.env.CORS_ORIGIN,
+      credentials: true,
+    })
+  );
 
   // session MW b4 Apollo
   app.use(
@@ -91,10 +97,7 @@ const main = async () => {
 
   apolloServer.applyMiddleware({
     app,
-    cors: {
-      origin: process.env.CORS_ORIGIN,
-      credentials: true,
-    },
+    cors: false,
   });
 
   app.listen(PORT, () =>
