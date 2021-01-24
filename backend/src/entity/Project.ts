@@ -7,6 +7,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Timestamp,
 } from "typeorm";
 import { Upvote } from "./Upvote";
 import { User } from "./User";
@@ -85,10 +86,14 @@ export class Project extends BaseEntity {
   voteStatus: number | null;
 
   @Field(() => String)
-  @CreateDateColumn()
+  @CreateDateColumn({
+    type: "timestamp",
+  })
   createdAt: Date;
 
   @Field(() => String)
-  @CreateDateColumn()
+  @CreateDateColumn({
+    type: "timestamp",
+  })
   updatedAt: Date;
 }

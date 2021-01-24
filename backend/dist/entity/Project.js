@@ -101,12 +101,16 @@ __decorate([
 ], Project.prototype, "voteStatus", void 0);
 __decorate([
     type_graphql_1.Field(() => String),
-    typeorm_1.CreateDateColumn(),
+    typeorm_1.CreateDateColumn({
+        type: "timestamp",
+    }),
     __metadata("design:type", Date)
 ], Project.prototype, "createdAt", void 0);
 __decorate([
     type_graphql_1.Field(() => String),
-    typeorm_1.CreateDateColumn(),
+    typeorm_1.CreateDateColumn({
+        type: "timestamp",
+    }),
     __metadata("design:type", Date)
 ], Project.prototype, "updatedAt", void 0);
 Project = __decorate([
