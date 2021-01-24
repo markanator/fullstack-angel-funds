@@ -17,13 +17,13 @@ export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   projects: Array<Project>;
-  getProjectById?: Maybe<Project>;
+  getProjectsByUserID?: Maybe<Array<Project>>;
   getProjectBySlug?: Maybe<Project>;
   me?: Maybe<User>;
 };
 
 
-export type QueryGetProjectByIdArgs = {
+export type QueryGetProjectsByUserIdArgs = {
   id: Scalars['Int'];
 };
 
@@ -274,6 +274,19 @@ export type GetbySlugQuery = (
     { __typename?: 'Project' }
     & ProjectResponseWAuthorFragment
   )> }
+);
+
+export type GetProjectsByUserIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetProjectsByUserIdQuery = (
+  { __typename?: 'Query' }
+  & { getProjectsByUserID?: Maybe<Array<(
+    { __typename?: 'Project' }
+    & ProjectResponseWAuthorFragment
+  )>> }
 );
 
 export const FullUserDetailsFragmentDoc = gql`
@@ -570,3 +583,36 @@ export function useGetbySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetbySlugQueryHookResult = ReturnType<typeof useGetbySlugQuery>;
 export type GetbySlugLazyQueryHookResult = ReturnType<typeof useGetbySlugLazyQuery>;
 export type GetbySlugQueryResult = Apollo.QueryResult<GetbySlugQuery, GetbySlugQueryVariables>;
+export const GetProjectsByUserIdDocument = gql`
+    query getProjectsByUserId($id: Int!) {
+  getProjectsByUserID(id: $id) {
+    ...ProjectResponseWAuthor
+  }
+}
+    ${ProjectResponseWAuthorFragmentDoc}`;
+
+/**
+ * __useGetProjectsByUserIdQuery__
+ *
+ * To run a query within a React component, call `useGetProjectsByUserIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProjectsByUserIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProjectsByUserIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetProjectsByUserIdQuery(baseOptions: Apollo.QueryHookOptions<GetProjectsByUserIdQuery, GetProjectsByUserIdQueryVariables>) {
+        return Apollo.useQuery<GetProjectsByUserIdQuery, GetProjectsByUserIdQueryVariables>(GetProjectsByUserIdDocument, baseOptions);
+      }
+export function useGetProjectsByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProjectsByUserIdQuery, GetProjectsByUserIdQueryVariables>) {
+          return Apollo.useLazyQuery<GetProjectsByUserIdQuery, GetProjectsByUserIdQueryVariables>(GetProjectsByUserIdDocument, baseOptions);
+        }
+export type GetProjectsByUserIdQueryHookResult = ReturnType<typeof useGetProjectsByUserIdQuery>;
+export type GetProjectsByUserIdLazyQueryHookResult = ReturnType<typeof useGetProjectsByUserIdLazyQuery>;
+export type GetProjectsByUserIdQueryResult = Apollo.QueryResult<GetProjectsByUserIdQuery, GetProjectsByUserIdQueryVariables>;

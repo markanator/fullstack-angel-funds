@@ -1,0 +1,5 @@
+query getProjectsByUserId($id: Int!) {
+  getProjectsByUserID(id: $id) {
+    ...ProjectResponseWAuthor
+  }
+}
