@@ -6,7 +6,7 @@ import Navbar from "./sharedNav/NavBar";
 // import Wrapper from './Wrapper';
 
 interface ILayoutProps {
-  children: React.ReactNodeArray;
+  children?: React.ReactNode;
   SEO?: any;
 }
 

@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { FiTwitter, FiSlack, FiGithub } from "react-icons/fi";
 import { FaTwitch } from "react-icons/fa";
+import ALink from "components/ALink";
 
 export const Footer = () => {
   return (
@@ -49,22 +50,22 @@ export const Footer = () => {
             </Heading>
             <List display="flex" flexDirection="column">
               <ListItem>
-                <Link>About</Link>
+                <ALink href="/#">About</ALink>
               </ListItem>
               <ListItem>
-                <Link>Causes</Link>
+                <ALink href="/#">Causes</ALink>
               </ListItem>
               <ListItem>
-                <Link>Blog</Link>
+                <ALink href="/#">Blog</ALink>
               </ListItem>
               <ListItem>
-                <Link>Terms of Use</Link>
+                <ALink href="/#">Terms of Use</ALink>
               </ListItem>
               <ListItem>
-                <Link>Privacy Policy</Link>
+                <ALink href="/#">Privacy Policy</ALink>
               </ListItem>
               <ListItem>
-                <Link>Sitemap</Link>
+                <ALink href="/#">Sitemap</ALink>
               </ListItem>
             </List>
           </Box>

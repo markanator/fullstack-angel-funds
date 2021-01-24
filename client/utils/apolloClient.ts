@@ -1,19 +1,19 @@
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import merge from "deepmerge";
 import isEqual from "lodash/isEqual";
+import { NextPageContext } from "next";
 import { useMemo } from "react";
 
 export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
 
 let apolloClient;
 
+// WORKS SORTA
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
-    link: new HttpLink({
-      uri: process.env.NEXT_PUBLIC_BACKEND as string,
-      credentials: "same-origin",
-    }),
+    uri: process.env.NEXT_PUBLIC_BACKEND as string,
+    credentials: "include",
     cache: new InMemoryCache(),
   });
 }

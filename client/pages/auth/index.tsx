@@ -7,7 +7,7 @@ import Layout from "../../components/Layout";
 
 interface IAuthProps {}
 
-function Index() {
+function Index({}: IAuthProps) {
   return (
     <Layout SEO={{ title: "Login/Register - VR Funds" }}>
       {/* BANNER */}
