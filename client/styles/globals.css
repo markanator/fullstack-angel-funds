@@ -84,3 +84,8 @@ h5 {
 .slick-arrow:hover {
   background-color: var(--color_primary);
 }
+
+/* PROJECT STYLES */
+.project_author .__avatar {
+  border-radius: 100%;
+}

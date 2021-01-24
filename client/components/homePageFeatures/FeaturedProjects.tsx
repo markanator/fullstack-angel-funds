@@ -33,13 +33,49 @@ export default function FeaturedProjects() {
             flexWrap="nowrap"
           >
             <ListItem m="auto" mb="1rem">
-              <ProjectCardSM />
+              <ProjectCardSM
+                proj={{
+                  category: "Test",
+                  currentFunds: 123,
+                  fundTarget: 2000,
+                  image:
+                    "https://images.unsplash.com/photo-1606787366608-8c9b7d14ad90?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                  slug: "test",
+                  title: "test",
+                  publishDate: "1611468000000",
+                  targetDate: "1611986400000",
+                }}
+              />
             </ListItem>
             <ListItem m="auto" mb="1rem">
-              <ProjectCardSM />
+              <ProjectCardSM
+                proj={{
+                  category: "Tech",
+                  currentFunds: 123,
+                  fundTarget: 2000,
+                  image:
+                    "https://images.unsplash.com/photo-1606787366608-8c9b7d14ad90?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                  slug: "test",
+                  title: "test",
+                  publishDate: "1611468000000",
+                  targetDate: "1611986400000",
+                }}
+              />
             </ListItem>
             <ListItem m="auto" mb="1rem">
-              <ProjectCardSM />
+              <ProjectCardSM
+                proj={{
+                  category: "Medical",
+                  currentFunds: 123,
+                  fundTarget: 2000,
+                  image:
+                    "https://images.unsplash.com/photo-1606787366608-8c9b7d14ad90?ixid=MXwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                  slug: "test",
+                  title: "test",
+                  publishDate: "1611468000000",
+                  targetDate: "1611986400000",
+                }}
+              />
             </ListItem>
           </List>
         </Flex>

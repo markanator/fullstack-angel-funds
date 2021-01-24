@@ -12,7 +12,7 @@ interface ILayoutProps {
 
 export default function Layout({ children, SEO }: ILayoutProps) {
   return (
-    <Box bgColor="white" textColor="text_primary">
+    <Box as="main" bgColor="white" textColor="text_primary">
       <Page {...SEO} />
       {/* Header */}
       <Navbar />

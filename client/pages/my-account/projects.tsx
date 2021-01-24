@@ -1,5 +1,6 @@
 import { ApolloCache, ApolloClient, useApolloClient } from "@apollo/client";
-import { Container, Flex, Text } from "@chakra-ui/react";
+import { Container, Flex, List, ListItem, Text } from "@chakra-ui/react";
+import ProjectCardSM from "components/ProjectCardSM";
 import {
   FetchMeDocument,
   useGetProjectsByUserIdQuery,
@@ -37,12 +38,14 @@ export default function projects({}: IProjectsProps) {
         />
         <Container maxW="7xl" bgColor="gray.200" py="2rem">
           <AccountNavbar />
-          <Flex direction="column" my="3rem">
-            {data?.getProjectsByUserID.map((proj) => (
-              <Flex>
-                <Text>{JSON.stringify(proj, null, 2)}</Text>
-              </Flex>
-            ))}
+          <Flex direction="row" my="3rem">
+            <List>
+              {data?.getProjectsByUserID.map((proj) => (
+                <ListItem m="auto" mb="1rem">
+                  <ProjectCardSM proj={proj} />
+                </ListItem>
+              ))}
+            </List>
           </Flex>
         </Container>
         USER projects

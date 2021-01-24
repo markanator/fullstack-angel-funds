@@ -1,8 +1,39 @@
 import { Box, Flex, Heading, Image, Link, Text } from "@chakra-ui/react";
 import React from "react";
 import { FaRegClock } from "react-icons/fa";
+import { formatDistanceStrict } from "date-fns";
 
-export default function ProjectCardSM() {
+interface ICardSmProps {
+  proj: {
+    title: string;
+    slug: string;
+    image: string;
+    category: string;
+    currentFunds: number;
+    fundTarget: number;
+    publishDate: string;
+    targetDate: string;
+  };
+}
+
+export default function ProjectCardSM({ proj }: ICardSmProps) {
+  const {
+    title,
+    slug,
+    image,
+    category,
+    currentFunds,
+    fundTarget,
+    publishDate,
+    targetDate,
+  } = proj;
+  const projectLink = `/project/${slug}`;
+  const daysLeft = formatDistanceStrict(
+    parseInt(publishDate),
+    parseInt(targetDate),
+    { unit: "day" }
+  );
+
   return (
     <Flex
       className="cardsm pcard__sm"
@@ -18,20 +49,23 @@ export default function ProjectCardSM() {
     >
       <Box className="cardsm__parent">
         <Box pos="relative">
-          <Link href="#" cursor="pointer" textDecoration="none" outline="none">
+          <Link
+            href={projectLink}
+            cursor="pointer"
+            textDecoration="none"
+            outline="none"
+          >
             <Image
               display="inline-block"
-              w="full"
-              h="full"
               objectFit="cover"
-              src="https://picsum.photos/seed/picsum/350"
+              src={image || "https://picsum.photos/seed/picsum/350"}
               alt="name"
-              maxW="370px"
-              maxH="320px"
+              w="370px"
+              h="320px"
             />
           </Link>
           <Link
-            href="#"
+            href={projectLink}
             pos="absolute"
             top="0"
             left="0"
@@ -46,6 +80,7 @@ export default function ProjectCardSM() {
           className="cardsm__content"
           padding="2.125rem"
           pos="absolute"
+          w="full"
           bottom="0"
           left="0"
           zIndex="2"
@@ -65,16 +100,16 @@ export default function ProjectCardSM() {
               padding="2px 1rem"
               letterSpacing=".1rem"
             >
-              Category
+              {category}
             </Text>
             <Text className="__norm" display="flex" alignItems="center">
               <FaRegClock style={{ marginRight: ".5rem" }} />
-              232 Days Left
+              {daysLeft} left
             </Text>
           </Box>
           <Heading className="__dark" as="p" fontSize="1.25rem" mb="1rem">
-            <Link href="#" _hover={{ color: "#EE6352" }}>
-              An Illustrated Diagram of Popular Tea Recipes
+            <Link href={projectLink} _hover={{ color: "#EE6352" }}>
+              {title}
             </Link>
           </Heading>
           <Flex
@@ -83,12 +118,14 @@ export default function ProjectCardSM() {
             color="white"
             mb=".5rem"
           >
-            <Text className="__norm">$10,000 raised of $20,000</Text>
-            <Text className="__norm">50%</Text>
+            <Text className="__norm">
+              ${currentFunds} raised of ${fundTarget}
+            </Text>
+            <Text className="__norm">{(currentFunds / fundTarget) * 100}%</Text>
           </Flex>
           <Box h=".65rem" bgColor="progress_bg">
             <Box
-              w="50%"
+              w={`${currentFunds / fundTarget}%`}
               h="full"
               pos="relative"
               overflow="hidden"

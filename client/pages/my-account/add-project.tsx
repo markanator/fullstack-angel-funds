@@ -89,7 +89,7 @@ export default function AddProjectPage({}: IAddProjectPage) {
           duration: 9000,
           isClosable: true,
         });
-        router.push(`/project/${data?.createProject?.id}`);
+        router.push(`/project/${data?.createProject?.slug}`);
       }
     }
   };
