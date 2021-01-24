@@ -43,6 +43,7 @@ require("reflect-metadata");
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const createUserLoader_1 = require("./dataloaders/createUserLoader");
+const Donation_1 = require("./entity/Donation");
 const Project_1 = require("./entity/Project");
 const Upvote_1 = require("./entity/Upvote");
 const User_1 = require("./entity/User");
@@ -62,7 +63,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         password: process.env.DB_PASS,
         database: process.env.DB_NAME,
         migrations: [path_1.default.join(__dirname, "./migrations/*")],
-        entities: [User_1.User, Project_1.Project, Upvote_1.Upvote],
+        entities: [User_1.User, Project_1.Project, Upvote_1.Upvote, Donation_1.Donation],
         logging: true,
         synchronize: true,
     });

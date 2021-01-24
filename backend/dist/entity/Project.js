@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Project = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
+const Donation_1 = require("./Donation");
 const Upvote_1 = require("./Upvote");
 const User_1 = require("./User");
 let Project = class Project extends typeorm_1.BaseEntity {
@@ -34,6 +35,7 @@ __decorate([
 __decorate([
     type_graphql_1.Field(),
     typeorm_1.Column({ default: "" }),
+    typeorm_1.Index(),
     __metadata("design:type", String)
 ], Project.prototype, "category", void 0);
 __decorate([
@@ -44,6 +46,7 @@ __decorate([
 __decorate([
     type_graphql_1.Field(),
     typeorm_1.Column({ default: "" }),
+    typeorm_1.Index(),
     __metadata("design:type", String)
 ], Project.prototype, "slug", void 0);
 __decorate([
@@ -96,6 +99,12 @@ __decorate([
     __metadata("design:type", Array)
 ], Project.prototype, "upvotes", void 0);
 __decorate([
+    type_graphql_1.Field(() => Donation_1.Donation, { nullable: true }),
+    typeorm_1.ManyToMany(() => Donation_1.Donation),
+    typeorm_1.JoinTable(),
+    __metadata("design:type", Array)
+], Project.prototype, "donations", void 0);
+__decorate([
     type_graphql_1.Field(() => type_graphql_1.Int, { nullable: true }),
     __metadata("design:type", Object)
 ], Project.prototype, "voteStatus", void 0);
@@ -108,7 +117,7 @@ __decorate([
 ], Project.prototype, "createdAt", void 0);
 __decorate([
     type_graphql_1.Field(() => String),
-    typeorm_1.CreateDateColumn({
+    typeorm_1.UpdateDateColumn({
         type: "timestamp",
     }),
     __metadata("design:type", Date)

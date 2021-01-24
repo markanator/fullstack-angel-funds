@@ -6,7 +6,9 @@ import {
   CreateDateColumn,
   OneToMany,
   BaseEntity,
+  Index,
 } from "typeorm";
+import { Donation } from "./Donation";
 // locals
 import { Project } from "./Project";
 import { Upvote } from "./Upvote";
@@ -28,6 +30,7 @@ export class User extends BaseEntity {
 
   @Field()
   @Column({ unique: true })
+  @Index()
   email!: string;
 
   @Column()
@@ -39,6 +42,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Upvote, (upvote) => upvote.user)
   upvotes: Upvote[];
+
+  @OneToMany(() => Donation, (dono) => dono.donor)
+  donos: Donation[];
   // END Relationships
 
   @Field(() => String)

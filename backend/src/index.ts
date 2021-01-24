@@ -11,6 +11,7 @@ import { buildSchema } from "type-graphql";
 // locals
 import { createConnection } from "typeorm";
 import { createUserLoader } from "./dataloaders/createUserLoader";
+import { Donation } from "./entity/Donation";
 import { Project } from "./entity/Project";
 import { Upvote } from "./entity/Upvote";
 import { User } from "./entity/User";
@@ -34,7 +35,7 @@ const main = async () => {
     database: process.env.DB_NAME,
     // url: process.env.DATABASE_URL,
     migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [User, Project, Upvote],
+    entities: [User, Project, Upvote, Donation],
     logging: true,
     synchronize: true,
   });

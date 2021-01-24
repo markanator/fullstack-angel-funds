@@ -4,11 +4,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  Timestamp,
+  UpdateDateColumn,
 } from "typeorm";
+import { Donation } from "./Donation";
 import { Upvote } from "./Upvote";
 import { User } from "./User";
 
@@ -29,6 +33,7 @@ export class Project extends BaseEntity {
 
   @Field()
   @Column({ default: "" })
+  @Index()
   category!: string;
 
   @Field()
@@ -37,6 +42,7 @@ export class Project extends BaseEntity {
 
   @Field()
   @Column({ default: "" })
+  @Index()
   slug: string;
 
   @Field()
@@ -79,6 +85,11 @@ export class Project extends BaseEntity {
 
   @OneToMany(() => Upvote, (upvote) => upvote.project)
   upvotes: Upvote[]; // oneToMany
+
+  @Field(() => Donation, { nullable: true })
+  @ManyToMany(() => Donation)
+  @JoinTable()
+  donations: Donation[]; // oneToMany
   // END RELATIONSHIPS
 
   // GRAPHQL computed field
@@ -92,7 +103,7 @@ export class Project extends BaseEntity {
   createdAt: Date;
 
   @Field(() => String)
-  @CreateDateColumn({
+  @UpdateDateColumn({
     type: "timestamp",
   })
   updatedAt: Date;
