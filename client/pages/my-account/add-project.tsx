@@ -5,29 +5,94 @@ import {
   Divider,
   Flex,
   FormControl,
-  FormErrorMessage,
   FormHelperText,
   FormLabel,
   Input,
+  InputGroup,
+  InputLeftElement,
   Select,
+  Text,
   Textarea,
+  useNumberInput,
+  useToast,
 } from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { FreshProjectSchema } from "Forms/Schema/createProjectSchema";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useIsAuth } from "utils/useIsAuth";
-//
+import * as yup from "yup";
 import AuthBanner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
+import { useCreateProjectMutation } from "../../generated/grahpql";
 
 interface IAddProjectPage {}
 
-export default function AddProjectPage({}: IAddProjectPage) {
-  const { checksOut } = useIsAuth();
-  const { register, handleSubmit, errors, formState } = useForm();
-  const router = useRouter();
+interface IFormInputs {
+  title: string;
+  description: string;
+  category: string;
+  image: string;
+  currentFunds: number;
+  fundTarget: number;
+  publishDate: string;
+  targetDate: string;
+  terms: boolean;
+}
 
-  const onSubmit = (data: any) => alert(JSON.stringify(data, null, 2));
+export default function AddProjectPage({}: IAddProjectPage) {
+  const { checksOut } = useIsAuth(); //logged in user
+  const router = useRouter(); // for nav
+  const [createProject, { loading }] = useCreateProjectMutation();
+
+  // form stuff
+  const { register, handleSubmit, errors, formState } = useForm({
+    mode: "all",
+    resolver: yupResolver(FreshProjectSchema),
+  });
+
+  // chakra rec. hack for number inputs
+  const { getInputProps } = useNumberInput({
+    defaultValue: 0,
+    allowMouseWheel: false,
+  });
+  const input = getInputProps();
+
+  const toast = useToast();
+
+  const onSubmit = async (formData: IFormInputs) => {
+    const project = {
+      title: formData.title,
+      description: formData.description,
+      category: formData.category,
+      image: formData.image,
+      fundTarget: formData.fundTarget,
+      publishDate: formData.publishDate,
+      targetDate: formData.targetDate,
+    };
+    const { data, errors } = await createProject({
+      variables: {
+        input: project,
+      },
+      update: (cache) => {
+        cache.evict({ fieldName: "projects:{}" });
+      },
+    });
+
+    if (!errors) {
+      if (data.createProject?.id) {
+        toast({
+          title: "Project created.",
+          description: `Your Project: ${data.createProject?.title}, was successfully created.`,
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        router.push(`/project/${data?.createProject?.id}`);
+      }
+    }
+  };
 
   // console.log("add project props", user);
   if (checksOut) {
@@ -48,31 +113,34 @@ export default function AddProjectPage({}: IAddProjectPage) {
             boxShadow="lg"
             bgColor="white"
           >
-            {/* TITLE */}
-            <FormControl mb="1.125rem">
+            {/* title */}
+            <FormControl id="title" mb="1.125rem">
               <FormLabel htmlFor="title">Title</FormLabel>
               <Input
                 name="title"
+                type="text"
                 ref={register}
+                isInvalid={errors?.title}
                 border="1px solid"
                 borderColor="progress_bg"
                 rounded="none"
                 boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
               />
               <FormHelperText>Put the campaign title here</FormHelperText>
-              <FormErrorMessage>
-                {errors.title && errors.title.message}
-              </FormErrorMessage>
+              <Text fontSize="sm" color="color_alt">
+                {errors.title?.message}
+              </Text>
             </FormControl>
 
-            {/* Description */}
-            <FormControl mb="1.125rem">
+            {/* description */}
+            <FormControl id="description" mb="1.125rem">
               <FormLabel htmlFor="description">Description</FormLabel>
               <Textarea
                 name="description"
                 ref={register}
-                row="6"
-                col="6"
+                isInvalid={errors?.description}
+                row="8"
+                col="8"
                 // type='textarea'
                 border="1px solid"
                 borderColor="progress_bg"
@@ -80,15 +148,20 @@ export default function AddProjectPage({}: IAddProjectPage) {
                 boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
               />
               <FormHelperText>Put the campaign description here</FormHelperText>
-              <FormErrorMessage>
-                {errors.description && errors.description.message}
-              </FormErrorMessage>
+              <Text fontSize="sm" color="color_alt">
+                {errors.description?.message}
+              </Text>
             </FormControl>
 
-            {/* Category */}
-            <FormControl mb="1.125rem">
+            {/* category */}
+            <FormControl id="category" mb="1.125rem">
               <FormLabel htmlFor="category">Category</FormLabel>
-              <Select placeholder="Select option">
+              <Select
+                name="category"
+                placeholder="Select option"
+                ref={register}
+                isInvalid={errors?.category}
+              >
                 <option value="Design">Design</option>
                 <option value="Education">Education</option>
                 <option value="Fashion">Fashion</option>
@@ -97,17 +170,18 @@ export default function AddProjectPage({}: IAddProjectPage) {
                 <option value="Technology">Technology</option>
               </Select>
               <FormHelperText>Select your campaign category</FormHelperText>
-              <FormErrorMessage>
-                {errors.category && errors.category.message}
-              </FormErrorMessage>
+              <Text fontSize="sm" color="color_alt">
+                {errors.category?.message}
+              </Text>
             </FormControl>
 
-            {/* Image */}
-            <FormControl mb="1.125rem">
+            {/* image */}
+            <FormControl id="image" mb="1.125rem">
               <FormLabel htmlFor="image">Feature Image</FormLabel>
               <Input
                 name="image"
                 ref={register}
+                isInvalid={errors?.image}
                 placeholder="https://..."
                 border="1px solid"
                 borderColor="progress_bg"
@@ -115,59 +189,49 @@ export default function AddProjectPage({}: IAddProjectPage) {
                 boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
               />
               <FormHelperText>Upload a campaign feature image</FormHelperText>
-              <FormErrorMessage>
-                {errors.image && errors.image.message}
-              </FormErrorMessage>
+              <Text fontSize="sm" color="color_alt">
+                {errors.image?.message}
+              </Text>
             </FormControl>
 
-            <Flex direction="row">
-              {/* fundTarget */}
-              <FormControl mb="1.125rem" mr="1rem">
-                <FormLabel htmlFor="currentFunds">Starting Amount</FormLabel>
-                <Input
-                  name="currentFunds"
-                  type="number"
-                  ref={register}
-                  placeholder="0"
-                  border="1px solid"
-                  borderColor="progress_bg"
-                  rounded="none"
-                  boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
+            {/* fundTarget */}
+            <FormControl id="fundTarget" mb="1.125rem">
+              <FormLabel htmlFor="fundTarget">Fund Target</FormLabel>
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents="none"
+                  color="gray.300"
+                  fontSize="1.2em"
+                  children="$"
                 />
-                <FormHelperText>Campaign funding goal</FormHelperText>
-                <FormErrorMessage>
-                  {errors.currentFunds && errors.currentFunds.message}
-                </FormErrorMessage>
-              </FormControl>
-
-              {/* fundTarget */}
-              <FormControl mb="1.125rem" ml="1rem">
-                <FormLabel htmlFor="fundTarget">Fund Target</FormLabel>
                 <Input
+                  {...input}
                   name="fundTarget"
                   type="number"
                   placeholder="0"
                   ref={register}
+                  isInvalid={errors?.fundTarget}
                   border="1px solid"
                   borderColor="progress_bg"
                   rounded="none"
                   boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
                 />
-                <FormHelperText>Campaign funding goal</FormHelperText>
-                <FormErrorMessage>
-                  {errors.fundTarget && errors.fundTarget.message}
-                </FormErrorMessage>
-              </FormControl>
-            </Flex>
+              </InputGroup>
+              <FormHelperText>Campaign funding goal</FormHelperText>
+              <Text fontSize="sm" color="color_alt">
+                {errors.fundTarget?.message}
+              </Text>
+            </FormControl>
 
             <Flex direction="row">
               {/* publishDate */}
-              <FormControl mb="1.125rem" mr="1rem">
+              <FormControl id="publishDate" mb="1.125rem" mr="1rem">
                 <FormLabel htmlFor="publishDate">Start Date</FormLabel>
                 <Input
                   name="publishDate"
                   type="date"
                   ref={register}
+                  isInvalid={errors?.publishDate}
                   border="1px solid"
                   borderColor="progress_bg"
                   rounded="none"
@@ -176,32 +240,33 @@ export default function AddProjectPage({}: IAddProjectPage) {
                 <FormHelperText>
                   Campaign start date (mm-dd-yyyy)
                 </FormHelperText>
-                <FormErrorMessage>
-                  {errors.publishDate && errors.publishDate.message}
-                </FormErrorMessage>
+                <Text fontSize="sm" color="color_alt">
+                  {errors.publishDate?.message}
+                </Text>
               </FormControl>
 
               {/* targetDate */}
-              <FormControl mb="1.125rem" ml="1rem">
+              <FormControl id="targetDate" mb="1.125rem" ml="1rem">
                 <FormLabel htmlFor="targetDate">End Date</FormLabel>
                 <Input
                   name="targetDate"
                   type="date"
                   ref={register}
+                  isInvalid={errors?.targetDate}
                   border="1px solid"
                   borderColor="progress_bg"
                   rounded="none"
                   boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
                 />
                 <FormHelperText>Campaign end date (mm-dd-yyyy)</FormHelperText>
-                <FormErrorMessage>
-                  {errors.targetDate && errors.targetDate.message}
-                </FormErrorMessage>
+                <Text fontSize="sm" color="color_alt">
+                  {errors.targetDate?.message}
+                </Text>
               </FormControl>
             </Flex>
 
             {/* terms and conditions */}
-            <FormControl mb="1.125rem">
+            <FormControl id="terms" mb="1.125rem">
               <Divider my="1.125rem" />
               <FormLabel htmlFor="terms" aria-hidden="true" visibility="hidden">
                 Agree to site Terms and Conditions.
@@ -209,13 +274,14 @@ export default function AddProjectPage({}: IAddProjectPage) {
               <Checkbox
                 name="terms"
                 type="date"
-                ref={register({ required: true })}
+                ref={register}
+                isInvalid={errors?.terms}
               >
                 I agree to the Terms and Condition.
               </Checkbox>
-              <FormErrorMessage>
-                {errors.terms && errors.terms.message}
-              </FormErrorMessage>
+              <Text fontSize="sm" color="color_alt">
+                {errors.terms?.message}
+              </Text>
             </FormControl>
 
             <Flex direction="row" justifyContent="space-between">
