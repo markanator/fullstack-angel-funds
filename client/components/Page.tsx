@@ -1,29 +1,28 @@
 // Credit: @leerob
 // URL: https://github.com/leerob/mastering-nextjs-old-site
 
-import Head from 'next/head';
-import { withRouter } from 'next/router';
-import React from 'react';
-import format from 'date-fns/format'
-import * as Title from 'title'
+import Head from "next/head";
+import { withRouter } from "next/router";
+import React from "react";
+import format from "date-fns/format";
+import Title from "title";
 
 const dateTime = (date) => new Date(date).toISOString();
-const fullDate = (date) => format(date, 'MMMM D, YYYY');
-
+const fullDate = (date) => format(date, "MMMM D, YYYY");
 
 const Page = ({
   children,
   date,
   description = "",
   image,
-  title = 'VR Funds',
+  title = "VR Funds",
   keywords,
-  router
+  router,
 }) => {
-  const domain = 'https://markambrocio.com';
-  const formattedTitle = Title(title);
+  const domain = "https://markambrocio.com";
+  const formattedTitle = (Title(title) as unknown) as string;
   const url = router && router.asPath ? router.asPath : undefined;
-  const canonical = url && url === '/' ? domain : domain + url;
+  const canonical = url && url === "/" ? domain : domain + url;
   const featuredImage = domain + image;
 
   return (

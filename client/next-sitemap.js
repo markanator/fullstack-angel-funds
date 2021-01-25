@@ -1,4 +1,4 @@
 module.exports = {
-  siteUrl: 'https://markambrocio.com',
+  siteUrl: 'https://fullstack-vrfunds.vercel.app/',
   generateRobotsTxt: true,
 }

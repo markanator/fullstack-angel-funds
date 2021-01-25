@@ -14,8 +14,6 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import AuthBanner from "components/authShared/AuthBanner";
 import SmallDeetsBox from "components/projectDetailsComps/SmallDeetsBox";
-import { DonoSchema } from "Forms/Schema/DonoSchema";
-import DonateFormSubmitFn from "Forms/SubmitFns/DonateSubmit";
 import { GetbySlugDocument } from "generated/grahpql";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Image from "next/image";
@@ -28,6 +26,7 @@ import { fetchPostJSON } from "utils/api-helpers";
 import { initializeApollo } from "utils/apolloClient";
 import getStripe from "utils/getStripe";
 import Layout from "../../components/Layout";
+import { DonoSchema } from "../../Forms/Schema/DonoSchema";
 
 interface IFormData {
   donation: number;
