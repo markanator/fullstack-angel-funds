@@ -20,7 +20,7 @@ interface INavbarProps {
 
 export default function Navbar() {
   const router = useRouter();
-  const { data, loading } = useFetchMeQuery({
+  const { data } = useFetchMeQuery({
     skip: isServer(),
   });
   const [logout, { loading: logoutFetching }] = useLogoutMutation();

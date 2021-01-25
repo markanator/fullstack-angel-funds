@@ -13,53 +13,25 @@ import {
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AuthBanner from "components/authShared/AuthBanner";
-import {
-  GetbySlugDocument,
-  useCreateStripeSessionMutation,
-} from "generated/grahpql";
+import SmallDeetsBox from "components/projectDetailsComps/SmallDeetsBox";
+import { DonoSchema } from "Forms/Schema/DonoSchema";
+import DonateFormSubmitFn from "Forms/SubmitFns/DonateSubmit";
+import { GetbySlugDocument } from "generated/grahpql";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import title from "title";
+import TitleFormatter from "title";
+import { IProjectDetails } from "types/IProjectDetails";
+import { fetchPostJSON } from "utils/api-helpers";
 // locals
 import { initializeApollo } from "utils/apolloClient";
-import Layout from "../../components/Layout";
-import * as yup from "yup";
 import getStripe from "utils/getStripe";
-interface IProjectDetails {
-  getProjectBySlug: {
-    __typename: string;
-    id: number;
-    title: string;
-    description: string;
-    category: string;
-    image: string;
-    fundTarget: number;
-    currentFunds: number;
-    publishDate: string;
-    targetDate: string;
-    totalDonation_sum: number;
-    viewCount: number;
-    votePoints: number;
-    slug: string;
-    author: {
-      __typename: string;
-      fullName: string;
-      avatarUrl: string;
-      email: string;
-    };
-  };
-}
+import Layout from "../../components/Layout";
 
 interface IFormData {
   donation: number;
 }
-
-const DonoSchema = yup.object().shape({
-  donation: yup.number().required("Required.").positive().integer(),
-});
 
 // ! MAIN EXPORT
 export default function projectDetails({
@@ -69,48 +41,56 @@ export default function projectDetails({
     mode: "all",
     resolver: yupResolver(DonoSchema),
   });
+
+  // for donation input
   const { getInputProps } = useNumberInput({
     defaultValue: 5,
     allowMouseWheel: false,
   });
   const input = getInputProps();
 
-  const [createSesh] = useCreateStripeSessionMutation();
+  const FormattedProjectTitle = (TitleFormatter(
+    project!.title
+  ) as unknown) as string;
 
-  const onSubmit = async (data: IFormData) => {
-    const options = {
-      amount: data.donation,
-      projectID: project?.id as number,
-      projectTitle: project?.title as string,
-    };
-    console.log("Submitted a dono:", data);
-    //
-    const stripe = await getStripe();
-
-    // apollo hook
-    const res = await createSesh({
-      variables: options,
+  const onSubmit = async ({ donation }: IFormData) => {
+    console.log("Submitted a dono:", donation);
+    //* API:: Create a Checkout Session.
+    const res = await fetchPostJSON("/api/donations", {
+      amount: donation,
+      projectTitle: FormattedProjectTitle,
+      projectSlug: project!.slug as string,
+      projectDesc: project!.description.slice(0, 144),
+      projectImg: project!.image,
     });
 
-    console.log("apollo hook res:::", res.data?.createStripeSession);
+    //! error handling
+    if (res.statusCode === 500) {
+      console.error(res.message);
+      return;
+    }
 
-    // redirect to checkout
-    const result = await stripe?.redirectToCheckout({
-      sessionId: res.data?.createStripeSession as string,
+    console.log("FETCH CALL RESPONSE:::", res);
+
+    //* redirect to checkout
+    const stripe = await getStripe();
+    const result = await stripe!.redirectToCheckout({
+      sessionId: res.id,
     });
 
     console.log("STRIPE REDIRECT RES:::", result);
 
     if (result?.error) {
-      console.log(result?.error?.message);
+      console.warn(result?.error?.message);
     }
+    //! END SUBMIT CALL
   };
 
   return (
     <Layout SEO={{ title: `${project?.title} - VR Funds` }}>
       <AuthBanner
         bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
-        title={title(project?.title)}
+        title={FormattedProjectTitle}
       />
       {/* TOP HALF */}
       <Flex as="section" w="full" h="full" bg="testimonial_bg">
@@ -149,7 +129,7 @@ export default function projectDetails({
                 </Text>
               </Flex>
               {/* TITLE */}
-              <Heading py=".5rem">{title(project?.title)}</Heading>
+              <Heading py=".5rem">{FormattedProjectTitle}</Heading>
               {/* INFO CARDS */}
               <Flex direction="row" justifyContent="space-between">
                 <SmallDeetsBox content="$2,500" heading="test" />
@@ -248,7 +228,14 @@ export default function projectDetails({
                 </Flex>
                 <Flex direction="column">
                   <Text>
-                    By: <strong>{title(project?.author.fullName)}</strong>
+                    By:{" "}
+                    <strong>
+                      {
+                        (TitleFormatter(
+                          project!.author.fullName
+                        ) as unknown) as string
+                      }
+                    </strong>
                   </Text>
                   <Text></Text>
                 </Flex>
@@ -278,33 +265,8 @@ export default function projectDetails({
   );
 }
 
-const SmallDeetsBox = ({
-  content,
-  heading,
-}: {
-  content: string;
-  heading: string;
-}) => (
-  <Flex
-    direction="column"
-    w="150px"
-    h="135px"
-    shadow="md"
-    justifyContent="center"
-    alignItems="center"
-    // m="auto"
-    bgColor="white"
-  >
-    <Text fontSize="1.5rem" fontWeight="600" color="text_primary">
-      {content}
-    </Text>
-    <Text fontSize="1rem" fontWeight="300" color="text_tertiary">
-      {heading}
-    </Text>
-  </Flex>
-);
-
 export async function getServerSideProps({
+  req,
   res,
   query,
 }: GetServerSidePropsContext) {
@@ -319,7 +281,6 @@ export async function getServerSideProps({
   });
 
   console.log("project slug::", slug);
-  console.log("project data loaded?::", !!data);
 
   if (!data?.getProjectBySlug) {
     res.writeHead(307, {
