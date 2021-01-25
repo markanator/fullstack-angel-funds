@@ -42,14 +42,9 @@ const path_1 = __importDefault(require("path"));
 require("reflect-metadata");
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-const createUserLoader_1 = require("./dataloaders/createUserLoader");
-const Donation_1 = require("./entity/Donation");
-const Project_1 = require("./entity/Project");
-const Upvote_1 = require("./entity/Upvote");
-const User_1 = require("./entity/User");
-const hello_1 = require("./resolvers/hello");
-const project_1 = require("./resolvers/project");
-const user_1 = require("./resolvers/user");
+const dataloaders_1 = require("./dataloaders");
+const entity_1 = require("./entity");
+const resolvers_1 = require("./resolvers");
 const constants_1 = require("./utils/constants");
 dotenv.config();
 const PORT = process.env.PORT || 7777;
@@ -63,7 +58,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         password: process.env.DB_PASS,
         database: process.env.DB_NAME,
         migrations: [path_1.default.join(__dirname, "./migrations/*")],
-        entities: [User_1.User, Project_1.Project, Upvote_1.Upvote, Donation_1.Donation],
+        entities: [entity_1.User, entity_1.Project, entity_1.Upvote, entity_1.Donation],
         logging: true,
         synchronize: true,
     });
@@ -94,7 +89,12 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     }));
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema: yield type_graphql_1.buildSchema({
-            resolvers: [hello_1.HelloResolver, project_1.ProjectResolver, user_1.UserResolver],
+            resolvers: [
+                resolvers_1.HelloResolver,
+                resolvers_1.ProjectResolver,
+                resolvers_1.UserResolver,
+                resolvers_1.DonationResolver,
+            ],
             validate: false,
         }),
         playground: {
@@ -106,7 +106,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             req,
             res,
             redis,
-            userLoader: createUserLoader_1.createUserLoader(),
+            userLoader: dataloaders_1.createUserLoader(),
         }),
     });
     apolloServer.applyMiddleware({

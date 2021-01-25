@@ -10,15 +10,16 @@ import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 // locals
 import { createConnection } from "typeorm";
-import { createUserLoader } from "./dataloaders/createUserLoader";
-import { Donation } from "./entity/Donation";
-import { Project } from "./entity/Project";
-import { Upvote } from "./entity/Upvote";
-import { User } from "./entity/User";
-import { HelloResolver } from "./resolvers/hello";
-import { ProjectResolver } from "./resolvers/project";
-import { UserResolver } from "./resolvers/user";
+import { createUserLoader } from "./dataloaders";
+import { Donation, Project, Upvote, User } from "./entity";
+import {
+  DonationResolver,
+  HelloResolver,
+  ProjectResolver,
+  UserResolver,
+} from "./resolvers";
 import { COOKIE_NAME, __prod__ } from "./utils/constants";
+
 dotenv.config();
 
 const PORT = process.env.PORT || 7777;
@@ -79,7 +80,12 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, ProjectResolver, UserResolver],
+      resolvers: [
+        HelloResolver,
+        ProjectResolver,
+        UserResolver,
+        DonationResolver,
+      ],
       validate: false,
     }),
     playground: {
