@@ -1,9 +1,13 @@
+import * as dotenv from "dotenv";
+import Stripe from "stripe";
+import { Arg, Ctx, Int, Mutation, Resolver, UseMiddleware } from "type-graphql";
+import { Donation } from "../entity";
+import { isAuthed } from "../middleware/isAuthed";
+import { MyContext } from "../types/MyContext";
 import { MIN_AMOUNT } from "../utils/constants";
 import { formatAmountForStripe } from "../utils/stripe-helpers";
-import Stripe from "stripe";
-import { Arg, Ctx, Int, Mutation, Query, Resolver } from "type-graphql";
-import { Donation } from "../entity";
-import { MyContext } from "../types/MyContext";
+
+dotenv.config();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2020-08-27",
@@ -13,6 +17,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export class DonationResolver {
   //* Create a session for checkout
   @Mutation(() => String, { nullable: true })
+  @UseMiddleware(isAuthed)
   async createStripeSession(
     @Arg("amount", () => Int) amount: number,
     @Arg("projectID", () => Int) projectID: number,
@@ -44,7 +49,7 @@ export class DonationResolver {
       }
     );
 
-    return { id: session.id };
+    return session.id;
   }
 
   // @Query(()=> new Promise<any>())
