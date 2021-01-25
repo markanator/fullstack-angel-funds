@@ -62,8 +62,8 @@ let DonationResolver = class DonationResolver {
                 throw new Error("Invalid amount.");
             }
             const session = yield stripe.checkout.sessions.create({
-                success_url: `${process.env.CORS_ORIGIN}/success?id={CHECKOUT_SESSION_ID}`,
-                cancel_url: `${process.env.CORS_ORIGIN}/cancel`,
+                success_url: `${process.env.CORS_ORIGIN}/donation/success?id={CHECKOUT_SESSION_ID}`,
+                cancel_url: `${process.env.CORS_ORIGIN}/donation/cancel`,
                 submit_type: "donate",
                 payment_method_types: ["card"],
                 line_items: [

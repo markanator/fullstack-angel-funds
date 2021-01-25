@@ -9,18 +9,25 @@ import {
   InputLeftElement,
   InputRightElement,
   Text,
+  useNumberInput,
 } from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import AuthBanner from "components/authShared/AuthBanner";
-import { GetbySlugDocument } from "generated/grahpql";
+import {
+  GetbySlugDocument,
+  useCreateStripeSessionMutation,
+} from "generated/grahpql";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
+import { useForm } from "react-hook-form";
 import title from "title";
 // locals
 import { initializeApollo } from "utils/apolloClient";
 import Layout from "../../components/Layout";
-
+import * as yup from "yup";
+import getStripe from "utils/getStripe";
 interface IProjectDetails {
   getProjectBySlug: {
     __typename: string;
@@ -46,16 +53,64 @@ interface IProjectDetails {
   };
 }
 
+interface IFormData {
+  donation: number;
+}
+
+const DonoSchema = yup.object().shape({
+  donation: yup.number().required("Required.").positive().integer(),
+});
+
+// ! MAIN EXPORT
 export default function projectDetails({
   project,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { query } = useRouter();
+  const { register, handleSubmit, errors } = useForm({
+    mode: "all",
+    resolver: yupResolver(DonoSchema),
+  });
+  const { getInputProps } = useNumberInput({
+    defaultValue: 5,
+    allowMouseWheel: false,
+  });
+  const input = getInputProps();
+
+  const [createSesh] = useCreateStripeSessionMutation();
+
+  const onSubmit = async (data: IFormData) => {
+    const options = {
+      amount: data.donation,
+      projectID: project?.id as number,
+      projectTitle: project?.title as string,
+    };
+    console.log("Submitted a dono:", data);
+    //
+    const stripe = await getStripe();
+
+    // apollo hook
+    const res = await createSesh({
+      variables: options,
+    });
+
+    console.log("apollo hook res:::", res.data?.createStripeSession);
+
+    // redirect to checkout
+    const result = await stripe?.redirectToCheckout({
+      sessionId: res.data?.createStripeSession as string,
+    });
+
+    console.log("STRIPE REDIRECT RES:::", result);
+
+    if (result?.error) {
+      console.log(result?.error?.message);
+    }
+  };
 
   return (
-    <Layout SEO={{ title: `${project.title} - VR Funds` }}>
+    <Layout SEO={{ title: `${project?.title} - VR Funds` }}>
       <AuthBanner
         bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
-        title={title(project.title)}
+        title={title(project?.title)}
       />
       {/* TOP HALF */}
       <Flex as="section" w="full" h="full" bg="testimonial_bg">
@@ -65,7 +120,7 @@ export default function projectDetails({
             <Flex w="50%" direction="column" h="full">
               <Image
                 src="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
-                alt={project.title}
+                alt={project?.title}
                 width={678}
                 height={580}
                 objectFit="cover"
@@ -90,11 +145,11 @@ export default function projectDetails({
                   px="1rem"
                   textTransform="uppercase"
                 >
-                  {project.category}
+                  {project?.category}
                 </Text>
               </Flex>
               {/* TITLE */}
-              <Heading py=".5rem">{title(project.title)}</Heading>
+              <Heading py=".5rem">{title(project?.title)}</Heading>
               {/* INFO CARDS */}
               <Flex direction="row" justifyContent="space-between">
                 <SmallDeetsBox content="$2,500" heading="test" />
@@ -132,7 +187,7 @@ export default function projectDetails({
                 </Text>
               </Flex>
               {/* DONATE FORM */}
-              <Flex as="form">
+              <Flex as="form" onSubmit={handleSubmit(onSubmit)}>
                 <InputGroup>
                   <InputLeftElement
                     pt="10px"
@@ -141,7 +196,16 @@ export default function projectDetails({
                     fontSize="1.2em"
                     children="$"
                   />
-                  <Input type="number" mr="1rem" size="lg" />
+                  <Input
+                    {...input}
+                    id="donation"
+                    name="donation"
+                    ref={register}
+                    isInvalid={errors?.donation}
+                    type="number"
+                    mr="1rem"
+                    size="lg"
+                  />
                   <InputRightElement
                     pt="10px"
                     right="1rem"
@@ -151,6 +215,7 @@ export default function projectDetails({
                     children=".00"
                   />
                 </InputGroup>
+                <Text>{errors?.donation?.message}</Text>
                 <Box ml="1rem">
                   <Button
                     type="submit"
@@ -172,8 +237,8 @@ export default function projectDetails({
               <Flex className="project_author">
                 <Flex mr=".875rem">
                   <Image
-                    src={project.author.avatarUrl || "/images/image-2.jpg"}
-                    alt={project.author.fullName}
+                    src={project?.author.avatarUrl || "/images/image-2.jpg"}
+                    alt={project?.author.fullName}
                     width="60px"
                     height="60px"
                     objectFit="cover"
@@ -183,7 +248,7 @@ export default function projectDetails({
                 </Flex>
                 <Flex direction="column">
                   <Text>
-                    By: <strong>{title(project.author.fullName)}</strong>
+                    By: <strong>{title(project?.author.fullName)}</strong>
                   </Text>
                   <Text></Text>
                 </Flex>
@@ -196,12 +261,12 @@ export default function projectDetails({
       <Flex as="section" w="full" h="full" bg="white">
         <Container maxW="7xl" m="auto" py="6rem">
           <Flex>
-            {/* LEFT DESCROTION */}
+            {/* LEFT DESCRIPTION */}
             <Flex as="article" w="66%" direction="column">
               <Heading as="p" mb=".5rem">
                 Desctiption
               </Heading>
-              <Text color="text_tertiary">{project.description}</Text>
+              <Text color="text_tertiary">{project?.description}</Text>
             </Flex>
             {/* RIGHT */}
             <Flex as="aside" w="33%"></Flex>
@@ -268,7 +333,7 @@ export async function getServerSideProps({
 
   return {
     props: {
-      project: data?.getProjectBySlug,
+      project: data.getProjectBySlug!,
     },
   };
 }

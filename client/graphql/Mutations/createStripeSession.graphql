@@ -1,0 +1,11 @@
+mutation createStripeSession(
+  $projectTitle: String!
+  $projectID: Int!
+  $amount: Int!
+) {
+  createStripeSession(
+    projectTitle: $projectTitle
+    projectID: $projectID
+    amount: $amount
+  )
+}

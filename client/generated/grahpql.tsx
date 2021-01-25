@@ -49,6 +49,7 @@ export type Project = {
   votePoints: Scalars['Float'];
   authorId: Scalars['Float'];
   author: User;
+  donations?: Maybe<Donation>;
   voteStatus?: Maybe<Scalars['Int']>;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -64,8 +65,17 @@ export type User = {
   updated_at: Scalars['String'];
 };
 
+export type Donation = {
+  __typename?: 'Donation';
+  id: Scalars['String'];
+  amount: Scalars['Int'];
+  createdAt: Scalars['String'];
+  donor: User;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createStripeSession?: Maybe<Scalars['String']>;
   createProject: Project;
   updateProject: ProjectResponse;
   deleteProject: Scalars['Boolean'];
@@ -74,6 +84,13 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   forgotPassword: Scalars['Boolean'];
   getUserById: UserResponse;
+};
+
+
+export type MutationCreateStripeSessionArgs = {
+  projectTitle: Scalars['String'];
+  projectID: Scalars['Int'];
+  amount: Scalars['Int'];
 };
 
 
@@ -182,6 +199,18 @@ export type CreateProjectMutation = (
     { __typename?: 'Project' }
     & ProjectResponseWAuthorFragment
   ) }
+);
+
+export type CreateStripeSessionMutationVariables = Exact<{
+  projectTitle: Scalars['String'];
+  projectID: Scalars['Int'];
+  amount: Scalars['Int'];
+}>;
+
+
+export type CreateStripeSessionMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'createStripeSession'>
 );
 
 export type ForgotPasswordMutationVariables = Exact<{
@@ -350,6 +379,42 @@ export function useCreateProjectMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateProjectMutationHookResult = ReturnType<typeof useCreateProjectMutation>;
 export type CreateProjectMutationResult = Apollo.MutationResult<CreateProjectMutation>;
 export type CreateProjectMutationOptions = Apollo.BaseMutationOptions<CreateProjectMutation, CreateProjectMutationVariables>;
+export const CreateStripeSessionDocument = gql`
+    mutation createStripeSession($projectTitle: String!, $projectID: Int!, $amount: Int!) {
+  createStripeSession(
+    projectTitle: $projectTitle
+    projectID: $projectID
+    amount: $amount
+  )
+}
+    `;
+export type CreateStripeSessionMutationFn = Apollo.MutationFunction<CreateStripeSessionMutation, CreateStripeSessionMutationVariables>;
+
+/**
+ * __useCreateStripeSessionMutation__
+ *
+ * To run a mutation, you first call `useCreateStripeSessionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateStripeSessionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createStripeSessionMutation, { data, loading, error }] = useCreateStripeSessionMutation({
+ *   variables: {
+ *      projectTitle: // value for 'projectTitle'
+ *      projectID: // value for 'projectID'
+ *      amount: // value for 'amount'
+ *   },
+ * });
+ */
+export function useCreateStripeSessionMutation(baseOptions?: Apollo.MutationHookOptions<CreateStripeSessionMutation, CreateStripeSessionMutationVariables>) {
+        return Apollo.useMutation<CreateStripeSessionMutation, CreateStripeSessionMutationVariables>(CreateStripeSessionDocument, baseOptions);
+      }
+export type CreateStripeSessionMutationHookResult = ReturnType<typeof useCreateStripeSessionMutation>;
+export type CreateStripeSessionMutationResult = Apollo.MutationResult<CreateStripeSessionMutation>;
+export type CreateStripeSessionMutationOptions = Apollo.BaseMutationOptions<CreateStripeSessionMutation, CreateStripeSessionMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)

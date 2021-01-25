@@ -30,8 +30,8 @@ export class DonationResolver {
 
     const session: Stripe.Checkout.Session = await stripe.checkout.sessions.create(
       {
-        success_url: `${process.env.CORS_ORIGIN}/success?id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${process.env.CORS_ORIGIN}/cancel`,
+        success_url: `${process.env.CORS_ORIGIN}/donation/success?id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${process.env.CORS_ORIGIN}/donation/cancel`,
         submit_type: "donate",
         payment_method_types: ["card"],
         line_items: [

@@ -36,19 +36,20 @@ export default function projects({}: IProjectsProps) {
           bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
           title="My Projects"
         />
-        <Container maxW="7xl" bgColor="gray.200" py="2rem">
-          <AccountNavbar />
-          <Flex direction="row" my="3rem">
-            <List>
-              {data?.getProjectsByUserID.map((proj) => (
-                <ListItem m="auto" mb="1rem">
-                  <ProjectCardSM proj={proj} />
-                </ListItem>
-              ))}
-            </List>
-          </Flex>
-        </Container>
-        USER projects
+        <Flex bgColor="white">
+          <Container maxW="7xl" py="2rem">
+            <AccountNavbar />
+            <Flex direction="row" my="3rem">
+              <List>
+                {data?.getProjectsByUserID.map((proj) => (
+                  <ListItem m="auto" mb="1rem">
+                    <ProjectCardSM proj={proj} />
+                  </ListItem>
+                ))}
+              </List>
+            </Flex>
+          </Container>
+        </Flex>
       </Layout>
     );
   }

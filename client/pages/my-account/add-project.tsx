@@ -81,7 +81,7 @@ export default function AddProjectPage({}: IAddProjectPage) {
     });
 
     if (!errors) {
-      if (data.createProject?.id) {
+      if (data?.createProject?.id) {
         toast({
           title: "Project created.",
           description: `Your Project: ${data.createProject?.title}, was successfully created.`,
