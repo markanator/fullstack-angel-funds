@@ -31,11 +31,14 @@ export default function About() {
             </Flex>
             <Box w="290px" h="full" m="0 0 1px 1px" maxW="290px">
               <Image
-                src="/images/image-2.jpg"
+                className=""
+                src="/images/meeting-1.jpg"
                 alt="choose us"
                 w="full"
-                h="full"
-                maxH="311px"
+                h="311px"
+                // maxH="311px"
+                objectFit="cover"
+                objectPosition="center"
                 display="inline-block"
               />
             </Box>
@@ -44,7 +47,7 @@ export default function About() {
           <Flex w="full" h="full">
             <Box w="290px" h="full" m="1px 1px 0 0" maxW="290px">
               <Image
-                src="/images/image-2.jpg"
+                src="/images/image-1.png"
                 alt="choose us"
                 w="full"
                 h="full"
@@ -54,7 +57,7 @@ export default function About() {
             </Box>
             <Box w="290px" h="full" m="1px 0 0 1px" maxW="290px">
               <Image
-                src="/images/image-3.jpg"
+                src="/images/image-2.png"
                 alt="choose us"
                 w="full"
                 h="full"

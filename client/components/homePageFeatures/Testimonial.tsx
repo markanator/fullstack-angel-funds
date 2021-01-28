@@ -1,6 +1,7 @@
 import { Box, Container, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import Slider from "react-slick";
+import { testimonials } from "../../data/testimonials";
 
 export default function Testimonial() {
   var settings = {
@@ -35,15 +36,11 @@ export default function Testimonial() {
             What They Say
           </Heading>
           <Slider className="ethiopian__caterpillar" {...settings}>
-            <li>
-              <TestimonialSlide />
-            </li>
-            <li>
-              <TestimonialSlide />
-            </li>
-            <li>
-              <TestimonialSlide />
-            </li>
+            {testimonials.map((quote) => (
+              <li key={quote.name}>
+                <TestimonialSlide info={quote} />
+              </li>
+            ))}
           </Slider>
         </Flex>
       </Container>
@@ -51,7 +48,15 @@ export default function Testimonial() {
   );
 }
 
-const TestimonialSlide = () => (
+interface ISlideProps {
+  info: {
+    name: string;
+    image: string;
+    message: string;
+  };
+}
+
+const TestimonialSlide = ({ info }: ISlideProps) => (
   <Box
     className="testimonial__main"
     display="inline-flex"
@@ -83,7 +88,7 @@ const TestimonialSlide = () => (
           textAlign="left"
           maxW="xl"
         >
-          Jo Martinez
+          {info.name}
         </Heading>
         <Text
           fontSize="1.25rem"
@@ -91,20 +96,19 @@ const TestimonialSlide = () => (
           color="text_tertiary"
           maxW="xl"
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
-          elementum, metus vitae suscipit posuere, nisl quam dignissim lectus,
-          id maximus justo nisl ac dui. Cras rutrum nulla tincidunt libero
-          gravida, eu mattis purus volutpat.
+          {info.message}
         </Text>
       </Flex>
     </Flex>
     <Flex zIndex="2" position="absolute" top="-20px" right="20px">
       <Image
-        src="/images/image-3.jpg"
+        src={info.image}
         alt="Image 2"
         w="385px"
         h="415px"
         zIndex="2"
+        objectFit="cover"
+        objectPosition="center"
       />
     </Flex>
   </Box>

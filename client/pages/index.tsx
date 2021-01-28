@@ -20,8 +20,6 @@ import React from "react";
 interface IHomeProps {}
 
 const Index = ({}: IHomeProps) => {
-  // const [] = useRegisterMutation();
-
   const { data, loading } = useFetchMeQuery({
     skip: isServer(),
   });
@@ -35,11 +33,12 @@ const Index = ({}: IHomeProps) => {
     <Layout
       SEO={{
         title:
-          "VR Funds - Help raise minorities trying to break into the tech space!",
+          "VR Funds - Help lift minorities trying to break into the tech space!",
         description:
-          "VR Funds - Help raise minorities trying to break into the tech space!",
+          "VR Funds - Help lift minorities trying to break into the tech space!",
         image: "/images/hero.jpg",
-        keywords: "virtual reality, funding, platform, technology, startup",
+        keywords:
+          "virtual reality, funding platform, technology, startup, not really a bussiness, mark ambrocio",
       }}
     >
       <Hero />
