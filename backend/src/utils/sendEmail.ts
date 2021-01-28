@@ -10,8 +10,8 @@ export async function sendEmail(to: string, html: string, subject: string) {
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST || "smtp.ethereal.email",
-    port: process.env.EMAIL_PORT || 587,
+    host: "smtp.ethereal.email",
+    port: 587,
     auth: {
       user: process.env.EMAIL_USER as string,
       pass: process.env.EMAIL_PASS,

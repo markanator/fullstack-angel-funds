@@ -79,9 +79,8 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         cookie: {
             maxAge: 1000 * 60 * 60 * 24 * 365 * 1,
             httpOnly: true,
-            sameSite: "lax",
+            sameSite: constants_1.__prod__ ? "none" : "lax",
             secure: constants_1.__prod__,
-            domain: constants_1.__prod__ ? ".ambrocio.dev" : undefined,
         },
         saveUninitialized: false,
         secret: process.env.SESSION_SECRET,
@@ -97,11 +96,13 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             ],
             validate: false,
         }),
-        playground: {
-            settings: {
-                "request.credentials": "include",
+        playground: constants_1.__prod__
+            ? false
+            : {
+                settings: {
+                    "request.credentials": "include",
+                },
             },
-        },
         context: ({ req, res }) => ({
             req,
             res,

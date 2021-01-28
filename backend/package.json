@@ -42,7 +42,7 @@
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
     "ioredis": "^4.19.2",
-    "nodemailer": "^6.4.17",
+    "nodemailer": "6.4.0",
     "pg": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "slugify": "^1.4.6",

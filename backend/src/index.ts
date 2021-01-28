@@ -68,9 +68,8 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 1, // 1 yrs
         httpOnly: true, // non secure for dev
-        sameSite: "lax", // csrf protections
+        sameSite: __prod__ ? "none" : "lax", // csrf protections
         secure: __prod__, //cookie only works in https
-        domain: __prod__ ? ".ambrocio.dev" : undefined, // don't need?
       },
       saveUninitialized: false, // create sesh by default regardless of !data
       secret: process.env.SESSION_SECRET as string,
@@ -88,11 +87,13 @@ const main = async () => {
       ],
       validate: false,
     }),
-    playground: {
-      settings: {
-        "request.credentials": "include",
-      },
-    },
+    playground: __prod__
+      ? false
+      : {
+          settings: {
+            "request.credentials": "include",
+          },
+        },
     // deconstruct access
     context: ({ req, res }) => ({
       req,

@@ -32,7 +32,12 @@ const Index = ({}: IHomeProps) => {
   // console.log("server user data", user);
 
   return (
-    <Layout SEO={{ title: "Home - VR Funds" }}>
+    <Layout
+      SEO={{
+        title:
+          "VR Funds - Help raise minorities trying to break into the tech space!",
+      }}
+    >
       <Hero />
       <TopCategories />
       <CTA />
