@@ -1,12 +1,10 @@
 import {
   ApolloClient,
-  HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
 import merge from "deepmerge";
 import isEqual from "lodash/isEqual";
-import { NextPageContext } from "next";
 import { useMemo } from "react";
 
 export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";

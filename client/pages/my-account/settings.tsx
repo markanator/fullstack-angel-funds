@@ -26,10 +26,7 @@ export default function settings({}: ISettingProps) {
   if (checksOut) {
     return (
       <Layout SEO={{ title: "My Settings - VR Funds" }}>
-        <AuthBanner
-          bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
-          title="My Settings"
-        />
+        <AuthBanner bgImage="/images/breadcrumb.png" title="My Settings" />
         <Container maxW="7xl" bgColor="gray.200" py="2rem">
           <AccountNavbar />
           {/* MAIN container */}

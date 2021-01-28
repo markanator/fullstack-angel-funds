@@ -23,7 +23,7 @@ export default function Navbar() {
   const { data } = useFetchMeQuery({
     skip: isServer(),
   });
-  const [logout, { loading: logoutFetching }] = useLogoutMutation();
+  const [logout] = useLogoutMutation();
   const apolloClient = useApolloClient();
 
   // console.log("navbar props.user:: ", data);

@@ -7,16 +7,22 @@ import Navbar from "./sharedNav/NavBar";
 
 interface ILayoutProps {
   children?: React.ReactNode;
-  SEO?: any;
+  SEO?: {
+    date?: string;
+    description?: string;
+    image?: string;
+    title?: string;
+    keywords?: string;
+  };
 }
 
 export default function Layout({ children, SEO }: ILayoutProps) {
   return (
-    <Box as="main" bgColor="white" textColor="text_primary">
+    <Box bgColor="white" textColor="text_primary">
       <Page {...SEO} />
       {/* Header */}
       <Navbar />
-      <>{children}</>
+      <main>{children}</main>
       {/* FOOTER */}
       <Footer />
     </Box>

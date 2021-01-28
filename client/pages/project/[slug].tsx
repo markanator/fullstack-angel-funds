@@ -20,9 +20,9 @@ import Image from "next/image";
 import React from "react";
 import { useForm } from "react-hook-form";
 import TitleFormatter from "title";
+// locals
 import { IProjectDetails } from "types/IProjectDetails";
 import { fetchPostJSON } from "utils/api-helpers";
-// locals
 import { initializeApollo } from "utils/apolloClient";
 import getStripe from "utils/getStripe";
 import Layout from "../../components/Layout";
@@ -86,180 +86,190 @@ export default function projectDetails({
   };
 
   return (
-    <Layout SEO={{ title: `${project?.title} - VR Funds` }}>
+    <Layout
+      SEO={{
+        title: `${project?.title} - VR Funds`,
+        date: project.publishDate,
+        image: project.image,
+        description: project.description.slice(0, 100),
+        keywords: project.category,
+      }}
+    >
       <AuthBanner
-        bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
+        bgImage="/images/breadcrumb.png"
         title={FormattedProjectTitle}
       />
-      {/* TOP HALF */}
-      <Flex as="section" w="full" h="full" bg="testimonial_bg">
-        <Container maxW="7xl" m="auto" py="6rem">
-          <Flex className="project_deets" direction="row" h="full">
-            {/* LEFT SIDE IMAGE and blurb? */}
-            <Flex w="50%" direction="column" h="full">
-              <Image
-                src="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
-                alt={project?.title}
-                width={678}
-                height={580}
-                objectFit="cover"
-                objectPosition="center"
-              />
-            </Flex>
-            {/* RIGHT SIDE DEETS */}
-            <Flex
-              w="50%"
-              direction="column"
-              pl="1rem"
-              h="auto"
-              justifyContent="space-between"
-            >
-              {/* CAT AND LOCATION */}
-              <Flex>
-                <Text
-                  fontSize=".875rem"
-                  textColor="white"
-                  bgColor="color_primary"
-                  py="4px"
-                  px="1rem"
-                  textTransform="uppercase"
-                >
-                  {project?.category}
-                </Text>
+      <article>
+        {/* TOP HALF */}
+        <Flex as="section" w="full" h="full" bg="testimonial_bg">
+          <Container maxW="7xl" m="auto" py="6rem">
+            <Flex className="project_deets" direction="row" h="full">
+              {/* LEFT SIDE IMAGE and blurb? */}
+              <Flex w="50%" direction="column" h="full">
+                <Image
+                  src="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
+                  alt={project?.title}
+                  width={678}
+                  height={580}
+                  objectFit="cover"
+                  objectPosition="center"
+                />
               </Flex>
-              {/* TITLE */}
-              <Heading py=".5rem">{FormattedProjectTitle}</Heading>
-              {/* INFO CARDS */}
-              <Flex direction="row" justifyContent="space-between">
-                <SmallDeetsBox content="$2,500" heading="test" />
-                <SmallDeetsBox content="34" heading="Backers" />
-                <SmallDeetsBox content="25" heading="Days Left" />
-              </Flex>
-              {/* PROGRESS BAR w/ GOAL  */}
-              <Flex direction="column">
-                <Flex
-                  direction="row"
-                  justifyContent="space-between"
-                  mb=".25rem"
-                >
-                  <Text fontSize=".875rem" color="text_secondary">
-                    Raised:
-                  </Text>
-                  <Text fontSize=".875rem" color="text_secondary">
-                    14%
-                  </Text>
-                </Flex>
-                <Box h=".65rem" bgColor="progress_bg">
-                  <Box
-                    w="50%"
-                    h="full"
-                    pos="relative"
-                    overflow="hidden"
-                    bgColor="color_alt"
-                  />
-                </Box>
-                <Text mt=".5rem" fontWeight="700" fontSize="1.125rem">
-                  Goal:{" "}
-                  <Box as="span" color="color_primary">
-                    $2500
-                  </Box>
-                </Text>
-              </Flex>
-              {/* DONATE FORM */}
-              <Flex as="form" onSubmit={handleSubmit(onSubmit)}>
-                <InputGroup>
-                  <InputLeftElement
-                    pt="10px"
-                    pointerEvents="none"
-                    color="gray.300"
-                    fontSize="1.2em"
-                    children="$"
-                  />
-                  <Input
-                    {...input}
-                    id="donation"
-                    name="donation"
-                    ref={register}
-                    isInvalid={errors?.donation}
-                    type="number"
-                    mr="1rem"
-                    size="lg"
-                  />
-                  <InputRightElement
-                    pt="10px"
-                    right="1rem"
-                    pointerEvents="none"
-                    color="gray.300"
-                    fontSize="1.2em"
-                    children=".00"
-                  />
-                </InputGroup>
-                <Text>{errors?.donation?.message}</Text>
-                <Box ml="1rem">
-                  <Button
-                    type="submit"
-                    letterSpacing="3px"
-                    backgroundColor="color_alt"
-                    _hover={{
-                      backgroundColor: "color_primary",
-                    }}
-                    color="white"
-                    fontWeight="300"
-                    size="lg"
-                    rounded="none"
+              {/* RIGHT SIDE DEETS */}
+              <Flex
+                w="50%"
+                direction="column"
+                pl="1rem"
+                h="auto"
+                justifyContent="space-between"
+              >
+                {/* CAT AND LOCATION */}
+                <Flex>
+                  <Text
+                    fontSize=".875rem"
+                    textColor="white"
+                    bgColor="color_primary"
+                    py="4px"
+                    px="1rem"
+                    textTransform="uppercase"
                   >
-                    Back Campaign
-                  </Button>
-                </Box>
-              </Flex>
-              {/* Original Poster */}
-              <Flex className="project_author">
-                <Flex mr=".875rem">
-                  <Image
-                    src={project?.author.avatarUrl || "/images/image-2.jpg"}
-                    alt={project?.author.fullName}
-                    width="60px"
-                    height="60px"
-                    objectFit="cover"
-                    objectPosition="center"
-                    className="__avatar"
-                  />
-                </Flex>
-                <Flex direction="column">
-                  <Text>
-                    By:{" "}
-                    <strong>
-                      {
-                        (TitleFormatter(
-                          project!.author.fullName
-                        ) as unknown) as string
-                      }
-                    </strong>
+                    {project?.category}
                   </Text>
-                  <Text></Text>
+                </Flex>
+                {/* TITLE */}
+                <Heading py=".5rem">{FormattedProjectTitle}</Heading>
+                {/* INFO CARDS */}
+                <Flex direction="row" justifyContent="space-between">
+                  <SmallDeetsBox content="$2,500" heading="test" />
+                  <SmallDeetsBox content="34" heading="Backers" />
+                  <SmallDeetsBox content="25" heading="Days Left" />
+                </Flex>
+                {/* PROGRESS BAR w/ GOAL  */}
+                <Flex direction="column">
+                  <Flex
+                    direction="row"
+                    justifyContent="space-between"
+                    mb=".25rem"
+                  >
+                    <Text fontSize=".875rem" color="text_secondary">
+                      Raised:
+                    </Text>
+                    <Text fontSize=".875rem" color="text_secondary">
+                      14%
+                    </Text>
+                  </Flex>
+                  <Box h=".65rem" bgColor="progress_bg">
+                    <Box
+                      w="50%"
+                      h="full"
+                      pos="relative"
+                      overflow="hidden"
+                      bgColor="color_alt"
+                    />
+                  </Box>
+                  <Text mt=".5rem" fontWeight="700" fontSize="1.125rem">
+                    Goal:{" "}
+                    <Box as="span" color="color_primary">
+                      $2500
+                    </Box>
+                  </Text>
+                </Flex>
+                {/* DONATE FORM */}
+                <Flex as="form" onSubmit={handleSubmit(onSubmit)}>
+                  <InputGroup>
+                    <InputLeftElement
+                      pt="10px"
+                      pointerEvents="none"
+                      color="gray.300"
+                      fontSize="1.2em"
+                      children="$"
+                    />
+                    <Input
+                      {...input}
+                      id="donation"
+                      name="donation"
+                      ref={register}
+                      isInvalid={errors?.donation}
+                      type="number"
+                      mr="1rem"
+                      size="lg"
+                    />
+                    <InputRightElement
+                      pt="10px"
+                      right="1rem"
+                      pointerEvents="none"
+                      color="gray.300"
+                      fontSize="1.2em"
+                      children=".00"
+                    />
+                  </InputGroup>
+                  <Text>{errors?.donation?.message}</Text>
+                  <Box ml="1rem">
+                    <Button
+                      type="submit"
+                      letterSpacing="3px"
+                      backgroundColor="color_alt"
+                      _hover={{
+                        backgroundColor: "color_primary",
+                      }}
+                      color="white"
+                      fontWeight="300"
+                      size="lg"
+                      rounded="none"
+                    >
+                      Back Campaign
+                    </Button>
+                  </Box>
+                </Flex>
+                {/* Original Poster */}
+                <Flex className="project_author">
+                  <Flex mr=".875rem">
+                    <Image
+                      src={project?.author.avatarUrl || "/images/image-2.jpg"}
+                      alt={project?.author.fullName}
+                      width="60px"
+                      height="60px"
+                      objectFit="cover"
+                      objectPosition="center"
+                      className="__avatar"
+                    />
+                  </Flex>
+                  <Flex direction="column">
+                    <Text>
+                      By:{" "}
+                      <strong>
+                        {
+                          (TitleFormatter(
+                            project!.author.fullName
+                          ) as unknown) as string
+                        }
+                      </strong>
+                    </Text>
+                    <Text></Text>
+                  </Flex>
                 </Flex>
               </Flex>
             </Flex>
-          </Flex>
-        </Container>
-      </Flex>
-      {/* BOTTOM */}
-      <Flex as="section" w="full" h="full" bg="white">
-        <Container maxW="7xl" m="auto" py="6rem">
-          <Flex>
-            {/* LEFT DESCRIPTION */}
-            <Flex as="article" w="66%" direction="column">
-              <Heading as="p" mb=".5rem">
-                Desctiption
-              </Heading>
-              <Text color="text_tertiary">{project?.description}</Text>
+          </Container>
+        </Flex>
+        {/* BOTTOM */}
+        <Flex as="section" w="full" h="full" bg="white">
+          <Container maxW="7xl" m="auto" py="6rem">
+            <Flex>
+              {/* LEFT DESCRIPTION */}
+              <Flex as="article" w="66%" direction="column">
+                <Heading as="p" mb=".5rem">
+                  Desctiption
+                </Heading>
+                <Text color="text_tertiary">{project?.description}</Text>
+              </Flex>
+              {/* RIGHT */}
+              <Flex as="aside" w="33%"></Flex>
             </Flex>
-            {/* RIGHT */}
-            <Flex as="aside" w="33%"></Flex>
-          </Flex>
-          {/* <p>{JSON.stringify(project, null, 2)}</p> */}
-        </Container>
-      </Flex>
+            {/* <p>{JSON.stringify(project, null, 2)}</p> */}
+          </Container>
+        </Flex>
+      </article>
     </Layout>
   );
 }

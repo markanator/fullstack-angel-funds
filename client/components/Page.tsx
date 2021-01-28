@@ -10,20 +10,28 @@ import Title from "title";
 const dateTime = (date) => new Date(date).toISOString();
 const fullDate = (date) => format(date, "MMMM D, YYYY");
 
+interface ISeoProps {
+  date?: string;
+  description?: string;
+  image?: string;
+  title?: string;
+  keywords?: string;
+  router?: any;
+}
+
 const Page = ({
-  children,
   date,
   description = "",
   image,
   title = "VR Funds",
   keywords,
   router,
-}) => {
-  const domain = "https://markambrocio.com";
+}: ISeoProps) => {
+  const domain = "https://fullstack-vrfunds.vercel.app/";
   const formattedTitle = (Title(title) as unknown) as string;
   const url = router && router.asPath ? router.asPath : undefined;
   const canonical = url && url === "/" ? domain : domain + url;
-  const featuredImage = domain + image;
+  // const featuredImage = domain + image;
 
   return (
     <>
@@ -73,9 +81,9 @@ const Page = ({
         <meta content={description} property="og:description" />
         <meta content={canonical} property="og:url" />
 
-        {featuredImage && (
+        {image && (
           <>
-            <meta content={featuredImage} property="og:image" />
+            <meta content={image} property="og:image" />
             <meta content={description} property="og:image:alt" />
           </>
         )}
@@ -89,7 +97,6 @@ const Page = ({
         <meta content="@_mark_ambro" name="twitter:site" />
         <meta content="@_mark_ambro" name="twitter:creator" />
       </Head>
-      {children}
     </>
   );
 };

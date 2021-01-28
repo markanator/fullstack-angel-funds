@@ -47,7 +47,7 @@ export default function AddProjectPage({}: IAddProjectPage) {
   const [createProject, { loading }] = useCreateProjectMutation();
 
   // form stuff
-  const { register, handleSubmit, errors, formState } = useForm({
+  const { register, handleSubmit, errors } = useForm({
     mode: "all",
     resolver: yupResolver(FreshProjectSchema),
   });
@@ -98,10 +98,7 @@ export default function AddProjectPage({}: IAddProjectPage) {
   if (checksOut) {
     return (
       <Layout SEO={{ title: "Add a Project - VR Funds" }}>
-        <AuthBanner
-          bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
-          title="Add a Project"
-        />
+        <AuthBanner bgImage="/images/breadcrumb.png" title="Add a Project" />
         <Container maxW="6xl" py="5rem">
           <Flex
             as="form"

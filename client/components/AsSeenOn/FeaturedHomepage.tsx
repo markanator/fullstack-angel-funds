@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Image } from "@chakra-ui/react";
 import React from "react";
 
-export default function SeenOn() {
+export default function FeaturedHomepage() {
   return (
     <Flex as="section" w="full" direction="row">
       <Flex w="40%" justifyContent="flex-end" bgColor="color_primary">

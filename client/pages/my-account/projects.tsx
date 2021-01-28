@@ -32,10 +32,7 @@ export default function projects({}: IProjectsProps) {
   if (checksOut) {
     return (
       <Layout SEO={{ title: "My Projects - VR Funds" }}>
-        <AuthBanner
-          bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
-          title="My Projects"
-        />
+        <AuthBanner bgImage="/images/breadcrumb.png" title="My Projects" />
         <Flex bgColor="white">
           <Container maxW="7xl" py="2rem">
             <AccountNavbar />

@@ -67,10 +67,7 @@ export default function LostPassword({}: ILostMyPasswordProps) {
 
   return (
     <Layout SEO={{ title: "Reset Password - VR Funds" }}>
-      <Banner
-        bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
-        title="Forgot Password"
-      />
+      <Banner bgImage="/images/breadcrumb.png" title="Forgot Password" />
       <Container maxW="7xl" pt="3rem">
         <Alert status="info" mb="2rem">
           <AlertIcon />

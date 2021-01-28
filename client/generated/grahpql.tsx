@@ -179,6 +179,11 @@ export type FullUserDetailsFragment = (
   & Pick<User, 'id' | 'fullName' | 'avatarUrl' | 'email' | 'created_at'>
 );
 
+export type ProjectResponseNoAuthorFragment = (
+  { __typename?: 'Project' }
+  & Pick<Project, 'id' | 'title' | 'description' | 'category' | 'image' | 'fundTarget' | 'currentFunds' | 'publishDate' | 'targetDate' | 'totalDonation_sum' | 'viewCount' | 'votePoints' | 'slug'>
+);
+
 export type ProjectResponseWAuthorFragment = (
   { __typename?: 'Project' }
   & Pick<Project, 'id' | 'title' | 'description' | 'category' | 'image' | 'fundTarget' | 'currentFunds' | 'publishDate' | 'targetDate' | 'totalDonation_sum' | 'viewCount' | 'votePoints' | 'slug'>
@@ -277,7 +282,7 @@ export type FetchAllProjectsQuery = (
   { __typename?: 'Query' }
   & { projects: Array<(
     { __typename?: 'Project' }
-    & ProjectResponseWAuthorFragment
+    & ProjectResponseNoAuthorFragment
   )> }
 );
 
@@ -318,6 +323,23 @@ export type GetProjectsByUserIdQuery = (
   )>> }
 );
 
+export const ProjectResponseNoAuthorFragmentDoc = gql`
+    fragment ProjectResponseNoAuthor on Project {
+  id
+  title
+  description
+  category
+  image
+  fundTarget
+  currentFunds
+  publishDate
+  targetDate
+  totalDonation_sum
+  viewCount
+  votePoints
+  slug
+}
+    `;
 export const FullUserDetailsFragmentDoc = gql`
     fragment FullUserDetails on User {
   id
@@ -554,10 +576,10 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutatio
 export const FetchAllProjectsDocument = gql`
     query FetchAllProjects {
   projects {
-    ...ProjectResponseWAuthor
+    ...ProjectResponseNoAuthor
   }
 }
-    ${ProjectResponseWAuthorFragmentDoc}`;
+    ${ProjectResponseNoAuthorFragmentDoc}`;
 
 /**
  * __useFetchAllProjectsQuery__

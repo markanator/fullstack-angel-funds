@@ -11,10 +11,7 @@ function Index({}: IAuthProps) {
   return (
     <Layout SEO={{ title: "Login/Register - VR Funds" }}>
       {/* BANNER */}
-      <AuthBanner
-        bgImage="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
-        title="Login"
-      />
+      <AuthBanner bgImage="/images/breadcrumb.png" title="Login" />
 
       <Container maxW="7xl">
         <Alert status="info" mt="2rem" textColor="text_primary">
