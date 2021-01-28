@@ -99,9 +99,8 @@ __decorate([
     __metadata("design:type", Array)
 ], Project.prototype, "upvotes", void 0);
 __decorate([
-    type_graphql_1.Field(() => Donation_1.Donation, { nullable: true }),
-    typeorm_1.ManyToMany(() => Donation_1.Donation),
-    typeorm_1.JoinTable(),
+    type_graphql_1.Field(() => Donation_1.Donation),
+    typeorm_1.OneToMany(() => Donation_1.Donation, (dono) => dono.project),
     __metadata("design:type", Array)
 ], Project.prototype, "donations", void 0);
 __decorate([

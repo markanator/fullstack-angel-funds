@@ -1,9 +1,9 @@
+import Stripe from "stripe";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { CURRENCY, MIN_AMOUNT } from "../../../utils/constants";
 import { formatAmountForStripe } from "../../../utils/stripe-helpers";
 
-import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   // https://github.com/stripe/stripe-node#configuration
   apiVersion: "2020-08-27",
@@ -40,7 +40,7 @@ export default async function handler(
               quantity: 1,
             },
           ],
-          success_url: `${req.headers.origin}/donations/success?session_id={CHECKOUT_SESSION_ID}`,
+          success_url: `${req.headers.origin}/donations/success?p_id=${projectSlug}&session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${req.headers.origin}/project/${projectSlug}`,
         }
       );

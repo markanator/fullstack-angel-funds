@@ -1,63 +1,52 @@
-import * as dotenv from "dotenv";
-import Stripe from "stripe";
-import { Arg, Ctx, Int, Mutation, Resolver, UseMiddleware } from "type-graphql";
-import { Donation } from "../entity";
+import {
+  Arg,
+  Ctx,
+  FieldResolver,
+  Mutation,
+  Resolver,
+  Root,
+  UseMiddleware,
+} from "type-graphql";
+import { Donation, Project, User } from "../entity";
 import { isAuthed } from "../middleware/isAuthed";
+import { CreateDonoInput } from "../types/CreateDonoInput";
 import { MyContext } from "../types/MyContext";
-import { MIN_AMOUNT } from "../utils/constants";
-import { formatAmountForStripe } from "../utils/stripe-helpers";
-
-dotenv.config();
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2020-08-27",
-});
 
 @Resolver(Donation)
 export class DonationResolver {
-  //* Create a session for checkout
-  @Mutation(() => String, { nullable: true })
-  @UseMiddleware(isAuthed)
-  async createStripeSession(
-    @Arg("amount", () => Int) amount: number,
-    @Arg("projectID", () => Int) projectID: number,
-    @Arg("projectTitle") projectTitle: string,
-    @Ctx() { req }: MyContext
-  ) {
-    if (!(amount >= MIN_AMOUNT)) {
-      throw new Error("Invalid amount.");
-    }
-
-    const session: Stripe.Checkout.Session = await stripe.checkout.sessions.create(
-      {
-        success_url: `${process.env.CORS_ORIGIN}/donation/success?id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${process.env.CORS_ORIGIN}/donation/cancel`,
-        submit_type: "donate",
-        payment_method_types: ["card"],
-        line_items: [
-          {
-            amount: formatAmountForStripe(amount, "usd"),
-            name: `Donation Pledge for ${projectTitle}`,
-            currency: "USD",
-            quantity: 1,
-          },
-        ],
-        metadata: {
-          projectID,
-          userID: req.session.userId,
-        },
-      }
-    );
-
-    return session.id;
+  // get donor for a post
+  @FieldResolver(() => User)
+  async donor(@Root() dono: Donation, @Ctx() { userLoader }: MyContext) {
+    // will batch all users into a single call
+    // and return them
+    return userLoader.load(dono.userId);
   }
 
-  // @Query(()=> new Promise<any>())
-  // async fetchStripeSession(@Ctx() { req }: MyContext) {
-  //   const session = stripe.checkout.sessions.retrieve(req.params.id, {
-  //     expand: ["payment_intent"],
-  //   });
+  // get project for a donation
+  @FieldResolver(() => Project)
+  async project(
+    @Root() donation: Donation,
+    @Ctx() { projectLoader }: MyContext
+  ) {
+    // will batch all users into a single call
+    // and return them
+    return projectLoader.load(donation.projectId);
+  }
 
-  //   return {session};
-  // }
+  // create a donation after successfull stripe dono
+  @Mutation(() => Donation)
+  @UseMiddleware(isAuthed)
+  async syncStripeDono(
+    @Arg("order") order: CreateDonoInput,
+    @Ctx() { req }: MyContext
+  ): Promise<Donation> {
+    return Donation.create({
+      projectId: order.p_id,
+      amount: order.amount,
+      s_receipt_url: order.s_receipt_url,
+      s_created: order.s_created,
+      userId: req.session.userId,
+      c_id: order.cust_id,
+    }).save();
+  }
 }

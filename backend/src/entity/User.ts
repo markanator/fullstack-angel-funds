@@ -29,6 +29,10 @@ export class User extends BaseEntity {
   avatarUrl: string;
 
   @Field()
+  @Column({ default: "" })
+  cust_id: string;
+
+  @Field()
   @Column({ unique: true })
   @Index()
   email!: string;

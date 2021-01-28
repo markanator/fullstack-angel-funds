@@ -89,16 +89,12 @@ export default function projectDetails({
     <Layout
       SEO={{
         title: `${project?.title} - VR Funds`,
-        date: project.publishDate,
         image: project.image,
         description: project.description.slice(0, 100),
         keywords: project.category,
       }}
     >
-      <AuthBanner
-        bgImage="/images/breadcrumb.png"
-        title={FormattedProjectTitle}
-      />
+      <AuthBanner bgImage={project.image} title={FormattedProjectTitle} />
       <article>
         {/* TOP HALF */}
         <Flex as="section" w="full" h="full" bg="testimonial_bg">
@@ -107,7 +103,7 @@ export default function projectDetails({
               {/* LEFT SIDE IMAGE and blurb? */}
               <Flex w="50%" direction="column" h="full">
                 <Image
-                  src="https://gaviaspreview.com/wp/krowd/wp-content/uploads/2015/12/breadcrumb.jpg"
+                  src={project.image}
                   alt={project?.title}
                   width={678}
                   height={580}
@@ -176,7 +172,7 @@ export default function projectDetails({
                 </Flex>
                 {/* DONATE FORM */}
                 <Flex as="form" onSubmit={handleSubmit(onSubmit)}>
-                  <InputGroup>
+                  <InputGroup bgColor="white">
                     <InputLeftElement
                       pt="10px"
                       pointerEvents="none"
@@ -225,7 +221,10 @@ export default function projectDetails({
                 <Flex className="project_author">
                   <Flex mr=".875rem">
                     <Image
-                      src={project?.author.avatarUrl || "/images/image-2.jpg"}
+                      src={
+                        project?.author.avatarUrl ||
+                        "https://www.gravatar.com/avatar/00000000000000000000000000000000?s=200"
+                      }
                       alt={project?.author.fullName}
                       width="60px"
                       height="60px"
@@ -234,7 +233,7 @@ export default function projectDetails({
                       className="__avatar"
                     />
                   </Flex>
-                  <Flex direction="column">
+                  <Flex direction="column" justifyContent="center">
                     <Text>
                       By:{" "}
                       <strong>

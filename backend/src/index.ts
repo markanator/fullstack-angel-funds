@@ -11,6 +11,7 @@ import { buildSchema } from "type-graphql";
 // locals
 import { createConnection } from "typeorm";
 import { createUserLoader } from "./dataloaders";
+import { createProjectLoader } from "./dataloaders/createProjectLoader";
 import { Donation, Project, Upvote, User } from "./entity";
 import {
   DonationResolver,
@@ -100,6 +101,7 @@ const main = async () => {
       res,
       redis,
       userLoader: createUserLoader(),
+      projectLoader: createProjectLoader(),
     }),
   });
 

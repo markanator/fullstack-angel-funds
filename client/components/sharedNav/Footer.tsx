@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { FiTwitter, FiSlack, FiGithub } from "react-icons/fi";
 import { FaTwitch } from "react-icons/fa";
-import ALink from "components/ALink";
+import ALink from "@/components/ALink";
 
 export const Footer = () => {
   return (
@@ -28,35 +28,35 @@ export const Footer = () => {
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
+        // pt="4rem"
       >
         <Flex
-          mt={12}
+          py="5rem"
           textColor="text_four"
-          mb={8}
           alignItems="start"
           textAlign="left"
           w="full"
         >
-          <Box w="25%">
-            <Link mb="1.5rem">
+          <Box w="33%">
+            <ALink href="/" mb="1.5rem">
               <Heading fontSize="2rem" fontWeight="500">
                 VR Funding
               </Heading>
-            </Link>
+            </ALink>
           </Box>
-          <Box w="25%" mt="1rem">
-            <Heading fontSize="1.25rem" mb="1.5rem">
+          <Box w="33%" mt="1rem">
+            <Heading fontSize="1.25rem" mb="1rem">
               Company
             </Heading>
             <List display="flex" flexDirection="column">
               <ListItem>
-                <ALink href="/#">About</ALink>
+                <ALink href="/explore">Explore</ALink>
               </ListItem>
               <ListItem>
-                <ALink href="/#">Causes</ALink>
+                <ALink href="/about">About</ALink>
               </ListItem>
               <ListItem>
-                <ALink href="/#">Blog</ALink>
+                <ALink href="/contact">Contact</ALink>
               </ListItem>
               <ListItem>
                 <ALink href="/#">Terms of Use</ALink>
@@ -64,45 +64,35 @@ export const Footer = () => {
               <ListItem>
                 <ALink href="/#">Privacy Policy</ALink>
               </ListItem>
-              <ListItem>
-                <ALink href="/#">Sitemap</ALink>
-              </ListItem>
             </List>
           </Box>
-          <Box w="25%" mt="1rem">
-            <Heading fontSize="1.25rem" mb={2}>
-              Find Us
-            </Heading>
-            <List display="flex" flexDirection="row" fontSize="2xl">
-              <ListItem mr={2}>
-                <Link>
+          <Box w="33%" mt="1rem">
+            <Heading fontSize="1.25rem">Find Us</Heading>
+            <List
+              mt={2}
+              w="full"
+              display="flex"
+              flexDirection="row"
+              // justifyContent="space-between"
+              // fontSize="2xl"
+              pr="2rem"
+            >
+              <ListItem fontSize="4xl" mr={3}>
+                <Link href="https://www.twitch.tv/palante_mark" isExternal>
                   <FaTwitch />
                 </Link>
               </ListItem>
-              <ListItem mr={2}>
-                <Link>
+              <ListItem fontSize="4xl" mr={3}>
+                <Link href="https://twitter.com/_mark_ambro" isExternal>
                   <FiTwitter />
                 </Link>
               </ListItem>
-              <ListItem mr={2}>
-                <Link>
-                  <FiSlack />
-                </Link>
-              </ListItem>
-              <ListItem>
-                <Link>
+              <ListItem fontSize="4xl">
+                <Link href="https://github.com/markanator" isExternal>
                   <FiGithub />
                 </Link>
               </ListItem>
             </List>
-          </Box>
-          <Box w="25%" mt="1rem">
-            <Heading fontSize="1.25rem" mb="1.5rem">
-              Newsletter
-            </Heading>
-            <Text fontSize="sm">
-              We respect your privacy and won't annoy you.
-            </Text>
           </Box>
         </Flex>
         <Text

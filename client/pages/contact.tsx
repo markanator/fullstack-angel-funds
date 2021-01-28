@@ -54,7 +54,7 @@ export default function contact({}: IHomeProps) {
   return (
     <Layout SEO={{ title: "Contact Us - VR Funds" }}>
       <Banner title="Contact" />
-      <Container maxW="7xl" py="6rem">
+      <Container maxW="7xl" py="8rem">
         <Flex>
           {/* LEFT TEXT */}
           <Flex direction="column" w="40%" pr="2rem">

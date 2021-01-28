@@ -89,3 +89,8 @@ h5 {
 .project_author .__avatar {
   border-radius: 100%;
 }
+
+/* TEAM CARD */
+.team__share:hover {
+  color: var(--color_primary);
+}

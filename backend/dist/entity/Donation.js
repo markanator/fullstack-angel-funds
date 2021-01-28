@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Donation = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-const User_1 = require("./User");
+const _1 = require("./");
 let Donation = class Donation extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -26,6 +26,21 @@ __decorate([
     __metadata("design:type", Number)
 ], Donation.prototype, "amount", void 0);
 __decorate([
+    type_graphql_1.Field(),
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], Donation.prototype, "s_created", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], Donation.prototype, "c_id", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], Donation.prototype, "s_receipt_url", void 0);
+__decorate([
     type_graphql_1.Field(() => String),
     typeorm_1.CreateDateColumn({
         type: "timestamp",
@@ -33,18 +48,23 @@ __decorate([
     __metadata("design:type", Date)
 ], Donation.prototype, "createdAt", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ type: "int" }),
     __metadata("design:type", Number)
 ], Donation.prototype, "userId", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ type: "int" }),
     __metadata("design:type", Number)
 ], Donation.prototype, "projectId", void 0);
 __decorate([
-    type_graphql_1.Field(() => User_1.User),
-    typeorm_1.ManyToOne(() => User_1.User, (user) => user.donos),
-    __metadata("design:type", User_1.User)
+    type_graphql_1.Field(() => _1.User),
+    typeorm_1.ManyToOne(() => _1.User, (user) => user.donos),
+    __metadata("design:type", _1.User)
 ], Donation.prototype, "donor", void 0);
+__decorate([
+    type_graphql_1.Field(() => _1.Project),
+    typeorm_1.ManyToOne(() => _1.Project, (project) => project.donations),
+    __metadata("design:type", _1.Project)
+], Donation.prototype, "project", void 0);
 Donation = __decorate([
     type_graphql_1.ObjectType(),
     typeorm_1.Entity()

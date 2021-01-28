@@ -8,8 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 // locals
-// import { Project } from "./Project";
-import { User } from "./User";
+import { Project, User } from "./";
 
 @ObjectType()
 @Entity()
@@ -22,16 +21,28 @@ export class Donation extends BaseEntity {
   @Column({ type: "int" })
   amount: number;
 
+  @Field()
+  @Column()
+  s_created: string;
+
+  @Field()
+  @Column()
+  c_id: string;
+
+  @Field()
+  @Column()
+  s_receipt_url: string;
+
   @Field(() => String)
   @CreateDateColumn({
     type: "timestamp",
   })
   createdAt: Date;
 
-  @Column()
+  @Column({ type: "int" })
   userId: number;
 
-  @Column()
+  @Column({ type: "int" })
   projectId: number;
 
   //! RELATIONSHIPS
@@ -39,7 +50,8 @@ export class Donation extends BaseEntity {
   @ManyToOne(() => User, (user) => user.donos)
   donor: User;
 
-  // @ManyToOne(() => Project, (project) => project.id)
-  // project: Project;
+  @Field(() => Project) // expose
+  @ManyToOne(() => Project, (project) => project.donations)
+  project: Project;
   //! END RELATIONSHIPS
 }

@@ -86,9 +86,8 @@ export class Project extends BaseEntity {
   @OneToMany(() => Upvote, (upvote) => upvote.project)
   upvotes: Upvote[]; // oneToMany
 
-  @Field(() => Donation, { nullable: true })
-  @ManyToMany(() => Donation)
-  @JoinTable()
+  @Field(() => Donation)
+  @OneToMany(() => Donation, (dono) => dono.project)
   donations: Donation[]; // oneToMany
   // END RELATIONSHIPS
 

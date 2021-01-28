@@ -30,7 +30,7 @@ export default function success({}: Props): ReactElement {
         bgImage="https://images.unsplash.com/photo-1586021280718-53fbadcb65a7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80"
         title="Thank you!"
       />
-      <Flex h="full">
+      <Flex h="full" direction="column">
         {data && (
           <>
             <h1>Checkout Payment Result</h1>

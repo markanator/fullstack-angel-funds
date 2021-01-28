@@ -34,6 +34,11 @@ __decorate([
 ], User.prototype, "avatarUrl", void 0);
 __decorate([
     type_graphql_1.Field(),
+    typeorm_1.Column({ default: "" }),
+    __metadata("design:type", String)
+], User.prototype, "cust_id", void 0);
+__decorate([
+    type_graphql_1.Field(),
     typeorm_1.Column({ unique: true }),
     typeorm_1.Index(),
     __metadata("design:type", String)
