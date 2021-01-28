@@ -36,6 +36,10 @@ const Index = ({}: IHomeProps) => {
       SEO={{
         title:
           "VR Funds - Help raise minorities trying to break into the tech space!",
+        description:
+          "VR Funds - Help raise minorities trying to break into the tech space!",
+        image: "/images/hero.jpg",
+        keywords: "virtual reality, funding, platform, technology, startup",
       }}
     >
       <Hero />
