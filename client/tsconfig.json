@@ -23,7 +23,7 @@
       "@/hooks/*": ["hooks/*"],
       "@/types/*": ["types/*"],
       "@/utils/*": ["utils/*"],
-      "@/dummydata/*": ["data/*"]
+      "@/dummydata/*": ["dummydata/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
