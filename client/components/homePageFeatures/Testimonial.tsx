@@ -1,7 +1,7 @@
 import { Box, Container, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import Slider from "react-slick";
-import { testimonials } from "../../data/testimonials";
+import { testimonials } from "@/dummydata/testimonials";
 
 export default function Testimonial() {
   var settings = {
