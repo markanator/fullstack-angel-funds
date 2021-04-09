@@ -31,7 +31,7 @@ const Hero = () => {
               lineHeight="4.5rem"
               textShadow="0 1px 0 black"
             >
-              We help low-income, minorities bring their ideas to market
+              We help low-income entreprenuers bring their ideas to market
             </Heading>
             <ButtonNormal
               url="/my-account/add-project"
