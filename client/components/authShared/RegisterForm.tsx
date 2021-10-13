@@ -15,7 +15,7 @@ import React, { ReactElement } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
-interface Props {}
+interface Props { }
 
 interface IFormInputs {
   fullName: string;
@@ -40,10 +40,10 @@ const RegSchema = yup.object().shape({
     .required("Required."),
 });
 
-export default function RegisterForm({}: Props): ReactElement {
+export default function RegisterForm({ }: Props): ReactElement {
   const router = useRouter();
   const apolloClient = useApolloClient();
-  const { register, handleSubmit, errors, setError } = useForm({
+  const { register, handleSubmit, formState: { errors }, setError } = useForm({
     mode: "all",
     resolver: yupResolver(RegSchema),
   });
@@ -105,7 +105,7 @@ export default function RegisterForm({}: Props): ReactElement {
         <Input
           name="fullName"
           type="text"
-          ref={register}
+          {...register("fullName")}
           isInvalid={errors?.fullName}
           border="1px solid"
           borderColor="progress_bg"
@@ -122,7 +122,7 @@ export default function RegisterForm({}: Props): ReactElement {
         <Input
           name="reg_email"
           type="reg_email"
-          ref={register}
+          {...register("reg_email")}
           isInvalid={errors?.reg_email}
           border="1px solid"
           borderColor="progress_bg"
@@ -139,7 +139,7 @@ export default function RegisterForm({}: Props): ReactElement {
         <Input
           name="password"
           type="password"
-          ref={register}
+          {...register("password")}
           isInvalid={errors?.password}
           border="1px solid"
           borderColor="progress_bg"
@@ -155,7 +155,7 @@ export default function RegisterForm({}: Props): ReactElement {
         <Checkbox
           colorScheme="red"
           name="terms"
-          ref={register}
+          {...register("terms")}
           isInvalid={errors?.terms}
         >
           I agree to the Terms and Conditions and Privacy Policy.

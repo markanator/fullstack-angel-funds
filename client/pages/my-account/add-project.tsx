@@ -27,7 +27,7 @@ import AuthBanner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
 import { useCreateProjectMutation } from "../../generated/grahpql";
 
-interface IAddProjectPage {}
+interface IAddProjectPage { }
 
 interface IFormInputs {
   title: string;
@@ -41,13 +41,13 @@ interface IFormInputs {
   terms: boolean;
 }
 
-export default function AddProjectPage({}: IAddProjectPage) {
+export default function AddProjectPage({ }: IAddProjectPage) {
   const { checksOut } = useIsAuth(); //logged in user
   const router = useRouter(); // for nav
   const [createProject, { loading }] = useCreateProjectMutation();
 
   // form stuff
-  const { register, handleSubmit, errors } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     mode: "all",
     resolver: yupResolver(FreshProjectSchema),
   });
@@ -116,7 +116,7 @@ export default function AddProjectPage({}: IAddProjectPage) {
               <Input
                 name="title"
                 type="text"
-                ref={register}
+                {...register("title")}
                 isInvalid={errors?.title}
                 border="1px solid"
                 borderColor="progress_bg"
@@ -134,7 +134,7 @@ export default function AddProjectPage({}: IAddProjectPage) {
               <FormLabel htmlFor="description">Description</FormLabel>
               <Textarea
                 name="description"
-                ref={register}
+                {...register("description")}
                 isInvalid={errors?.description}
                 row="8"
                 col="8"
@@ -156,7 +156,7 @@ export default function AddProjectPage({}: IAddProjectPage) {
               <Select
                 name="category"
                 placeholder="Select option"
-                ref={register}
+                {...register("category")}
                 isInvalid={errors?.category}
               >
                 <option value="Design">Design</option>
@@ -177,7 +177,7 @@ export default function AddProjectPage({}: IAddProjectPage) {
               <FormLabel htmlFor="image">Feature Image</FormLabel>
               <Input
                 name="image"
-                ref={register}
+                {...register("image")}
                 isInvalid={errors?.image}
                 placeholder="https://..."
                 border="1px solid"
@@ -206,7 +206,7 @@ export default function AddProjectPage({}: IAddProjectPage) {
                   name="fundTarget"
                   type="number"
                   placeholder="0"
-                  ref={register}
+                  {...register("fundTarget")}
                   isInvalid={errors?.fundTarget}
                   border="1px solid"
                   borderColor="progress_bg"
@@ -227,7 +227,7 @@ export default function AddProjectPage({}: IAddProjectPage) {
                 <Input
                   name="publishDate"
                   type="date"
-                  ref={register}
+                  {...register("publishDate")}
                   isInvalid={errors?.publishDate}
                   border="1px solid"
                   borderColor="progress_bg"
@@ -248,7 +248,7 @@ export default function AddProjectPage({}: IAddProjectPage) {
                 <Input
                   name="targetDate"
                   type="date"
-                  ref={register}
+                  {...register("targetDate")}
                   isInvalid={errors?.targetDate}
                   border="1px solid"
                   borderColor="progress_bg"
@@ -271,7 +271,7 @@ export default function AddProjectPage({}: IAddProjectPage) {
               <Checkbox
                 name="terms"
                 type="date"
-                ref={register}
+                {...register("terms")}
                 isInvalid={errors?.terms}
               >
                 I agree to the Terms and Condition.

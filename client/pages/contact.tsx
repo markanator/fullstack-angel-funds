@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import Layout from "@/components/Layout";
 import * as yup from "yup";
 
-interface IHomeProps {}
+interface IHomeProps { }
 
 interface IContactFormData {
   name: string;
@@ -32,9 +32,9 @@ const ContactSchema = yup.object().shape({
   message: yup.string(),
 });
 
-export default function contact({}: IHomeProps) {
+export default function contact({ }: IHomeProps) {
   const toast = useToast();
-  const { register, errors, handleSubmit } = useForm({
+  const { register, formState: { errors }, handleSubmit } = useForm({
     resolver: yupResolver(ContactSchema),
   });
 
@@ -81,7 +81,7 @@ export default function contact({}: IHomeProps) {
                   <Input
                     name="name"
                     type="text"
-                    ref={register}
+                    {...register("name")}
                     isInvalid={errors?.name}
                     placeholder="Your Name"
                     border="1px solid"
@@ -98,7 +98,7 @@ export default function contact({}: IHomeProps) {
                   <Input
                     name="email"
                     type="email"
-                    ref={register}
+                    {...register("email")}
                     isInvalid={errors?.email}
                     placeholder="Your Email"
                     border="1px solid"
@@ -116,7 +116,7 @@ export default function contact({}: IHomeProps) {
                 <Input
                   name="subject"
                   type="text"
-                  ref={register}
+                  {...register("subject")}
                   isInvalid={errors?.subject}
                   placeholder="Your Subject"
                   border="1px solid"
@@ -132,7 +132,7 @@ export default function contact({}: IHomeProps) {
               <FormControl id="message" mb="1.5rem">
                 <Textarea
                   name="message"
-                  ref={register}
+                  {...register("message")}
                   isInvalid={errors?.message}
                   placeholder="Your Message"
                   row="8"

@@ -36,7 +36,7 @@ interface IFormData {
 export default function projectDetails({
   project,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { register, handleSubmit, errors } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     mode: "all",
     resolver: yupResolver(DonoSchema),
   });
@@ -184,7 +184,7 @@ export default function projectDetails({
                       {...input}
                       id="donation"
                       name="donation"
-                      ref={register}
+                      {...register('donation')}
                       isInvalid={errors?.donation}
                       type="number"
                       mr="1rem"

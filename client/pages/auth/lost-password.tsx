@@ -21,7 +21,7 @@ import Banner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
 import { useForgotPasswordMutation } from "../../generated/grahpql";
 
-interface ILostMyPasswordProps {}
+interface ILostMyPasswordProps { }
 
 interface IFormInputs {
   forgot_email: string;
@@ -34,11 +34,11 @@ const ForgotSchema = yup.object().shape({
     .required("Please enter an email address."),
 });
 
-export default function LostPassword({}: ILostMyPasswordProps) {
+export default function LostPassword({ }: ILostMyPasswordProps) {
   // const router = useRouter();
   // const apolloClient = useApolloClient();
   const toast = useToast();
-  const { register, handleSubmit, errors } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     mode: "all",
     resolver: yupResolver(ForgotSchema),
   });
@@ -94,7 +94,7 @@ export default function LostPassword({}: ILostMyPasswordProps) {
                 name="forgot_email"
                 type="email"
                 border="1px solid"
-                ref={register}
+                {...register("forgot_email")}
                 isInvalid={errors?.forgot_email}
                 borderColor="progress_bg"
                 rounded="none"

@@ -19,7 +19,7 @@ import React, { ReactElement } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
-interface Props {}
+// interface Props { }
 
 interface IFormInputs {
   log_email: string;
@@ -34,10 +34,10 @@ const LoginSchema = yup.object().shape({
   log_pass: yup.string().required("Please enter a password."),
 });
 
-export default function LoginForm({}: Props): ReactElement {
+export default function LoginForm(): ReactElement {
   const router = useRouter();
   const apolloClient = useApolloClient();
-  const { register, handleSubmit, errors, setError } = useForm({
+  const { register, handleSubmit, formState: { errors }, setError } = useForm({
     mode: "all",
     resolver: yupResolver(LoginSchema),
   });
@@ -99,7 +99,7 @@ export default function LoginForm({}: Props): ReactElement {
         <Input
           name="log_email"
           type="email"
-          ref={register}
+          {...register("log_email")}
           isInvalid={errors?.log_email}
           border="1px solid"
           borderColor="progress_bg"
@@ -117,7 +117,7 @@ export default function LoginForm({}: Props): ReactElement {
         <Input
           name="log_pass"
           type="password"
-          ref={register}
+          {...register("log_pass")}
           isInvalid={errors?.log_pass}
           border="1px solid"
           borderColor="progress_bg"
