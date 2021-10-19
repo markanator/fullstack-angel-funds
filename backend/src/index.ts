@@ -31,16 +31,12 @@ const main = async () => {
     name: "default",
     type: "postgres",
     host: process.env.DB_HOST,
-    // @ts-ignore
-    port: parseInt(process.env.DB_PORT),
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
+    url: process.env.DATABASE_URL,
     // url: process.env.DATABASE_URL,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [User, Project, Upvote, Donation],
-    logging: true,
-    synchronize: true,
+    logging: false,
+    synchronize: !__prod__,
   });
 
   // await dbConnection.runMigrations(); // run migrations
@@ -98,6 +94,7 @@ const main = async () => {
       userLoader: createUserLoader(),
       projectLoader: createProjectLoader(),
     }),
+    playground: true,
   });
 
   apolloServer.applyMiddleware({

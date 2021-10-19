@@ -38,14 +38,7 @@ export class UserResolver {
         })
         .returning("*")
         .execute();
-
       user = res.raw[0];
-
-      sendEmail(
-        options.email,
-        WelcomeEmail(options.fullName, options.email),
-        "Welcome to VR Funds Platform"
-      );
     } catch (err) {
       if (err.code === "23505" || err.detail.includes("already exists")) {
         // duplicate username error
@@ -63,8 +56,10 @@ export class UserResolver {
 
     // set cookies
     req.session.userId = user.id;
-
-    return { user };
+    if (user) {
+      return { user };
+    }
+    return {};
   }
 
   // LOGIN
