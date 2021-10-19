@@ -31,7 +31,8 @@ const main = async () => {
     name: "default",
     type: "postgres",
     host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT as string),
+    // @ts-ignore
+    port: parseInt(process.env.DB_PORT),
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
@@ -73,7 +74,8 @@ const main = async () => {
         secure: __prod__, //cookie only works in https
       },
       saveUninitialized: false, // create sesh by default regardless of !data
-      secret: process.env.SESSION_SECRET as string,
+      // @ts-ignore
+      secret: process.env.SESSION_SECRET,
       resave: false,
     })
   );
@@ -88,15 +90,8 @@ const main = async () => {
       ],
       validate: false,
     }),
-    playground: __prod__
-      ? false
-      : {
-          settings: {
-            "request.credentials": "include",
-          },
-        },
     // deconstruct access
-    context: ({ req, res }) => ({
+    context: ({ req, res }: any) => ({
       req,
       res,
       redis,
