@@ -3,11 +3,17 @@
   "host": "localhost",
   "port": 5433,
   "username": "postgres",
-  "password": "LOrain123",
-  "database": "vrplatform",
-  "entities": ["dist/entity/*.js"],
-  "migrations": ["dist/migration/*.js"],
-  "subscribers": ["dist/subscriber/*.js"],
+  "password": "root",
+  "database": "vrfunds",
+  "entities": [
+    "dist/entity/*.js"
+  ],
+  "migrations": [
+    "dist/migration/*.js"
+  ],
+  "subscribers": [
+    "dist/subscriber/*.js"
+  ],
   "cli": {
     "entitiesDir": "src/entity",
     "migrationsDir": "src/migrations",

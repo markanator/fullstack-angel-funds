@@ -9,12 +9,11 @@ import { UserResponse } from "../types/UserTypes";
 import { COOKIE_NAME, FORGOT_PASSWORD_PREFIX } from "../utils/constants";
 import { EmailPasswordInput } from "../utils/EmailPasswordInput";
 import { ValidateRegister } from "../utils/ValidateRegister";
-import WelcomeEmail from "../emails/WelcomeEmail";
 
 @Resolver(User)
 export class UserResolver {
   // REGISTER
-  @Mutation(() => UserResponse)
+  @Mutation(() => UserResponse, { nullable: true })
   async register(
     @Arg("options") options: EmailPasswordInput,
     @Ctx() { req }: MyContext
@@ -22,6 +21,21 @@ export class UserResolver {
     // validation stuff
     const errors = ValidateRegister(options);
     if (errors) return { errors };
+    const existingUser = await User.findOne({
+      where: { email: options.email },
+    });
+
+    if (existingUser) {
+      return {
+        errors: [
+          {
+            field: "email",
+            message: "Email is taken.",
+          },
+        ],
+      };
+    }
+
     // g2g
     const hashpass = await argon2.hash(options.password);
 
@@ -38,7 +52,8 @@ export class UserResolver {
         })
         .returning("*")
         .execute();
-      user = res.raw[0];
+
+      user = res.generatedMaps[0];
     } catch (err) {
       if (err.code === "23505" || err.detail.includes("already exists")) {
         // duplicate username error
@@ -53,13 +68,12 @@ export class UserResolver {
       }
       console.log("message: ", err.message);
     }
-
     // set cookies
+    //@ts-ignore
     req.session.userId = user.id;
-    if (user) {
-      return { user };
-    }
-    return {};
+    console.log("### G2G");
+    //@ts-ignore
+    return { user };
   }
 
   // LOGIN

@@ -1,12 +1,13 @@
+import "reflect-metadata";
+import { config } from "dotenv";
+config();
 import { ApolloServer } from "apollo-server-express";
 import connectRedis from "connect-redis";
 import cors from "cors";
-import * as dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
 import Redis from "ioredis";
 import path from "path";
-import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 // locals
 import { createConnection } from "typeorm";
@@ -21,21 +22,18 @@ import {
 } from "./resolvers";
 import { COOKIE_NAME, __prod__ } from "./utils/constants";
 
-dotenv.config();
-
 const PORT = process.env.PORT || 7777;
 
 const main = async () => {
   // setup connection
-  const dbConnection = await createConnection({
+  const dbconn = await createConnection({
     name: "default",
     type: "postgres",
-    host: process.env.DB_HOST,
     url: process.env.DATABASE_URL,
     // url: process.env.DATABASE_URL,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [User, Project, Upvote, Donation],
-    logging: false,
+    logging: !__prod__,
     synchronize: !__prod__,
   });
 
