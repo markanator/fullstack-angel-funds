@@ -30,7 +30,6 @@ const main = async () => {
     name: "default",
     type: "postgres",
     url: process.env.DATABASE_URL,
-    // url: process.env.DATABASE_URL,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [User, Project, Upvote, Donation],
     logging: !__prod__,
@@ -48,7 +47,7 @@ const main = async () => {
   // cors
   app.use(
     cors({
-      origin: process.env.CORS_ORIGIN,
+      origin: process.env!.CORS_ORIGIN,
       credentials: true,
     })
   );
@@ -64,7 +63,7 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 1, // 1 yrs
         httpOnly: true, // non secure for dev
-        sameSite: __prod__ ? "none" : "lax", // csrf protections
+        sameSite: "lax", // csrf protections
         secure: __prod__, //cookie only works in https
       },
       saveUninitialized: false, // create sesh by default regardless of !data
@@ -92,6 +91,7 @@ const main = async () => {
       userLoader: createUserLoader(),
       projectLoader: createProjectLoader(),
     }),
+    introspection: true,
     playground: true,
   });
 
