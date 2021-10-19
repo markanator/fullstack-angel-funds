@@ -4,6 +4,7 @@
   "description": "vr-funding-backend",
   "main": "index.js",
   "scripts": {
+    "build": "rm -rf dist/ && tsc",
     "prestart": "rm -rf dist/ && tsc",
     "start": "ts-node ./src/index.ts",
     "watch": "tsc -w",

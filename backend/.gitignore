@@ -107,3 +107,4 @@ typings/
 
 data/
 dist/
+ormconfig.json
