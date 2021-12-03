@@ -65,3 +65,14 @@ export type Upvote = {
   createdAt: Date
   updatedAt: Date
 }
+
+
+export type foundProject = Project & {
+  author: {
+      id: number;
+      fullName: string;
+      avatarUrl: string;
+  };
+  upvotes: Upvote[];
+  donations: Donation[];
+}

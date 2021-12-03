@@ -1,3 +1,4 @@
+import { getProjectBySlug } from "@/async/projects";
 import {
   Box,
   Button,
@@ -9,21 +10,17 @@ import {
   InputLeftElement,
   InputRightElement,
   Text,
-  useNumberInput,
+  useNumberInput
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup.umd";
 import AuthBanner from "components/authShared/AuthBanner";
 import SmallDeetsBox from "components/projectDetailsComps/SmallDeetsBox";
-import { GetbySlugDocument } from "generated/grahpql";
+import { formatDistanceStrict } from "date-fns";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Image from "next/image";
-import React from "react";
+import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import TitleFormatter from "title";
-// locals
-import { IProjectDetails } from "types/IProjectDetails";
-import { fetchPostJSON } from "utils/api-helpers";
-import { initializeApollo } from "utils/apolloClient";
 import getStripe from "utils/getStripe";
 import Layout from "../../components/Layout";
 import { DonoSchema } from "../../Forms/Schema/DonoSchema";
@@ -32,56 +29,57 @@ interface IFormData {
   donation: number;
 }
 
-// ! MAIN EXPORT
 export default function projectDetails({
   project,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    mode: "all",
+  const { register, handleSubmit, formState: { errors }, } = useForm({
     resolver: yupResolver(DonoSchema),
   });
 
-  // for donation input
-  const { getInputProps } = useNumberInput({
-    defaultValue: 5,
-    allowMouseWheel: false,
-  });
-  const input = getInputProps();
+  const FormattedProjectTitle = useMemo(() => TitleFormatter(project.title), []);
 
-  const FormattedProjectTitle = (TitleFormatter(
-    project!.title
-  ) as unknown) as string;
+  const daysLeft = useMemo(() => formatDistanceStrict(
+    new Date(project.publishDate),
+    new Date(project.targetDate),
+    { unit: "day", addSuffix: false }
+  ).slice(0, 3), [])
+
+  const totalBackers = useMemo(() => project.donations.length, []);
+
+  const percentageProgress =  useMemo(()=> Math.floor((project.currentFunds / project.fundTarget) * 100), []);
+
 
   const onSubmit = async ({ donation }: IFormData) => {
     console.log("Submitted a dono:", donation);
     //* API:: Create a Checkout Session.
-    const res = await fetchPostJSON("/api/donations", {
-      amount: donation,
-      projectTitle: FormattedProjectTitle,
-      projectSlug: project!.slug as string,
-      projectDesc: project!.description.slice(0, 144),
-      projectImg: project!.image,
-    });
+    alert(donation*100 + " cents")
+    // const res = await fetchPostJSON("/api/donations", {
+    //   amount: donation,
+    //   projectTitle: FormattedProjectTitle,
+    //   projectSlug: project!.slug as string,
+    //   projectDesc: project!.description.slice(0, 144),
+    //   projectImg: project!.image,
+    // });
 
     //! error handling
-    if (res.statusCode === 500) {
-      console.error(res.message);
-      return;
-    }
+    // if (res.statusCode === 500) {
+    //   console.error(res.message);
+    //   return;
+    // }
 
-    console.log("FETCH CALL RESPONSE:::", res);
+    // console.log("FETCH CALL RESPONSE:::", res);
 
     //* redirect to checkout
-    const stripe = await getStripe();
-    const result = await stripe!.redirectToCheckout({
-      sessionId: res.id,
-    });
+    // const stripe = await getStripe();
+    // const result = await stripe!.redirectToCheckout({
+    //   sessionId: res.id,
+    // });
 
-    console.log("STRIPE REDIRECT RES:::", result);
+    // console.log("STRIPE REDIRECT RES:::", result);
 
-    if (result?.error) {
-      console.warn(result?.error?.message);
-    }
+    // if (result?.error) {
+    //   console.warn(result?.error?.message);
+    // }
     //! END SUBMIT CALL
   };
 
@@ -94,7 +92,7 @@ export default function projectDetails({
         keywords: project.category,
       }}
     >
-      <AuthBanner bgImage={project.image} title={FormattedProjectTitle} />
+      <AuthBanner bgImage={project.image} title={FormattedProjectTitle} overlay />
       <article>
         {/* TOP HALF */}
         <Flex as="section" w="full" h="full" bg="testimonial_bg">
@@ -136,9 +134,9 @@ export default function projectDetails({
                 <Heading py=".5rem">{FormattedProjectTitle}</Heading>
                 {/* INFO CARDS */}
                 <Flex direction="row" justifyContent="space-between">
-                  <SmallDeetsBox content="$2,500" heading="test" />
-                  <SmallDeetsBox content="34" heading="Backers" />
-                  <SmallDeetsBox content="25" heading="Days Left" />
+                  <SmallDeetsBox content={`$${project.fundTarget}`} heading="Goal" />
+                  <SmallDeetsBox content={`${totalBackers}`} heading="Backers" />
+                  <SmallDeetsBox content={daysLeft} heading="Days Left" />
                 </Flex>
                 {/* PROGRESS BAR w/ GOAL  */}
                 <Flex direction="column">
@@ -151,12 +149,12 @@ export default function projectDetails({
                       Raised:
                     </Text>
                     <Text fontSize=".875rem" color="text_secondary">
-                      14%
+                      {percentageProgress}%
                     </Text>
                   </Flex>
                   <Box h=".65rem" bgColor="progress_bg">
                     <Box
-                      w="50%"
+                      w={`${percentageProgress}%`}
                       h="full"
                       pos="relative"
                       overflow="hidden"
@@ -166,7 +164,7 @@ export default function projectDetails({
                   <Text mt=".5rem" fontWeight="700" fontSize="1.125rem">
                     Goal:{" "}
                     <Box as="span" color="color_primary">
-                      $2500
+                      ${project.fundTarget}
                     </Box>
                   </Text>
                 </Flex>
@@ -181,11 +179,9 @@ export default function projectDetails({
                       children="$"
                     />
                     <Input
-                      {...input}
                       id="donation"
-                      name="donation"
-                      {...register('donation')}
-                      isInvalid={errors?.donation}
+                      {...register('donation', { value: 5 })}
+                      isInvalid={errors?.donation?.message}
                       type="number"
                       mr="1rem"
                       size="lg"
@@ -222,10 +218,10 @@ export default function projectDetails({
                   <Flex mr=".875rem">
                     <Image
                       src={
-                        project?.author.avatarUrl ||
+                        project.author?.avatarUrl ||
                         "https://www.gravatar.com/avatar/00000000000000000000000000000000?s=200"
                       }
-                      alt={project?.author.fullName}
+                      alt={project.author?.fullName}
                       width="60px"
                       height="60px"
                       objectFit="cover"
@@ -237,14 +233,9 @@ export default function projectDetails({
                     <Text>
                       By:{" "}
                       <strong>
-                        {
-                          (TitleFormatter(
-                            project!.author.fullName
-                          ) as unknown) as string
-                        }
+                        {TitleFormatter(project.author.fullName)}
                       </strong>
                     </Text>
-                    <Text></Text>
                   </Flex>
                 </Flex>
               </Flex>
@@ -278,31 +269,19 @@ export async function getServerSideProps({
   res,
   query,
 }: GetServerSidePropsContext) {
-  const apc = initializeApollo();
-  const slug = query.slug;
-
-  const { data }: { data: IProjectDetails } = await apc.query({
-    query: GetbySlugDocument,
-    variables: {
-      slug,
-    },
-  });
-
-  console.log("project slug::", slug);
-
-  if (!data?.getProjectBySlug) {
+  try {
+    const slug = query.slug as string;
+    const project = await getProjectBySlug(slug);
+    return {
+      props: {
+        project: project!,
+      },
+    };
+  } catch (error) {
     res.writeHead(307, {
       Location: "/404",
     });
-
     res.end();
-
     return { props: {} };
   }
-
-  return {
-    props: {
-      project: data.getProjectBySlug!,
-    },
-  };
 }

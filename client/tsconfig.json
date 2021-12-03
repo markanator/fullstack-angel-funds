@@ -26,7 +26,7 @@
       "@/forms/*": [
         "forms/*"
       ],
-      "@/aynsc/*": [
+      "@/async/*": [
         "async/*"
       ],
       "@/Queries/*": [
