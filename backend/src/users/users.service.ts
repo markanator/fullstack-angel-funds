@@ -1,5 +1,10 @@
 import { Prisma, User } from '.prisma/client';
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import * as bcrypt from 'bcrypt';
 import { UserRoles } from './user.roles';
@@ -80,28 +85,34 @@ export class UsersService {
     return newUser;
   }
 
-  async update(params: {
-    where: Prisma.UserWhereUniqueInput;
-    data: Prisma.UserUpdateInput;
-  }): Promise<User> {
-    const foundUser = await this.prisma.user.findUnique({ where: params.where });
+  async update(
+    where: Prisma.UserWhereUniqueInput,
+    data: Prisma.UserUpdateInput,
+    userId: number,
+  ): Promise<User> {
+    const foundUser = await this.prisma.user.findUnique({ where: where });
 
     if (!foundUser) {
-      throw new NotFoundException('User not found.');
+      return null;
+    }
+    if (foundUser.id !== userId) {
+      throw new ForbiddenException();
     }
 
-    const { where, data } = params;
     return this.prisma.user.update({
       where,
       data,
     });
   }
 
-  async remove(where: Prisma.UserWhereUniqueInput): Promise<boolean> {
+  async remove(where: Prisma.UserWhereUniqueInput, userId: number): Promise<boolean> {
     const foundUser = await this.prisma.user.findUnique({ where });
 
     if (!foundUser) {
       throw new NotFoundException('User not found.');
+    }
+    if (foundUser.id !== userId) {
+      throw new ForbiddenException();
     }
 
     const deleted = await this.prisma.user.delete({

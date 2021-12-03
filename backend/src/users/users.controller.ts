@@ -1,4 +1,4 @@
-import { Prisma } from '.prisma/client';
+import { Prisma } from '@prisma/client';
 import {
   BadRequestException,
   Body,
@@ -9,9 +9,14 @@ import {
   Patch,
   Post,
   Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { isEmpty } from 'lodash';
 import { UsersService } from './users.service';
+import { Roles } from '../auth/roles.decorator';
+import { UserRoles } from './user.roles';
+import { JWTAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -26,6 +31,7 @@ export class UsersController {
   }
 
   @Get()
+  @Roles(UserRoles.ADMIN)
   findAll(@Query() query) {
     return this.usersService.findAll({
       skip: query?.skip,
@@ -39,23 +45,22 @@ export class UsersController {
     return this.usersService.findOne(Number(id));
   }
 
+  @UseGuards(JWTAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: number, @Body() payload: Partial<Prisma.UserUpdateInput>) {
+  update(
+    @Request() req,
+    @Param('id') id: number,
+    @Body() payload: Partial<Prisma.UserUpdateInput>,
+  ) {
     if (!payload || isEmpty(payload)) {
       throw new BadRequestException('Missing fields.');
     }
-    return this.usersService.update({
-      where: {
-        id: Number(id),
-      },
-      data: payload,
-    });
+    return this.usersService.update({ id: Number(id) }, payload, req.user.id);
   }
 
+  @UseGuards(JWTAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.usersService.remove({
-      id: Number(id),
-    });
+  remove(@Request() req, @Param('id') id: number) {
+    return this.usersService.remove({ id: Number(id) }, req.user.id);
   }
 }

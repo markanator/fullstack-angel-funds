@@ -10,7 +10,7 @@ export class AppController {
 
   @UseGuards(JWTAuthGuard)
   @Get('protected')
-  @Roles(UserRoles.ADMIN, UserRoles.USER) // provide metadata to endpoint
+  @Roles(UserRoles.ADMIN) // provide metadata to endpoint
   protected(@Request() req): any {
     return req.user;
   }
