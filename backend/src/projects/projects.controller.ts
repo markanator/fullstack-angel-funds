@@ -1,4 +1,4 @@
-import { Prisma } from '.prisma/client';
+import { Prisma } from '@prisma/client';
 import {
   BadRequestException,
   Body,
@@ -15,9 +15,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { isEmpty } from 'lodash';
-import { JWTAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Roles } from 'src/auth/roles.decorator';
-import { UserRoles } from 'src/users/user.roles';
+import { JWTAuthGuard } from '../auth/jwt-auth.guard';
+import { Roles } from '../auth/roles.decorator';
+import { UserRoles } from '../users/user.roles';
 import { ProjectsService } from './projects.service';
 
 @Controller('projects')
