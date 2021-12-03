@@ -11,20 +11,20 @@ import Testimonial from "@/components/homePageFeatures/Testimonial";
 import TopCategories from "@/components/homePageFeatures/TopCategories";
 import Layout from "@/components/Layout";
 import Newsletter from "@/components/Newsletter";
-import { useFetchMeQuery } from "@/generated/grahpql";
+// import { useFetchMeQuery } from "@/generated/grahpql";
 import { __isProd__ } from "@/utils/isProd";
 import { isServer } from "@/utils/isServer";
 import { Flex } from "@chakra-ui/react";
+import { getLoggedInSession } from "async/auth";
 import React from "react";
+import { useQuery } from "react-query";
 
 interface IHomeProps {}
 
 const Index = ({}: IHomeProps) => {
-  const { data, loading } = useFetchMeQuery({
-    skip: isServer(),
-  });
+  const {data, isLoading} = useQuery('user', getLoggedInSession);
 
-  if (!loading && !__isProd__) {
+  if (!isLoading && !__isProd__) {
     console.log("me data", data);
   }
   // console.log("server user data", user);

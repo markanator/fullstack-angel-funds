@@ -26,11 +26,14 @@
       "@/forms/*": [
         "forms/*"
       ],
-      "@/generated/*": [
-        "generated/*"
+      "@/aynsc/*": [
+        "async/*"
       ],
-      "@/graphql/*": [
-        "graphql/*"
+      "@/Queries/*": [
+        "Queries/*"
+      ],
+      "@/Mutations/*": [
+        "Mutations/*"
       ],
       "@/hooks/*": [
         "hooks/*"

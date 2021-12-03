@@ -2,18 +2,10 @@ import { Box, Flex, Heading, Image, Link, Text } from "@chakra-ui/react";
 import React from "react";
 import { FaRegClock } from "react-icons/fa";
 import { formatDistanceStrict } from "date-fns";
+import { Project } from "../types";
 
 interface ICardSmProps {
-  proj: {
-    title: string;
-    slug: string;
-    image: string;
-    category: string;
-    currentFunds: number;
-    fundTarget: number;
-    publishDate: string;
-    targetDate: string;
-  };
+  proj: Project;
 }
 
 export default function ProjectCardSM({ proj }: ICardSmProps) {
@@ -29,8 +21,8 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
   } = proj;
   const projectLink = `/project/${slug}`;
   const daysLeft = formatDistanceStrict(
-    parseInt(publishDate),
-    parseInt(targetDate),
+    new Date(publishDate),
+    new Date(targetDate),
     { unit: "day" }
   );
 
