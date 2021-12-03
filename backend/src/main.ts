@@ -1,8 +1,6 @@
 import { NestFactory } from '@nestjs/core';
-import * as helmet from 'helmet';
 import * as compression from 'compression';
-import * as session from 'express-session';
-import * as passport from 'passport';
+import * as helmet from 'helmet';
 import { AppModule } from './app/app.module';
 
 const PORT = Number(process.env.PORT) || 8000;
@@ -16,20 +14,6 @@ async function bootstrap() {
     origin: process.env.CORS_URL,
     credentials: true,
   });
-
-  app.use(
-    session({
-      // stores a cookie that holds key to the store
-      name: 'test',
-      resave: false,
-      saveUninitialized: false,
-      secret: 'teststsetset',
-      cookie: { maxAge: 3600000 }, // use redis
-    }),
-  );
-
-  app.use(passport.initialize());
-  app.use(passport.session());
 
   app.use(compression());
 
