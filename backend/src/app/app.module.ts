@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ThrottlerModule } from '@nestjs/throttler';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { AuthModule } from '../auth/auth.module';
+import { RolesGuard } from '../auth/roles.guard';
+import { PrismaService } from '../prisma.service';
+import { UsersModule } from '../users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from '../users/users.module';
-import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
@@ -22,6 +25,13 @@ import { AuthModule } from 'src/auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+    PrismaService,
+  ],
 })
 export class AppModule {}

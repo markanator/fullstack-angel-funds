@@ -2,6 +2,7 @@ import { Prisma, User } from '.prisma/client';
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import * as bcrypt from 'bcrypt';
+import { UserRoles } from './user.roles';
 
 @Injectable()
 export class UsersService {
@@ -69,6 +70,7 @@ export class UsersService {
       data: {
         ...data,
         password: hashpassword,
+        roles: [UserRoles.ADMIN],
       },
     });
 
