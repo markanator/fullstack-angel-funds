@@ -1,7 +1,0 @@
-fragment FullUserDetails on User {
-  id
-  fullName
-  avatarUrl
-  email
-  created_at
-}
