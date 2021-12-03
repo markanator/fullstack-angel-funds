@@ -17,6 +17,7 @@ model User {
   password  String
   avatarUrl String?
   cust_id   String?
+  roles     String[]
   projects  Project[]
   upvotes   Upvote[]
   donos     Donation[]

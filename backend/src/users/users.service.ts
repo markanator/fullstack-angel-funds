@@ -8,11 +8,23 @@ export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   async findOne(id: number): Promise<User | null> {
-    return this.prisma.user.findUnique({
+    const foundUser = await this.prisma.user.findUnique({
       where: {
         id,
       },
+      include: {
+        donos: true,
+        projects: true,
+        upvotes: true,
+      },
     });
+    if (!foundUser) {
+      throw new NotFoundException('User not found.');
+    }
+
+    delete foundUser.password;
+
+    return foundUser;
   }
 
   async findAll(params: {
@@ -21,7 +33,7 @@ export class UsersService {
     cursor?: Prisma.UserWhereUniqueInput;
     where?: Prisma.UserWhereInput;
     orderBy?: Prisma.UserOrderByWithRelationInput;
-  }): Promise<User[]> {
+  }): Promise<Partial<User>[]> {
     const { skip, take, cursor, where, orderBy } = params;
     return this.prisma.user.findMany({
       skip,
@@ -29,6 +41,14 @@ export class UsersService {
       cursor,
       where,
       orderBy,
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        avatarUrl: true,
+        createdAt: true,
+        _count: true,
+      },
     });
   }
 
@@ -75,15 +95,17 @@ export class UsersService {
     });
   }
 
-  async remove(where: Prisma.UserWhereUniqueInput): Promise<User> {
+  async remove(where: Prisma.UserWhereUniqueInput): Promise<boolean> {
     const foundUser = await this.prisma.user.findUnique({ where });
 
     if (!foundUser) {
       throw new NotFoundException('User not found.');
     }
 
-    return this.prisma.user.delete({
+    const deleted = await this.prisma.user.delete({
       where,
     });
+
+    return !!deleted;
   }
 }
