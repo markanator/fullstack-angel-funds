@@ -24,6 +24,7 @@ model User {
   createdAt DateTime   @default(now()) @db.Timestamp
   updatedAt DateTime   @updatedAt @db.Timestamp
 
+  @@index([id, email])
 }
 
 model Project {
@@ -46,6 +47,8 @@ model Project {
   donations         Donation[]
   createdAt         DateTime   @default(now()) @db.Timestamp
   updatedAt         DateTime   @updatedAt @db.Timestamp
+
+  @@index([id, slug, authorId])
 }
 
 model Donation {
@@ -60,6 +63,8 @@ model Donation {
   projectId        Int
   createdAt        DateTime @default(now()) @db.Timestamp
   updatedAt        DateTime @updatedAt @db.Timestamp
+
+  @@index([id, donorId, projectId])
 }
 
 model Upvote {
@@ -71,4 +76,6 @@ model Upvote {
   projectId Int
   createdAt DateTime @default(now()) @db.Timestamp
   updatedAt DateTime @updatedAt @db.Timestamp
+
+  @@index([id, userId, projectId])
 }
