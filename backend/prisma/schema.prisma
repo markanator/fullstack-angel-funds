@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  fullName  String
+  email     String     @unique
+  password  String
+  avatarUrl String?
+  cust_id   String?
+  projects  Project[]
+  upvotes   Upvote[]
+  donos     Donation[]
+  createdAt DateTime   @default(now()) @db.Timestamp
+  updatedAt DateTime   @updatedAt @db.Timestamp
+
+}
+
+model Project {
+  id                Int        @id @default(autoincrement())
+  title             String
+  description       String
+  category          String
+  image             String
+  slug              String
+  fundTarget        Int
+  currentFunds      Int
+  totalDonation_sum Int
+  viewCount         Int
+  votePoints        Int
+  publishDate       DateTime   @db.Timestamp
+  targetDate        DateTime   @db.Timestamp
+  author            User       @relation(fields: [authorId], references: [id])
+  authorId          Int
+  upvotes           Upvote[]
+  donations         Donation[]
+  createdAt         DateTime   @default(now()) @db.Timestamp
+  updatedAt         DateTime   @updatedAt @db.Timestamp
+}
+
+model Donation {
+  id               Int      @id @default(autoincrement())
+  amount           Int
+  stripeCreatedAt  String
+  stripeCustomerId String
+  stripeReceiptUrl String
+  donor            User     @relation(fields: [donorId], references: [id])
+  donorId          Int
+  project          Project  @relation(fields: [projectId], references: [id])
+  projectId        Int
+  createdAt        DateTime @default(now()) @db.Timestamp
+  updatedAt        DateTime @updatedAt @db.Timestamp
+}
+
+model Upvote {
+  id        Int      @id @default(autoincrement())
+  value     Int
+  User      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId Int
+  createdAt DateTime @default(now()) @db.Timestamp
+  updatedAt DateTime @updatedAt @db.Timestamp
+}
