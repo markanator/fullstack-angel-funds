@@ -1,49 +1,73 @@
-[![Project Banner](./docs/vrFundsBanner.png)](http://vr-funds.markambrocio.com/)
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+</p>
 
-# **_Fullstack VR Funding_**
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-### **About**
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-"Virtual Reality Funds" is a portfolio remake of a past project. The task was to build a platform that provides tech entrepreneurs with limited resources access to business training, project capital raising and mentoring.
+## Description
 
-### **What did this project entail?**
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-In the original [team repo](https://github.com/virtual-reality-funding-platform1/back-end) I was tasked with creating a RESTful API using Node/Express/JWT.
+## Installation
 
-I watched and completed Ben Awad's [14-hour Fullstack React, GraphQL, TS Course](https://www.youtube.com/watch?v=I6ypD7qv3Z8&t=19555s) in under a week and I was hooked on the tech used! I wanted more and I wanted something original.
+```bash
+$ npm install
+```
 
-In this project, I wanted to challenge myself by making a GraphQL Server that utilizes Redis all in TypeScript, while also using [Next.js](https://nextjs.org/) for the frontend.
+## Running the app
 
-### **What was the most enjoyable part of the project?**
+```bash
+# development
+$ npm run start
 
-I enjoyed the thrill of the unknown and having to research the documentations before coming to a solution. It wasn't easy and it certainly was a process, but I learned a lot from it.
+# watch mode
+$ npm run start:dev
 
-### **What did you find most technically challenging?**
+# production mode
+$ npm run start:prod
+```
 
-### _For the backend:_
+## Test
 
-I had to wrap my head around using decorators for type-orm and type-grapql at first, but quickly familiarized myselg with them.
+```bash
+# unit tests
+$ npm run test
 
-Cookies weren't working when they the front end and back end were hosted, I had to research how to fix that. The backend is hosted for free on heroku with a different domain.
+# e2e tests
+$ npm run test:e2e
 
-### _For the frontend:_
+# test coverage
+$ npm run test:cov
+```
 
-I originally started this project with [PUG.js](https://pugjs.org/),switched to [Gatsby.js](https://www.gatsbyjs.org/), switched to [CRA](https://create-react-app.dev/), and landed with Next.js.
+## Support
 
-I wanted to add stripe payments as challenge rather than using a barebones custom option, that was surprisingly easier than I had imagined.
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-### **What is functional about your project, and what is still a work in progress?**
+## Stay in touch
 
-User's can create an account, make projects, donate to projects.
+- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-I would like to go back and work on mobile responsiveness. I'd like to add more content to the user's dashboard page, so they can track the status of their projects.
+## License
 
-I can always add more content to flesh it out more but this is more of a "using new tech" challenge.
-
-## **Credits**
-
-### Original Team Repo: [Github Link](https://github.com/virtual-reality-funding-platform1/back-end)
-
-### Images used throughout the frontend are from [Unsplash](https://unsplash.com/)
-
-### User Images for testimonials from [UI-Faces](https://uifaces.co/)
+Nest is [MIT licensed](LICENSE).
