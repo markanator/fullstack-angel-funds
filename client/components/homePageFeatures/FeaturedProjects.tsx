@@ -12,7 +12,7 @@ import { useQuery } from "react-query";
 import ProjectCardSM from "../ProjectCardSM";
 
 export default function FeaturedProjects() {
-  const {isLoading, data} = useQuery('featuredProjects', getAllProjects)
+  const {isLoading, data} = useQuery('featuredProjects', () => getAllProjects())
 
   if (!isLoading && data) {
     console.log({...data});
@@ -42,9 +42,7 @@ export default function FeaturedProjects() {
             {
               data && data.map((proj)=> (
                 <ListItem m="auto" mb="1rem" key={proj.id}>
-                  <ProjectCardSM
-                    proj={proj}
-                  />
+                  <ProjectCardSM proj={proj} />
                 </ListItem>
               ))
             }

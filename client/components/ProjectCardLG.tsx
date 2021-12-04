@@ -1,35 +1,24 @@
 import { Box, Flex, Heading, Image, Link, Text } from "@chakra-ui/react";
-import React from "react";
+import dayjs from "dayjs";
+import React, { useMemo } from "react";
 import { FaRegClock } from "react-icons/fa";
-import { formatDistanceStrict } from "date-fns";
+import { Project } from "../types";
 
 interface IProjCards {
-  project: {
-    id: number;
-    slug: string;
-    title: string;
-    category: string;
-    image: string;
-    currentFunds: number;
-    fundTarget: number;
-    publishDate: string;
-    targetDate: string;
-    description?: string;
-    totalDonation_sum?: number;
-    viewCount?: number;
-    votePoints?: number;
-  };
+  project: Project
 }
 
 export default function ProjectCardLG({ project }: IProjCards) {
-  const projectLink = `/project/${project.slug}`;
-  const daysLeft = formatDistanceStrict(
-    parseInt(project.publishDate),
-    parseInt(project.targetDate),
-    { unit: "day" }
-  );
+  const projectLink = useMemo(()=> (`/project/${project.slug}`), []);
+
+  const daysLeft = useMemo(()=>{
+    const date1 = dayjs(project.publishDate)
+    const date2 = dayjs(project.targetDate)
+    return date2.diff(date1, 'd')
+  }, []);
+
   return (
-    <Flex direction="column" w="full" boxShadow="md" maxW="370px">
+    <Flex direction="column" w="full" boxShadow="md" maxW="370px" m='.5rem'>
       <Box>
         <Image
           src={project.image}

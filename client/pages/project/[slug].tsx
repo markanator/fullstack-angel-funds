@@ -9,19 +9,17 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  Text,
-  useNumberInput
+  Text
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup.umd";
 import AuthBanner from "components/authShared/AuthBanner";
 import SmallDeetsBox from "components/projectDetailsComps/SmallDeetsBox";
-import { formatDistanceStrict } from "date-fns";
+import dayjs from "dayjs";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Image from "next/image";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import TitleFormatter from "title";
-import getStripe from "utils/getStripe";
 import Layout from "../../components/Layout";
 import { DonoSchema } from "../../Forms/Schema/DonoSchema";
 
@@ -38,11 +36,11 @@ export default function projectDetails({
 
   const FormattedProjectTitle = useMemo(() => TitleFormatter(project.title), []);
 
-  const daysLeft = useMemo(() => formatDistanceStrict(
-    new Date(project.publishDate),
-    new Date(project.targetDate),
-    { unit: "day", addSuffix: false }
-  ).slice(0, 3), [])
+  const daysLeft = useMemo(()=>{
+    const date1 = dayjs(project.publishDate)
+    const date2 = dayjs(project.targetDate)
+    return date2.diff(date1, 'd')
+  }, []);
 
   const totalBackers = useMemo(() => project.donations.length, []);
 
@@ -136,7 +134,7 @@ export default function projectDetails({
                 <Flex direction="row" justifyContent="space-between">
                   <SmallDeetsBox content={`$${project.fundTarget}`} heading="Goal" />
                   <SmallDeetsBox content={`${totalBackers}`} heading="Backers" />
-                  <SmallDeetsBox content={daysLeft} heading="Days Left" />
+                  <SmallDeetsBox content={`${daysLeft}`} heading="Days Left" />
                 </Flex>
                 {/* PROGRESS BAR w/ GOAL  */}
                 <Flex direction="column">
