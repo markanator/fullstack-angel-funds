@@ -3,7 +3,7 @@ import React from "react";
 
 export default function FeaturedHomepage() {
   return (
-    <Flex as="section" w="full" direction="row">
+    <Flex as="section" w="full" direction="row" display={['none','none','flex']}>
       <Flex w="40%" justifyContent="flex-end" bgColor="color_primary">
         <Box px="2rem" py="3rem">
           <Heading color="white" fontSize="2rem" maxW="185px">

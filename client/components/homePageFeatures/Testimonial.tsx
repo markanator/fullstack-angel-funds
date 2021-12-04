@@ -84,15 +84,15 @@ const TestimonialSlide = ({ info }: ISlideProps) => (
         <Heading
           as="p"
           fontSize="1.875rem"
-          mb="3rem"
+          mb={["","","","3rem"]}
           textAlign="left"
           maxW="xl"
         >
           {info.name}
         </Heading>
         <Text
-          fontSize="1.25rem"
-          lineHeight="2.5rem"
+          fontSize={['1rem','1rem','1rem', "1.25rem"]}
+          lineHeight={['','','', "2.5rem"]}
           color="text_tertiary"
           maxW="xl"
         >
@@ -100,11 +100,12 @@ const TestimonialSlide = ({ info }: ISlideProps) => (
         </Text>
       </Flex>
     </Flex>
-    <Flex zIndex="2" position="absolute" top="-20px" right="20px">
+    <Flex zIndex="2" position="absolute" top="-20px" right="20px" display={['none','none','none','block']}>
       <Image
         src={info.image}
         alt="Image 2"
-        w="385px"
+        w='auto'
+        maxW="385px"
         h="415px"
         zIndex="2"
         objectFit="cover"

@@ -7,10 +7,10 @@ export default function About() {
     <Flex as="section" mt="5rem" direction="row" maxH="625px" w="full" h="full">
       {/* <Container px='-1rem' maxW='7xl' w='full' display='flex' flexDirection='row' pos='relative' justifyContent='center' alignItems='center' bgColor='#fff'> */}
       {/* LEFT - QUAD */}
-      <Flex justifyContent="flex-end" maxW="50%" w="full" h="full">
-        <Flex flexDirection="column" bg="white">
+      <Flex justifyContent="flex-end" maxW={["0%","0%","0%","50%"]} w="full" h="full" display={['none','none','flex','flex','flex']}>
+        <Flex flexDirection="column" bg="white" mb='1px'>
           {/* LEFT - TOP */}
-          <Flex w="full" h="full">
+          <Flex w="full" h="full" maxH="311px" >
             <Flex
               w="290px"
               h="full"
@@ -44,7 +44,7 @@ export default function About() {
             </Box>
           </Flex>
           {/* LEFT - BOTTOM */}
-          <Flex w="full" h="full">
+          <Flex w="full" h="full" maxH="311px" >
             <Box w="290px" h="full" m="1px 1px 0 0" maxW="290px">
               <Image
                 src="/images/image-1.png"
@@ -70,7 +70,7 @@ export default function About() {
       </Flex>
       {/* RIGHT - DEETS */}
       <Flex
-        w="50%"
+        w={["100%","100%","100%","50%"]}
         h="full !important"
         maxH="625px"
         bgColor="white"

@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 
 
 export default function useFetchAllProjects(params?: Record<string, any>, ownerId?: number) {
-  return useQuery('exporeProjects', () => getAllProjects(params), {
-    enabled: ownerId ? !!ownerId : false
+  return useQuery('exploreProjects', () => getAllProjects(params), {
+    enabled: ownerId && ownerId
   });
 }

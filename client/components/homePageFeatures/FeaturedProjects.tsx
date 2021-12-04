@@ -13,10 +13,6 @@ import ProjectCardSM from "../ProjectCardSM";
 
 export default function FeaturedProjects() {
   const {isLoading, data} = useQuery('featuredProjects', () => getAllProjects())
-
-  if (!isLoading && data) {
-    console.log({...data});
-  }
   return (
     <Flex as="section" w="full" pt="7rem" pb="5rem">
       <Container maxW="7xl">
@@ -40,7 +36,7 @@ export default function FeaturedProjects() {
             flexWrap="nowrap"
           >
             {
-              data && data.map((proj)=> (
+              data && data.slice(0,3).map((proj)=> (
                 <ListItem m="auto" mb="1rem" key={proj.id}>
                   <ProjectCardSM proj={proj} />
                 </ListItem>

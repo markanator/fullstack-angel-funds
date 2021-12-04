@@ -1,6 +1,5 @@
 import FeaturedHomepage from "@/components/AsSeenOn/FeaturedHomepage";
 import About from "@/components/homePageFeatures/About";
-// locals
 import CTA from "@/components/homePageFeatures/CTA";
 import CTA2 from "@/components/homePageFeatures/CTA2";
 import Explore from "@/components/homePageFeatures/Explore";
@@ -11,23 +10,12 @@ import Testimonial from "@/components/homePageFeatures/Testimonial";
 import TopCategories from "@/components/homePageFeatures/TopCategories";
 import Layout from "@/components/Layout";
 import Newsletter from "@/components/Newsletter";
-// import { useFetchMeQuery } from "@/generated/grahpql";
-import { __isProd__ } from "@/utils/isProd";
-import { isServer } from "@/utils/isServer";
 import { Flex } from "@chakra-ui/react";
-import { getLoggedInSession } from "async/auth";
 import React from "react";
-import { useQuery } from "react-query";
 
 interface IHomeProps {}
 
 const Index = ({}: IHomeProps) => {
-  const {data, isLoading} = useQuery('user', getLoggedInSession);
-
-  if (!isLoading && !__isProd__) {
-    console.log("me data", data);
-  }
-  // console.log("server user data", user);
 
   return (
     <Layout
