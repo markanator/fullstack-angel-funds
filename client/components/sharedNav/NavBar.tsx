@@ -1,3 +1,4 @@
+import { getLoggedInSession } from "@/async/auth";
 import {
   Box,
   Container,
@@ -9,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
-import { isServer } from "utils/isServer";
+import { useQuery } from "react-query";
 import ALink from "../ALink";
 
 interface INavbarProps {
@@ -18,13 +19,13 @@ interface INavbarProps {
 
 export default function Navbar() {
   const router = useRouter();
-  // const { data } = useFetchMeQuery({
-  //   skip: isServer(),
-  // });
-  // const [logout] = useLogoutMutation();
-  // const apolloClient = useApolloClient();
+  const {isLoading, data: authUserData} = useQuery('authUser', getLoggedInSession, {
+    retry: false
+  });
 
-  // console.log("navbar props.user:: ", data);
+  if (!isLoading && authUserData) {
+    console.log("navbar props.user:: ", authUserData);
+  }
 
   return (
     <Flex as="header" w="full" direction="column" boxShadow="md">
@@ -53,7 +54,7 @@ export default function Navbar() {
           </Flex>
           {/* RIGHT */}
           <Flex w="50%" justifyContent="flex-end" direction="row">
-            {!false ? (
+            {authUserData ? (
               <>
                 <ALink href="/my-account" mr="2rem">
                   Dashboard

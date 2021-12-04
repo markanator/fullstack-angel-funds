@@ -1,4 +1,4 @@
-import { useApolloClient } from "@apollo/client";
+import { login } from "@/async/auth";
 import {
   Button,
   Flex,
@@ -7,17 +7,14 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup.umd";
 import ALink from "components/ALink";
-import {
-  FetchMeDocument,
-  useFetchMeQuery,
-  useLoginMutation,
-} from "generated/grahpql";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import * as yup from "yup";
+import TokenIntercepter from '../../axios/intercepters'
 
 // interface Props { }
 
@@ -36,51 +33,32 @@ const LoginSchema = yup.object().shape({
 
 export default function LoginForm(): ReactElement {
   const router = useRouter();
-  const apolloClient = useApolloClient();
+
   const { register, handleSubmit, formState: { errors }, setError } = useForm({
     mode: "all",
     resolver: yupResolver(LoginSchema),
   });
 
-  const [login] = useLoginMutation();
+  const {mutate: logUser} = useMutation( ({email, pass}: any) => login(email, pass));
 
   const onSubmit = async (LogFormData: IFormInputs) => {
     // * make call
-    const res = await login({
-      variables: {
-        email: LogFormData.log_email,
-        password: LogFormData.log_pass,
-      },
-    });
-
-    // ! error handle
-    if (res.data?.login?.errors) {
-      res.data?.login?.errors.forEach((element) => {
-        if (element.field == "password") {
-          setError("log_pass", {
-            message: element.message,
-          });
+    logUser({email: LogFormData.log_email,pass: LogFormData.log_pass},{
+      onSuccess:  ({data})=>{
+        console.log({data});
+        TokenIntercepter.setNewUserToken(data?.access_token as string);
+        if (typeof router.query.next === "string") {
+          router.push(router.query.next);
         } else {
-          setError("log_email", {
-            message: element.message,
-          });
+          // it worked
+          router.push("/my-account");
         }
-      });
-    } else if (res.data?.login?.user) {
-      apolloClient.writeQuery({
-        query: FetchMeDocument,
-        data: {
-          me: { ...res.data?.login?.user },
-        },
-      });
-      //? All good
-      if (typeof router.query.next === "string") {
-        router.push(router.query.next);
-      } else {
-        // it worked
-        router.push("/my-account");
+      },
+      onError: (er)=>{
+        // @ts-ignore
+        console.error(er?.message);
       }
-    }
+    });
   };
 
   return (

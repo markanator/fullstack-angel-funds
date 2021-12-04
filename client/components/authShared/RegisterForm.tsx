@@ -1,4 +1,4 @@
-import { useApolloClient } from "@apollo/client";
+import { registerUser } from "@/async/auth";
 import {
   Button,
   Checkbox,
@@ -6,13 +6,13 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Text,
+  Text
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { FetchMeDocument, useRegisterMutation } from "generated/grahpql";
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup.umd";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import * as yup from "yup";
 
 interface Props { }
@@ -42,13 +42,13 @@ const RegSchema = yup.object().shape({
 
 export default function RegisterForm({ }: Props): ReactElement {
   const router = useRouter();
-  const apolloClient = useApolloClient();
+
   const { register, handleSubmit, formState: { errors }, setError } = useForm({
     mode: "all",
     resolver: yupResolver(RegSchema),
   });
 
-  const [registerMutation] = useRegisterMutation();
+  const {mutate: registerMutation} = useMutation(({fullName, email, password}: any)=>registerUser(email, password, fullName))
 
   const onSubmit = async (formData: IFormInputs) => {
     const options = {
@@ -57,36 +57,16 @@ export default function RegisterForm({ }: Props): ReactElement {
       password: formData.password,
     };
 
-    const res = await registerMutation({
-      variables: {
-        options,
-      },
-    });
-
-    //! set errors from server
-    if (res.data?.register?.errors) {
-      res.data?.register?.errors.forEach((element) => {
-        setError(element.field, {
-          message: element.message,
-        });
-      });
-    } else if (res.data?.register?.user) {
-      apolloClient.writeQuery({
-        query: FetchMeDocument,
-        data: {
-          me: { ...res.data?.register?.user },
-        },
-      });
-      // * All good
-      if (typeof router.query.next === "string") {
-        router.push(router.query.next);
-      } else {
-        // it worked
-        router.push("/my-account");
+    registerMutation(options, {
+      onSuccess: (data)=> {
+        if (typeof router.query.next === "string") {
+          router.push(router.query.next);
+        } else {
+          // it worked
+          router.push("/my-account");
+        }
       }
-    }
-
-    console.log("REGISTER response", res);
+    });
   };
 
   return (
