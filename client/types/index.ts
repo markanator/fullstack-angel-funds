@@ -66,13 +66,18 @@ export type Upvote = {
   updatedAt: Date
 }
 
+type authorShortForm = {
+  id: number;
+  fullName: string;
+  avatarUrl: string;
+};
 
 export type foundProject = Project & {
-  author: {
-      id: number;
-      fullName: string;
-      avatarUrl: string;
-  };
+  author: authorShortForm;
   upvotes: Upvote[];
   donations: Donation[];
+}
+
+export type newProject = Project & {
+  author: authorShortForm;
 }

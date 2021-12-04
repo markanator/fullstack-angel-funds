@@ -18,6 +18,12 @@ class TokenIntercepter {
     return config
   }
 
+  removeUserToken = (token = "") => {
+    this.accessToken = token;
+    window.localStorage.setItem('token', token);
+    window.localStorage.removeItem('token')
+  }
+
   setTokenFromLS = (config) => {
     const newToken = window.localStorage.getItem('token');
     if (!config.headers) {

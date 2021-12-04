@@ -1,18 +1,12 @@
-import { getAllProjects } from "@/async/projects";
 import Banner from "@/components/authShared/AuthBanner";
 import Layout from "@/components/Layout";
 import ProjectCardLG from "@/components/ProjectCardLG";
-import { Flex, Heading, Text, Container } from "@chakra-ui/react";
+import useFetchAllProjects from "@/Queries/useFetchAllProjects";
+import { Container, Flex, Heading, Text } from "@chakra-ui/react";
 import React from "react";
-import { useQuery } from "react-query";
-import { Project } from "../types";
-
-interface IExploreProps {
-  projects?: any[] | null;
-}
 
 export default function explore() {
-  const { data, error, isLoading } = useQuery('exporeProjects', () => getAllProjects());
+  const { data, error, isLoading } = useFetchAllProjects()
 
   if (isLoading) {
     return (

@@ -10,21 +10,26 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import ALink from "../ALink";
+import TokenIntercepter from '../../axios/intercepters'
 
 interface INavbarProps {
   user: any | null;
 }
 
 export default function Navbar() {
+  const queryClient = useQueryClient()
   const router = useRouter();
   const {isLoading, data: authUserData} = useQuery('authUser', getLoggedInSession, {
-    retry: false
+    retry: false,
+    refetchOnWindowFocus: false,
+    cacheTime: 10000,
   });
-
-  if (!isLoading && authUserData) {
-    console.log("navbar props.user:: ", authUserData);
+  const handleLogOut = async () => {
+    queryClient.clear();
+    TokenIntercepter.removeUserToken();
+    router.push("/");
   }
 
   return (
@@ -59,15 +64,7 @@ export default function Navbar() {
                 <ALink href="/my-account" mr="2rem">
                   Dashboard
                 </ALink>
-                <Link
-                  onClick={async () => {
-                    // const res = await logout();
-                    if (true) {
-                      // await apolloClient.resetStore();
-                      router.push("/");
-                    }
-                  }}
-                >
+                <Link onClick={handleLogOut}>
                   Logout
                 </Link>
               </>

@@ -1,6 +1,6 @@
 import { Container, Flex } from "@chakra-ui/react";
 import React from "react";
-import { useIsAuth } from "utils/useIsAuth";
+import { useIsAuth } from "@/Queries/useIsAuth";
 import AuthBanner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
 import AccountNavbar from "../../components/myAccountShared/AccountNavbar";

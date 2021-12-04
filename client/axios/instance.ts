@@ -1,7 +1,5 @@
-import { __isProd__ } from '@/utils/isProd';
 import axios from 'axios';
 import TokenIntercepter from './intercepters';
-import axiosCancel from 'axios-cancel'
 
 
 const instance = axios.create({

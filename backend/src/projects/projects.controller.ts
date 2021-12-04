@@ -45,6 +45,7 @@ export class ProjectsController {
     return this.projectsService.findAll({
       skip: query?.skip,
       take: query?.take || 10,
+      where: query?.isOwner ? { authorId: +query?.isOwner } : {},
       orderBy: { title: 'asc' },
     });
   }

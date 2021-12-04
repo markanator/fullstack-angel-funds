@@ -1,3 +1,4 @@
+import { useIsAuth } from '@/Queries/useIsAuth'
 import {
   Button,
   Container,
@@ -8,26 +9,46 @@ import {
   Heading,
   Input
 } from '@chakra-ui/react'
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup.umd'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { useIsAuth } from 'utils/useIsAuth'
 import AuthBanner from '../../components/authShared/AuthBanner'
 import Layout from '../../components/Layout'
 import AccountNavbar from '../../components/myAccountShared/AccountNavbar'
+import * as yup from 'yup';
 
-// interface ISettingProps { }
+type formData = {
+  fullName: string;
+  email: string;
+  avatarUrl: string;
+  oldPassword: string;
+  newPassword: string;
+}
+
+export const settingsScheme = yup.object().shape({
+  fullName: yup.string().optional(),
+  email: yup.string().optional(),
+  avatarUrl: yup.string().optional(),
+  oldPassword: yup.string().optional(),
+  newPassword: yup.string().optional(),
+});
+
 
 export default function settings () {
-  const { checksOut } = useIsAuth()
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const {checksOut} = useIsAuth()
+  const { register, handleSubmit, formState: { errors } } = useForm<formData>({
+    resolver: yupResolver(),
+  })
 
-  const onSubmit = (data) => console.log(JSON.stringify(data, null, 2))
+  const onSubmit = (data) => alert(JSON.stringify(data, null, 2))
 
   if (checksOut) {
     return (
       <Layout SEO={{ title: 'My Settings - VR Funds' }}>
         <AuthBanner bgImage='/images/breadcrumb.png' title='My Settings' />
-        <Container maxW='7xl' bgColor='gray.200' py='2rem'>
+        <Flex bgColor='gray.200'>
+
+        <Container maxW='7xl'  py='2rem'>
           <AccountNavbar />
           {/* MAIN container */}
           <Flex w='full' py='4rem'>
@@ -58,7 +79,7 @@ export default function settings () {
                   boxShadow='0 0 2px 2px rgba(0, 0, 0, 0.02) inset'
                 />
                 <FormErrorMessage>
-                  {errors.fullName && errors.fullName.message}
+                  {errors?.fullName && errors?.fullName?.message}
                 </FormErrorMessage>
               </FormControl>
 
@@ -74,7 +95,7 @@ export default function settings () {
                   boxShadow='0 0 2px 2px rgba(0, 0, 0, 0.02) inset'
                 />
                 <FormErrorMessage>
-                  {errors.avatarUrl && errors.avatarUrl.message}
+                  {errors?.avatarUrl && errors?.avatarUrl?.message}
                 </FormErrorMessage>
               </FormControl>
 
@@ -90,7 +111,7 @@ export default function settings () {
                   boxShadow='0 0 2px 2px rgba(0, 0, 0, 0.02) inset'
                 />
                 <FormErrorMessage>
-                  {errors.email && errors.email.message}
+                  {errors?.email && errors?.email?.message}
                 </FormErrorMessage>
               </FormControl>
 
@@ -107,7 +128,7 @@ export default function settings () {
                     boxShadow='0 0 2px 2px rgba(0, 0, 0, 0.02) inset'
                   />
                   <FormErrorMessage>
-                    {errors.oldPassword && errors.oldPassword.message}
+                    {errors?.oldPassword && errors?.oldPassword?.message}
                   </FormErrorMessage>
                 </FormControl>
 
@@ -123,7 +144,7 @@ export default function settings () {
                     boxShadow='0 0 2px 2px rgba(0, 0, 0, 0.02) inset'
                   />
                   <FormErrorMessage>
-                    {errors.newPassword && errors.newPassword.message}
+                    {errors?.newPassword && errors?.newPassword?.message}
                   </FormErrorMessage>
                 </FormControl>
               </Flex>
@@ -134,6 +155,8 @@ export default function settings () {
             </Flex>
           </Flex>
         </Container>
+
+        </Flex>
       </Layout>
     )
   }

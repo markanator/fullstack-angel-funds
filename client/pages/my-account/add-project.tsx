@@ -21,13 +21,11 @@ import { FreshProjectSchema } from "Forms/Schema/createProjectSchema";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useIsAuth } from "utils/useIsAuth";
-import * as yup from "yup";
+import { useIsAuth } from "@/Queries/useIsAuth";
 import AuthBanner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
-import { useCreateProjectMutation } from "../../generated/grahpql";
-
-interface IAddProjectPage { }
+import { useMutation } from "react-query";
+import { createNewProject } from "@/async/projects";
 
 interface IFormInputs {
   title: string;
@@ -41,10 +39,9 @@ interface IFormInputs {
   terms: boolean;
 }
 
-export default function AddProjectPage({ }: IAddProjectPage) {
+export default function AddProjectPage() {
   const { checksOut } = useIsAuth(); //logged in user
   const router = useRouter(); // for nav
-  const [createProject, { loading }] = useCreateProjectMutation();
 
   // form stuff
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -52,12 +49,7 @@ export default function AddProjectPage({ }: IAddProjectPage) {
     resolver: yupResolver(FreshProjectSchema),
   });
 
-  // chakra rec. hack for number inputs
-  const { getInputProps } = useNumberInput({
-    defaultValue: 0,
-    allowMouseWheel: false,
-  });
-  const input = getInputProps();
+  const {mutate} = useMutation((payload: any) => createNewProject(payload))
 
   const toast = useToast();
 
@@ -70,28 +62,35 @@ export default function AddProjectPage({ }: IAddProjectPage) {
       fundTarget: formData.fundTarget,
       publishDate: formData.publishDate,
       targetDate: formData.targetDate,
+      currentFunds: 0,
+      totalDonation_sum: 0,
+      viewCount: 0,
+      votePoints: 0,
     };
-    const { data, errors } = await createProject({
-      variables: {
-        input: project,
-      },
-      update: (cache) => {
-        cache.evict({ fieldName: "projects:{}" });
-      },
-    });
 
-    if (!errors) {
-      if (data?.createProject?.id) {
+    mutate(project, {
+      onSuccess: (data, vars)=> {
         toast({
           title: "Project created.",
-          description: `Your Project: ${data.createProject?.title}, was successfully created.`,
+          description: `Your Project: ${data.title}, was successfully created.`,
           status: "success",
           duration: 9000,
           isClosable: true,
+          onCloseComplete: () => router.push(`/project/${data.slug}`)
         });
-        router.push(`/project/${data?.createProject?.slug}`);
+      },
+      onError: (e)=> {
+        // @ts-ignore
+        console.error(e?.message);
+        toast({
+          title: "Oh, snap. An error happened.",
+          description: `Your Project: ${project.title}, was not created.`,
+          status: "warning",
+          duration: 9000,
+          isClosable: true,
+        });
       }
-    }
+    });
   };
 
   // console.log("add project props", user);
@@ -99,6 +98,7 @@ export default function AddProjectPage({ }: IAddProjectPage) {
     return (
       <Layout SEO={{ title: "Add a Project - VR Funds" }}>
         <AuthBanner bgImage="/images/breadcrumb.png" title="Add a Project" />
+        <Flex bgColor='gray.200'>
         <Container maxW="6xl" py="5rem">
           <Flex
             as="form"
@@ -136,8 +136,9 @@ export default function AddProjectPage({ }: IAddProjectPage) {
                 name="description"
                 {...register("description")}
                 isInvalid={errors?.description}
-                row="8"
-                col="8"
+                row="12"
+                col="12"
+                h='250px'
                 // type='textarea'
                 border="1px solid"
                 borderColor="progress_bg"
@@ -202,7 +203,6 @@ export default function AddProjectPage({ }: IAddProjectPage) {
                   children="$"
                 />
                 <Input
-                  {...input}
                   name="fundTarget"
                   type="number"
                   placeholder="0"
@@ -298,6 +298,7 @@ export default function AddProjectPage({ }: IAddProjectPage) {
             </Flex>
           </Flex>
         </Container>
+        </Flex>
       </Layout>
     );
   }

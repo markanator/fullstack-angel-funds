@@ -51,7 +51,7 @@ export default function LoginForm(): ReactElement {
           router.push(router.query.next);
         } else {
           // it worked
-          router.push("/my-account");
+          router.push("/my-account/projects");
         }
       },
       onError: (er)=>{

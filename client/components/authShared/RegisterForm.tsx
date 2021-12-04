@@ -51,20 +51,13 @@ export default function RegisterForm({ }: Props): ReactElement {
   const {mutate: registerMutation} = useMutation(({fullName, email, password}: any)=>registerUser(email, password, fullName))
 
   const onSubmit = async (formData: IFormInputs) => {
-    const options = {
+    registerMutation({
       email: formData.reg_email,
       fullName: formData.fullName,
       password: formData.password,
-    };
-
-    registerMutation(options, {
+    }, {
       onSuccess: (data)=> {
-        if (typeof router.query.next === "string") {
-          router.push(router.query.next);
-        } else {
-          // it worked
-          router.push("/my-account");
-        }
+        console.log({data})
       }
     });
   };

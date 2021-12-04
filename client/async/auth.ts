@@ -9,5 +9,5 @@ export const login = (email:string, password: string) => {
 }
 
 export const registerUser = (email:string, password: string, fullName: string) => {
-  return axios.post('/users', {email, password});
+  return axios.post('/users', {email, password, fullName});
 }

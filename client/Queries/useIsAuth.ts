@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 
 export const useIsAuth = () => {
   const router = useRouter();
-  const {isLoading, data: authUserData} = useQuery('authUser', getLoggedInSession);
+  const {isLoading, data: authUserData} = useQuery('authUser', getLoggedInSession, {
+    cacheTime: 10000,
+  });
   const [checksOut, setChecksOut] = useState(false);
 
   useEffect(() => {
@@ -17,5 +19,5 @@ export const useIsAuth = () => {
     }
   }, [isLoading, authUserData, router]);
 
-  return { checksOut };
+  return { checksOut, authUserData };
 };
