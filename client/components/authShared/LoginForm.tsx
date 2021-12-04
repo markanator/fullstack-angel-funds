@@ -46,7 +46,7 @@ export default function LoginForm(): ReactElement {
     logUser({email: LogFormData.log_email,pass: LogFormData.log_pass},{
       onSuccess:  ({data})=>{
         console.log({data});
-        TokenIntercepter.setNewUserToken(data?.access_token as string);
+        TokenIntercepter.setUserToken(data?.access_token as string);
         if (typeof router.query.next === "string") {
           router.push(router.query.next);
         } else {

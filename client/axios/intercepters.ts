@@ -4,12 +4,12 @@ class TokenIntercepter {
   }
   accessToken = "";
 
-  setNewUserToken = (token: string) => {
+  setUserToken = (token: string) => {
     window.localStorage.setItem('token', token);
     this.accessToken = token
   }
 
-  getNewConfig = (config) => {
+  setAccessToken = (config) => {
     if (!config.headers) {
       config.headers = {}
     }
@@ -18,7 +18,7 @@ class TokenIntercepter {
     return config
   }
 
-  getTokenFromLS = (config) => {
+  setTokenFromLS = (config) => {
     const newToken = window.localStorage.getItem('token');
     if (!config.headers) {
       config.headers = {}
@@ -29,9 +29,9 @@ class TokenIntercepter {
 
   watchOutgoing = (config) => {
     if (!this.accessToken) {
-      return this.getNewConfig(config)
+      return this.setAccessToken(config)
     }
-    return this.getTokenFromLS(config)
+    return this.setTokenFromLS(config)
   }
 
 }
