@@ -21,7 +21,6 @@ export class AppController {
     return req.user;
   }
 
-  @UseGuards(JWTAuthGuard)
   @Get()
   hello(): string {
     return this.appService.getHello();

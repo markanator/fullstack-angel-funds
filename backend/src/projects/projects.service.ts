@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Prisma, Project } from '@prisma/client';
 import slugify from 'slugify';
 import { PrismaService } from '../prisma.service';
