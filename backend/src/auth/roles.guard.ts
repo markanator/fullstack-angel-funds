@@ -33,7 +33,7 @@ export class RolesGuard implements CanActivate {
       });
 
       return reqRoles.some((role) => dbUser.roles?.includes(role));
-    } catch (error) {
+    } catch (error: any) {
       console.error(error?.message);
       return false;
     }
