@@ -14,7 +14,6 @@ import {
   Text,
   useToast
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup/dist/yup.umd";
 import AuthBanner from "components/authShared/AuthBanner";
 import SmallDeetsBox from "components/projectDetailsComps/SmallDeetsBox";
 import dayjs from "dayjs";
@@ -43,9 +42,7 @@ export default function ProjectDetails({
   const { mutateAsync: donateAsync } = useMutation(({pId, payload}: {pId: number, payload: newDono}) => donateToProject(pId,payload));
   const toast = useToast()
 
-  const { register, handleSubmit, formState: { errors }, } = useForm({
-    resolver: yupResolver(DonoSchema),
-  });
+  const { register, handleSubmit, formState: { errors }, } = useForm();
 
   const FormattedProjectTitle = useMemo(() => TitleFormatter(project.title), [project.title]);
   const totalBackers = useMemo(() => project.donations.length, [project.donations]);
