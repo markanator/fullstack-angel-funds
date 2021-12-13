@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { DonationsModule } from 'src/donations/donations.module';
 import { ProjectsModule } from 'src/projects/projects.module';
 import { AuthModule } from '../auth/auth.module';
 import { RolesGuard } from '../auth/roles.guard';
@@ -25,6 +26,7 @@ import { AppService } from './app.service';
     UsersModule,
     AuthModule,
     ProjectsModule,
+    DonationsModule,
   ],
   controllers: [AppController],
   providers: [

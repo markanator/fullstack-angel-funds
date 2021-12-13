@@ -48,14 +48,30 @@ export class ProjectsService {
     return newProject;
   }
 
-  async findOne(slug: string): Promise<Project | null> {
+  async findOne(slug: string): Promise<Partial<Project> | null> {
     const foundProject = await this.prisma.project.findFirst({
       where: {
         slug: {
           equals: slug,
         },
       },
-      include: {
+      select: {
+        id: true,
+        authorId: true,
+        category: true,
+        currentFunds: true,
+        description: true,
+        fundTarget: true,
+        image: true,
+        publishDate: true,
+        slug: true,
+        targetDate: true,
+        title: true,
+        totalDonation_sum: true,
+        viewCount: true,
+        votePoints: true,
+
+        _count: true,
         author: {
           select: {
             id: true,
@@ -63,7 +79,19 @@ export class ProjectsService {
             avatarUrl: true,
           },
         },
-        donations: true,
+        donations: {
+          select: {
+            id: true,
+            amount: true,
+            donor: {
+              select: {
+                id: true,
+                fullName: true,
+                avatarUrl: true,
+              },
+            },
+          },
+        },
         upvotes: true,
       },
     });
