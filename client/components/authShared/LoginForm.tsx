@@ -45,7 +45,6 @@ export default function LoginForm(): ReactElement {
     // * make call
     logUser({email: LogFormData.log_email,pass: LogFormData.log_pass},{
       onSuccess:  ({data})=>{
-        console.log({data});
         TokenIntercepter.setUserToken(data?.access_token as string);
         if (typeof router.query.next === "string") {
           router.push(router.query.next);
@@ -118,9 +117,9 @@ export default function LoginForm(): ReactElement {
         Login
       </Button>
 
-      <ALink href="/auth/lost-password" mt="1rem">
+      {/* <ALink href="/auth/lost-password" mt="1rem">
         Forgot Password
-      </ALink>
+      </ALink> */}
     </Flex>
   );
 }
