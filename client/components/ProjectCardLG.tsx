@@ -1,4 +1,5 @@
-import { Box, Flex, Heading, Image, Link, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Image, Link as ChakraLink, Text } from "@chakra-ui/react";
+import NextLink from 'next/link'
 import dayjs from "dayjs";
 import React, { useMemo } from "react";
 import { FaRegClock } from "react-icons/fa";
@@ -9,13 +10,15 @@ interface IProjCards {
 }
 
 export default function ProjectCardLG({ project }: IProjCards) {
-  const projectLink = useMemo(()=> (`/project/${project.slug}`), []);
+  const projectLink = useMemo(()=> (`/project/${project.slug}`), [project.slug]);
+  const percentageProgress =  useMemo(()=> Math.floor((project.currentFunds / project.fundTarget) * 100), [project.currentFunds,project.fundTarget]);
+
 
   const daysLeft = useMemo(()=>{
     const date1 = dayjs(project.publishDate)
     const date2 = dayjs(project.targetDate)
     return date2.diff(date1, 'd')
-  }, []);
+  }, [project.publishDate,project.targetDate]);
 
   return (
     <Flex direction="column" w="full" boxShadow="md" maxW="370px" m='.5rem'>
@@ -51,9 +54,11 @@ export default function ProjectCardLG({ project }: IProjCards) {
           </Text>
         </Box>
         <Heading className="__dark" as="p" fontSize="1.25rem" mb="1rem">
-          <Link href={projectLink} _hover={{ color: "#EE6352" }}>
+        <NextLink href={projectLink} passHref>
+          <ChakraLink _hover={{ color: "#EE6352" }}>
             {project.title}
-          </Link>
+          </ChakraLink>
+        </NextLink>
         </Heading>
         <Flex
           direction="row"
@@ -65,12 +70,13 @@ export default function ProjectCardLG({ project }: IProjCards) {
             ${project.currentFunds} raised of ${project.fundTarget}
           </Text>
           <Text className="__norm">
-            {(project.currentFunds / project.fundTarget) * 100}%
+            {percentageProgress.toFixed(0)}%
           </Text>
         </Flex>
         <Box h=".65rem" bgColor="progress_bg">
           <Box
-            w={`${project.currentFunds / project.fundTarget}%`}
+            maxW="306px"
+            w={`${percentageProgress}%`}
             h="full"
             pos="relative"
             overflow="hidden"

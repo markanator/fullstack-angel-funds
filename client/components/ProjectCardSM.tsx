@@ -1,4 +1,5 @@
-import { Box, Flex, Heading, Image, Link, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Image, Link as ChakraLink, Text } from "@chakra-ui/react";
+import NextLink from 'next/link'
 import dayjs from "dayjs";
 import React, { useMemo } from "react";
 import { FaRegClock } from "react-icons/fa";
@@ -9,12 +10,15 @@ interface ICardSmProps {
 }
 
 export default function ProjectCardSM({ proj }: ICardSmProps) {
-  const projectLink = `/project/${proj.slug}`;
+  const projectLink = useMemo(()=> (`/project/${proj.slug}`), [proj.slug]);
+
+  const percentageProgress =  useMemo(()=> Math.floor((proj.currentFunds / proj.fundTarget) * 100), [proj.currentFunds,proj.fundTarget]);
+
   const daysLeft = useMemo(()=>{
     const date1 = dayjs(proj.publishDate)
     const date2 = dayjs(proj.targetDate)
     return date2.diff(date1, 'd')
-  }, []);
+  }, [proj.publishDate,proj.targetDate]);
 
   return (
     <Flex
@@ -31,22 +35,24 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
     >
       <Box className="cardsm__parent">
         <Box pos="relative">
-          <Link
-            href={projectLink}
-            cursor="pointer"
-            textDecoration="none"
-            outline="none"
-          >
-            <Image
-              display="inline-block"
-              objectFit="cover"
-              src={proj.image || "https://picsum.photos/seed/picsum/350"}
-              alt="name"
-              w="370px"
-              h="320px"
-            />
-          </Link>
-          <Link
+          <NextLink href={projectLink} passHref>
+            <ChakraLink
+              cursor="pointer"
+              textDecoration="none"
+              outline="none"
+              >
+              <Image
+                display="inline-block"
+                objectFit="cover"
+                src={proj.image || "https://picsum.photos/seed/picsum/350"}
+                alt="name"
+                w="370px"
+                h="320px"
+                />
+            </ChakraLink>
+          </NextLink>
+          <NextLink href={projectLink} passHref>
+          <ChakraLink
             href={projectLink}
             pos="absolute"
             top="0"
@@ -56,7 +62,8 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
             h="full"
             background="linear-gradient(0deg,#1b1f2e 0%,rgba(27,31,46,0) 100%)"
             transition="all .3s"
-          />
+            />
+          </NextLink>
         </Box>
         <Box
           className="cardsm__content"
@@ -90,9 +97,11 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
             </Text>
           </Box>
           <Heading className="__dark" as="p" fontSize="1.25rem" mb="1rem">
-            <Link href={projectLink} _hover={{ color: "#EE6352" }}>
+            <NextLink href={projectLink} passHref>
+            <ChakraLink _hover={{ color: "#EE6352" }}>
               {proj.title}
-            </Link>
+            </ChakraLink>
+            </NextLink>
           </Heading>
           <Flex
             direction="row"
@@ -103,11 +112,12 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
             <Text className="__norm">
               ${proj.currentFunds} raised of ${proj.fundTarget}
             </Text>
-            <Text className="__norm">{(proj.currentFunds / proj.fundTarget) * 100}%</Text>
+            <Text className="__norm">{percentageProgress.toFixed(0)}%</Text>
           </Flex>
           <Box h=".65rem" bgColor="progress_bg">
             <Box
-              w={`${proj.currentFunds / proj.fundTarget}%`}
+              maxW="302px"
+              w={`${percentageProgress}%`}
               h="full"
               pos="relative"
               overflow="hidden"

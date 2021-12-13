@@ -19,7 +19,7 @@ export default function projects({}: IProjectsProps) {
     return (
       <Layout SEO={{ title: "My Projects - VR Funds" }}>
         <AuthBanner bgImage="/images/breadcrumb.png" title="My Projects" />
-        <Flex bgColor="white">
+        <Flex bgColor="gray.200">
           <Container maxW="7xl" py="2rem">
             <AccountNavbar />
             <Flex direction="row" my="3rem">

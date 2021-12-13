@@ -1,4 +1,6 @@
+import { donateToProject, newDono } from "@/async/donations";
 import { getProjectBySlug } from "@/async/projects";
+import { useFetchProjectQuery } from "@/Queries/projects";
 import {
   Box,
   Button,
@@ -9,16 +11,19 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  Text
+  Text,
+  useToast
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup.umd";
 import AuthBanner from "components/authShared/AuthBanner";
 import SmallDeetsBox from "components/projectDetailsComps/SmallDeetsBox";
 import dayjs from "dayjs";
+import { pick } from "lodash";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Image from "next/image";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation, useQueryClient } from "react-query";
 import TitleFormatter from "title";
 import Layout from "../../components/Layout";
 import { DonoSchema } from "../../Forms/Schema/DonoSchema";
@@ -28,57 +33,59 @@ interface IFormData {
 }
 
 export default function projectDetails({
-  project,
+  ssrProject,
+  slug
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const qc = useQueryClient()
+  const {data: project } = useFetchProjectQuery(slug, {
+    initialData: ssrProject
+  })
+  const { mutateAsync: donateAsync } = useMutation(({pId, payload}: {pId: number, payload: newDono}) => donateToProject(pId,payload));
+  const toast = useToast()
+
   const { register, handleSubmit, formState: { errors }, } = useForm({
     resolver: yupResolver(DonoSchema),
   });
 
-  const FormattedProjectTitle = useMemo(() => TitleFormatter(project.title), []);
+  const FormattedProjectTitle = useMemo(() => TitleFormatter(project.title), [project.title]);
+  const totalBackers = useMemo(() => project.donations.length, []);
+  const percentageProgress =  useMemo(()=> Math.floor((project.currentFunds / project.fundTarget) * 100), [project.currentFunds,project.fundTarget]);
 
   const daysLeft = useMemo(()=>{
     const date1 = dayjs(project.publishDate)
     const date2 = dayjs(project.targetDate)
     return date2.diff(date1, 'd')
-  }, []);
-
-  const totalBackers = useMemo(() => project.donations.length, []);
-
-  const percentageProgress =  useMemo(()=> Math.floor((project.currentFunds / project.fundTarget) * 100), []);
-
+  }, [project.publishDate, project.targetDate]);
 
   const onSubmit = async ({ donation }: IFormData) => {
     console.log("Submitted a dono:", donation);
     //* API:: Create a Checkout Session.
-    alert(donation*100 + " cents")
-    // const res = await fetchPostJSON("/api/donations", {
-    //   amount: donation,
-    //   projectTitle: FormattedProjectTitle,
-    //   projectSlug: project!.slug as string,
-    //   projectDesc: project!.description.slice(0, 144),
-    //   projectImg: project!.image,
-    // });
-
-    //! error handling
-    // if (res.statusCode === 500) {
-    //   console.error(res.message);
-    //   return;
-    // }
-
-    // console.log("FETCH CALL RESPONSE:::", res);
-
-    //* redirect to checkout
-    // const stripe = await getStripe();
-    // const result = await stripe!.redirectToCheckout({
-    //   sessionId: res.id,
-    // });
-
-    // console.log("STRIPE REDIRECT RES:::", result);
-
-    // if (result?.error) {
-    //   console.warn(result?.error?.message);
-    // }
-    //! END SUBMIT CALL
+    const payload:newDono = {
+      amount: donation,
+      stripeCreatedAt: "",
+      stripeCustomerId: "",
+      stripeReceiptUrl: "",
+    }
+    await donateAsync({pId: project.id, payload}, {
+      onSuccess: () => {
+        toast({
+          isClosable: true,
+          status: "success",
+          title: "Successfully donated!"
+        })
+      },
+      onError: (err: any) => {
+        toast({
+          isClosable: true,
+          status: "error",
+          title: "Error!",
+          description: err?.message
+        })
+      },
+      onSettled: () => {
+        qc.invalidateQueries(['project', slug])
+      }
+    })
   };
 
   return (
@@ -152,6 +159,7 @@ export default function projectDetails({
                   </Flex>
                   <Box h=".65rem" bgColor="progress_bg">
                     <Box
+                      maxW="608px"
                       w={`${percentageProgress}%`}
                       h="full"
                       pos="relative"
@@ -160,9 +168,9 @@ export default function projectDetails({
                     />
                   </Box>
                   <Text mt=".5rem" fontWeight="700" fontSize="1.125rem">
-                    Goal:{" "}
+                    Raised:{" "}
                     <Box as="span" color="color_primary">
-                      ${project.fundTarget}
+                      ${project.currentFunds}
                     </Box>
                   </Text>
                 </Flex>
@@ -272,7 +280,8 @@ export async function getServerSideProps({
     const project = await getProjectBySlug(slug);
     return {
       props: {
-        project: project!,
+        ssrProject: project!,
+        slug
       },
     };
   } catch (error) {
