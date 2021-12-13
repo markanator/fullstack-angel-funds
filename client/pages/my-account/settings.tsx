@@ -9,7 +9,7 @@ import {
   Heading,
   Input
 } from '@chakra-ui/react'
-import { yupResolver } from '@hookform/resolvers/yup/dist/yup.umd'
+import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import AuthBanner from '../../components/authShared/AuthBanner'
@@ -34,10 +34,10 @@ export const settingsScheme = yup.object().shape({
 });
 
 
-export default function settings () {
+export default function Settings () {
   const {checksOut} = useIsAuth()
   const { register, handleSubmit, formState: { errors } } = useForm<formData>({
-    resolver: yupResolver(),
+    resolver: yupResolver(settingsScheme),
   })
 
   const onSubmit = (data) => alert(JSON.stringify(data, null, 2))

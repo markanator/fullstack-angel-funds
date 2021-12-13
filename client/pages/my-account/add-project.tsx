@@ -1,3 +1,5 @@
+import { createNewProject } from "@/async/projects";
+import { useIsAuth } from "@/Queries/useIsAuth";
 import {
   Button,
   Checkbox,
@@ -12,20 +14,16 @@ import {
   InputLeftElement,
   Select,
   Text,
-  Textarea,
-  useNumberInput,
-  useToast,
+  Textarea, useToast
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FreshProjectSchema } from "Forms/Schema/createProjectSchema";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useIsAuth } from "@/Queries/useIsAuth";
+import { useMutation } from "react-query";
 import AuthBanner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
-import { useMutation } from "react-query";
-import { createNewProject } from "@/async/projects";
 
 interface IFormInputs {
   title: string;
@@ -200,8 +198,9 @@ export default function AddProjectPage() {
                   pointerEvents="none"
                   color="gray.300"
                   fontSize="1.2em"
-                  children="$"
-                />
+                >
+                  $
+                  </InputLeftElement>
                 <Input
                   name="fundTarget"
                   type="number"

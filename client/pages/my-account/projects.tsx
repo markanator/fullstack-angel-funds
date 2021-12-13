@@ -9,7 +9,7 @@ import AccountNavbar from "../../components/myAccountShared/AccountNavbar";
 
 interface IProjectsProps {}
 
-export default function projects({}: IProjectsProps) {
+export default function Projects({}: IProjectsProps) {
   const {checksOut,authUserData} = useIsAuth()
   const {data: projects, isLoading: isFetchingProjects} = useFetchAllProjects({
     isOwner: authUserData?.data?.id},
@@ -25,7 +25,7 @@ export default function projects({}: IProjectsProps) {
             <Flex direction="row" my="3rem">
               <List display='flex' flexDirection='row' flexWrap='wrap'>
                 {projects.map((proj) => (
-                  <ListItem m="auto" mb="1rem">
+                  <ListItem m="auto" mb="1rem" key={proj.id}>
                     <ProjectCardSM proj={proj} />
                   </ListItem>
                 ))}

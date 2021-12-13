@@ -29,6 +29,7 @@ export default function ProjectCardLG({ project }: IProjCards) {
           h="325px"
           objectFit="cover"
           objectPosition="center"
+          alt={project.slug}
         />
       </Box>
       <Box padding="2rem" maxW="370px">

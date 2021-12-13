@@ -7,7 +7,7 @@ import AccountNavbar from "../../components/myAccountShared/AccountNavbar";
 
 interface IAccountProps {}
 
-export default function index({}: IAccountProps) {
+export default function Index({}: IAccountProps) {
   const { checksOut } = useIsAuth();
 
   if (checksOut) {

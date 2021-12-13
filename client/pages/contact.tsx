@@ -32,7 +32,7 @@ const ContactSchema = yup.object().shape({
   message: yup.string(),
 });
 
-export default function contact({ }: IHomeProps) {
+export default function Contact({ }: IHomeProps) {
   const toast = useToast();
   const { register, formState: { errors }, handleSubmit } = useForm({
     resolver: yupResolver(ContactSchema),

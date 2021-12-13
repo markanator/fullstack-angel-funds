@@ -23,7 +23,7 @@ export default function AccountNavbar() {
         <ALink href="/my-account/settings">Account Settings</ALink>
       </Flex>
 
-      <Link href="/my-account/add-project">
+      <Link href="/my-account/add-project" passHref>
         <Button colorScheme="blue" rounded="0">
           Add New Project
         </Button>

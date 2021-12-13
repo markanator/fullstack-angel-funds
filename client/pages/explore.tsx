@@ -5,7 +5,7 @@ import useFetchAllProjects from "@/Queries/useFetchAllProjects";
 import { Container, Flex, Heading, Text } from "@chakra-ui/react";
 import React from "react";
 
-export default function explore() {
+export default function Explore() {
   const { data, error, isLoading } = useFetchAllProjects()
 
   if (isLoading) {

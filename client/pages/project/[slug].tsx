@@ -14,7 +14,7 @@ import {
   Text,
   useToast
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup/dist/yup.umd";
+import { yupResolver } from "@hookform/resolvers/yup";
 import AuthBanner from "components/authShared/AuthBanner";
 import SmallDeetsBox from "components/projectDetailsComps/SmallDeetsBox";
 import dayjs from "dayjs";
@@ -32,7 +32,7 @@ interface IFormData {
   donation: number;
 }
 
-export default function projectDetails({
+export default function ProjectDetails({
   ssrProject,
   slug
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -48,7 +48,7 @@ export default function projectDetails({
   });
 
   const FormattedProjectTitle = useMemo(() => TitleFormatter(project.title), [project.title]);
-  const totalBackers = useMemo(() => project.donations.length, []);
+  const totalBackers = useMemo(() => project.donations.length, [project.donations]);
   const percentageProgress =  useMemo(()=> Math.floor((project.currentFunds / project.fundTarget) * 100), [project.currentFunds,project.fundTarget]);
 
   const daysLeft = useMemo(()=>{
@@ -182,8 +182,9 @@ export default function projectDetails({
                       pointerEvents="none"
                       color="gray.300"
                       fontSize="1.2em"
-                      children="$"
-                    />
+                    >
+                      $
+                      </InputLeftElement>
                     <Input
                       id="donation"
                       {...register('donation', { value: 5 })}
@@ -198,8 +199,9 @@ export default function projectDetails({
                       pointerEvents="none"
                       color="gray.300"
                       fontSize="1.2em"
-                      children=".00"
-                    />
+                    >
+                      .00
+                      </InputRightElement>
                   </InputGroup>
                   <Text>{errors?.donation?.message}</Text>
                   <Box ml="1rem">

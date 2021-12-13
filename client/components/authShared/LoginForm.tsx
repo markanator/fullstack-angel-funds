@@ -7,7 +7,7 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup/dist/yup.umd";
+import { yupResolver } from "@hookform/resolvers/yup";
 import ALink from "components/ALink";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
