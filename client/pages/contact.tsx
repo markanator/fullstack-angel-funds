@@ -10,7 +10,7 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup.umd";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Layout from "@/components/Layout";

@@ -14,7 +14,7 @@ import {
   Text,
   useToast
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup.umd";
 import AuthBanner from "components/authShared/AuthBanner";
 import SmallDeetsBox from "components/projectDetailsComps/SmallDeetsBox";
 import dayjs from "dayjs";

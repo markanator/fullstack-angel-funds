@@ -9,7 +9,7 @@ import {
   Heading,
   Input
 } from '@chakra-ui/react'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup.umd'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import AuthBanner from '../../components/authShared/AuthBanner'

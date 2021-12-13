@@ -16,7 +16,7 @@ import {
   Text,
   Textarea, useToast
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup.umd";
 import { FreshProjectSchema } from "Forms/Schema/createProjectSchema";
 import { useRouter } from "next/router";
 import React from "react";
