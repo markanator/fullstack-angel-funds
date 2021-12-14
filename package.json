@@ -1,0 +1,55 @@
+{
+  "name": "fullstack-vr-funding",
+  "version": "1.0.0",
+  "description": "[![Project Banner](./docs/vrFundsBanner.png)](http://vr-funds.markambrocio.com/)",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "turbo": {
+    "baseBranch": "origin/main",
+    "pipeline": {
+      "build": {
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "dist/**",
+          ".next/**"
+        ]
+      },
+      "lint": {
+        "outputs": []
+      },
+      "dev": {
+        "cache": false
+      }
+    }
+  },
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markanator/fullstack-vr-funding.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/markanator/fullstack-vr-funding/issues"
+  },
+  "homepage": "https://github.com/markanator/fullstack-vr-funding#readme",
+  "devDependencies": {
+    "turbo": "^1.0.9"
+  }
+}
