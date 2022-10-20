@@ -19,20 +19,10 @@ export default function Testimonial() {
     <Flex as="section" w="full" py="6rem">
       <Container maxW="7xl" display="flex" flexDirection="column">
         <Flex direction="column">
-          <Text
-            textAlign="left"
-            fontSize="1.125rem"
-            color="color_alt"
-            mb="1rem"
-          >
+          <Text textAlign="left" fontSize="1.125rem" color="color_alt" mb="1rem">
             Testimonials
           </Text>
-          <Heading
-            textAlign="left"
-            color="text_primary"
-            fontSize="3.5rem"
-            mb="3rem"
-          >
+          <Heading textAlign="left" color="text_primary" fontSize="3.5rem" mb="3rem">
             What They Say
           </Heading>
           <Slider className="ethiopian__caterpillar" {...settings}>
@@ -57,12 +47,7 @@ interface ISlideProps {
 }
 
 const TestimonialSlide = ({ info }: ISlideProps) => (
-  <Box
-    className="testimonial__main"
-    display="inline-flex"
-    pos="relative"
-    w="full"
-  >
+  <Box className="testimonial__main" display="inline-flex" pos="relative" w="full">
     <Flex
       borderLeft="5px solid var(--color_alt)"
       bgColor="testimonial_bg"
@@ -73,29 +58,11 @@ const TestimonialSlide = ({ info }: ISlideProps) => (
       mt="2rem"
       w="full"
     >
-      <Flex
-        direction="column"
-        pb="2.5rem"
-        px="5rem"
-        justifyContent="center"
-        zIndex="1"
-        w="full"
-      >
-        <Heading
-          as="p"
-          fontSize="1.875rem"
-          mb="3rem"
-          textAlign="left"
-          maxW="xl"
-        >
+      <Flex direction="column" pb="2.5rem" px="5rem" justifyContent="center" zIndex="1" w="full">
+        <Heading as="p" fontSize="1.875rem" mb="3rem" textAlign="left" maxW="xl">
           {info.name}
         </Heading>
-        <Text
-          fontSize="1.25rem"
-          lineHeight="2.5rem"
-          color="text_tertiary"
-          maxW="xl"
-        >
+        <Text fontSize="1.25rem" lineHeight="2.5rem" color="text_tertiary" maxW="xl">
           {info.message}
         </Text>
       </Flex>
@@ -114,16 +81,10 @@ const TestimonialSlide = ({ info }: ISlideProps) => (
   </Box>
 );
 
-function PrevArrow(props) {
-  const { className, onClick } = props;
-
-  return (
-    <div className={`${className} prev_arr`} style={{}} onClick={onClick} />
-  );
+function PrevArrow({ className, onClick }: { className?: string; onClick?: () => void }) {
+  return <div className={`${className} prev_arr`} style={{}} onClick={onClick} />;
 }
 
-function NextArrow(props) {
-  const { className, onClick } = props;
-
+function NextArrow({ className, onClick }: { className?: string; onClick?: () => void }) {
   return <div className={`${className} next_arr`} onClick={onClick} />;
 }

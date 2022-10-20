@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import Layout from "@/components/Layout";
 import * as yup from "yup";
 
-interface IHomeProps { }
+interface IHomeProps {}
 
 interface IContactFormData {
   name: string;
@@ -32,9 +32,13 @@ const ContactSchema = yup.object().shape({
   message: yup.string(),
 });
 
-export default function contact({ }: IHomeProps) {
+export default function Contact({}: IHomeProps) {
   const toast = useToast();
-  const { register, formState: { errors }, handleSubmit } = useForm({
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
     resolver: yupResolver(ContactSchema),
   });
 
@@ -43,8 +47,7 @@ export default function contact({ }: IHomeProps) {
     // setSentStatus("Hooray, message sent!");
     toast({
       title: "Message Sent successfully!",
-      description:
-        "Thank you for the message. We'll get back to you as soon as we can!",
+      description: "Thank you for the message. We'll get back to you as soon as we can!",
       status: "success",
       isClosable: true,
       position: "bottom",
@@ -62,27 +65,21 @@ export default function contact({ }: IHomeProps) {
               Write Us a<br /> Message
             </Heading>
             <Text textColor="text_secondary">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a
-              tortor turpis. Pellentesque in arcu id augue tempus imperdiet ac
-              sed metus. Praesent pellentesque nunc sed malesuada placerat.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a tortor turpis. Pellentesque in
+              arcu id augue tempus imperdiet ac sed metus. Praesent pellentesque nunc sed malesuada placerat.
               Integer gravida facilisis fringilla.
             </Text>
           </Flex>
           {/* RIGHT FORM */}
           <Flex flexDirection="column" w="60%">
-            <Flex
-              as="form"
-              flexDirection="column"
-              onSubmit={handleSubmit(onSubmit)}
-            >
+            <Flex as="form" flexDirection="column" onSubmit={handleSubmit(onSubmit as any)}>
               <Flex direction="row" w="full" mb="2rem">
                 {/* FULL NAME */}
                 <FormControl id="name" isRequired mr="1rem">
                   <Input
-                    name="name"
                     type="text"
                     {...register("name")}
-                    isInvalid={errors?.name}
+                    isInvalid={!!errors?.name}
                     placeholder="Your Name"
                     border="1px solid"
                     borderColor="progress_bg"
@@ -96,10 +93,9 @@ export default function contact({ }: IHomeProps) {
                 {/* EMAIL */}
                 <FormControl id="email" isRequired ml="1rem">
                   <Input
-                    name="email"
                     type="email"
                     {...register("email")}
-                    isInvalid={errors?.email}
+                    isInvalid={!!errors?.email}
                     placeholder="Your Email"
                     border="1px solid"
                     borderColor="progress_bg"
@@ -114,10 +110,9 @@ export default function contact({ }: IHomeProps) {
               {/* SUBJECT */}
               <FormControl id="subject" mb="2rem">
                 <Input
-                  name="subject"
                   type="text"
                   {...register("subject")}
-                  isInvalid={errors?.subject}
+                  isInvalid={!!errors?.subject}
                   placeholder="Your Subject"
                   border="1px solid"
                   borderColor="progress_bg"
@@ -131,12 +126,11 @@ export default function contact({ }: IHomeProps) {
               {/* Message */}
               <FormControl id="message" mb="1.5rem">
                 <Textarea
-                  name="message"
                   {...register("message")}
-                  isInvalid={errors?.message}
+                  isInvalid={!!errors?.message}
                   placeholder="Your Message"
-                  row="8"
-                  col="8"
+                  rows={8}
+                  cols={8}
                   border="1px solid"
                   borderColor="progress_bg"
                   rounded="none"
@@ -148,13 +142,7 @@ export default function contact({ }: IHomeProps) {
               </FormControl>
               {/* SUBMIT */}
               <Flex flexDir="row">
-                <Button
-                  type="submit"
-                  size="lg"
-                  rounded="0px"
-                  bgColor="color_alt"
-                  color="text_primary"
-                >
+                <Button type="submit" size="lg" rounded="0px" bgColor="color_alt" color="text_primary">
                   Send Message
                 </Button>
               </Flex>
@@ -164,29 +152,13 @@ export default function contact({ }: IHomeProps) {
       </Container>
       {/* THREE SECTIONS */}
       <Flex flexDir="row">
-        <Flex
-          w="33%"
-          bgColor="color_icon"
-          direction="column"
-          px="2.5rem"
-          py="4rem"
-        >
+        <Flex w="33%" bgColor="color_icon" direction="column" px="2.5rem" py="4rem">
           <Heading mb=".5rem" fontSize="2xl">
             About Us
           </Heading>
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a
-            tortor turpis.
-          </Text>
+          <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a tortor turpis.</Text>
         </Flex>
-        <Flex
-          w="33%"
-          bgColor="color_primary"
-          textColor="white"
-          direction="column"
-          px="2.5rem"
-          py="4rem"
-        >
+        <Flex w="33%" bgColor="color_primary" textColor="white" direction="column" px="2.5rem" py="4rem">
           <Heading mb=".5rem" fontSize="2xl">
             Address
           </Heading>
@@ -196,13 +168,7 @@ export default function contact({ }: IHomeProps) {
             USA
           </Text>
         </Flex>
-        <Flex
-          w="33%"
-          bgColor="color_alt"
-          direction="column"
-          px="2.5rem"
-          py="4rem"
-        >
+        <Flex w="33%" bgColor="color_alt" direction="column" px="2.5rem" py="4rem">
           <Heading mb=".5rem" fontSize="2xl">
             Online Addesses
           </Heading>

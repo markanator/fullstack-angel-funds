@@ -1,4 +1,5 @@
 import { Container, Flex } from "@chakra-ui/react";
+import { NextPage } from "next";
 import React from "react";
 import { useIsAuth } from "utils/useIsAuth";
 import AuthBanner from "../../components/authShared/AuthBanner";
@@ -7,7 +8,7 @@ import AccountNavbar from "../../components/myAccountShared/AccountNavbar";
 
 interface IAccountProps {}
 
-export default function index({}: IAccountProps) {
+export default function MyAccountPage({}: IAccountProps) {
   const { checksOut } = useIsAuth();
 
   if (checksOut) {

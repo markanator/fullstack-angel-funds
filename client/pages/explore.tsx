@@ -9,7 +9,7 @@ interface IExploreProps {
   projects?: any[] | null;
 }
 
-export default function explore({ projects }: IExploreProps) {
+export default function Explore({ projects }: IExploreProps) {
   console.log("data", projects);
   const { data, error, loading } = useFetchAllProjectsQuery();
 
@@ -33,8 +33,6 @@ export default function explore({ projects }: IExploreProps) {
     );
   }
 
-  console.table(data.projects);
-
   return (
     <Layout SEO={{ title: "Explore Projects - VR Funds" }}>
       <Banner title="Explore" />
@@ -42,9 +40,7 @@ export default function explore({ projects }: IExploreProps) {
         <Container maxW="7xl" py="4rem">
           <Flex>
             {data &&
-              data.projects.map((proj) => (
-                <ProjectCardLG key={`project-${proj.id}`} project={proj} />
-              ))}
+              data.projects.map((proj: any) => <ProjectCardLG key={`project-${proj.id}`} project={proj} />)}
           </Flex>
         </Container>
       </Flex>

@@ -23,11 +23,9 @@ interface IProjCards {
 
 export default function ProjectCardLG({ project }: IProjCards) {
   const projectLink = `/project/${project.slug}`;
-  const daysLeft = formatDistanceStrict(
-    parseInt(project.publishDate),
-    parseInt(project.targetDate),
-    { unit: "day" }
-  );
+  const daysLeft = formatDistanceStrict(parseInt(project.publishDate), parseInt(project.targetDate), {
+    unit: "day",
+  });
   return (
     <Flex direction="column" w="full" boxShadow="md" maxW="370px">
       <Box>
@@ -37,15 +35,11 @@ export default function ProjectCardLG({ project }: IProjCards) {
           h="325px"
           objectFit="cover"
           objectPosition="center"
+          alt={project?.title}
         />
       </Box>
       <Box padding="2rem" maxW="370px">
-        <Box
-          display="inline-flex"
-          mb="1rem"
-          alignItems="center"
-          fontSize=".875rem"
-        >
+        <Box display="inline-flex" mb="1rem" alignItems="center" fontSize=".875rem">
           <Text
             mr="1.5rem"
             backgroundColor="color_alt"
@@ -66,18 +60,11 @@ export default function ProjectCardLG({ project }: IProjCards) {
             {project.title}
           </Link>
         </Heading>
-        <Flex
-          direction="row"
-          justifyContent="space-between"
-          color="text_secondary"
-          mb=".5rem"
-        >
+        <Flex direction="row" justifyContent="space-between" color="text_secondary" mb=".5rem">
           <Text className="__norm">
             ${project.currentFunds} raised of ${project.fundTarget}
           </Text>
-          <Text className="__norm">
-            {(project.currentFunds / project.fundTarget) * 100}%
-          </Text>
+          <Text className="__norm">{(project.currentFunds / project.fundTarget) * 100}%</Text>
         </Flex>
         <Box h=".65rem" bgColor="progress_bg">
           <Box

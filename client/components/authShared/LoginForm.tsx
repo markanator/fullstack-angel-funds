@@ -1,19 +1,8 @@
 import { useApolloClient } from "@apollo/client";
-import {
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Flex, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ALink from "components/ALink";
-import {
-  FetchMeDocument,
-  useFetchMeQuery,
-  useLoginMutation,
-} from "generated/grahpql";
+import { FetchMeDocument, useFetchMeQuery, useLoginMutation } from "generated/grahpql";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import { useForm } from "react-hook-form";
@@ -27,17 +16,19 @@ interface IFormInputs {
 }
 
 const LoginSchema = yup.object().shape({
-  log_email: yup
-    .string()
-    .email("Must be valid email.")
-    .required("Please enter an email address."),
+  log_email: yup.string().email("Must be valid email.").required("Please enter an email address."),
   log_pass: yup.string().required("Please enter a password."),
 });
 
 export default function LoginForm(): ReactElement {
   const router = useRouter();
   const apolloClient = useApolloClient();
-  const { register, handleSubmit, formState: { errors }, setError } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm({
     mode: "all",
     resolver: yupResolver(LoginSchema),
   });
@@ -55,7 +46,7 @@ export default function LoginForm(): ReactElement {
 
     // ! error handle
     if (res.data?.login?.errors) {
-      res.data?.login?.errors.forEach((element) => {
+      res.data?.login?.errors.forEach((element: { field: string; message: string }) => {
         if (element.field == "password") {
           setError("log_pass", {
             message: element.message,
@@ -91,23 +82,22 @@ export default function LoginForm(): ReactElement {
       borderColor="gray.300"
       bgColor="white"
       p="2rem"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit as any)}
     >
       {/* EMAIL */}
       <FormControl id="log_email">
         <FormLabel htmlFor="log_email">Email</FormLabel>
         <Input
-          name="log_email"
           type="email"
           {...register("log_email")}
-          isInvalid={errors?.log_email}
+          isInvalid={!!errors?.log_email}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
           boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
         />
         <Text fontSize="sm" color="color_alt">
-          {errors.log_email?.message}
+          {!!errors?.log_email?.message && errors?.log_email?.message.toString()}
         </Text>
       </FormControl>
 
@@ -115,28 +105,20 @@ export default function LoginForm(): ReactElement {
       <FormControl id="log_pass" mt="1rem">
         <FormLabel htmlFor="log_pass">Password</FormLabel>
         <Input
-          name="log_pass"
           type="password"
           {...register("log_pass")}
-          isInvalid={errors?.log_pass}
+          isInvalid={!!errors?.log_pass}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
           boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
         />
         <Text fontSize="sm" color="color_alt">
-          {errors.log_pass?.message}
+          {!!errors?.log_pass?.message && errors.log_pass?.message.toString()}
         </Text>
       </FormControl>
 
-      <Button
-        type="submit"
-        bgColor="color_alt"
-        rounded="none"
-        size="lg"
-        mt="1rem"
-        textTransform="uppercase"
-      >
+      <Button type="submit" bgColor="color_alt" rounded="none" size="lg" mt="1rem" textTransform="uppercase">
         Login
       </Button>
 

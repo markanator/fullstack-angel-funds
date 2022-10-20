@@ -1,10 +1,7 @@
-import { ApolloCache, ApolloClient, useApolloClient } from "@apollo/client";
+import { useApolloClient } from "@apollo/client";
 import { Container, Flex, List, ListItem, Text } from "@chakra-ui/react";
 import ProjectCardSM from "components/ProjectCardSM";
-import {
-  FetchMeDocument,
-  useGetProjectsByUserIdQuery,
-} from "generated/grahpql";
+import { FetchMeDocument, useGetProjectsByUserIdQuery } from "generated/grahpql";
 import React from "react";
 import { useIsAuth } from "utils/useIsAuth";
 import AuthBanner from "../../components/authShared/AuthBanner";
@@ -13,7 +10,7 @@ import AccountNavbar from "../../components/myAccountShared/AccountNavbar";
 
 interface IProjectsProps {}
 
-export default function projects({}: IProjectsProps) {
+export default function Projects({}: IProjectsProps) {
   const { checksOut } = useIsAuth();
   const apc = useApolloClient();
 
@@ -38,11 +35,12 @@ export default function projects({}: IProjectsProps) {
             <AccountNavbar />
             <Flex direction="row" my="3rem">
               <List>
-                {data?.getProjectsByUserID.map((proj) => (
-                  <ListItem m="auto" mb="1rem">
-                    <ProjectCardSM proj={proj} />
-                  </ListItem>
-                ))}
+                {data?.getProjectsByUserID &&
+                  data?.getProjectsByUserID?.map((proj: any) => (
+                    <ListItem key={proj?.id} m="auto" mb="1rem">
+                      <ProjectCardSM proj={proj} />
+                    </ListItem>
+                  ))}
               </List>
             </Flex>
           </Container>

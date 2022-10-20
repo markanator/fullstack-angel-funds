@@ -8,20 +8,17 @@ import useSWR from "swr";
 
 interface Props {}
 
-export default function success({}: Props): ReactElement {
+export default function Success({}: Props): ReactElement {
   const router = useRouter();
 
   const { data, error } = useSWR(
-    router.query.session_id
-      ? `/api/donations/${router.query.session_id}`
-      : null,
+    router.query.session_id ? `/api/donations/${router.query.session_id}` : null,
     fetchGetJSON
   );
 
   if (error) return <div>failed to load</div>;
 
-  const formattedContent: string =
-    JSON.stringify(data, null, 2) ?? "loading...";
+  const formattedContent: string = JSON.stringify(data, null, 2) ?? "loading...";
 
   return (
     <Layout SEO={{ title: "Donation Successfull! - VR Funds" }}>

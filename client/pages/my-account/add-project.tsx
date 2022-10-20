@@ -27,7 +27,7 @@ import AuthBanner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
 import { useCreateProjectMutation } from "../../generated/grahpql";
 
-interface IAddProjectPage { }
+interface IAddProjectPage {}
 
 interface IFormInputs {
   title: string;
@@ -41,13 +41,17 @@ interface IFormInputs {
   terms: boolean;
 }
 
-export default function AddProjectPage({ }: IAddProjectPage) {
+export default function AddProjectPage({}: IAddProjectPage) {
   const { checksOut } = useIsAuth(); //logged in user
   const router = useRouter(); // for nav
   const [createProject, { loading }] = useCreateProjectMutation();
 
   // form stuff
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     mode: "all",
     resolver: yupResolver(FreshProjectSchema),
   });
@@ -75,7 +79,7 @@ export default function AddProjectPage({ }: IAddProjectPage) {
       variables: {
         input: project,
       },
-      update: (cache) => {
+      update: (cache: any) => {
         cache.evict({ fieldName: "projects:{}" });
       },
     });
@@ -103,7 +107,7 @@ export default function AddProjectPage({ }: IAddProjectPage) {
           <Flex
             as="form"
             flexDirection="column"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit as any)}
             border="1px solid"
             borderColor="progress_bg"
             p="2rem"
@@ -114,10 +118,9 @@ export default function AddProjectPage({ }: IAddProjectPage) {
             <FormControl id="title" mb="1.125rem">
               <FormLabel htmlFor="title">Title</FormLabel>
               <Input
-                name="title"
                 type="text"
                 {...register("title")}
-                isInvalid={errors?.title}
+                isInvalid={!!errors?.title}
                 border="1px solid"
                 borderColor="progress_bg"
                 rounded="none"
@@ -125,7 +128,7 @@ export default function AddProjectPage({ }: IAddProjectPage) {
               />
               <FormHelperText>Put the campaign title here</FormHelperText>
               <Text fontSize="sm" color="color_alt">
-                {errors.title?.message}
+                {errors.title?.message?.toString()}
               </Text>
             </FormControl>
 
@@ -133,11 +136,10 @@ export default function AddProjectPage({ }: IAddProjectPage) {
             <FormControl id="description" mb="1.125rem">
               <FormLabel htmlFor="description">Description</FormLabel>
               <Textarea
-                name="description"
                 {...register("description")}
-                isInvalid={errors?.description}
-                row="8"
-                col="8"
+                isInvalid={!!errors?.description}
+                rows={8}
+                cols={8}
                 // type='textarea'
                 border="1px solid"
                 borderColor="progress_bg"
@@ -146,19 +148,14 @@ export default function AddProjectPage({ }: IAddProjectPage) {
               />
               <FormHelperText>Put the campaign description here</FormHelperText>
               <Text fontSize="sm" color="color_alt">
-                {errors.description?.message}
+                {errors.description?.message?.toString()}
               </Text>
             </FormControl>
 
             {/* category */}
             <FormControl id="category" mb="1.125rem">
               <FormLabel htmlFor="category">Category</FormLabel>
-              <Select
-                name="category"
-                placeholder="Select option"
-                {...register("category")}
-                isInvalid={errors?.category}
-              >
+              <Select placeholder="Select option" {...register("category")} isInvalid={!!errors?.category}>
                 <option value="Design">Design</option>
                 <option value="Education">Education</option>
                 <option value="Fashion">Fashion</option>
@@ -168,7 +165,7 @@ export default function AddProjectPage({ }: IAddProjectPage) {
               </Select>
               <FormHelperText>Select your campaign category</FormHelperText>
               <Text fontSize="sm" color="color_alt">
-                {errors.category?.message}
+                {errors.category?.message?.toString()}
               </Text>
             </FormControl>
 
@@ -176,9 +173,8 @@ export default function AddProjectPage({ }: IAddProjectPage) {
             <FormControl id="image" mb="1.125rem">
               <FormLabel htmlFor="image">Feature Image</FormLabel>
               <Input
-                name="image"
                 {...register("image")}
-                isInvalid={errors?.image}
+                isInvalid={!!errors?.image}
                 placeholder="https://..."
                 border="1px solid"
                 borderColor="progress_bg"
@@ -187,7 +183,7 @@ export default function AddProjectPage({ }: IAddProjectPage) {
               />
               <FormHelperText>Upload a campaign feature image</FormHelperText>
               <Text fontSize="sm" color="color_alt">
-                {errors.image?.message}
+                {errors.image?.message?.toString()}
               </Text>
             </FormControl>
 
@@ -195,19 +191,14 @@ export default function AddProjectPage({ }: IAddProjectPage) {
             <FormControl id="fundTarget" mb="1.125rem">
               <FormLabel htmlFor="fundTarget">Fund Target</FormLabel>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  color="gray.300"
-                  fontSize="1.2em"
-                  children="$"
-                />
+                {/* eslint-disable-next-line react/no-children-prop */}
+                <InputLeftElement pointerEvents="none" color="gray.300" fontSize="1.2em" children="$" />
                 <Input
                   {...input}
-                  name="fundTarget"
                   type="number"
                   placeholder="0"
                   {...register("fundTarget")}
-                  isInvalid={errors?.fundTarget}
+                  isInvalid={!!errors?.fundTarget}
                   border="1px solid"
                   borderColor="progress_bg"
                   rounded="none"
@@ -216,7 +207,7 @@ export default function AddProjectPage({ }: IAddProjectPage) {
               </InputGroup>
               <FormHelperText>Campaign funding goal</FormHelperText>
               <Text fontSize="sm" color="color_alt">
-                {errors.fundTarget?.message}
+                {errors.fundTarget?.message?.toString()}
               </Text>
             </FormControl>
 
@@ -225,20 +216,17 @@ export default function AddProjectPage({ }: IAddProjectPage) {
               <FormControl id="publishDate" mb="1.125rem" mr="1rem">
                 <FormLabel htmlFor="publishDate">Start Date</FormLabel>
                 <Input
-                  name="publishDate"
                   type="date"
                   {...register("publishDate")}
-                  isInvalid={errors?.publishDate}
+                  isInvalid={!!errors?.publishDate}
                   border="1px solid"
                   borderColor="progress_bg"
                   rounded="none"
                   boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
                 />
-                <FormHelperText>
-                  Campaign start date (mm-dd-yyyy)
-                </FormHelperText>
+                <FormHelperText>Campaign start date (mm-dd-yyyy)</FormHelperText>
                 <Text fontSize="sm" color="color_alt">
-                  {errors.publishDate?.message}
+                  {errors.publishDate?.message?.toString()}
                 </Text>
               </FormControl>
 
@@ -246,10 +234,9 @@ export default function AddProjectPage({ }: IAddProjectPage) {
               <FormControl id="targetDate" mb="1.125rem" ml="1rem">
                 <FormLabel htmlFor="targetDate">End Date</FormLabel>
                 <Input
-                  name="targetDate"
                   type="date"
                   {...register("targetDate")}
-                  isInvalid={errors?.targetDate}
+                  isInvalid={!!errors?.targetDate}
                   border="1px solid"
                   borderColor="progress_bg"
                   rounded="none"
@@ -257,7 +244,7 @@ export default function AddProjectPage({ }: IAddProjectPage) {
                 />
                 <FormHelperText>Campaign end date (mm-dd-yyyy)</FormHelperText>
                 <Text fontSize="sm" color="color_alt">
-                  {errors.targetDate?.message}
+                  {errors.targetDate?.message?.toString()}
                 </Text>
               </FormControl>
             </Flex>
@@ -268,16 +255,11 @@ export default function AddProjectPage({ }: IAddProjectPage) {
               <FormLabel htmlFor="terms" aria-hidden="true" visibility="hidden">
                 Agree to site Terms and Conditions.
               </FormLabel>
-              <Checkbox
-                name="terms"
-                type="date"
-                {...register("terms")}
-                isInvalid={errors?.terms}
-              >
+              <Checkbox type="date" {...register("terms")} isInvalid={!!errors?.terms}>
                 I agree to the Terms and Condition.
               </Checkbox>
               <Text fontSize="sm" color="color_alt">
-                {errors.terms?.message}
+                {errors.terms?.message?.toString()}
               </Text>
             </FormControl>
 

@@ -32,11 +32,12 @@ interface IFormData {
   donation: number;
 }
 
-// ! MAIN EXPORT
-export default function projectDetails({
-  project,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { register, handleSubmit, formState: { errors } } = useForm({
+export default function ProjectDetails({ project }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     mode: "all",
     resolver: yupResolver(DonoSchema),
   });
@@ -48,9 +49,7 @@ export default function projectDetails({
   });
   const input = getInputProps();
 
-  const FormattedProjectTitle = (TitleFormatter(
-    project!.title
-  ) as unknown) as string;
+  const FormattedProjectTitle = TitleFormatter(project!.title) as unknown as string;
 
   const onSubmit = async ({ donation }: IFormData) => {
     console.log("Submitted a dono:", donation);
@@ -89,12 +88,12 @@ export default function projectDetails({
     <Layout
       SEO={{
         title: `${project?.title} - VR Funds`,
-        image: project.image,
-        description: project.description.slice(0, 100),
-        keywords: project.category,
+        image: project?.image,
+        description: project?.description.slice(0, 100),
+        keywords: project?.category,
       }}
     >
-      <AuthBanner bgImage={project.image} title={FormattedProjectTitle} />
+      <AuthBanner bgImage={project?.image} title={FormattedProjectTitle} />
       <article>
         {/* TOP HALF */}
         <Flex as="section" w="full" h="full" bg="testimonial_bg">
@@ -103,7 +102,7 @@ export default function projectDetails({
               {/* LEFT SIDE IMAGE and blurb? */}
               <Flex w="50%" direction="column" h="full">
                 <Image
-                  src={project.image}
+                  src={project!.image}
                   alt={project?.title}
                   width={678}
                   height={580}
@@ -112,13 +111,7 @@ export default function projectDetails({
                 />
               </Flex>
               {/* RIGHT SIDE DEETS */}
-              <Flex
-                w="50%"
-                direction="column"
-                pl="1rem"
-                h="auto"
-                justifyContent="space-between"
-              >
+              <Flex w="50%" direction="column" pl="1rem" h="auto" justifyContent="space-between">
                 {/* CAT AND LOCATION */}
                 <Flex>
                   <Text
@@ -142,11 +135,7 @@ export default function projectDetails({
                 </Flex>
                 {/* PROGRESS BAR w/ GOAL  */}
                 <Flex direction="column">
-                  <Flex
-                    direction="row"
-                    justifyContent="space-between"
-                    mb=".25rem"
-                  >
+                  <Flex direction="row" justifyContent="space-between" mb=".25rem">
                     <Text fontSize=".875rem" color="text_secondary">
                       Raised:
                     </Text>
@@ -155,13 +144,7 @@ export default function projectDetails({
                     </Text>
                   </Flex>
                   <Box h=".65rem" bgColor="progress_bg">
-                    <Box
-                      w="50%"
-                      h="full"
-                      pos="relative"
-                      overflow="hidden"
-                      bgColor="color_alt"
-                    />
+                    <Box w="50%" h="full" pos="relative" overflow="hidden" bgColor="color_alt" />
                   </Box>
                   <Text mt=".5rem" fontWeight="700" fontSize="1.125rem">
                     Goal:{" "}
@@ -171,21 +154,21 @@ export default function projectDetails({
                   </Text>
                 </Flex>
                 {/* DONATE FORM */}
-                <Flex as="form" onSubmit={handleSubmit(onSubmit)}>
+                <Flex as="form" onSubmit={handleSubmit(onSubmit as any)}>
                   <InputGroup bgColor="white">
                     <InputLeftElement
                       pt="10px"
                       pointerEvents="none"
                       color="gray.300"
                       fontSize="1.2em"
+                      // eslint-disable-next-line react/no-children-prop
                       children="$"
                     />
                     <Input
                       {...input}
                       id="donation"
-                      name="donation"
-                      {...register('donation')}
-                      isInvalid={errors?.donation}
+                      {...register("donation")}
+                      isInvalid={!!errors?.donation}
                       type="number"
                       mr="1rem"
                       size="lg"
@@ -196,10 +179,11 @@ export default function projectDetails({
                       pointerEvents="none"
                       color="gray.300"
                       fontSize="1.2em"
+                      // eslint-disable-next-line react/no-children-prop
                       children=".00"
                     />
                   </InputGroup>
-                  <Text>{errors?.donation?.message}</Text>
+                  <Text>{errors?.donation?.message?.toString()}</Text>
                   <Box ml="1rem">
                     <Button
                       type="submit"
@@ -235,14 +219,7 @@ export default function projectDetails({
                   </Flex>
                   <Flex direction="column" justifyContent="center">
                     <Text>
-                      By:{" "}
-                      <strong>
-                        {
-                          (TitleFormatter(
-                            project!.author.fullName
-                          ) as unknown) as string
-                        }
-                      </strong>
+                      By: <strong>{TitleFormatter(project!.author.fullName) as unknown as string}</strong>
                     </Text>
                     <Text></Text>
                   </Flex>
@@ -273,11 +250,7 @@ export default function projectDetails({
   );
 }
 
-export async function getServerSideProps({
-  req,
-  res,
-  query,
-}: GetServerSidePropsContext) {
+export async function getServerSideProps({ req, res, query }: GetServerSidePropsContext) {
   const apc = initializeApollo();
   const slug = query.slug;
 

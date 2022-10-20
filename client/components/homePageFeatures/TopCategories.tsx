@@ -1,17 +1,9 @@
 import React from "react";
-import {
-  Box,
-  Container,
-  Flex,
-  Heading,
-  Image,
-  List,
-  ListItem,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, Image, List, ListItem, Text } from "@chakra-ui/react";
 import { FiCpu } from "react-icons/fi";
 import { MdSchool } from "react-icons/md";
 import { FaPhotoVideo, FaBook, FaStethoscope, FaStar } from "react-icons/fa";
+import { IconType } from "react-icons/lib";
 
 export default function TopCategories() {
   return (
@@ -49,17 +41,11 @@ export default function TopCategories() {
             Top Categories
           </Heading>
           <Text lineHeight="2rem">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dolor
-            ex, laoreet ac scelerisque eu, lobortis sit amet nibh. Quisque
-            ultricies ipsum volutpat, auctor augue at, volutpat ligula.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dolor ex, laoreet ac scelerisque
+            eu, lobortis sit amet nibh. Quisque ultricies ipsum volutpat, auctor augue at, volutpat ligula.
           </Text>
           <Flex mt="1rem" h="full" w="full" alignItems="flex-end">
-            <Flex
-              borderLeft="5px solid"
-              borderColor="color_alt"
-              h="85px"
-              alignItems="center"
-            >
+            <Flex borderLeft="5px solid" borderColor="color_alt" h="85px" alignItems="center">
               <Box border="2px solid white" rounded="full" ml="3rem">
                 <Image
                   src="https://images.unsplash.com/photo-1554384645-13eab165c24b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
@@ -107,7 +93,7 @@ export default function TopCategories() {
   );
 }
 
-function CategoryIconBox({ Icon, text }) {
+function CategoryIconBox({ Icon, text }: { Icon: IconType; text: string }) {
   return (
     <ListItem
       display="flex"

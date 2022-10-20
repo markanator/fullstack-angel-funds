@@ -21,24 +21,25 @@ import Banner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
 import { useForgotPasswordMutation } from "../../generated/grahpql";
 
-interface ILostMyPasswordProps { }
+interface ILostMyPasswordProps {}
 
 interface IFormInputs {
   forgot_email: string;
 }
 
 const ForgotSchema = yup.object().shape({
-  forgot_email: yup
-    .string()
-    .email("Must be valid email.")
-    .required("Please enter an email address."),
+  forgot_email: yup.string().email("Must be valid email.").required("Please enter an email address."),
 });
 
-export default function LostPassword({ }: ILostMyPasswordProps) {
+export default function LostPassword({}: ILostMyPasswordProps) {
   // const router = useRouter();
   // const apolloClient = useApolloClient();
   const toast = useToast();
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     mode: "all",
     resolver: yupResolver(ForgotSchema),
   });
@@ -57,8 +58,7 @@ export default function LostPassword({ }: ILostMyPasswordProps) {
     if (res.data?.forgotPassword) {
       toast({
         title: "Email Sent!",
-        description:
-          "If the email address exists, we will immediately send instructions to you.",
+        description: "If the email address exists, we will immediately send instructions to you.",
         isClosable: true,
         duration: 9000,
       });
@@ -71,8 +71,7 @@ export default function LostPassword({ }: ILostMyPasswordProps) {
       <Container maxW="7xl" pt="3rem">
         <Alert status="info" mb="2rem">
           <AlertIcon />
-          We have a demo account setup. Username: <strong> demo </strong> and
-          Password: <strong>demo</strong>
+          We have a demo account setup. Username: <strong> demo </strong> and Password: <strong>demo</strong>
         </Alert>
         <Flex w="50%" mr="1rem" flexDirection="column" pb="6rem">
           <Flex
@@ -82,26 +81,24 @@ export default function LostPassword({ }: ILostMyPasswordProps) {
             borderColor="gray.300"
             bgColor="white"
             p="2rem"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit as any)}
           >
             <FormControl id="forgot_email">
               <Text mb="1.5rem" fontSize="md" textColor="text_secondary">
-                Enter your email. You will receive a link to create a new
-                password via email.
+                Enter your email. You will receive a link to create a new password via email.
               </Text>
               <FormLabel htmlFor="forgot_email">Email</FormLabel>
               <Input
-                name="forgot_email"
                 type="email"
                 border="1px solid"
                 {...register("forgot_email")}
-                isInvalid={errors?.forgot_email}
+                isInvalid={!!errors?.forgot_email}
                 borderColor="progress_bg"
                 rounded="none"
                 boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
               />
               <Text fontSize="sm" color="color_alt">
-                {errors.forgot_email?.message}
+                {errors.forgot_email?.message?.toString()}
               </Text>
             </FormControl>
 
