@@ -2,10 +2,10 @@ import "reflect-metadata";
 import { config } from "dotenv";
 config();
 import { ApolloServer } from "apollo-server-express";
-import connectRedis from "connect-redis";
 import cors from "cors";
 import express from "express";
 import session from "express-session";
+const RedisStore = require("connect-redis")(session)
 import Redis from "ioredis";
 import path from "path";
 import { buildSchema } from "type-graphql";
@@ -41,9 +41,10 @@ const main = async () => {
   // init app
   const app = express();
   // redis
-  const RedisStore = connectRedis(session);
-  const redis = new Redis(process.env.REDIS_URL);
+  const redisClient = new Redis(process.env.REDIS_URL as string);
+
   app.set("trust proxy", 1);
+
   // cors
   app.use(
     cors({
@@ -56,19 +57,15 @@ const main = async () => {
   app.use(
     session({
       name: COOKIE_NAME,
-      store: new RedisStore({
-        client: redis,
-        disableTouch: true,
-      }),
+      store: new RedisStore({ client: redisClient, disableTouch: true }),
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 1, // 1 yrs
-        httpOnly: true, // non secure for dev
+        httpOnly: __prod__,
         sameSite: "lax", // csrf protections
         secure: __prod__, //cookie only works in https
       },
       saveUninitialized: false, // create sesh by default regardless of !data
-      // @ts-ignore
-      secret: process.env.SESSION_SECRET,
+      secret: process.env.SESSION_SECRET as string,
       resave: false,
     })
   );
@@ -87,13 +84,14 @@ const main = async () => {
     context: ({ req, res }: any) => ({
       req,
       res,
-      redis,
+      redisClient,
       userLoader: createUserLoader(),
       projectLoader: createProjectLoader(),
     }),
     introspection: true,
-    playground: true,
   });
+
+  await apolloServer.start()
 
   apolloServer.applyMiddleware({
     app,

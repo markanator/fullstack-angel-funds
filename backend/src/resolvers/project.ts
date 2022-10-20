@@ -56,7 +56,7 @@ export class ProjectResolver {
 
   // GET PROJECT BY SLUG
   @Query(() => Project, { nullable: true })
-  getProjectBySlug(@Arg("slug") slug: string): Promise<Project | undefined> {
+  getProjectBySlug(@Arg("slug") slug: string): Promise<Project | null> {
     return Project.findOne({ where: { slug } });
   }
 
@@ -88,7 +88,7 @@ export class ProjectResolver {
     @Ctx() { req }: MyContext
   ): Promise<ProjectResponse> {
     // find project
-    const projRes = await Project.findOne({ id });
+    const projRes = await Project.findOne({ where: { id } });
     // see if they match
     if (req.session.userId !== projRes?.authorId) {
       return {

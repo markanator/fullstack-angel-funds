@@ -154,7 +154,7 @@ export class UserResolver {
     await redis.set(
       FORGOT_PASSWORD_PREFIX + token,
       user.id,
-      "ex",
+      "EX",
       1000 * 60 * 60 * 24 * 3
     );
 
@@ -171,7 +171,7 @@ export class UserResolver {
   // GETBY USERID
   @Mutation(() => UserResponse)
   async getUserById(@Arg("id", () => Int) id: number): Promise<UserResponse> {
-    const user = await User.findOne(id);
+    const user = await User.findOne({ where: { id }});
     // oops, didn't find anything
     if (!user) {
       return {
@@ -196,6 +196,6 @@ export class UserResolver {
       return null;
     }
     // all good
-    return User.findOne({ id: req.session.userId });
+    return User.findOne({ where: { id: req.session.userId } });
   }
 }

@@ -1,10 +1,11 @@
 import DataLoader from "dataloader";
+import { In } from "typeorm";
 import { Project } from "../entity";
 
 export const createProjectLoader = () =>
   new DataLoader<number, Project>(async (pIDs) => {
     // get all user in one query
-    const projects = await Project.findByIds(pIDs as any[]);
+    const projects = await Project.findBy({ id: In(pIDs as number[])});
     // need to return data
     const idToProject: Record<number, Project> = {};
 
