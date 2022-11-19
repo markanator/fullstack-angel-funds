@@ -5,7 +5,7 @@ import { ApolloServer } from "apollo-server-express";
 import cors from "cors";
 import express from "express";
 import session from "express-session";
-const RedisStore = require("connect-redis")(session)
+const RedisStore = require("connect-redis")(session);
 import Redis from "ioredis";
 import { buildSchema } from "type-graphql";
 // locals
@@ -21,19 +21,23 @@ import { COOKIE_NAME, __prod__ } from "./utils/constants";
 import { dbClient } from "./utils/prismaClient";
 
 const PORT = process.env.PORT || 7777;
+const whitelist = ["*", process.env.CORS_ORIGIN!, process.env.CORS_STUDIO!];
 
 const main = async () => {
   // init app
   const app = express();
   // redis
-  const redisClient = new Redis(Number(process.env.REDIS_PORT!), process.env.REDIS_URL!);
+  const redisClient = new Redis(
+    Number(process.env.REDIS_PORT!),
+    process.env.REDIS_URL!
+  );
 
   app.set("trust proxy", 1);
 
   // cors
   app.use(
     cors({
-      origin: process.env.CORS_ORIGIN || "*",
+      origin: whitelist,
       credentials: true,
     })
   );
@@ -77,13 +81,13 @@ const main = async () => {
     introspection: true,
   });
 
-  await apolloServer.start()
+  await apolloServer.start();
 
   apolloServer.applyMiddleware({
     app,
     cors: {
       credentials: true,
-      origin: "*"
+      origin: whitelist,
     },
   });
 
