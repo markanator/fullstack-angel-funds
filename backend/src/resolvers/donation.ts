@@ -7,10 +7,10 @@ import {
   Root,
   UseMiddleware,
 } from "type-graphql";
-import { User, Donation, Project } from '@generated/type-graphql'
+import { User, Donation, Project } from "@generated/type-graphql";
 import { isAuthed } from "../middleware/isAuthed";
-import { CreateDonoInput } from "../types/CreateDonoInput";
 import { MyContext } from "../types/MyContext";
+import { CreateDonoInput, DonationResponse } from "../types/DonationTypes";
 
 @Resolver(Donation)
 export class DonationResolver {
@@ -34,20 +34,84 @@ export class DonationResolver {
   }
 
   // create a donation after successfull stripe dono
-  @Mutation(() => Donation)
+  @Mutation(() => DonationResponse)
   @UseMiddleware(isAuthed)
   async syncStripeDono(
     @Arg("order") order: CreateDonoInput,
     @Ctx() { req, prisma }: MyContext
-  ): Promise<Donation> {
-    return prisma.donation.create({
-      data: {
-      projectId: order.p_id,
-      amount: order.amount,
-      stripeReceiptUrl: order.s_receipt_url,
-      stripeCreatedAt: order.s_created,
-      donorId: req.session.userId,
-      customerId: order.cust_id,
-    }})
+  ): Promise<DonationResponse> {
+    try {
+      const project = await prisma.project.findFirst({
+        where: { slug: order.projectSlug },
+      });
+      if (!project) {
+        return {
+          errors: [
+            {
+              field: "project",
+              message: "Project not found. Please try again later.",
+            },
+          ],
+        };
+      }
+
+      const donoUser = await prisma.user.findFirst({
+        where: { email: order.customerEmail },
+      });
+
+      const sameDono = await prisma.donation.findUnique({
+        where: {
+          stripeReceiptUrl: order.stripeReceiptUrl,
+        },
+      });
+      if (sameDono) {
+        console.log("### ALREADY SYNCED DONATION");
+        return { data: sameDono };
+      }
+
+      const [donation, _updatedProject] = await prisma.$transaction([
+        prisma.donation.create({
+          data: {
+            // projectId: project.id,
+            // donorId: donoUser?.id || req.session.userId,
+            project: {
+              connect: {
+                id: project.id,
+              },
+            },
+            amount: order.amount,
+            donor: {
+              connect: {
+                id: donoUser?.id || req.session.userId,
+              },
+            },
+            customerId: donoUser?.cust_id || order.customerEmail,
+            stripeReceiptUrl: order.stripeReceiptUrl,
+            stripeCreatedAt: order.stripeCreatedAt,
+          },
+        }),
+        prisma.project.update({
+          where: { id: project.id },
+          data: {
+            currentFunds: project.currentFunds + order.amount,
+            totalDonation_sum: project.totalDonation_sum + 1,
+          },
+        }),
+      ]);
+
+      console.log("### DONATION SYNCED");
+      return { data: donation };
+    } catch (error) {
+      console.log("### ERROR DURING DONATION SYNC");
+      console.log(error?.message);
+      return {
+        errors: [
+          {
+            field: "error",
+            message: "Something went wrong. Please try again later.",
+          },
+        ],
+      };
+    }
   }
 }
