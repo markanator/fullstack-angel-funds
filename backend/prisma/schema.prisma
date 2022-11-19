@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  fullName  String
+  avatarUrl String
+  cust_id   String
+  email     String
+  password  String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  // Relationships - 1:m
+  projects  Project[]
+  donations Donation[]
+  upvotes   Upvote[]
+}
+
+model Project {
+  id                Int        @id @default(autoincrement())
+  title             String
+  slug              String
+  description       String
+  category          String
+  image             String?
+  fundTarget        Int
+  currentFunds      Int
+  publishDate       DateTime
+  targetDate        DateTime
+  totalDonation_sum Int        @default(0)
+  viewCount         Int        @default(0)
+  votePoints        Int?
+  voteStatus        Int?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  // relations
+  author            User       @relation(fields: [authorId], onDelete: Cascade, references: [id])
+  authorId          Int
+  donations         Donation[]
+  upvotes           Upvote[]
+}
+
+enum DonationStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  DISPUTED
+  FULL_REFUND
+  PARTIAL_REFUND
+  CHARGEBACK
+}
+
+model Donation {
+  id               Int            @id @default(autoincrement())
+  amount           Int
+  stripeCreatedAt  String
+  customerId       String
+  stripeReceiptUrl String
+  status           DonationStatus @default(PENDING)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  // relations
+  project          Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId        Int
+  donor            User           @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  donorId          Int
+}
+
+model Upvote {
+  id        Int     @id @default(autoincrement())
+  value     Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId Int
+}

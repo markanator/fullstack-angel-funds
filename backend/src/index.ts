@@ -10,7 +10,7 @@ import Redis from "ioredis";
 import path from "path";
 import { buildSchema } from "type-graphql";
 // locals
-import { createConnection } from "typeorm";
+import { DataSource } from "typeorm";
 import { createUserLoader } from "./dataloaders";
 import { createProjectLoader } from "./dataloaders/createProjectLoader";
 import { Donation, Project, Upvote, User } from "./entity";
@@ -26,8 +26,7 @@ const PORT = process.env.PORT || 7777;
 
 const main = async () => {
   // setup connection
-  const dbconn = await createConnection({
-    name: "default",
+  new DataSource({
     type: "postgres",
     url: process.env.DATABASE_URL,
     migrations: [path.join(__dirname, "./migrations/*")],
@@ -48,7 +47,7 @@ const main = async () => {
   // cors
   app.use(
     cors({
-      origin: process.env!.CORS_ORIGIN,
+      origin: process.env.CORS_ORIGIN,
       credentials: true,
     })
   );
