@@ -21,7 +21,6 @@ export default function MyAccountPage({}: IAccountProps) {
       <Flex bgColor="gray.200" w="full" h="full">
         <Container maxW="7xl" py="2rem">
           <AccountNavbar />
-          USER DASHBOARD
         </Container>
       </Flex>
     </Layout>

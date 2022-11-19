@@ -1,0 +1,18 @@
+mutation SyncStripePayment($order: CreateDonoInput!) {
+  syncStripeDono(order: $order) {
+    errors {
+      field
+      message
+    }
+    data {
+      id
+      amount
+      projectId
+      donorId
+      status
+      stripeCreatedAt
+      stripeReceiptUrl
+      createdAt
+    }
+  }
+}

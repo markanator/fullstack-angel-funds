@@ -11,6 +11,7 @@ import {
   InputRightElement,
   Text,
   useNumberInput,
+  VStack,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AuthBanner from "components/authShared/AuthBanner";
@@ -47,14 +48,10 @@ export default function ProjectDetails({
   } = useForm<IFormData>({
     mode: "all",
     resolver: yupResolver(DonoSchema),
+    defaultValues: {
+      donation: 25,
+    },
   });
-
-  // for donation input
-  // const { getInputProps } = useNumberInput({
-  //   defaultValue: 5,
-  //   allowMouseWheel: false,
-  // });
-  // const input = getInputProps();
 
   const FormattedProjectTitle = TitleFormatter(
     project!.title
@@ -171,12 +168,12 @@ export default function ProjectDetails({
                       Raised:
                     </Text>
                     <Text fontSize=".875rem" color="text_secondary">
-                      14%
+                      {Math.floor(currentFundPercentage)}%
                     </Text>
                   </Flex>
                   <Box h=".65rem" bgColor="progress_bg">
                     <Box
-                      w="50%"
+                      w={`${Math.floor(currentFundPercentage)}%`}
                       h="full"
                       pos="relative"
                       overflow="hidden"
@@ -192,35 +189,36 @@ export default function ProjectDetails({
                 </Flex>
                 {/* DONATE FORM */}
                 <Flex as="form" onSubmit={handleSubmit(onSubmit)}>
-                  <InputGroup bgColor="white">
-                    <InputLeftElement
-                      pt="10px"
-                      pointerEvents="none"
-                      color="gray.300"
-                      fontSize="1.2em"
-                    >
-                      $
-                    </InputLeftElement>
-                    <Input
-                      // {...input}
-                      id="donation"
-                      {...register("donation")}
-                      isInvalid={!!errors?.donation}
-                      type="number"
-                      mr="1rem"
-                      size="lg"
-                    />
-                    <InputRightElement
-                      pt="10px"
-                      right="1rem"
-                      pointerEvents="none"
-                      color="gray.300"
-                      fontSize="1.2em"
-                    >
-                      .00
-                    </InputRightElement>
-                  </InputGroup>
-                  <Text>{errors?.donation?.message?.toString()}</Text>
+                  <VStack>
+                    <InputGroup bgColor="white">
+                      <InputLeftElement
+                        pt="10px"
+                        pointerEvents="none"
+                        color="gray.300"
+                        fontSize="1.2em"
+                      >
+                        $
+                      </InputLeftElement>
+                      <Input
+                        // {...input}
+                        id="donation"
+                        {...register("donation")}
+                        isInvalid={!!errors?.donation}
+                        type="number"
+                        size="lg"
+                      />
+                      <InputRightElement
+                        pt="10px"
+                        right="1rem"
+                        pointerEvents="none"
+                        color="gray.300"
+                        fontSize="1.2em"
+                      >
+                        .00
+                      </InputRightElement>
+                    </InputGroup>
+                    <Text>{errors?.donation?.message?.toString()}</Text>
+                  </VStack>
                   <Box ml="1rem">
                     <Button
                       type="submit"

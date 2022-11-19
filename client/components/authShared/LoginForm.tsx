@@ -45,6 +45,10 @@ export default function LoginForm(): ReactElement {
   } = useForm<IFormInputs>({
     mode: "all",
     resolver: yupResolver(LoginSchema),
+    defaultValues: {
+      log_email: "demo@gmail.com",
+      log_pass: "password123!@#",
+    },
   });
 
   const [login] = useLoginMutation();

@@ -2,6 +2,7 @@ import { Box, Flex, Heading, Image, Link, Text } from "@chakra-ui/react";
 import React from "react";
 import { FaRegClock } from "react-icons/fa";
 import { formatDistanceStrict } from "date-fns";
+import { formatAmountForDisplay } from "@/utils/stripe-helpers";
 
 interface ICardSmProps {
   proj: {
@@ -119,13 +120,16 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
             mb=".5rem"
           >
             <Text className="__norm">
-              ${currentFunds} raised of ${fundTarget}
+              {formatAmountForDisplay(currentFunds)} raised of{" "}
+              {formatAmountForDisplay(fundTarget)}
             </Text>
-            <Text className="__norm">{(currentFunds / fundTarget) * 100}%</Text>
+            <Text className="__norm">
+              {Math.floor((currentFunds / fundTarget) * 100)}%
+            </Text>
           </Flex>
           <Box h=".65rem" bgColor="progress_bg">
             <Box
-              w={`${currentFunds / fundTarget}%`}
+              w={`${Math.ceil((currentFunds / fundTarget) * 100)}%`}
               h="full"
               pos="relative"
               overflow="hidden"

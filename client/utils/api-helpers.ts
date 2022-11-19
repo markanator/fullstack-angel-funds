@@ -1,4 +1,4 @@
-export async function fetchGetJSON(url: string) {
+export async function fetchGetJSON<T>(url: string): Promise<T | undefined> {
   try {
     const data = await fetch(url).then((res) => res.json());
     return data;

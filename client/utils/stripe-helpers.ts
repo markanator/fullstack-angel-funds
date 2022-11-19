@@ -1,18 +1,18 @@
 export function formatAmountForDisplay(
   amount: number,
-  currency = "USD"
+  currency = "usd"
 ): string {
   let numberFormat = new Intl.NumberFormat(["en-US"], {
     style: "currency",
     currency: currency,
     currencyDisplay: "symbol",
   });
-  return numberFormat.format(amount);
+  return numberFormat.format(amount / 100);
 }
 
 export function formatAmountForStripe(
   amount: number,
-  currency: string
+  currency = "usd"
 ): number {
   let numberFormat = new Intl.NumberFormat(["en-US"], {
     style: "currency",

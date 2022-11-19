@@ -18,10 +18,10 @@ export type Scalars = {
 
 export type CreateDonoInput = {
   amount: Scalars['Int'];
-  cust_id: Scalars['String'];
-  p_id: Scalars['Int'];
-  s_created: Scalars['String'];
-  s_receipt_url: Scalars['String'];
+  customerEmail: Scalars['String'];
+  projectSlug: Scalars['String'];
+  stripeCreatedAt: Scalars['String'];
+  stripeReceiptUrl: Scalars['String'];
 };
 
 export type CreateProjectInput = {
@@ -49,6 +49,12 @@ export type Donation = {
   stripeCreatedAt: Scalars['String'];
   stripeReceiptUrl: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+};
+
+export type DonationResponse = {
+  __typename?: 'DonationResponse';
+  data?: Maybe<Donation>;
+  errors?: Maybe<Array<FieldError>>;
 };
 
 export enum DonationStatus {
@@ -82,7 +88,7 @@ export type Mutation = {
   login: UserResponse;
   logout: Scalars['Boolean'];
   register?: Maybe<UserResponse>;
-  syncStripeDono: Donation;
+  syncStripeDono: DonationResponse;
   updateProject: ProjectResponse;
 };
 
@@ -257,6 +263,13 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register?: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } | null } | null };
+
+export type SyncStripePaymentMutationVariables = Exact<{
+  order: CreateDonoInput;
+}>;
+
+
+export type SyncStripePaymentMutation = { __typename?: 'Mutation', syncStripeDono: { __typename?: 'DonationResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, data?: { __typename?: 'Donation', id: number, amount: number, projectId: number, donorId: number, status: DonationStatus, stripeCreatedAt: string, stripeReceiptUrl: string, createdAt: any } | null } };
 
 export type FetchAllProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -501,6 +514,52 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const SyncStripePaymentDocument = gql`
+    mutation SyncStripePayment($order: CreateDonoInput!) {
+  syncStripeDono(order: $order) {
+    errors {
+      field
+      message
+    }
+    data {
+      id
+      amount
+      projectId
+      donorId
+      status
+      stripeCreatedAt
+      stripeReceiptUrl
+      createdAt
+    }
+  }
+}
+    `;
+export type SyncStripePaymentMutationFn = Apollo.MutationFunction<SyncStripePaymentMutation, SyncStripePaymentMutationVariables>;
+
+/**
+ * __useSyncStripePaymentMutation__
+ *
+ * To run a mutation, you first call `useSyncStripePaymentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSyncStripePaymentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [syncStripePaymentMutation, { data, loading, error }] = useSyncStripePaymentMutation({
+ *   variables: {
+ *      order: // value for 'order'
+ *   },
+ * });
+ */
+export function useSyncStripePaymentMutation(baseOptions?: Apollo.MutationHookOptions<SyncStripePaymentMutation, SyncStripePaymentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SyncStripePaymentMutation, SyncStripePaymentMutationVariables>(SyncStripePaymentDocument, options);
+      }
+export type SyncStripePaymentMutationHookResult = ReturnType<typeof useSyncStripePaymentMutation>;
+export type SyncStripePaymentMutationResult = Apollo.MutationResult<SyncStripePaymentMutation>;
+export type SyncStripePaymentMutationOptions = Apollo.BaseMutationOptions<SyncStripePaymentMutation, SyncStripePaymentMutationVariables>;
 export const FetchAllProjectsDocument = gql`
     query FetchAllProjects {
   projects {
