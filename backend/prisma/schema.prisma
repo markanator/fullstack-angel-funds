@@ -7,12 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator typegraphql {
+  provider = "typegraphql-prisma"
+}
+
 model User {
   id        Int        @id @default(autoincrement())
   fullName  String
   avatarUrl String
   cust_id   String
-  email     String
+  email     String     @unique
   password  String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -25,7 +29,7 @@ model User {
 model Project {
   id                Int        @id @default(autoincrement())
   title             String
-  slug              String
+  slug              String     @unique
   description       String
   category          String
   image             String?
@@ -61,7 +65,7 @@ model Donation {
   amount           Int
   stripeCreatedAt  String
   customerId       String
-  stripeReceiptUrl String
+  stripeReceiptUrl String         @unique
   status           DonationStatus @default(PENDING)
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
