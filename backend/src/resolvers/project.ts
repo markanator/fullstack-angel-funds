@@ -10,9 +10,6 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import slugify from "slugify";
-import { getConnection } from "typeorm";
-import { Project } from "../entity/Project";
-import { User } from "../entity/User";
 import { isAuthed } from "../middleware/isAuthed";
 import { MyContext } from "../types/MyContext";
 import {
@@ -20,6 +17,7 @@ import {
   ProjectResponse,
   UpdateProjectInput,
 } from "../types/ProjectTypes";
+import {Project, User} from '@generated/type-graphql'
 
 @Resolver(Project)
 export class ProjectResolver {
@@ -33,31 +31,27 @@ export class ProjectResolver {
 
   // GET PROJECTS ARRAY
   @Query(() => [Project])
-  async projects() {
+  async projects(@Ctx() { prisma }: MyContext) {
     // TODO FUTURE paginate the response
-    // cacheing
-    const projects = await getConnection()
-      .createQueryBuilder()
-      .select("project")
-      .from(Project, "project")
-      .limit(10)
-      .getMany();
-
-    return projects;
+    return prisma.project.findMany({ take: 10 })
   }
 
   // GET PROJECT BY UserID
   @Query(() => [Project], { nullable: true })
   getProjectsByUserID(
-    @Arg("id", () => Int) id: number
+    @Arg("id", () => Int) id: number,
+    @Ctx() { prisma }: MyContext
   ): Promise<Project[] | undefined> {
-    return Project.find({ where: { authorId: id } });
+    return prisma.project.findMany({ where: { authorId: id } });
   }
 
   // GET PROJECT BY SLUG
   @Query(() => Project, { nullable: true })
-  getProjectBySlug(@Arg("slug") slug: string): Promise<Project | null> {
-    return Project.findOne({ where: { slug } });
+  getProjectBySlug(
+    @Arg("slug") slug: string,
+    @Ctx() { prisma }: MyContext
+  ): Promise<Project | null> {
+    return prisma.project.findFirst({ where: { slug } });
   }
 
   // CREATE PROJECT
@@ -65,18 +59,19 @@ export class ProjectResolver {
   @UseMiddleware(isAuthed)
   createProject(
     @Arg("input") input: CreateProjectInput,
-    @Ctx() { req }: MyContext
+    @Ctx() { req, prisma }: MyContext
   ): Promise<Project> {
     const slug = slugify(input.title, {
       lower: true,
       strict: true,
       remove: /[*+~.()'"!:@]/g,
     });
-    return Project.create({
+    return prisma.project.create({
+      data: {
       ...input,
       slug,
       authorId: req.session.userId,
-    }).save();
+    }});
   }
 
   // UPDATE PROJECT
@@ -85,10 +80,10 @@ export class ProjectResolver {
   async updateProject(
     @Arg("id", () => Int) id: number,
     @Arg("input") input: UpdateProjectInput,
-    @Ctx() { req }: MyContext
+    @Ctx() { req, prisma }: MyContext
   ): Promise<ProjectResponse> {
     // find project
-    const projRes = await Project.findOne({ where: { id } });
+    const projRes = await prisma.project.findFirst({ where: { id } });
     // see if they match
     if (req.session.userId !== projRes?.authorId) {
       return {
@@ -102,19 +97,17 @@ export class ProjectResolver {
     }
     // MAIN ACTION
     try {
-      const res = await getConnection()
-        .createQueryBuilder()
-        .update(Project)
-        .set({ ...input, updatedAt: new Date() })
-        .where("id = :id", {
-          id,
-        })
-        .returning("*")
-        .execute();
+      const updatedProject = await prisma.project.update({
+        where: { id },
+        data: {
+          ...input,
+          updatedAt: new Date(),
+        }
+      })
 
-      console.log("update worked: ", res.raw);
+      console.log("update worked: ", updatedProject);
 
-      return { project: res.raw[0] };
+      return { project: updatedProject };
     } catch (err) {
       // ERROR CATCHING
       console.error(err);
@@ -135,26 +128,22 @@ export class ProjectResolver {
   @UseMiddleware(isAuthed)
   async deleteProject(
     @Arg("id", () => Int) id: number,
-    @Ctx() { req }: MyContext
+    @Ctx() { req, prisma }: MyContext
   ): Promise<Boolean> {
-    const res = await getConnection()
-      .createQueryBuilder()
-      .delete()
-      .from(Project)
-      .where("id = :id and authorId = :authorId", {
+    const deletedProject = await prisma.project.findFirst({
+      where: {
         id,
-        authorId: req.session.userId,
-      })
-      .returning("*")
-      .execute();
-    // await Project.delete({ id, authorId: req.session.userId });
-
-    if ((res?.affected as number) < 1 || res?.raw.length <= 0) {
+        AND: {
+          authorId: req.session.userId
+        }
+      }
+    })
+    if (!deletedProject) {
       return false;
     }
-
-    console.log("### PROJECT DELETED!");
-    return true;
+    const deleteRes = await prisma.project.delete({ where: { id: deletedProject.id }}).then(() => true).catch(()=> false)
+    console.log("### PROJECT DELETED??", deleteRes);
+    return deleteRes;
   }
 
   // TODO 1) add vote logic

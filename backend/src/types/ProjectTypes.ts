@@ -1,6 +1,7 @@
 import { Field, InputType, ObjectType } from "type-graphql";
-import { Project } from "../entity/Project";
 import { FieldError } from "./UserTypes";
+import { Project } from '@generated/type-graphql'
+
 
 @InputType()
 export class CreateProjectInput {
@@ -18,6 +19,8 @@ export class CreateProjectInput {
   publishDate: string;
   @Field()
   targetDate: string;
+  @Field()
+  currentFunds: number;
 }
 
 @InputType()

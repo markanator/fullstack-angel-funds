@@ -76,7 +76,7 @@ export default function WelcomeEmail(fullName: string, email: string) {
                   </tr>
                   <tr>
                     <td class="h1" style="padding: 5px 0 0 0;">
-                      Virtual Reality Funding Platform
+                      Angel Funds Platform
                     </td>
                   </tr>
                 </table>

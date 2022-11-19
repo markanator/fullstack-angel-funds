@@ -7,7 +7,7 @@ import {
   Root,
   UseMiddleware,
 } from "type-graphql";
-import { Donation, Project, User } from "../entity";
+import { User, Donation, Project } from '@generated/type-graphql'
 import { isAuthed } from "../middleware/isAuthed";
 import { CreateDonoInput } from "../types/CreateDonoInput";
 import { MyContext } from "../types/MyContext";
@@ -19,7 +19,7 @@ export class DonationResolver {
   async donor(@Root() dono: Donation, @Ctx() { userLoader }: MyContext) {
     // will batch all users into a single call
     // and return them
-    return userLoader.load(dono.userId);
+    return userLoader.load(dono.donorId);
   }
 
   // get project for a donation
@@ -38,15 +38,16 @@ export class DonationResolver {
   @UseMiddleware(isAuthed)
   async syncStripeDono(
     @Arg("order") order: CreateDonoInput,
-    @Ctx() { req }: MyContext
+    @Ctx() { req, prisma }: MyContext
   ): Promise<Donation> {
-    return Donation.create({
+    return prisma.donation.create({
+      data: {
       projectId: order.p_id,
       amount: order.amount,
-      s_receipt_url: order.s_receipt_url,
-      s_created: order.s_created,
-      userId: req.session.userId,
-      c_id: order.cust_id,
-    }).save();
+      stripeReceiptUrl: order.s_receipt_url,
+      stripeCreatedAt: order.s_created,
+      donorId: req.session.userId,
+      customerId: order.cust_id,
+    }})
   }
 }

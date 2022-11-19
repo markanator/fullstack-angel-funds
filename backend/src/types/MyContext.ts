@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import { Session, SessionData } from "express-session";
 import { Redis } from "ioredis";
@@ -10,6 +11,7 @@ export type MyContext = {
   };
   res: Response;
   redis: Redis;
+  prisma: PrismaClient;
   userLoader: ReturnType<typeof createUserLoader>;
   projectLoader: ReturnType<typeof createProjectLoader>;
 };

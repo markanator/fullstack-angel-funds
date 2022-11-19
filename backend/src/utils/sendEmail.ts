@@ -13,8 +13,8 @@ export async function sendEmail(to: string, html: string, subject: string) {
     host: "smtp.ethereal.email",
     port: 587,
     auth: {
-      user: process.env.EMAIL_USER as string,
-      pass: process.env.EMAIL_PASS,
+      user: process.env.EMAIL_USER!,
+      pass: process.env.EMAIL_PASS!,
     },
     secure: false, // true for 465, false for other ports
     tls: {
@@ -24,7 +24,7 @@ export async function sendEmail(to: string, html: string, subject: string) {
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"VR Funds Team" <no-reply@example.com>',
+    from: '"Angel Funds Team" <no-reply@example.com>',
     to,
     subject,
     html,
