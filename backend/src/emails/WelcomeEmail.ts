@@ -104,7 +104,7 @@ export default function WelcomeEmail(fullName: string, email: string) {
                 <br/>If you need anything, feel free to reach out.
                 <br/><br/>
                 Best,<br/>
-                The VR Funds Team
+                The Angel Funds Team
               </td>
             </tr>
           </table>
@@ -117,7 +117,7 @@ export default function WelcomeEmail(fullName: string, email: string) {
 
             <tr>
               <td align="center" class="footercopy">
-                &reg; VR FUNDS 2021<br/>
+                &reg; Angel Funds 2021<br/>
                 <a href="#" class="unsubscribe"><font color="#ffffff">Unsubscribe</font></a>
                 <span class="hide">from this newsletter instantly</span>
               </td>
