@@ -6,13 +6,6 @@ const fonts = {
   body: 'Roboto'
 }
 
-const breakpoints = createBreakpoints({
-  sm: '40em',
-  md: '52em',
-  lg: '64em',
-  xl: '80em'
-})
-
 const theme = extendTheme({
   colors: {
     color_primary: '#1C2826',
@@ -26,7 +19,12 @@ const theme = extendTheme({
     testimonial_bg: '#F7F7F9'
   },
   fonts,
-  breakpoints,
+  breakpoints: {
+    sm: '40em',
+    md: '52em',
+    lg: '64em',
+    xl: '80em'
+  },
   icons: {
     logo: {
       path: (

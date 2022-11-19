@@ -1,9 +1,11 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -11,86 +13,77 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
 };
 
-export type Query = {
-  __typename?: 'Query';
-  hello: Scalars['String'];
-  projects: Array<Project>;
-  getProjectsByUserID?: Maybe<Array<Project>>;
-  getProjectBySlug?: Maybe<Project>;
-  me?: Maybe<User>;
+export type CreateDonoInput = {
+  amount: Scalars['Int'];
+  cust_id: Scalars['String'];
+  p_id: Scalars['Int'];
+  s_created: Scalars['String'];
+  s_receipt_url: Scalars['String'];
 };
 
-
-export type QueryGetProjectsByUserIdArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type QueryGetProjectBySlugArgs = {
-  slug: Scalars['String'];
-};
-
-export type Project = {
-  __typename?: 'Project';
-  id: Scalars['Float'];
-  title: Scalars['String'];
-  description: Scalars['String'];
+export type CreateProjectInput = {
   category: Scalars['String'];
-  image: Scalars['String'];
-  slug: Scalars['String'];
-  fundTarget: Scalars['Float'];
   currentFunds: Scalars['Float'];
+  description: Scalars['String'];
+  fundTarget: Scalars['Float'];
+  image: Scalars['String'];
   publishDate: Scalars['String'];
   targetDate: Scalars['String'];
-  totalDonation_sum: Scalars['Float'];
-  viewCount: Scalars['Float'];
-  votePoints: Scalars['Float'];
-  authorId: Scalars['Float'];
-  author: User;
-  donations?: Maybe<Donation>;
-  voteStatus?: Maybe<Scalars['Int']>;
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
-};
-
-export type User = {
-  __typename?: 'User';
-  id: Scalars['Float'];
-  fullName: Scalars['String'];
-  avatarUrl: Scalars['String'];
-  email: Scalars['String'];
-  created_at: Scalars['String'];
-  updated_at: Scalars['String'];
+  title: Scalars['String'];
 };
 
 export type Donation = {
   __typename?: 'Donation';
-  id: Scalars['String'];
   amount: Scalars['Int'];
-  createdAt: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  customerId: Scalars['String'];
   donor: User;
+  donorId: Scalars['Int'];
+  id: Scalars['Int'];
+  project: Project;
+  projectId: Scalars['Int'];
+  status: DonationStatus;
+  stripeCreatedAt: Scalars['String'];
+  stripeReceiptUrl: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export enum DonationStatus {
+  Chargeback = 'CHARGEBACK',
+  Disputed = 'DISPUTED',
+  Failed = 'FAILED',
+  FullRefund = 'FULL_REFUND',
+  PartialRefund = 'PARTIAL_REFUND',
+  Pending = 'PENDING',
+  Success = 'SUCCESS'
+}
+
+export type EmailPasswordInput = {
+  email: Scalars['String'];
+  fullName: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type FieldError = {
+  __typename?: 'FieldError';
+  field: Scalars['String'];
+  message: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createStripeSession?: Maybe<Scalars['String']>;
   createProject: Project;
-  updateProject: ProjectResponse;
   deleteProject: Scalars['Boolean'];
-  register: UserResponse;
-  login: UserResponse;
-  logout: Scalars['Boolean'];
   forgotPassword: Scalars['Boolean'];
   getUserById: UserResponse;
-};
-
-
-export type MutationCreateStripeSessionArgs = {
-  projectTitle: Scalars['String'];
-  projectID: Scalars['Int'];
-  amount: Scalars['Int'];
+  login: UserResponse;
+  logout: Scalars['Boolean'];
+  register?: Maybe<UserResponse>;
+  syncStripeDono: Donation;
+  updateProject: ProjectResponse;
 };
 
 
@@ -99,25 +92,8 @@ export type MutationCreateProjectArgs = {
 };
 
 
-export type MutationUpdateProjectArgs = {
-  input: UpdateProjectInput;
-  id: Scalars['Int'];
-};
-
-
 export type MutationDeleteProjectArgs = {
   id: Scalars['Int'];
-};
-
-
-export type MutationRegisterArgs = {
-  options: EmailPasswordInput;
-};
-
-
-export type MutationLoginArgs = {
-  password: Scalars['String'];
-  email: Scalars['String'];
 };
 
 
@@ -130,14 +106,55 @@ export type MutationGetUserByIdArgs = {
   id: Scalars['Int'];
 };
 
-export type CreateProjectInput = {
-  title: Scalars['String'];
-  description: Scalars['String'];
+
+export type MutationLoginArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+
+export type MutationRegisterArgs = {
+  options: EmailPasswordInput;
+};
+
+
+export type MutationSyncStripeDonoArgs = {
+  order: CreateDonoInput;
+};
+
+
+export type MutationUpdateProjectArgs = {
+  id: Scalars['Int'];
+  input: UpdateProjectInput;
+};
+
+export type Project = {
+  __typename?: 'Project';
+  _count?: Maybe<ProjectCount>;
+  author: User;
+  authorId: Scalars['Int'];
   category: Scalars['String'];
-  image: Scalars['String'];
-  fundTarget: Scalars['Float'];
-  publishDate: Scalars['String'];
-  targetDate: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  currentFunds: Scalars['Int'];
+  description: Scalars['String'];
+  fundTarget: Scalars['Int'];
+  id: Scalars['Int'];
+  image?: Maybe<Scalars['String']>;
+  publishDate: Scalars['DateTime'];
+  slug: Scalars['String'];
+  targetDate: Scalars['DateTime'];
+  title: Scalars['String'];
+  totalDonation_sum: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+  viewCount: Scalars['Int'];
+  votePoints?: Maybe<Scalars['Int']>;
+  voteStatus?: Maybe<Scalars['Int']>;
+};
+
+export type ProjectCount = {
+  __typename?: 'ProjectCount';
+  donations: Scalars['Int'];
+  upvotes: Scalars['Int'];
 };
 
 export type ProjectResponse = {
@@ -146,20 +163,53 @@ export type ProjectResponse = {
   project?: Maybe<Project>;
 };
 
-export type FieldError = {
-  __typename?: 'FieldError';
-  field: Scalars['String'];
-  message: Scalars['String'];
+export type Query = {
+  __typename?: 'Query';
+  getProjectBySlug?: Maybe<Project>;
+  getProjectsByUserID?: Maybe<Array<Project>>;
+  hello: Scalars['String'];
+  me?: Maybe<User>;
+  projects: Array<Project>;
+};
+
+
+export type QueryGetProjectBySlugArgs = {
+  slug: Scalars['String'];
+};
+
+
+export type QueryGetProjectsByUserIdArgs = {
+  id: Scalars['Int'];
 };
 
 export type UpdateProjectInput = {
-  title: Scalars['String'];
-  description: Scalars['String'];
   category: Scalars['String'];
-  image: Scalars['String'];
+  description: Scalars['String'];
   fundTarget: Scalars['Float'];
+  image: Scalars['String'];
   publishDate: Scalars['String'];
   targetDate: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type User = {
+  __typename?: 'User';
+  _count?: Maybe<UserCount>;
+  avatarUrl: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  cust_id: Scalars['String'];
+  email: Scalars['String'];
+  fullName: Scalars['String'];
+  id: Scalars['Int'];
+  password: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type UserCount = {
+  __typename?: 'UserCount';
+  donations: Scalars['Int'];
+  projects: Scalars['Int'];
+  upvotes: Scalars['Int'];
 };
 
 export type UserResponse = {
@@ -168,65 +218,25 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
-export type EmailPasswordInput = {
-  email: Scalars['String'];
-  fullName: Scalars['String'];
-  password: Scalars['String'];
-};
+export type FullUserDetailsFragment = { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any };
 
-export type FullUserDetailsFragment = (
-  { __typename?: 'User' }
-  & Pick<User, 'id' | 'fullName' | 'avatarUrl' | 'email' | 'created_at'>
-);
+export type ProjectResponseNoAuthorFragment = { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string };
 
-export type ProjectResponseNoAuthorFragment = (
-  { __typename?: 'Project' }
-  & Pick<Project, 'id' | 'title' | 'description' | 'category' | 'image' | 'fundTarget' | 'currentFunds' | 'publishDate' | 'targetDate' | 'totalDonation_sum' | 'viewCount' | 'votePoints' | 'slug'>
-);
-
-export type ProjectResponseWAuthorFragment = (
-  { __typename?: 'Project' }
-  & Pick<Project, 'id' | 'title' | 'description' | 'category' | 'image' | 'fundTarget' | 'currentFunds' | 'publishDate' | 'targetDate' | 'totalDonation_sum' | 'viewCount' | 'votePoints' | 'slug'>
-  & { author: (
-    { __typename?: 'User' }
-    & FullUserDetailsFragment
-  ) }
-);
+export type ProjectResponseWAuthorFragment = { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } };
 
 export type CreateProjectMutationVariables = Exact<{
   input: CreateProjectInput;
 }>;
 
 
-export type CreateProjectMutation = (
-  { __typename?: 'Mutation' }
-  & { createProject: (
-    { __typename?: 'Project' }
-    & ProjectResponseWAuthorFragment
-  ) }
-);
-
-export type CreateStripeSessionMutationVariables = Exact<{
-  projectTitle: Scalars['String'];
-  projectID: Scalars['Int'];
-  amount: Scalars['Int'];
-}>;
-
-
-export type CreateStripeSessionMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'createStripeSession'>
-);
+export type CreateProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
 
 
-export type ForgotPasswordMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'forgotPassword'>
-);
+export type ForgotPasswordMutation = { __typename?: 'Mutation', forgotPassword: boolean };
 
 export type LoginMutationVariables = Exact<{
   password: Scalars['String'];
@@ -234,94 +244,43 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = (
-  { __typename?: 'Mutation' }
-  & { login: (
-    { __typename?: 'UserResponse' }
-    & { errors?: Maybe<Array<(
-      { __typename?: 'FieldError' }
-      & Pick<FieldError, 'field' | 'message'>
-    )>>, user?: Maybe<(
-      { __typename?: 'User' }
-      & FullUserDetailsFragment
-    )> }
-  ) }
-);
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } | null } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LogoutMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'logout'>
-);
+export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
 export type RegisterMutationVariables = Exact<{
   options: EmailPasswordInput;
 }>;
 
 
-export type RegisterMutation = (
-  { __typename?: 'Mutation' }
-  & { register: (
-    { __typename?: 'UserResponse' }
-    & { errors?: Maybe<Array<(
-      { __typename?: 'FieldError' }
-      & Pick<FieldError, 'field' | 'message'>
-    )>>, user?: Maybe<(
-      { __typename?: 'User' }
-      & FullUserDetailsFragment
-    )> }
-  ) }
-);
+export type RegisterMutation = { __typename?: 'Mutation', register?: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } | null } | null };
 
 export type FetchAllProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchAllProjectsQuery = (
-  { __typename?: 'Query' }
-  & { projects: Array<(
-    { __typename?: 'Project' }
-    & ProjectResponseNoAuthorFragment
-  )> }
-);
+export type FetchAllProjectsQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string }> };
 
 export type FetchMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchMeQuery = (
-  { __typename?: 'Query' }
-  & { me?: Maybe<(
-    { __typename?: 'User' }
-    & FullUserDetailsFragment
-  )> }
-);
+export type FetchMeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } | null };
 
 export type GetbySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type GetbySlugQuery = (
-  { __typename?: 'Query' }
-  & { getProjectBySlug?: Maybe<(
-    { __typename?: 'Project' }
-    & ProjectResponseWAuthorFragment
-  )> }
-);
+export type GetbySlugQuery = { __typename?: 'Query', getProjectBySlug?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } } | null };
 
 export type GetProjectsByUserIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type GetProjectsByUserIdQuery = (
-  { __typename?: 'Query' }
-  & { getProjectsByUserID?: Maybe<Array<(
-    { __typename?: 'Project' }
-    & ProjectResponseWAuthorFragment
-  )>> }
-);
+export type GetProjectsByUserIdQuery = { __typename?: 'Query', getProjectsByUserID?: Array<{ __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } }> | null };
 
 export const ProjectResponseNoAuthorFragmentDoc = gql`
     fragment ProjectResponseNoAuthor on Project {
@@ -346,7 +305,7 @@ export const FullUserDetailsFragmentDoc = gql`
   fullName
   avatarUrl
   email
-  created_at
+  createdAt
 }
     `;
 export const ProjectResponseWAuthorFragmentDoc = gql`
@@ -396,47 +355,12 @@ export type CreateProjectMutationFn = Apollo.MutationFunction<CreateProjectMutat
  * });
  */
 export function useCreateProjectMutation(baseOptions?: Apollo.MutationHookOptions<CreateProjectMutation, CreateProjectMutationVariables>) {
-        return Apollo.useMutation<CreateProjectMutation, CreateProjectMutationVariables>(CreateProjectDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateProjectMutation, CreateProjectMutationVariables>(CreateProjectDocument, options);
       }
 export type CreateProjectMutationHookResult = ReturnType<typeof useCreateProjectMutation>;
 export type CreateProjectMutationResult = Apollo.MutationResult<CreateProjectMutation>;
 export type CreateProjectMutationOptions = Apollo.BaseMutationOptions<CreateProjectMutation, CreateProjectMutationVariables>;
-export const CreateStripeSessionDocument = gql`
-    mutation createStripeSession($projectTitle: String!, $projectID: Int!, $amount: Int!) {
-  createStripeSession(
-    projectTitle: $projectTitle
-    projectID: $projectID
-    amount: $amount
-  )
-}
-    `;
-export type CreateStripeSessionMutationFn = Apollo.MutationFunction<CreateStripeSessionMutation, CreateStripeSessionMutationVariables>;
-
-/**
- * __useCreateStripeSessionMutation__
- *
- * To run a mutation, you first call `useCreateStripeSessionMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateStripeSessionMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createStripeSessionMutation, { data, loading, error }] = useCreateStripeSessionMutation({
- *   variables: {
- *      projectTitle: // value for 'projectTitle'
- *      projectID: // value for 'projectID'
- *      amount: // value for 'amount'
- *   },
- * });
- */
-export function useCreateStripeSessionMutation(baseOptions?: Apollo.MutationHookOptions<CreateStripeSessionMutation, CreateStripeSessionMutationVariables>) {
-        return Apollo.useMutation<CreateStripeSessionMutation, CreateStripeSessionMutationVariables>(CreateStripeSessionDocument, baseOptions);
-      }
-export type CreateStripeSessionMutationHookResult = ReturnType<typeof useCreateStripeSessionMutation>;
-export type CreateStripeSessionMutationResult = Apollo.MutationResult<CreateStripeSessionMutation>;
-export type CreateStripeSessionMutationOptions = Apollo.BaseMutationOptions<CreateStripeSessionMutation, CreateStripeSessionMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)
@@ -462,7 +386,8 @@ export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMut
  * });
  */
 export function useForgotPasswordMutation(baseOptions?: Apollo.MutationHookOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>) {
-        return Apollo.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument, options);
       }
 export type ForgotPasswordMutationHookResult = ReturnType<typeof useForgotPasswordMutation>;
 export type ForgotPasswordMutationResult = Apollo.MutationResult<ForgotPasswordMutation>;
@@ -501,7 +426,8 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  * });
  */
 export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
       }
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
@@ -530,7 +456,8 @@ export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMut
  * });
  */
 export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
-        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
       }
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
@@ -568,7 +495,8 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  * });
  */
 export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
-        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
       }
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
@@ -597,10 +525,12 @@ export const FetchAllProjectsDocument = gql`
  * });
  */
 export function useFetchAllProjectsQuery(baseOptions?: Apollo.QueryHookOptions<FetchAllProjectsQuery, FetchAllProjectsQueryVariables>) {
-        return Apollo.useQuery<FetchAllProjectsQuery, FetchAllProjectsQueryVariables>(FetchAllProjectsDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchAllProjectsQuery, FetchAllProjectsQueryVariables>(FetchAllProjectsDocument, options);
       }
 export function useFetchAllProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchAllProjectsQuery, FetchAllProjectsQueryVariables>) {
-          return Apollo.useLazyQuery<FetchAllProjectsQuery, FetchAllProjectsQueryVariables>(FetchAllProjectsDocument, baseOptions);
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchAllProjectsQuery, FetchAllProjectsQueryVariables>(FetchAllProjectsDocument, options);
         }
 export type FetchAllProjectsQueryHookResult = ReturnType<typeof useFetchAllProjectsQuery>;
 export type FetchAllProjectsLazyQueryHookResult = ReturnType<typeof useFetchAllProjectsLazyQuery>;
@@ -629,10 +559,12 @@ export const FetchMeDocument = gql`
  * });
  */
 export function useFetchMeQuery(baseOptions?: Apollo.QueryHookOptions<FetchMeQuery, FetchMeQueryVariables>) {
-        return Apollo.useQuery<FetchMeQuery, FetchMeQueryVariables>(FetchMeDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchMeQuery, FetchMeQueryVariables>(FetchMeDocument, options);
       }
 export function useFetchMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchMeQuery, FetchMeQueryVariables>) {
-          return Apollo.useLazyQuery<FetchMeQuery, FetchMeQueryVariables>(FetchMeDocument, baseOptions);
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchMeQuery, FetchMeQueryVariables>(FetchMeDocument, options);
         }
 export type FetchMeQueryHookResult = ReturnType<typeof useFetchMeQuery>;
 export type FetchMeLazyQueryHookResult = ReturnType<typeof useFetchMeLazyQuery>;
@@ -662,10 +594,12 @@ export const GetbySlugDocument = gql`
  * });
  */
 export function useGetbySlugQuery(baseOptions: Apollo.QueryHookOptions<GetbySlugQuery, GetbySlugQueryVariables>) {
-        return Apollo.useQuery<GetbySlugQuery, GetbySlugQueryVariables>(GetbySlugDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetbySlugQuery, GetbySlugQueryVariables>(GetbySlugDocument, options);
       }
 export function useGetbySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetbySlugQuery, GetbySlugQueryVariables>) {
-          return Apollo.useLazyQuery<GetbySlugQuery, GetbySlugQueryVariables>(GetbySlugDocument, baseOptions);
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetbySlugQuery, GetbySlugQueryVariables>(GetbySlugDocument, options);
         }
 export type GetbySlugQueryHookResult = ReturnType<typeof useGetbySlugQuery>;
 export type GetbySlugLazyQueryHookResult = ReturnType<typeof useGetbySlugLazyQuery>;
@@ -695,10 +629,12 @@ export const GetProjectsByUserIdDocument = gql`
  * });
  */
 export function useGetProjectsByUserIdQuery(baseOptions: Apollo.QueryHookOptions<GetProjectsByUserIdQuery, GetProjectsByUserIdQueryVariables>) {
-        return Apollo.useQuery<GetProjectsByUserIdQuery, GetProjectsByUserIdQueryVariables>(GetProjectsByUserIdDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProjectsByUserIdQuery, GetProjectsByUserIdQueryVariables>(GetProjectsByUserIdDocument, options);
       }
 export function useGetProjectsByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProjectsByUserIdQuery, GetProjectsByUserIdQueryVariables>) {
-          return Apollo.useLazyQuery<GetProjectsByUserIdQuery, GetProjectsByUserIdQueryVariables>(GetProjectsByUserIdDocument, baseOptions);
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProjectsByUserIdQuery, GetProjectsByUserIdQueryVariables>(GetProjectsByUserIdDocument, options);
         }
 export type GetProjectsByUserIdQueryHookResult = ReturnType<typeof useGetProjectsByUserIdQuery>;
 export type GetProjectsByUserIdLazyQueryHookResult = ReturnType<typeof useGetProjectsByUserIdLazyQuery>;

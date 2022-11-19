@@ -20,7 +20,7 @@ interface ISeoProps {
 }
 
 const domain = "https://fullstack-vrfunds.vercel.app/";
-const Page = ({ date, description = "", image, title = "VR Funds", keywords, router }: ISeoProps) => {
+const Page = ({ date, description = "", image, title = "Angel Funds", keywords, router }: ISeoProps) => {
   const formattedTitle = Title(title) as unknown as string;
   const url = router && router.asPath ? router.asPath : undefined;
   const canonical = url && url === "/" ? domain : domain + url;

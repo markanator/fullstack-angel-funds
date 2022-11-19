@@ -1,11 +1,11 @@
 import React from "react";
-import { Link as ChakraLink } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import NextLink from "next/link";
 
 interface IALinkProps {
-  children: React.ReactNodeArray | any;
+  children?: React.ReactNode;
   href: string;
-  [propName: string]: {};
+  [key: string]: any;
 }
 
 export default function ALink(props: IALinkProps) {
@@ -13,7 +13,7 @@ export default function ALink(props: IALinkProps) {
 
   return (
     <NextLink passHref href={href}>
-      <ChakraLink {...rest}>{children}</ChakraLink>
+      <Box {...rest}>{children}</Box>
     </NextLink>
   );
 }

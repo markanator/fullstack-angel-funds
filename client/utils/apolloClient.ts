@@ -5,7 +5,7 @@ import { useMemo } from "react";
 
 export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
 
-let apolloClient: ApolloClient<NormalizedCacheObject>;
+let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
 function createApolloClient() {
   return new ApolloClient({
@@ -54,7 +54,7 @@ export function addApolloState(client: any, pageProps: any) {
 }
 
 export function useApollo(pageProps: any) {
-  const state = pageProps[APOLLO_STATE_PROP_NAME];
+  const state = pageProps?.initialApolloState ?? pageProps[APOLLO_STATE_PROP_NAME];
   const store = useMemo(() => initializeApollo(state), [state]);
   return store;
 }

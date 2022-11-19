@@ -3,5 +3,5 @@ fragment FullUserDetails on User {
   fullName
   avatarUrl
   email
-  created_at
+  createdAt
 }

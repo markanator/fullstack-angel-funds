@@ -103,7 +103,7 @@ export default function ProjectDetails({ project }: InferGetServerSidePropsType<
               <Flex w="50%" direction="column" h="full">
                 <Image
                   src={project!.image}
-                  alt={project?.title}
+                  alt={project?.title ?? ''}
                   width={678}
                   height={580}
                   objectFit="cover"
@@ -209,9 +209,9 @@ export default function ProjectDetails({ project }: InferGetServerSidePropsType<
                         project?.author.avatarUrl ||
                         "https://www.gravatar.com/avatar/00000000000000000000000000000000?s=200"
                       }
-                      alt={project?.author.fullName}
-                      width="60px"
-                      height="60px"
+                      alt={project?.author?.fullName ?? ''}
+                      width={60}
+                      height={60}
                       objectFit="cover"
                       objectPosition="center"
                       className="__avatar"
@@ -269,13 +269,12 @@ export async function getServerSideProps({ req, res, query }: GetServerSideProps
     });
 
     res.end();
-
     return { props: {} };
   }
 
   return {
     props: {
-      project: data.getProjectBySlug!,
+      project: data.getProjectBySlug,
     },
   };
 }

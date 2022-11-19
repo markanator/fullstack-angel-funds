@@ -22,12 +22,9 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useIsAuth } from "utils/useIsAuth";
-import * as yup from "yup";
 import AuthBanner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
 import { useCreateProjectMutation } from "../../generated/grahpql";
-
-interface IAddProjectPage {}
 
 interface IFormInputs {
   title: string;
@@ -41,7 +38,7 @@ interface IFormInputs {
   terms: boolean;
 }
 
-export default function AddProjectPage({}: IAddProjectPage) {
+export default function AddProjectPage() {
   const { checksOut } = useIsAuth(); //logged in user
   const router = useRouter(); // for nav
   const [createProject, { loading }] = useCreateProjectMutation();
@@ -74,6 +71,7 @@ export default function AddProjectPage({}: IAddProjectPage) {
       fundTarget: formData.fundTarget,
       publishDate: formData.publishDate,
       targetDate: formData.targetDate,
+      currentFunds: 0,
     };
     const { data, errors } = await createProject({
       variables: {
@@ -194,7 +192,6 @@ export default function AddProjectPage({}: IAddProjectPage) {
                 {/* eslint-disable-next-line react/no-children-prop */}
                 <InputLeftElement pointerEvents="none" color="gray.300" fontSize="1.2em" children="$" />
                 <Input
-                  {...input}
                   type="number"
                   placeholder="0"
                   {...register("fundTarget")}
@@ -256,7 +253,7 @@ export default function AddProjectPage({}: IAddProjectPage) {
                 Agree to site Terms and Conditions.
               </FormLabel>
               <Checkbox type="date" {...register("terms")} isInvalid={!!errors?.terms}>
-                I agree to the Terms and Condition.
+                I agree to the Terms and Conditions.
               </Checkbox>
               <Text fontSize="sm" color="color_alt">
                 {errors.terms?.message?.toString()}

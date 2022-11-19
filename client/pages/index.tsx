@@ -17,9 +17,9 @@ import { isServer } from "@/utils/isServer";
 import { Flex } from "@chakra-ui/react";
 import React from "react";
 
-interface IHomeProps {}
+// interface IHomeProps {}
 
-const Index = ({}: IHomeProps) => {
+const Index = () => {
   const { data, loading } = useFetchMeQuery({
     skip: isServer(),
   });
@@ -27,15 +27,14 @@ const Index = ({}: IHomeProps) => {
   if (!loading && !__isProd__) {
     console.log("me data", data);
   }
-  // console.log("server user data", user);
 
   return (
     <Layout
       SEO={{
         title:
-          "VR Funds - Help lift minorities trying to break into the tech space!",
+          "Angel Funds - Help lift minorities trying to break into the tech space!",
         description:
-          "VR Funds - Help lift minorities trying to break into the tech space!",
+          "Angel Funds - Help lift minorities trying to break into the tech space!",
         image: "/images/hero.jpg",
         keywords:
           "virtual reality, funding platform, technology, startup, not really a bussiness, mark ambrocio",

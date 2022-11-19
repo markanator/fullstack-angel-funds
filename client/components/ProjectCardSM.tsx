@@ -7,7 +7,7 @@ interface ICardSmProps {
   proj: {
     title: string;
     slug: string;
-    image: string;
+    image?: string;
     category: string;
     currentFunds: number;
     fundTarget: number;
