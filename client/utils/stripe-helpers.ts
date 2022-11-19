@@ -1,6 +1,6 @@
 export function formatAmountForDisplay(
   amount: number,
-  currency: string
+  currency = "USD"
 ): string {
   let numberFormat = new Intl.NumberFormat(["en-US"], {
     style: "currency",

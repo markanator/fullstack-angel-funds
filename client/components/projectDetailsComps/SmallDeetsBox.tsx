@@ -2,7 +2,7 @@ import { Flex, Text } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
 
 interface Props {
-  content: string;
+  content: React.ReactNode;
   heading: string;
 }
 

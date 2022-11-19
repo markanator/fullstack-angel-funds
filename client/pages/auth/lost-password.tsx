@@ -1,4 +1,3 @@
-import { useApolloClient } from "@apollo/client";
 import {
   Alert,
   AlertIcon,
@@ -12,7 +11,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -28,18 +26,19 @@ interface IFormInputs {
 }
 
 const ForgotSchema = yup.object().shape({
-  forgot_email: yup.string().email("Must be valid email.").required("Please enter an email address."),
+  forgot_email: yup
+    .string()
+    .email("Must be valid email.")
+    .required("Please enter an email address."),
 });
 
 export default function LostPassword({}: ILostMyPasswordProps) {
-  // const router = useRouter();
-  // const apolloClient = useApolloClient();
   const toast = useToast();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<IFormInputs>({
     mode: "all",
     resolver: yupResolver(ForgotSchema),
   });
@@ -47,8 +46,6 @@ export default function LostPassword({}: ILostMyPasswordProps) {
   const [forgotPassword] = useForgotPasswordMutation();
 
   const onSubmit = async (formData: IFormInputs) => {
-    // alert(JSON.stringify(formData.forgot_email, null, 2));
-    // router.push("/my-account");
     const res = await forgotPassword({
       variables: {
         email: formData.forgot_email,
@@ -58,7 +55,8 @@ export default function LostPassword({}: ILostMyPasswordProps) {
     if (res.data?.forgotPassword) {
       toast({
         title: "Email Sent!",
-        description: "If the email address exists, we will immediately send instructions to you.",
+        description:
+          "If the email address exists, we will immediately send instructions to you.",
         isClosable: true,
         duration: 9000,
       });
@@ -66,12 +64,14 @@ export default function LostPassword({}: ILostMyPasswordProps) {
   };
 
   return (
-    <Layout SEO={{ title: "Reset Password - VR Funds" }}>
+    <Layout SEO={{ title: "Reset Password - Angel Funds" }}>
       <Banner bgImage="/images/breadcrumb.png" title="Forgot Password" />
       <Container maxW="7xl" pt="3rem">
         <Alert status="info" mb="2rem">
           <AlertIcon />
-          We have a demo account setup. Username: <strong> demo </strong> and Password: <strong>demo</strong>
+          We have a demo account setup. Username:{" "}
+          <strong> demo@gmail.com </strong> and Password:{" "}
+          <strong>password123!@#</strong>
         </Alert>
         <Flex w="50%" mr="1rem" flexDirection="column" pb="6rem">
           <Flex
@@ -85,7 +85,8 @@ export default function LostPassword({}: ILostMyPasswordProps) {
           >
             <FormControl id="forgot_email">
               <Text mb="1.5rem" fontSize="md" textColor="text_secondary">
-                Enter your email. You will receive a link to create a new password via email.
+                Enter your email. You will receive a link to create a new
+                password via email.
               </Text>
               <FormLabel htmlFor="forgot_email">Email</FormLabel>
               <Input

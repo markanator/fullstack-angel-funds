@@ -1,8 +1,19 @@
 import { useApolloClient } from "@apollo/client";
-import { Button, Flex, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Text,
+} from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ALink from "components/ALink";
-import { FetchMeDocument, useFetchMeQuery, useLoginMutation } from "generated/grahpql";
+import {
+  FetchMeDocument,
+  useFetchMeQuery,
+  useLoginMutation,
+} from "generated/grahpql";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import { useForm } from "react-hook-form";
@@ -16,7 +27,10 @@ interface IFormInputs {
 }
 
 const LoginSchema = yup.object().shape({
-  log_email: yup.string().email("Must be valid email.").required("Please enter an email address."),
+  log_email: yup
+    .string()
+    .email("Must be valid email.")
+    .required("Please enter an email address."),
   log_pass: yup.string().required("Please enter a password."),
 });
 
@@ -28,7 +42,7 @@ export default function LoginForm(): ReactElement {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm({
+  } = useForm<IFormInputs>({
     mode: "all",
     resolver: yupResolver(LoginSchema),
   });
@@ -46,17 +60,19 @@ export default function LoginForm(): ReactElement {
 
     // ! error handle
     if (res.data?.login?.errors) {
-      res.data?.login?.errors.forEach((element: { field: string; message: string }) => {
-        if (element.field == "password") {
-          setError("log_pass", {
-            message: element.message,
-          });
-        } else {
-          setError("log_email", {
-            message: element.message,
-          });
+      res.data?.login?.errors.forEach(
+        (element: { field: string; message: string }) => {
+          if (element.field == "password") {
+            setError("log_pass", {
+              message: element.message,
+            });
+          } else {
+            setError("log_email", {
+              message: element.message,
+            });
+          }
         }
-      });
+      );
     } else if (res.data?.login?.user) {
       apolloClient.writeQuery({
         query: FetchMeDocument,
@@ -97,7 +113,8 @@ export default function LoginForm(): ReactElement {
           boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
         />
         <Text fontSize="sm" color="color_alt">
-          {!!errors?.log_email?.message && errors?.log_email?.message.toString()}
+          {!!errors?.log_email?.message &&
+            errors?.log_email?.message.toString()}
         </Text>
       </FormControl>
 
@@ -118,7 +135,14 @@ export default function LoginForm(): ReactElement {
         </Text>
       </FormControl>
 
-      <Button type="submit" bgColor="color_alt" rounded="none" size="lg" mt="1rem" textTransform="uppercase">
+      <Button
+        type="submit"
+        bgColor="color_alt"
+        rounded="none"
+        size="lg"
+        mt="1rem"
+        textTransform="uppercase"
+      >
         Login
       </Button>
 

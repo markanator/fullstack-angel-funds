@@ -16,17 +16,17 @@ interface IChachedMe extends ApolloCache<object> {
 export const useIsAuth = () => {
   const router = useRouter();
   const { data, loading } = useFetchMeQuery();
-  const [checksOut, setChecksOut] = useState(false);
+  const [isLoggedIn, setIsloggedIn] = useState(false);
 
   useEffect(() => {
     if (!loading && !data?.me) {
       router.replace("/auth?next=" + router.pathname);
     } else {
-      setChecksOut(true);
+      setIsloggedIn(true);
     }
   }, [loading, data, router]);
 
-  return { checksOut };
+  return { isLoggedIn, user: data?.me };
 };
 
 // export const cacheLogCheck = () => {

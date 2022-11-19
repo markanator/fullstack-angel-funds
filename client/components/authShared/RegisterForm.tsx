@@ -1,5 +1,13 @@
 import { useApolloClient } from "@apollo/client";
-import { Button, Checkbox, Flex, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Checkbox,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Text,
+} from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FetchMeDocument, useRegisterMutation } from "generated/grahpql";
 import { useRouter } from "next/router";
@@ -11,16 +19,25 @@ interface Props {}
 
 interface IFormInputs {
   fullName: string;
-  reg_email: string;
+  email: string;
   password: string;
   terms: boolean;
 }
 
 const RegSchema = yup.object().shape({
   fullName: yup.string().min(4, "Too short.").required("Required"),
-  reg_email: yup.string().email("Must be valid email.").required("Please enter an email address."),
-  password: yup.string().min(8, "Too Short").required("Please enter a password."),
-  terms: yup.boolean().oneOf([true], "You must read and accept.").required("Required."),
+  email: yup
+    .string()
+    .email("Must be valid email.")
+    .required("Please enter an email address."),
+  password: yup
+    .string()
+    .min(8, "Too Short")
+    .required("Please enter a password."),
+  terms: yup
+    .boolean()
+    .oneOf([true], "You must read and accept.")
+    .required("Required."),
 });
 
 export default function RegisterForm({}: Props): ReactElement {
@@ -31,7 +48,7 @@ export default function RegisterForm({}: Props): ReactElement {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm({
+  } = useForm<IFormInputs>({
     mode: "all",
     resolver: yupResolver(RegSchema),
   });
@@ -40,7 +57,7 @@ export default function RegisterForm({}: Props): ReactElement {
 
   const onSubmit = async (formData: IFormInputs) => {
     const options = {
-      email: formData.reg_email,
+      email: formData.email,
       fullName: formData.fullName,
       password: formData.password,
     };
@@ -54,7 +71,7 @@ export default function RegisterForm({}: Props): ReactElement {
     //! set errors from server
     if (res.data?.register?.errors) {
       res.data?.register?.errors.forEach((element) => {
-        setError(element.field, {
+        setError(element.field as any, {
           message: element.message,
         });
       });
@@ -107,16 +124,16 @@ export default function RegisterForm({}: Props): ReactElement {
       <FormControl id="reg_email" mt="1rem">
         <FormLabel htmlFor="reg_email">Email</FormLabel>
         <Input
-          type="reg_email"
-          {...register("reg_email")}
-          isInvalid={!!errors?.reg_email}
+          type="email"
+          {...register("email")}
+          isInvalid={!!errors?.email}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
           boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
         />
         <Text fontSize="sm" color="color_alt">
-          {errors.reg_email?.message?.toString()}
+          {errors.email?.message?.toString()}
         </Text>
       </FormControl>
 
@@ -137,7 +154,11 @@ export default function RegisterForm({}: Props): ReactElement {
       </FormControl>
 
       <FormControl id="terms" mt="1.5rem">
-        <Checkbox colorScheme="red" {...register("terms")} isInvalid={!!errors?.terms}>
+        <Checkbox
+          colorScheme="red"
+          {...register("terms")}
+          isInvalid={!!errors?.terms}
+        >
           I agree to the Terms and Conditions and Privacy Policy.
         </Checkbox>
         <Text fontSize="sm" color="color_alt">
@@ -145,7 +166,14 @@ export default function RegisterForm({}: Props): ReactElement {
         </Text>
       </FormControl>
 
-      <Button type="submit" bgColor="color_alt" rounded="none" size="lg" mt="1rem" textTransform="uppercase">
+      <Button
+        type="submit"
+        bgColor="color_alt"
+        rounded="none"
+        size="lg"
+        mt="1rem"
+        textTransform="uppercase"
+      >
         Register
       </Button>
     </Flex>

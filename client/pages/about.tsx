@@ -6,14 +6,12 @@ import Testimonial from "@/components/homePageFeatures/Testimonial";
 import Layout from "@/components/Layout";
 import IconSection from "@/components/TextWithIcon";
 import { Flex, Heading, Text, Container, Box } from "@chakra-ui/react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React from "react";
 
-interface IAboutProps {}
-
-export default function about({}: IAboutProps) {
+export default function about() {
   return (
-    <Layout SEO={{ title: "About Us - VR Funds" }}>
+    <Layout SEO={{ title: "About Us - Angel Funds" }}>
       <AuthBanner title="About" />
       {/* OG CONTENT HERE */}
       <Container maxW="7xl" w="full" py="5rem">

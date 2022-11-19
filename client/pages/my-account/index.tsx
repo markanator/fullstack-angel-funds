@@ -9,21 +9,21 @@ import AccountNavbar from "../../components/myAccountShared/AccountNavbar";
 interface IAccountProps {}
 
 export default function MyAccountPage({}: IAccountProps) {
-  const { checksOut } = useIsAuth();
+  const { isLoggedIn } = useIsAuth();
 
-  if (checksOut) {
-    return (
-      <Layout SEO={{ title: "Dashboard - VR Funds" }}>
-        <AuthBanner bgImage="/images/breadcrumb.png" title="My Account" />
-        <Flex bgColor="gray.200" w="full" h="full">
-          <Container maxW="7xl" py="2rem">
-            <AccountNavbar />
-            USER DASHBOARD
-          </Container>
-        </Flex>
-      </Layout>
-    );
+  if (!isLoggedIn) {
+    return <Layout SEO={{ title: "Loading - Angel Funds" }}>Loading...</Layout>;
   }
 
-  return <Layout SEO={{ title: "Loading - VR Funds" }}>Loading...</Layout>;
+  return (
+    <Layout SEO={{ title: "Dashboard - Angel Funds" }}>
+      <AuthBanner bgImage="/images/breadcrumb.png" title="My Account" />
+      <Flex bgColor="gray.200" w="full" h="full">
+        <Container maxW="7xl" py="2rem">
+          <AccountNavbar />
+          USER DASHBOARD
+        </Container>
+      </Flex>
+    </Layout>
+  );
 }

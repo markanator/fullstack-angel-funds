@@ -9,14 +9,15 @@ interface IAuthProps {}
 
 function Index({}: IAuthProps) {
   return (
-    <Layout SEO={{ title: "Login/Register - VR Funds" }}>
+    <Layout SEO={{ title: "Login/Register - Angel Funds" }}>
       {/* BANNER */}
       <AuthBanner bgImage="/images/breadcrumb.png" title="Login" />
 
       <Container maxW="7xl">
         <Alert status="info" mt="2rem" textColor="text_primary">
           <AlertIcon />
-          We have a demo account setup. Username: demo and Password: demo
+          We have a demo account setup. email: demo@gmail.com and Password:
+          password123!@#
         </Alert>
         {/* FORMS */}
         <Flex

@@ -15,7 +15,7 @@ export default function Explore({ projects }: IExploreProps) {
 
   if (loading) {
     return (
-      <Layout SEO={{ title: "Loading... - VR Funds" }}>
+      <Layout SEO={{ title: "Loading... - Angel Funds" }}>
         <Heading as="h1">Loading...</Heading>
       </Layout>
     );
@@ -34,13 +34,15 @@ export default function Explore({ projects }: IExploreProps) {
   }
 
   return (
-    <Layout SEO={{ title: "Explore Projects - VR Funds" }}>
+    <Layout SEO={{ title: "Explore Projects - Angel Funds" }}>
       <Banner title="Explore" />
       <Flex w="full" h="full">
         <Container maxW="7xl" py="4rem">
           <Flex>
             {data &&
-              data.projects.map((proj: any) => <ProjectCardLG key={`project-${proj.id}`} project={proj} />)}
+              data.projects.map((proj: any) => (
+                <ProjectCardLG key={`project-${proj.id}`} project={proj} />
+              ))}
           </Flex>
         </Container>
       </Flex>

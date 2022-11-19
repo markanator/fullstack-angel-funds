@@ -4,12 +4,10 @@ import { Flex, Heading, Text } from "@chakra-ui/react";
 import Layout from "components/Layout";
 import React, { ReactElement } from "react";
 
-interface Props {}
-
-export default function Custom404({}: Props): ReactElement {
-  const bgImage = "/images/error.jpg";
+const bgImage = "/images/error.jpg";
+export default function Custom404() {
   return (
-    <Layout SEO={{ title: "Oops, Error 404 - VR Funds" }}>
+    <Layout SEO={{ title: "Oops, Error 404 - Angel Funds" }}>
       <Flex
         className="overlay"
         pos="relative"

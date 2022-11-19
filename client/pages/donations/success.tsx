@@ -12,16 +12,19 @@ export default function Success({}: Props): ReactElement {
   const router = useRouter();
 
   const { data, error } = useSWR(
-    router.query.session_id ? `/api/donations/${router.query.session_id}` : null,
+    router.query.session_id
+      ? `/api/donations/${router.query.session_id}`
+      : null,
     fetchGetJSON
   );
 
   if (error) return <div>failed to load</div>;
 
-  const formattedContent: string = JSON.stringify(data, null, 2) ?? "loading...";
+  const formattedContent: string =
+    JSON.stringify(data, null, 2) ?? "loading...";
 
   return (
-    <Layout SEO={{ title: "Donation Successfull! - VR Funds" }}>
+    <Layout SEO={{ title: "Donation Successfull! - Angel Funds" }}>
       <AuthBanner
         overlay
         bgImage="https://images.unsplash.com/photo-1586021280718-53fbadcb65a7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80"

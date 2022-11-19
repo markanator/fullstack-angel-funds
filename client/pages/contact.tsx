@@ -29,10 +29,10 @@ const ContactSchema = yup.object().shape({
   name: yup.string().min(2, "Too short.").required("Required."),
   email: yup.string().email().required("Required."),
   subject: yup.string(),
-  message: yup.string(),
+  message: yup.string().required("Required."),
 });
 
-export default function Contact({}: IHomeProps) {
+export default function Contact() {
   const toast = useToast();
   const {
     register,
@@ -47,7 +47,8 @@ export default function Contact({}: IHomeProps) {
     // setSentStatus("Hooray, message sent!");
     toast({
       title: "Message Sent successfully!",
-      description: "Thank you for the message. We'll get back to you as soon as we can!",
+      description:
+        "Thank you for the message. We'll get back to you as soon as we can!",
       status: "success",
       isClosable: true,
       position: "bottom",
@@ -55,7 +56,7 @@ export default function Contact({}: IHomeProps) {
     });
   };
   return (
-    <Layout SEO={{ title: "Contact Us - VR Funds" }}>
+    <Layout SEO={{ title: "Contact Us - Angel Funds" }}>
       <Banner title="Contact" />
       <Container maxW="7xl" py="8rem">
         <Flex>
@@ -65,14 +66,19 @@ export default function Contact({}: IHomeProps) {
               Write Us a<br /> Message
             </Heading>
             <Text textColor="text_secondary">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a tortor turpis. Pellentesque in
-              arcu id augue tempus imperdiet ac sed metus. Praesent pellentesque nunc sed malesuada placerat.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a
+              tortor turpis. Pellentesque in arcu id augue tempus imperdiet ac
+              sed metus. Praesent pellentesque nunc sed malesuada placerat.
               Integer gravida facilisis fringilla.
             </Text>
           </Flex>
           {/* RIGHT FORM */}
           <Flex flexDirection="column" w="60%">
-            <Flex as="form" flexDirection="column" onSubmit={handleSubmit(onSubmit as any)}>
+            <Flex
+              as="form"
+              flexDirection="column"
+              onSubmit={handleSubmit(onSubmit as any)}
+            >
               <Flex direction="row" w="full" mb="2rem">
                 {/* FULL NAME */}
                 <FormControl id="name" isRequired mr="1rem">
@@ -142,7 +148,13 @@ export default function Contact({}: IHomeProps) {
               </FormControl>
               {/* SUBMIT */}
               <Flex flexDir="row">
-                <Button type="submit" size="lg" rounded="0px" bgColor="color_alt" color="text_primary">
+                <Button
+                  type="submit"
+                  size="lg"
+                  rounded="0px"
+                  bgColor="color_alt"
+                  color="text_primary"
+                >
                   Send Message
                 </Button>
               </Flex>
@@ -152,13 +164,29 @@ export default function Contact({}: IHomeProps) {
       </Container>
       {/* THREE SECTIONS */}
       <Flex flexDir="row">
-        <Flex w="33%" bgColor="color_icon" direction="column" px="2.5rem" py="4rem">
+        <Flex
+          w="33%"
+          bgColor="color_icon"
+          direction="column"
+          px="2.5rem"
+          py="4rem"
+        >
           <Heading mb=".5rem" fontSize="2xl">
             About Us
           </Heading>
-          <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a tortor turpis.</Text>
+          <Text>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a
+            tortor turpis.
+          </Text>
         </Flex>
-        <Flex w="33%" bgColor="color_primary" textColor="white" direction="column" px="2.5rem" py="4rem">
+        <Flex
+          w="33%"
+          bgColor="color_primary"
+          textColor="white"
+          direction="column"
+          px="2.5rem"
+          py="4rem"
+        >
           <Heading mb=".5rem" fontSize="2xl">
             Address
           </Heading>
@@ -168,7 +196,13 @@ export default function Contact({}: IHomeProps) {
             USA
           </Text>
         </Flex>
-        <Flex w="33%" bgColor="color_alt" direction="column" px="2.5rem" py="4rem">
+        <Flex
+          w="33%"
+          bgColor="color_alt"
+          direction="column"
+          px="2.5rem"
+          py="4rem"
+        >
           <Heading mb=".5rem" fontSize="2xl">
             Online Addesses
           </Heading>

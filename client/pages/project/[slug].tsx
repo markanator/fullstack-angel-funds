@@ -1,3 +1,4 @@
+import { formatAmountForDisplay } from "@/utils/stripe-helpers";
 import {
   Box,
   Button,
@@ -16,7 +17,7 @@ import AuthBanner from "components/authShared/AuthBanner";
 import SmallDeetsBox from "components/projectDetailsComps/SmallDeetsBox";
 import { GetbySlugDocument } from "generated/grahpql";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React from "react";
 import { useForm } from "react-hook-form";
 import TitleFormatter from "title";
@@ -27,29 +28,40 @@ import { initializeApollo } from "utils/apolloClient";
 import getStripe from "utils/getStripe";
 import Layout from "../../components/Layout";
 import { DonoSchema } from "../../Forms/Schema/DonoSchema";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 interface IFormData {
   donation: number;
 }
 
-export default function ProjectDetails({ project }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function ProjectDetails({
+  project,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<IFormData>({
     mode: "all",
     resolver: yupResolver(DonoSchema),
   });
 
   // for donation input
-  const { getInputProps } = useNumberInput({
-    defaultValue: 5,
-    allowMouseWheel: false,
-  });
-  const input = getInputProps();
+  // const { getInputProps } = useNumberInput({
+  //   defaultValue: 5,
+  //   allowMouseWheel: false,
+  // });
+  // const input = getInputProps();
 
-  const FormattedProjectTitle = TitleFormatter(project!.title) as unknown as string;
+  const FormattedProjectTitle = TitleFormatter(
+    project!.title
+  ) as unknown as string;
+
+  const currentFundPercentage =
+    (project?.currentFunds! / project?.fundTarget!) * 100;
 
   const onSubmit = async ({ donation }: IFormData) => {
     console.log("Submitted a dono:", donation);
@@ -87,7 +99,7 @@ export default function ProjectDetails({ project }: InferGetServerSidePropsType<
   return (
     <Layout
       SEO={{
-        title: `${project?.title} - VR Funds`,
+        title: `${project?.title} - Angel Funds`,
         image: project?.image,
         description: project?.description.slice(0, 100),
         keywords: project?.category,
@@ -103,7 +115,7 @@ export default function ProjectDetails({ project }: InferGetServerSidePropsType<
               <Flex w="50%" direction="column" h="full">
                 <Image
                   src={project!.image}
-                  alt={project?.title ?? ''}
+                  alt={project?.title ?? ""}
                   width={678}
                   height={580}
                   objectFit="cover"
@@ -111,7 +123,13 @@ export default function ProjectDetails({ project }: InferGetServerSidePropsType<
                 />
               </Flex>
               {/* RIGHT SIDE DEETS */}
-              <Flex w="50%" direction="column" pl="1rem" h="auto" justifyContent="space-between">
+              <Flex
+                w="50%"
+                direction="column"
+                pl="1rem"
+                h="auto"
+                justifyContent="space-between"
+              >
                 {/* CAT AND LOCATION */}
                 <Flex>
                   <Text
@@ -129,13 +147,26 @@ export default function ProjectDetails({ project }: InferGetServerSidePropsType<
                 <Heading py=".5rem">{FormattedProjectTitle}</Heading>
                 {/* INFO CARDS */}
                 <Flex direction="row" justifyContent="space-between">
-                  <SmallDeetsBox content="$2,500" heading="test" />
-                  <SmallDeetsBox content="34" heading="Backers" />
-                  <SmallDeetsBox content="25" heading="Days Left" />
+                  <SmallDeetsBox
+                    content={formatAmountForDisplay(project?.currentFunds ?? 0)}
+                    heading="Raised"
+                  />
+                  <SmallDeetsBox
+                    content={project?.totalDonation_sum ?? 0}
+                    heading="Backers"
+                  />
+                  <SmallDeetsBox
+                    content={dayjs(Date.now()).to(project?.targetDate, true)}
+                    heading="Days Left"
+                  />
                 </Flex>
                 {/* PROGRESS BAR w/ GOAL  */}
                 <Flex direction="column">
-                  <Flex direction="row" justifyContent="space-between" mb=".25rem">
+                  <Flex
+                    direction="row"
+                    justifyContent="space-between"
+                    mb=".25rem"
+                  >
                     <Text fontSize=".875rem" color="text_secondary">
                       Raised:
                     </Text>
@@ -144,28 +175,34 @@ export default function ProjectDetails({ project }: InferGetServerSidePropsType<
                     </Text>
                   </Flex>
                   <Box h=".65rem" bgColor="progress_bg">
-                    <Box w="50%" h="full" pos="relative" overflow="hidden" bgColor="color_alt" />
+                    <Box
+                      w="50%"
+                      h="full"
+                      pos="relative"
+                      overflow="hidden"
+                      bgColor="color_alt"
+                    />
                   </Box>
                   <Text mt=".5rem" fontWeight="700" fontSize="1.125rem">
                     Goal:{" "}
                     <Box as="span" color="color_primary">
-                      $2500
+                      {formatAmountForDisplay(project?.fundTarget!)}
                     </Box>
                   </Text>
                 </Flex>
                 {/* DONATE FORM */}
-                <Flex as="form" onSubmit={handleSubmit(onSubmit as any)}>
+                <Flex as="form" onSubmit={handleSubmit(onSubmit)}>
                   <InputGroup bgColor="white">
                     <InputLeftElement
                       pt="10px"
                       pointerEvents="none"
                       color="gray.300"
                       fontSize="1.2em"
-                      // eslint-disable-next-line react/no-children-prop
-                      children="$"
-                    />
+                    >
+                      $
+                    </InputLeftElement>
                     <Input
-                      {...input}
+                      // {...input}
                       id="donation"
                       {...register("donation")}
                       isInvalid={!!errors?.donation}
@@ -179,9 +216,9 @@ export default function ProjectDetails({ project }: InferGetServerSidePropsType<
                       pointerEvents="none"
                       color="gray.300"
                       fontSize="1.2em"
-                      // eslint-disable-next-line react/no-children-prop
-                      children=".00"
-                    />
+                    >
+                      .00
+                    </InputRightElement>
                   </InputGroup>
                   <Text>{errors?.donation?.message?.toString()}</Text>
                   <Box ml="1rem">
@@ -209,7 +246,7 @@ export default function ProjectDetails({ project }: InferGetServerSidePropsType<
                         project?.author.avatarUrl ||
                         "https://www.gravatar.com/avatar/00000000000000000000000000000000?s=200"
                       }
-                      alt={project?.author?.fullName ?? ''}
+                      alt={project?.author?.fullName ?? ""}
                       width={60}
                       height={60}
                       objectFit="cover"
@@ -219,7 +256,14 @@ export default function ProjectDetails({ project }: InferGetServerSidePropsType<
                   </Flex>
                   <Flex direction="column" justifyContent="center">
                     <Text>
-                      By: <strong>{TitleFormatter(project!.author.fullName) as unknown as string}</strong>
+                      By:{" "}
+                      <strong>
+                        {
+                          TitleFormatter(
+                            project!.author.fullName
+                          ) as unknown as string
+                        }
+                      </strong>
                     </Text>
                     <Text></Text>
                   </Flex>
@@ -250,7 +294,11 @@ export default function ProjectDetails({ project }: InferGetServerSidePropsType<
   );
 }
 
-export async function getServerSideProps({ req, res, query }: GetServerSidePropsContext) {
+export async function getServerSideProps({
+  req,
+  res,
+  query,
+}: GetServerSidePropsContext) {
   const apc = initializeApollo();
   const slug = query.slug;
 
