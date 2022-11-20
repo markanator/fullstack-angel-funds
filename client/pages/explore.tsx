@@ -1,6 +1,6 @@
 import Banner from "@/components/authShared/AuthBanner";
 import Layout from "@/components/Layout";
-import ProjectCardLG from "@/components/ProjectCardLG";
+import ProjectCardLG from "@/components/projectCards/ProjectCardLG";
 import { useFetchAllProjectsQuery } from "@/generated/grahpql";
 import { Flex, Heading, Text, Container } from "@chakra-ui/react";
 import React from "react";

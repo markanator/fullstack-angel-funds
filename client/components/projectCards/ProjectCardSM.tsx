@@ -15,7 +15,7 @@ import { formatDistanceStrict } from "date-fns";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { FaRegClock } from "react-icons/fa";
-import OwnerMenu from "./projectCards/OwnerMenu";
+import OwnerMenu from "./OwnerMenu";
 
 dayjs.extend(relativeTime);
 interface ICardSmProps {

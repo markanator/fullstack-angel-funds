@@ -8,7 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React from "react";
-import ProjectCardSM from "../ProjectCardSM";
+import ProjectCardSM from "../projectCards/ProjectCardSM";
 
 export default function FeaturedProjects() {
   const { data, error } = useFetchAllProjectsQuery();

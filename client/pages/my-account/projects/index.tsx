@@ -1,5 +1,5 @@
 import { Container, Flex, List, ListItem } from "@chakra-ui/react";
-import ProjectCardSM from "components/ProjectCardSM";
+import ProjectCardSM from "@/components/projectCards/ProjectCardSM";
 import {
   GetProjectsByUserIdQuery,
   ProjectResponseWAuthorFragment,
@@ -33,7 +33,7 @@ export default function Projects({}: IProjectsProps) {
         <Container maxW="7xl" py="2rem">
           <AccountNavbar />
           <Flex direction="row" my="3rem">
-            <List>
+            <List display="flex" flexDir="row">
               {data?.getProjectsByUserID &&
                 data?.getProjectsByUserID?.map(
                   (proj: ProjectResponseWAuthorFragment) => (

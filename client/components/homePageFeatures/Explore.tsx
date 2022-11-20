@@ -1,6 +1,6 @@
 import { Container, Flex, Heading, Text } from "@chakra-ui/react";
 import React from "react";
-import ProjectCardLG from "../ProjectCardLG";
+import ProjectCardLG from "../projectCards/ProjectCardLG";
 
 export default function Explore() {
   return (
