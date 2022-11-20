@@ -20,7 +20,7 @@ export default function AccountNavbar() {
         <ALink href="/my-account/projects" mr="1.5rem">
           My Projects
         </ALink>
-        <ALink href="/my-account/settings">Account Settings</ALink>
+        {/* <ALink href="/my-account/settings">Account Settings</ALink> */}
       </Flex>
 
       <Link href="/my-account/add-project">

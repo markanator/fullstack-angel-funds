@@ -1,23 +1,29 @@
-import { Box, Flex, Heading, Image, Link, Text } from "@chakra-ui/react";
-import React from "react";
-import { FaRegClock } from "react-icons/fa";
-import { formatDistanceStrict } from "date-fns";
+import { ProjectResponseWAuthorFragment } from "@/generated/grahpql";
 import { formatAmountForDisplay } from "@/utils/stripe-helpers";
+import { useIsAuth } from "@/utils/useIsAuth";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import {
+  Box,
+  Flex,
+  Heading,
+  IconButton,
+  Image,
+  Link,
+  Text,
+} from "@chakra-ui/react";
+import { formatDistanceStrict } from "date-fns";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { FaRegClock } from "react-icons/fa";
+import OwnerMenu from "./projectCards/OwnerMenu";
 
+dayjs.extend(relativeTime);
 interface ICardSmProps {
-  proj: {
-    title: string;
-    slug: string;
-    image?: string;
-    category: string;
-    currentFunds: number;
-    fundTarget: number;
-    publishDate: string;
-    targetDate: string;
-  };
+  proj: ProjectResponseWAuthorFragment;
 }
 
 export default function ProjectCardSM({ proj }: ICardSmProps) {
+  const { user } = useIsAuth();
   const {
     title,
     slug,
@@ -35,6 +41,8 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
     { unit: "day" }
   );
 
+  const isAuthor = Boolean(proj?.author?.id === user?.id);
+
   return (
     <Flex
       className="cardsm pcard__sm"
@@ -48,7 +56,8 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
       color="white"
       mx=".5rem"
     >
-      <Box className="cardsm__parent">
+      <Box className="cardsm__parent" pos="relative">
+        {isAuthor && <OwnerMenu projectId={proj.id} />}
         <Box pos="relative">
           <Link
             href={projectLink}
@@ -105,7 +114,7 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
             </Text>
             <Text className="__norm" display="flex" alignItems="center">
               <FaRegClock style={{ marginRight: ".5rem" }} />
-              {daysLeft} left
+              {dayjs(Date.now()).to(proj?.targetDate, true)} left
             </Text>
           </Box>
           <Heading className="__dark" as="p" fontSize="1.25rem" mb="1rem">

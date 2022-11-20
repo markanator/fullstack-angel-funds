@@ -10,7 +10,6 @@ import {
   InputLeftElement,
   InputRightElement,
   Text,
-  useNumberInput,
   VStack,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -19,18 +18,16 @@ import SmallDeetsBox from "components/projectDetailsComps/SmallDeetsBox";
 import { GetbySlugDocument } from "generated/grahpql";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Image from "next/legacy/image";
-import React from "react";
 import { useForm } from "react-hook-form";
 import TitleFormatter from "title";
-// locals
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { IProjectDetails } from "types/IProjectDetails";
 import { fetchPostJSON } from "utils/api-helpers";
 import { initializeApollo } from "utils/apolloClient";
 import getStripe from "utils/getStripe";
 import Layout from "../../components/Layout";
 import { DonoSchema } from "../../Forms/Schema/DonoSchema";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
@@ -200,7 +197,6 @@ export default function ProjectDetails({
                         $
                       </InputLeftElement>
                       <Input
-                        // {...input}
                         id="donation"
                         {...register("donation")}
                         isInvalid={!!errors?.donation}

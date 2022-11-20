@@ -7,7 +7,7 @@ export default function TeamMemberCardMD() {
     <Flex direction="column" zIndex="5">
       <Box w="370px" h="405px" pos="relative">
         <Image
-          src="/images/markAvatar.jpg"
+          src="/images/markAvatar.jpeg"
           alt="founder Mark Ambrocio"
           w="full"
           h="full"
