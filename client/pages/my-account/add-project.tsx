@@ -1,5 +1,5 @@
 import AddEditProjectForm from "@/components/myAccountShared/AddEditProjectForm";
-import { Container, useToast } from "@chakra-ui/react";
+import { Container, Text, useToast } from "@chakra-ui/react";
 import { IProjectForm } from "Forms/Schema/createProjectSchema";
 import { useRouter } from "next/router";
 import { useIsAuth } from "utils/useIsAuth";
@@ -48,16 +48,15 @@ export default function AddProjectPage() {
     }
   };
 
-  if (!isLoggedIn) {
-    // no logged user, redirect
-    return <Layout SEO={{ title: "Loading - Angel Funds" }}>Loading...</Layout>;
-  }
-
   return (
     <Layout SEO={{ title: "Add a Project - Angel Funds" }}>
       <AuthBanner bgImage="/images/breadcrumb.png" title="Add a Project" />
       <Container maxW="6xl" py="5rem">
-        <AddEditProjectForm handleProjectSubmit={onSubmit} />
+        {!isLoggedIn ? (
+          <Text>Loading...</Text>
+        ) : (
+          <AddEditProjectForm handleProjectSubmit={onSubmit} />
+        )}
       </Container>
     </Layout>
   );
