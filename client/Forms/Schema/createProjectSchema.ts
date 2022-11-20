@@ -1,6 +1,26 @@
 import * as yup from "yup";
 
-export const FreshProjectSchema = yup.object().shape({
+export interface IProjectForm {
+  title: string;
+  description: string;
+  category: string;
+  image: string;
+  fundTarget: string;
+  publishDate: string;
+  targetDate: string;
+  terms: boolean;
+}
+
+export const projectCategories = [
+  { label: "Design", value: "Design" },
+  { label: "Education", value: "Education" },
+  { label: "Fashion", value: "Fashion" },
+  { label: "Fine_Arts", value: "Fine_Arts" },
+  { label: "Medical", value: "Medical" },
+  { label: "Technology", value: "Technology" },
+];
+
+export const ProjectSchema = yup.object().shape({
   title: yup.string().required("Required."),
   description: yup
     .string()
