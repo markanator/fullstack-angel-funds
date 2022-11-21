@@ -29,7 +29,12 @@ export default function AuthBanner({
       alignItems="flex-start"
     >
       <Container maxW="7xl" m="auto" zIndex="5">
-        <Heading as="h1" fontSize="3rem" textColor="white">
+        <Heading
+          as="h1"
+          fontSize="3rem"
+          textColor="white"
+          textTransform="capitalize"
+        >
           {title}
         </Heading>
       </Container>

@@ -32,12 +32,12 @@ const Index = () => {
     <Layout
       SEO={{
         title:
-          "Angel Funds - Help lift minorities trying to break into the tech space!",
+          "Angel Funds - Help lift low income entreprenuers that are trying to break into the tech space!",
         description:
-          "Angel Funds - Help lift minorities trying to break into the tech space!",
+          "Angel Funds - Help lift low income entreprenuers that are trying to break into the tech space!",
         image: "/images/hero.jpg",
         keywords:
-          "virtual reality, funding platform, technology, startup, not really a bussiness, mark ambrocio",
+          "funding platform, technology, startup, not really a bussiness, mark ambrocio",
       }}
     >
       <Hero />

@@ -1,6 +1,5 @@
 import {
   ApolloClient,
-  createHttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
@@ -12,18 +11,12 @@ export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
-const link = createHttpLink({
-  uri: process.env.NEXT_PUBLIC_BACKEND as string,
-  credentials: "include",
-});
-
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     uri: process.env.NEXT_PUBLIC_BACKEND as string,
     credentials: "include",
     cache: new InMemoryCache(),
-    link,
   });
 }
 

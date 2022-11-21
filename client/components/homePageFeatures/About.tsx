@@ -40,6 +40,7 @@ export default function About() {
                 objectFit="cover"
                 objectPosition="center"
                 display="inline-block"
+                verticalAlign="middle"
               />
             </Box>
           </Flex>
@@ -53,6 +54,7 @@ export default function About() {
                 h="full"
                 maxH="311px"
                 display="inline-block"
+                verticalAlign="middle"
               />
             </Box>
             <Box w="290px" h="full" m="1px 0 0 1px" maxW="290px">
@@ -63,6 +65,7 @@ export default function About() {
                 h="full"
                 maxH="311px"
                 display="inline-block"
+                verticalAlign="middle"
               />
             </Box>
           </Flex>
@@ -71,13 +74,13 @@ export default function About() {
       {/* RIGHT - DEETS */}
       <Flex
         w="50%"
-        h="full !important"
+        h="100% !important"
         maxH="625px"
         bgColor="white"
         pos="relative"
         justifyContent="flex-start"
       >
-        <Flex padding="0 1rem 2rem 3rem" w="auto" h="full" pos="relative">
+        <Flex padding="0 1rem 2rem 3rem" w="auto" h="100%" pos="relative">
           <Flex
             className="inner__content"
             flexDirection="column"

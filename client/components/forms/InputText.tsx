@@ -14,18 +14,20 @@ type Props = {
   type?: React.HTMLInputTypeAttribute;
   helperText?: string;
   placeHolder?: string;
+  disabled?: boolean;
 };
 
 const InputText = ({
   control,
   name,
-  type = "text",
   helperText,
   placeHolder,
+  type = "text",
+  disabled = false,
 }: Props) => {
   const { field, fieldState } = useController({ control, name });
   return (
-    <FormControl id={name} mb="1.125rem">
+    <FormControl id={name} mb="1.125rem" isDisabled={disabled}>
       <FormLabel textTransform="capitalize" htmlFor={name}>
         {name}
       </FormLabel>
