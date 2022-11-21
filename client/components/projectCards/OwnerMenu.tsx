@@ -1,5 +1,5 @@
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
-import { Flex, IconButton } from "@chakra-ui/react";
+import { Button, Flex, IconButton } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 
@@ -18,22 +18,36 @@ const OwnerMenu = ({ projectId }: Props) => {
       color="black"
       experimental_spaceX={4}
     >
-      <IconButton
+      <Button
+        as={Link}
+        href={`/my-account/projects/${projectId}/updates`}
+        colorScheme="green"
+        // icon={<EditIcon />}
+        aria-label="Edit Authored Project"
+        title="Edit Authored Project"
+      >
+        Updates
+      </Button>
+      <Button
         as={Link}
         href={`/my-account/projects/${projectId}/edit`}
         colorScheme="blue"
-        icon={<EditIcon />}
+        // icon={<EditIcon />}
         aria-label="Edit Authored Project"
         title="Edit Authored Project"
-      />
-      <IconButton
+      >
+        Edit
+      </Button>
+      <Button
         as={Link}
         href={`/my-account/projects/${projectId}/delete`}
         colorScheme="red"
-        icon={<DeleteIcon />}
+        // icon={<DeleteIcon />}
         aria-label="Delete Authored Project"
         title="Delete Authored Project"
-      />
+      >
+        Delete
+      </Button>
     </Flex>
   );
 };

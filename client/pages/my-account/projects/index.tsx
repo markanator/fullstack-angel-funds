@@ -10,6 +10,7 @@ import { useIsAuth } from "utils/useIsAuth";
 import AuthBanner from "../../../components/authShared/AuthBanner";
 import Layout from "../../../components/Layout";
 import AccountNavbar from "../../../components/myAccountShared/AccountNavbar";
+import ProjectCardRow from "@/components/projectCards/ProjectCardRow";
 
 interface IProjectsProps {}
 
@@ -32,12 +33,12 @@ export default function Projects({}: IProjectsProps) {
             <>
               <AccountNavbar />
               <Flex direction="row" my="3rem">
-                <List display="flex" flexDir="row">
+                <List display="flex" flexDir="column" w="full">
                   {data?.getProjectsByUserID &&
                     data?.getProjectsByUserID?.map(
                       (proj: ProjectResponseWAuthorFragment) => (
-                        <ListItem key={proj?.id} m="auto" mb="1rem">
-                          <ProjectCardSM proj={proj} />
+                        <ListItem key={proj?.id} m="auto" w="full">
+                          <ProjectCardRow proj={proj} />
                         </ListItem>
                       )
                     )}
