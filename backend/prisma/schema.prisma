@@ -52,6 +52,7 @@ model Project {
   authorId             Int
   donations            Donation[]
   upvotes              Upvote[]
+  rewards              Reward[]
 }
 
 enum DonationStatus {
@@ -87,4 +88,17 @@ model Upvote {
   userId    Int
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId Int
+}
+
+model Reward {
+  id                Int      @id @default(autoincrement())
+  amount            Int
+  image             String?
+  description       String
+  deliveredByMonth  DateTime
+  deliveredByYear   DateTime
+  quantityRemaining Int
+  // relations 1:N
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId         Int
 }

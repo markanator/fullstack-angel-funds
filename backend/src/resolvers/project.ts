@@ -141,7 +141,7 @@ export class ProjectResolver {
         },
       });
 
-      console.log("update worked: ", updatedProject);
+      console.log("### update worked");
 
       return { project: updatedProject };
     } catch (err) {
