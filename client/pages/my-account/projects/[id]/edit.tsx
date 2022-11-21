@@ -4,28 +4,58 @@ import AddEditProjectForm from "@/components/myAccountShared/AddEditProjectForm"
 import {
   GetAuthoredProjectByIdDocument,
   useCreateProjectMutation,
+  useGetAuthoredProjectByIdQuery,
   useUpdateAuthoredProjectMutation,
 } from "@/generated/grahpql";
 import { IProjectDetails } from "@/types/IProjectDetails";
 import { initializeApollo } from "@/utils/apolloClient";
 import { useIsAuth } from "@/utils/useIsAuth";
 import { useToast, Container, Text } from "@chakra-ui/react";
+import dayjs from "dayjs";
 import { IProjectForm } from "Forms/Schema/createProjectSchema";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useMemo } from "react";
 
 type Props = {};
 
-const EditProjectPage = ({
-  project,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const EditProjectPage = () => {
   const { isLoggedIn } = useIsAuth(); //logged in user
   const router = useRouter(); // for nav
   const { id } = router.query;
-  const [updateProject] = useUpdateAuthoredProjectMutation();
-
   const toast = useToast();
+
+  const [updateProject] = useUpdateAuthoredProjectMutation();
+  const { data, loading } = useGetAuthoredProjectByIdQuery({
+    variables: {
+      getAuthoredProjectByIdId: +(id as string), // value for 'getAuthoredProjectByIdId'
+    },
+  });
+
+  const foundProjectToEdit = useMemo(() => {
+    if (data?.getAuthoredProjectById?.project?.id) {
+      const {
+        category,
+        description,
+        fundTarget,
+        image,
+        publishDate,
+        targetDate,
+        title,
+      } = data?.getAuthoredProjectById?.project;
+      return {
+        title,
+        description,
+        category,
+        image: image ?? "",
+        fundTarget: fundTarget.toString(),
+        publishDate: dayjs(publishDate).format("YYYY-MM-DD"),
+        targetDate: dayjs(targetDate).format("YYYY-MM-DD"),
+        terms: true,
+      };
+    }
+    return undefined;
+  }, [data?.getAuthoredProjectById?.project]);
 
   const onSubmit = async (formData: IProjectForm) => {
     const { data, errors } = await updateProject({
@@ -60,52 +90,26 @@ const EditProjectPage = ({
 
   return (
     <Layout SEO={{ title: "Edit a Project - Angel Funds" }}>
-      <AuthBanner bgImage="/images/breadcrumb.png" title="Edit a Project" />
+      <AuthBanner
+        bgImage="/images/breadcrumb.png"
+        title={
+          !foundProjectToEdit
+            ? "Editing..."
+            : `Editing: ${foundProjectToEdit.title}`
+        }
+      />
       <Container maxW="6xl" py="5rem">
-        {!isLoggedIn ? (
+        {!isLoggedIn || loading ? (
           <Text>Loading...</Text>
         ) : (
           <AddEditProjectForm
             handleProjectSubmit={onSubmit}
-            initialValues={project as any}
+            initialValues={foundProjectToEdit}
           />
         )}
       </Container>
     </Layout>
   );
 };
-
-export async function getServerSideProps({
-  res,
-  query,
-}: GetServerSidePropsContext) {
-  const projectId = query.id;
-
-  const apolloClient = initializeApollo();
-  const { data }: { data: IProjectDetails } = await apolloClient.query({
-    query: GetAuthoredProjectByIdDocument,
-    variables: {
-      getAuthoredProjectByIdId: +(projectId as string),
-    },
-    fetchPolicy: "network-only",
-  });
-
-  console.log("### GQL RES:: ", data?.getProjectBySlug?.id);
-
-  if (!data?.getProjectBySlug?.id) {
-    res.writeHead(307, {
-      Location: "/404",
-    });
-
-    res.end();
-    return { props: { project: null } };
-  }
-
-  return {
-    props: {
-      project: data?.getProjectBySlug,
-    },
-  };
-}
 
 export default EditProjectPage;

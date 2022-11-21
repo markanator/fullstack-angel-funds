@@ -1,5 +1,11 @@
 query GetAuthoredProjectById($getAuthoredProjectByIdId: Float!) {
   getAuthoredProjectById(id: $getAuthoredProjectByIdId) {
-    ...ProjectResponseNoAuthor
+    errors {
+      field
+      message
+    }
+    project {
+      ...ProjectResponseNoAuthor
+    }
   }
 }

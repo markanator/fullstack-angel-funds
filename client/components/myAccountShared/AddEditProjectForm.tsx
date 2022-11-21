@@ -5,6 +5,7 @@ import {
   projectCategories,
   ProjectSchema,
 } from "Forms/Schema/createProjectSchema";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import InputCheckbox from "../forms/InputCheckbox";
 import InputSelect from "../forms/InputSelect";
@@ -13,14 +14,15 @@ import InputTextArea from "../forms/InputTextArea";
 
 type Props = {
   handleProjectSubmit: (args: IProjectForm) => Promise<void>;
-  initialValues?: IProjectForm;
+  initialValues?: Omit<IProjectForm, "terms"> | undefined;
 };
 
 const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
+  const isEditing = Boolean(Object.keys(initialValues ?? {}).length);
   const {
     control,
     handleSubmit,
-    formState: { isValid, isSubmitting },
+    formState: { isValid, isSubmitting, isDirty },
   } = useForm<IProjectForm>({
     mode: "all",
     resolver: yupResolver(ProjectSchema),
@@ -43,6 +45,7 @@ const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
         control={control}
         name="title"
         helperText="Put the campaign title here"
+        disabled={isEditing}
       />
       {/* description */}
       <InputTextArea
@@ -70,6 +73,7 @@ const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
         helperText="Campaign funding goal"
         type="number"
         placeHolder="$0"
+        disabled={isEditing}
       />
       <Flex direction="row" experimental_spaceX={8}>
         {/* publishDate */}
@@ -78,12 +82,14 @@ const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
           name="publishDate"
           type="date"
           helperText="Campaign start date (mm-dd-yyyy)"
+          disabled={isEditing}
         />
         <InputText
           control={control}
           name="targetDate"
           type="date"
           helperText="Campaign end date (mm-dd-yyyy)"
+          disabled={isEditing}
         />
         {/* targetDate */}
       </Flex>
@@ -115,7 +121,7 @@ const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
           type="submit"
           colorScheme="blue"
           size="lg"
-          disabled={isSubmitting || !isValid}
+          disabled={isSubmitting || !isValid || !isDirty}
           isLoading={isSubmitting}
         >
           Submit Project

@@ -171,7 +171,7 @@ export type ProjectResponse = {
 
 export type Query = {
   __typename?: 'Query';
-  getAuthoredProjectById?: Maybe<Project>;
+  getAuthoredProjectById: ProjectResponse;
   getProjectBySlug?: Maybe<Project>;
   getProjectsByUserID?: Maybe<Array<Project>>;
   hello: Scalars['String'];
@@ -300,7 +300,7 @@ export type GetAuthoredProjectByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetAuthoredProjectByIdQuery = { __typename?: 'Query', getAuthoredProjectById?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string } | null };
+export type GetAuthoredProjectByIdQuery = { __typename?: 'Query', getAuthoredProjectById: { __typename?: 'ProjectResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, project?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string } | null } };
 
 export type GetbySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -692,7 +692,13 @@ export type FetchMeQueryResult = Apollo.QueryResult<FetchMeQuery, FetchMeQueryVa
 export const GetAuthoredProjectByIdDocument = gql`
     query GetAuthoredProjectById($getAuthoredProjectByIdId: Float!) {
   getAuthoredProjectById(id: $getAuthoredProjectByIdId) {
-    ...ProjectResponseNoAuthor
+    errors {
+      field
+      message
+    }
+    project {
+      ...ProjectResponseNoAuthor
+    }
   }
 }
     ${ProjectResponseNoAuthorFragmentDoc}`;
