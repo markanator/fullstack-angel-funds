@@ -22,6 +22,8 @@ import Image from "next/image";
 import React from "react";
 import { useForm } from "react-hook-form";
 import SmallDeetsBox from "./SmallDeetsBox";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 type Props = {
   project: ProjectResponseWAuthorFragment;

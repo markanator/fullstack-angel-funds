@@ -140,13 +140,19 @@ export type Project = {
   author: User;
   authorId: Scalars['Int'];
   category: Scalars['String'];
+  country?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   currentFunds: Scalars['Int'];
   description: Scalars['String'];
+  donations?: Maybe<Array<Donation>>;
   fundTarget: Scalars['Int'];
   id: Scalars['Int'];
   image?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   publishDate: Scalars['DateTime'];
+  rewards?: Maybe<Array<Reward>>;
+  showContributorNames: Scalars['Boolean'];
+  showContributors: Scalars['Boolean'];
   slug: Scalars['String'];
   targetDate: Scalars['DateTime'];
   title: Scalars['String'];
@@ -160,6 +166,7 @@ export type Project = {
 export type ProjectCount = {
   __typename?: 'ProjectCount';
   donations: Scalars['Int'];
+  rewards: Scalars['Int'];
   upvotes: Scalars['Int'];
 };
 
@@ -192,6 +199,20 @@ export type QueryGetProjectBySlugArgs = {
 
 export type QueryGetProjectsByUserIdArgs = {
   id: Scalars['Int'];
+};
+
+export type Reward = {
+  __typename?: 'Reward';
+  amount: Scalars['Int'];
+  author: User;
+  deliveredByMonth: Scalars['DateTime'];
+  deliveredByYear: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  image?: Maybe<Scalars['String']>;
+  project: Project;
+  projectId: Scalars['Int'];
+  quantityRemaining: Scalars['Int'];
 };
 
 export type UpdateProjectInput = {
@@ -230,9 +251,13 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
-export type FullUserDetailsFragment = { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any };
+export type DonationsInfoFragment = { __typename?: 'Project', donations?: Array<{ __typename?: 'Donation', id: number, amount: number, createdAt: any, donor: { __typename?: 'User', fullName: string } }> | null };
 
-export type ProjectResponseNoAuthorFragment = { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string };
+export type ProjectDetailsFragment = { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean };
+
+export type RewardsInfoFragment = { __typename?: 'Project', rewards?: Array<{ __typename?: 'Reward', id: number, amount: number, image?: string | null, description: string, deliveredByMonth: any, deliveredByYear: any, quantityRemaining: number }> | null };
+
+export type FullUserDetailsFragment = { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any };
 
 export type ProjectResponseWAuthorFragment = { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } };
 
@@ -283,12 +308,12 @@ export type UpdateAuthoredProjectMutationVariables = Exact<{
 }>;
 
 
-export type UpdateAuthoredProjectMutation = { __typename?: 'Mutation', updateProject: { __typename?: 'ProjectResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, project?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string } | null } };
+export type UpdateAuthoredProjectMutation = { __typename?: 'Mutation', updateProject: { __typename?: 'ProjectResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, project?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean } | null } };
 
 export type FetchAllProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchAllProjectsQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string }> };
+export type FetchAllProjectsQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean }> };
 
 export type FetchMeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -300,14 +325,14 @@ export type GetAuthoredProjectByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetAuthoredProjectByIdQuery = { __typename?: 'Query', getAuthoredProjectById: { __typename?: 'ProjectResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, project?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string } | null } };
+export type GetAuthoredProjectByIdQuery = { __typename?: 'Query', getAuthoredProjectById: { __typename?: 'ProjectResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, project?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean } | null } };
 
 export type GetbySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type GetbySlugQuery = { __typename?: 'Query', getProjectBySlug?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } } | null };
+export type GetbySlugQuery = { __typename?: 'Query', getProjectBySlug?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any }, donations?: Array<{ __typename?: 'Donation', id: number, amount: number, createdAt: any, donor: { __typename?: 'User', fullName: string } }> | null, rewards?: Array<{ __typename?: 'Reward', id: number, amount: number, image?: string | null, description: string, deliveredByMonth: any, deliveredByYear: any, quantityRemaining: number }> | null } | null };
 
 export type GetProjectsByUserIdQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -316,8 +341,20 @@ export type GetProjectsByUserIdQueryVariables = Exact<{
 
 export type GetProjectsByUserIdQuery = { __typename?: 'Query', getProjectsByUserID?: Array<{ __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } }> | null };
 
-export const ProjectResponseNoAuthorFragmentDoc = gql`
-    fragment ProjectResponseNoAuthor on Project {
+export const DonationsInfoFragmentDoc = gql`
+    fragment DonationsInfo on Project {
+  donations {
+    id
+    amount
+    createdAt
+    donor {
+      fullName
+    }
+  }
+}
+    `;
+export const ProjectDetailsFragmentDoc = gql`
+    fragment ProjectDetails on Project {
   id
   title
   description
@@ -331,6 +368,21 @@ export const ProjectResponseNoAuthorFragmentDoc = gql`
   viewCount
   votePoints
   slug
+  showContributors
+  showContributorNames
+}
+    `;
+export const RewardsInfoFragmentDoc = gql`
+    fragment RewardsInfo on Project {
+  rewards {
+    id
+    amount
+    image
+    description
+    deliveredByMonth
+    deliveredByYear
+    quantityRemaining
+  }
 }
     `;
 export const FullUserDetailsFragmentDoc = gql`
@@ -589,11 +641,11 @@ export const UpdateAuthoredProjectDocument = gql`
       message
     }
     project {
-      ...ProjectResponseNoAuthor
+      ...ProjectDetails
     }
   }
 }
-    ${ProjectResponseNoAuthorFragmentDoc}`;
+    ${ProjectDetailsFragmentDoc}`;
 export type UpdateAuthoredProjectMutationFn = Apollo.MutationFunction<UpdateAuthoredProjectMutation, UpdateAuthoredProjectMutationVariables>;
 
 /**
@@ -624,10 +676,10 @@ export type UpdateAuthoredProjectMutationOptions = Apollo.BaseMutationOptions<Up
 export const FetchAllProjectsDocument = gql`
     query FetchAllProjects {
   projects {
-    ...ProjectResponseNoAuthor
+    ...ProjectDetails
   }
 }
-    ${ProjectResponseNoAuthorFragmentDoc}`;
+    ${ProjectDetailsFragmentDoc}`;
 
 /**
  * __useFetchAllProjectsQuery__
@@ -697,11 +749,11 @@ export const GetAuthoredProjectByIdDocument = gql`
       message
     }
     project {
-      ...ProjectResponseNoAuthor
+      ...ProjectDetails
     }
   }
 }
-    ${ProjectResponseNoAuthorFragmentDoc}`;
+    ${ProjectDetailsFragmentDoc}`;
 
 /**
  * __useGetAuthoredProjectByIdQuery__
@@ -734,9 +786,13 @@ export const GetbySlugDocument = gql`
     query getbySlug($slug: String!) {
   getProjectBySlug(slug: $slug) {
     ...ProjectResponseWAuthor
+    ...DonationsInfo
+    ...RewardsInfo
   }
 }
-    ${ProjectResponseWAuthorFragmentDoc}`;
+    ${ProjectResponseWAuthorFragmentDoc}
+${DonationsInfoFragmentDoc}
+${RewardsInfoFragmentDoc}`;
 
 /**
  * __useGetbySlugQuery__

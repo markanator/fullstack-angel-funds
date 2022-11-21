@@ -12,6 +12,7 @@ import TopHalfProjectDetails from "@/components/projectDetailsComps/TopHalfProje
 import AuthBanner from "components/authShared/AuthBanner";
 import {
   GetbySlugDocument,
+  GetbySlugQuery,
   ProjectResponseWAuthorFragment,
 } from "generated/grahpql";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
@@ -23,6 +24,7 @@ import Layout from "../../components/Layout";
 export default function ProjectDetails({
   project,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  console.log({ project });
   return (
     <Layout
       SEO={{
@@ -35,7 +37,7 @@ export default function ProjectDetails({
       <AuthBanner bgImage={project?.image ?? ""} title={project!.title} />
       <article>
         {/* TOP HALF */}
-        <TopHalfProjectDetails project={project!} />
+        <TopHalfProjectDetails project={project as any} />
         {/* BOTTOM */}
         <Flex as="section" flexDirection="column" w="full" h="full" bg="white">
           <Tabs w="full" m="auto" variant="unstyled">
@@ -49,7 +51,7 @@ export default function ProjectDetails({
             <TabPanels>
               <DescriptionPanel description={project?.description ?? ""} />
               {/* TODO: project updates */}
-              <BackerTablePanel />
+              <BackerTablePanel donations={project?.donations ?? []} />
             </TabPanels>
           </Tabs>
         </Flex>
@@ -83,7 +85,7 @@ export async function getServerSideProps({
   const apc = initializeApollo();
   const slug = query.slug;
 
-  const { data }: { data: IProjectDetails } = await apc.query({
+  const { data }: { data: GetbySlugQuery } = await apc.query({
     query: GetbySlugDocument,
     variables: {
       slug,
@@ -103,7 +105,7 @@ export async function getServerSideProps({
 
   return {
     props: {
-      project: data.getProjectBySlug as ProjectResponseWAuthorFragment,
+      project: data.getProjectBySlug as GetbySlugQuery["getProjectBySlug"],
     },
   };
 }

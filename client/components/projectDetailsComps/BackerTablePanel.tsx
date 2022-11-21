@@ -1,3 +1,4 @@
+import { formatAmountForDisplay } from "@/utils/stripe-helpers";
 import {
   TabPanel,
   Container,
@@ -11,11 +12,24 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import dayjs from "dayjs";
 import React from "react";
 
-type Props = {};
+type Props = {
+  donations?: {
+    __typename?: string;
+    id: number;
+    amount: number;
+    createdAt: any;
+    donor: {
+      __typename?: string;
+      fullName: string;
+    };
+  }[];
+};
 
-const BackerTablePanel = (props: Props) => {
+const BackerTablePanel = ({ donations }: Props) => {
+  console.log({ donations });
   return (
     <TabPanel>
       <Container maxW="7xl" mx="auto" py="2.5rem">
@@ -29,21 +43,14 @@ const BackerTablePanel = (props: Props) => {
               </Tr>
             </Thead>
             <Tbody>
-              <Tr>
-                <Td>inches</Td>
-                <Td>25.4</Td>
-                <Td>millimetres (mm)</Td>
-              </Tr>
-              <Tr>
-                <Td>feet</Td>
-                <Td>30.48</Td>
-                <Td>centimetres (cm)</Td>
-              </Tr>
-              <Tr>
-                <Td>yards</Td>
-                <Td>0.91444</Td>
-                <Td>metres (m)</Td>
-              </Tr>
+              {donations &&
+                donations.map((dono) => (
+                  <Tr>
+                    <Td>{dono.donor.fullName}</Td>
+                    <Td>{formatAmountForDisplay(dono.amount)}</Td>
+                    <Td>{dayjs(dono.createdAt).format("YYYY-MM-DD")}</Td>
+                  </Tr>
+                ))}
             </Tbody>
           </Table>
         </TableContainer>

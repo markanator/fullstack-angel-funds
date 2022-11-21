@@ -1,0 +1,11 @@
+fragment RewardsInfo on Project {
+  rewards {
+    id
+    amount
+    image
+    description
+    deliveredByMonth
+    deliveredByYear
+    quantityRemaining
+  }
+}

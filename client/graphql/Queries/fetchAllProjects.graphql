@@ -1,5 +1,5 @@
 query FetchAllProjects {
   projects {
-    ...ProjectResponseNoAuthor
+    ...ProjectDetails
   }
 }

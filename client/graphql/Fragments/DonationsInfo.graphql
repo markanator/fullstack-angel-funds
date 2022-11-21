@@ -1,0 +1,10 @@
+fragment DonationsInfo on Project {
+  donations {
+    id
+    amount
+    createdAt
+    donor {
+      fullName
+    }
+  }
+}

@@ -1,4 +1,4 @@
-fragment ProjectResponseNoAuthor on Project {
+fragment ProjectDetails on Project {
   id
   title
   description
@@ -12,4 +12,7 @@ fragment ProjectResponseNoAuthor on Project {
   viewCount
   votePoints
   slug
+
+  showContributors
+  showContributorNames
 }
