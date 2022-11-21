@@ -2,8 +2,12 @@ import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import { Session, SessionData } from "express-session";
 import { Redis } from "ioredis";
-import { createProjectLoader } from "../dataloaders/createProjectLoader";
-import { createUserLoader } from "../dataloaders/createUserLoader";
+import {
+  createUserLoader,
+  createProjectLoader,
+  ProjectRewardsLoader,
+  donationsLoader,
+} from "src/dataloaders";
 
 export type MyContext = {
   req: Request & {
@@ -14,4 +18,6 @@ export type MyContext = {
   prisma: PrismaClient;
   userLoader: ReturnType<typeof createUserLoader>;
   projectLoader: ReturnType<typeof createProjectLoader>;
+  projectRewardsLoader: ReturnType<typeof ProjectRewardsLoader>;
+  donationsLoader: ReturnType<typeof donationsLoader>;
 };
