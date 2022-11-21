@@ -1,3 +1,6 @@
+import BackerTablePanel from "@/components/projectDetailsComps/BackerTablePanel";
+import DescriptionPanel from "@/components/projectDetailsComps/DescriptionPanel";
+import TopHalfProjectDetails from "@/components/projectDetailsComps/TopHalfProjectDetails";
 import {
   Container,
   Flex,
@@ -6,19 +9,11 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import BackerTablePanel from "@/components/projectDetailsComps/BackerTablePanel";
-import DescriptionPanel from "@/components/projectDetailsComps/DescriptionPanel";
-import TopHalfProjectDetails from "@/components/projectDetailsComps/TopHalfProjectDetails";
 import AuthBanner from "components/authShared/AuthBanner";
-import {
-  GetbySlugDocument,
-  GetbySlugQuery,
-  ProjectResponseWAuthorFragment,
-} from "generated/grahpql";
+import { GetbySlugDocument, GetbySlugQuery } from "generated/grahpql";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import React from "react";
-import { IProjectDetails } from "types/IProjectDetails";
-import { initializeApollo } from "utils/apolloClient";
+import { addApolloState, initializeApollo } from "utils/apolloClient";
 import Layout from "../../components/Layout";
 
 export default function ProjectDetails({
@@ -45,13 +40,18 @@ export default function ProjectDetails({
               <TabList bgColor="testimonial_bg">
                 <CustomTab>Description</CustomTab>
                 {/* <CustomTab>Updates</CustomTab> */}
-                <CustomTab>BackerList</CustomTab>
+                {project?.showContributors && <CustomTab>BackerList</CustomTab>}
               </TabList>
             </Container>
             <TabPanels>
               <DescriptionPanel description={project?.description ?? ""} />
               {/* TODO: project updates */}
-              <BackerTablePanel donations={project?.donations ?? []} />
+              {project?.showContributors && (
+                <BackerTablePanel
+                  donations={project?.donations ?? []}
+                  // showNames={project?.showContributorNames}
+                />
+              )}
             </TabPanels>
           </Tabs>
         </Flex>
@@ -102,10 +102,21 @@ export async function getServerSideProps({
     res.end();
     return { props: { project: undefined } };
   }
+  const shallowCopy = { ...(data?.getProjectBySlug ?? {}) };
 
-  return {
+  if (shallowCopy?.donations?.length && !shallowCopy?.showContributorNames) {
+    shallowCopy?.donations.forEach((d) => ({
+      ...d,
+      donor: {
+        ...d.donor,
+        fullName: "Anonymous Ssr",
+      },
+    }));
+  }
+
+  return addApolloState(apc, {
     props: {
-      project: data.getProjectBySlug as GetbySlugQuery["getProjectBySlug"],
+      project: shallowCopy as GetbySlugQuery["getProjectBySlug"],
     },
-  };
+  });
 }

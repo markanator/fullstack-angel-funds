@@ -259,14 +259,14 @@ export type RewardsInfoFragment = { __typename?: 'Project', rewards?: Array<{ __
 
 export type FullUserDetailsFragment = { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any };
 
-export type ProjectResponseWAuthorFragment = { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } };
+export type ProjectResponseWAuthorFragment = { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } };
 
 export type CreateProjectMutationVariables = Exact<{
   input: CreateProjectInput;
 }>;
 
 
-export type CreateProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } } };
+export type CreateProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String'];
@@ -332,14 +332,14 @@ export type GetbySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetbySlugQuery = { __typename?: 'Query', getProjectBySlug?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any }, donations?: Array<{ __typename?: 'Donation', id: number, amount: number, createdAt: any, donor: { __typename?: 'User', fullName: string } }> | null, rewards?: Array<{ __typename?: 'Reward', id: number, amount: number, image?: string | null, description: string, deliveredByMonth: any, deliveredByYear: any, quantityRemaining: number }> | null } | null };
+export type GetbySlugQuery = { __typename?: 'Query', getProjectBySlug?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any }, donations?: Array<{ __typename?: 'Donation', id: number, amount: number, createdAt: any, donor: { __typename?: 'User', fullName: string } }> | null, rewards?: Array<{ __typename?: 'Reward', id: number, amount: number, image?: string | null, description: string, deliveredByMonth: any, deliveredByYear: any, quantityRemaining: number }> | null } | null };
 
 export type GetProjectsByUserIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type GetProjectsByUserIdQuery = { __typename?: 'Query', getProjectsByUserID?: Array<{ __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } }> | null };
+export type GetProjectsByUserIdQuery = { __typename?: 'Query', getProjectsByUserID?: Array<{ __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } }> | null };
 
 export const DonationsInfoFragmentDoc = gql`
     fragment DonationsInfo on Project {
@@ -350,6 +350,19 @@ export const DonationsInfoFragmentDoc = gql`
     donor {
       fullName
     }
+  }
+}
+    `;
+export const RewardsInfoFragmentDoc = gql`
+    fragment RewardsInfo on Project {
+  rewards {
+    id
+    amount
+    image
+    description
+    deliveredByMonth
+    deliveredByYear
+    quantityRemaining
   }
 }
     `;
@@ -372,19 +385,6 @@ export const ProjectDetailsFragmentDoc = gql`
   showContributorNames
 }
     `;
-export const RewardsInfoFragmentDoc = gql`
-    fragment RewardsInfo on Project {
-  rewards {
-    id
-    amount
-    image
-    description
-    deliveredByMonth
-    deliveredByYear
-    quantityRemaining
-  }
-}
-    `;
 export const FullUserDetailsFragmentDoc = gql`
     fragment FullUserDetails on User {
   id
@@ -396,24 +396,13 @@ export const FullUserDetailsFragmentDoc = gql`
     `;
 export const ProjectResponseWAuthorFragmentDoc = gql`
     fragment ProjectResponseWAuthor on Project {
-  id
-  title
-  description
-  category
-  image
-  fundTarget
-  currentFunds
-  publishDate
-  targetDate
-  totalDonation_sum
-  viewCount
-  votePoints
-  slug
+  ...ProjectDetails
   author {
     ...FullUserDetails
   }
 }
-    ${FullUserDetailsFragmentDoc}`;
+    ${ProjectDetailsFragmentDoc}
+${FullUserDetailsFragmentDoc}`;
 export const CreateProjectDocument = gql`
     mutation CreateProject($input: CreateProjectInput!) {
   createProject(input: $input) {

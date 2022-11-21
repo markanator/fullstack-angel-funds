@@ -1,17 +1,5 @@
 fragment ProjectResponseWAuthor on Project {
-  id
-  title
-  description
-  category
-  image
-  fundTarget
-  currentFunds
-  publishDate
-  targetDate
-  totalDonation_sum
-  viewCount
-  votePoints
-  slug
+  ...ProjectDetails
   author {
     ...FullUserDetails
   }

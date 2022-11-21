@@ -16,6 +16,7 @@ import dayjs from "dayjs";
 import React from "react";
 
 type Props = {
+  showNames?: boolean;
   donations?: {
     __typename?: string;
     id: number;
@@ -28,8 +29,7 @@ type Props = {
   }[];
 };
 
-const BackerTablePanel = ({ donations }: Props) => {
-  console.log({ donations });
+const BackerTablePanel = ({ donations, showNames = true }: Props) => {
   return (
     <TabPanel>
       <Container maxW="7xl" mx="auto" py="2.5rem">
@@ -45,8 +45,8 @@ const BackerTablePanel = ({ donations }: Props) => {
             <Tbody>
               {donations &&
                 donations.map((dono) => (
-                  <Tr>
-                    <Td>{dono.donor.fullName}</Td>
+                  <Tr key={dono.id}>
+                    <Td>{showNames ? dono.donor.fullName : "Anonymous CSR"}</Td>
                     <Td>{formatAmountForDisplay(dono.amount)}</Td>
                     <Td>{dayjs(dono.createdAt).format("YYYY-MM-DD")}</Td>
                   </Tr>
