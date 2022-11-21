@@ -1,3 +1,4 @@
+import { useIsAuth } from "@/utils/useIsAuth";
 import { useApolloClient } from "@apollo/client";
 import {
   Box,
@@ -20,11 +21,17 @@ interface INavbarProps {
 
 export default function Navbar() {
   const router = useRouter();
-  const { data } = useFetchMeQuery({
-    skip: isServer(),
-  });
+  const { user } = useIsAuth();
   const [logout] = useLogoutMutation();
   const apolloClient = useApolloClient();
+
+  const handleLogout = async () => {
+    const res = await logout();
+    if (res.data?.logout?.valueOf()) {
+      await apolloClient.clearStore();
+      router.push("/");
+    }
+  };
 
   // console.log("navbar props.user:: ", data);
 
@@ -55,22 +62,12 @@ export default function Navbar() {
           </Flex>
           {/* RIGHT */}
           <Flex w="50%" justifyContent="flex-end" direction="row">
-            {!!data?.me ? (
+            {!!user ? (
               <>
                 <ALink href="/my-account" mr="2rem">
                   Dashboard
                 </ALink>
-                <Link
-                  onClick={async () => {
-                    const res = await logout();
-                    if (res.data?.logout?.valueOf()) {
-                      await apolloClient.resetStore();
-                      router.push("/");
-                    }
-                  }}
-                >
-                  Logout
-                </Link>
+                <Link onClick={handleLogout}>Logout</Link>
               </>
             ) : (
               <ALink href="/auth">Sign In or Register</ALink>

@@ -5,7 +5,6 @@ import {
   projectCategories,
   ProjectSchema,
 } from "Forms/Schema/createProjectSchema";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import InputCheckbox from "../forms/InputCheckbox";
 import InputSelect from "../forms/InputSelect";
@@ -124,7 +123,7 @@ const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
           disabled={isSubmitting || !isValid || !isDirty}
           isLoading={isSubmitting}
         >
-          Submit Project
+          {isEditing ? "Submit Changes" : "Submit Project"}
         </Button>
       </Flex>
     </Flex>

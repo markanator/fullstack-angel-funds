@@ -275,7 +275,9 @@ export default function ProjectDetails({
                 <Heading as="p" mb=".5rem">
                   Desctiption
                 </Heading>
-                <Text color="text_tertiary">{project?.description}</Text>
+                <Text color="text_tertiary" whiteSpace="pre-wrap">
+                  {project?.description}
+                </Text>
               </Flex>
               {/* RIGHT */}
               <Flex as="aside" w="33%"></Flex>
