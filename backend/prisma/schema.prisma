@@ -27,27 +27,31 @@ model User {
 }
 
 model Project {
-  id                Int        @id @default(autoincrement())
-  title             String
-  slug              String     @unique
-  description       String
-  category          String
-  image             String?
-  fundTarget        Int
-  currentFunds      Int
-  publishDate       DateTime
-  targetDate        DateTime
-  totalDonation_sum Int        @default(0)
-  viewCount         Int        @default(0)
-  votePoints        Int?
-  voteStatus        Int?
-  createdAt         DateTime   @default(now())
-  updatedAt         DateTime   @updatedAt
+  id                   Int        @id @default(autoincrement())
+  title                String
+  slug                 String     @unique
+  description          String
+  category             String
+  image                String?
+  fundTarget           Int
+  currentFunds         Int
+  publishDate          DateTime
+  targetDate           DateTime
+  totalDonation_sum    Int        @default(0)
+  viewCount            Int        @default(0)
+  votePoints           Int?
+  voteStatus           Int?
+  country              String?
+  location             String?
+  showContributors     Boolean    @default(false)
+  showContributorNames Boolean    @default(false)
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
   // relations
-  author            User       @relation(fields: [authorId], onDelete: Cascade, references: [id])
-  authorId          Int
-  donations         Donation[]
-  upvotes           Upvote[]
+  author               User       @relation(fields: [authorId], onDelete: Cascade, references: [id])
+  authorId             Int
+  donations            Donation[]
+  upvotes              Upvote[]
 }
 
 enum DonationStatus {
