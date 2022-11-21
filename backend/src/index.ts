@@ -9,8 +9,6 @@ const RedisStore = require("connect-redis")(session);
 import Redis from "ioredis";
 import { buildSchema } from "type-graphql";
 // locals
-import { createUserLoader } from "./dataloaders";
-import { createProjectLoader } from "./dataloaders/createProjectLoader";
 import {
   DonationResolver,
   HelloResolver,
@@ -18,8 +16,15 @@ import {
   RewardsResolver,
   UserResolver,
 } from "./resolvers";
+import {
+  createUserLoader,
+  createProjectLoader,
+  ProjectRewardsLoader,
+  donationsLoader,
+} from "./dataloaders";
 import { CORS_OPTIONS, SESSION_CONFIG } from "./utils/constants";
 import { dbClient } from "./utils/prismaClient";
+import type { MyContext } from "./types/MyContext";
 
 const PORT = process.env.PORT || 7777;
 
@@ -58,13 +63,15 @@ const main = async () => {
       validate: false,
     }),
     // deconstruct access
-    context: ({ req, res }: any) => ({
+    context: ({ req, res }: any): MyContext => ({
       req,
       res,
       redisClient,
       prisma: dbClient,
       userLoader: createUserLoader(),
       projectLoader: createProjectLoader(),
+      projectRewardsLoader: ProjectRewardsLoader(),
+      donationsLoader: donationsLoader(),
     }),
     introspection: true,
   });

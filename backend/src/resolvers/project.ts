@@ -17,7 +17,7 @@ import {
   ProjectResponse,
   UpdateProjectInput,
 } from "../types/ProjectTypes";
-import { Project, User } from "@generated/type-graphql";
+import { Project, User, Donation, Reward } from "@generated/type-graphql";
 
 @Resolver(Project)
 export class ProjectResolver {
@@ -25,8 +25,25 @@ export class ProjectResolver {
   @FieldResolver(() => User)
   async author(@Root() project: Project, @Ctx() { userLoader }: MyContext) {
     // will batch all users into a single call
-    // and return them
     return userLoader.load(project.authorId);
+  }
+  @FieldResolver(() => [Reward], { nullable: true })
+  async rewards(
+    @Root() project: Project,
+    @Ctx() { projectRewardsLoader }: MyContext
+  ) {
+    console.log("DATA LOADING REWARD FOR PROJECT :: %d", project.id);
+    // will batch all users into a single call
+    return projectRewardsLoader.load(project.id);
+  }
+  @FieldResolver(() => [Donation], { nullable: true })
+  async donations(
+    @Root() project: Project,
+    @Ctx() { donationsLoader }: MyContext
+  ) {
+    // will batch all users into a single call
+    console.log("DATA LOADING DONO FOR PROJECT :: %d", project.id);
+    return donationsLoader.load(project.id);
   }
 
   // GET PROJECTS ARRAY
@@ -51,7 +68,9 @@ export class ProjectResolver {
     @Arg("slug") slug: string,
     @Ctx() { prisma }: MyContext
   ): Promise<Project | null> {
-    return prisma.project.findFirst({ where: { slug } });
+    return prisma.project.findUnique({
+      where: { slug },
+    });
   }
 
   // GET AUTHORED PROJECT BY ID
@@ -62,25 +81,27 @@ export class ProjectResolver {
     @Ctx() { req, prisma }: MyContext
   ): Promise<ProjectResponse> {
     // find project
-    const projRes = await prisma.project.findFirst({ where: { id } });
-    // see if they match
-    if (req.session.userId !== projRes?.authorId) {
-      return {
-        errors: [
-          {
-            field: "Authorization",
-            message: "You are not authorized to update this project! 👀",
-          },
-        ],
-      };
-    }
-
+    const projRes = await prisma.project.findFirst({
+      where: { id },
+    });
     if (!projRes) {
       return {
         errors: [
           {
             field: "Resource",
             message: "Project not found!",
+          },
+        ],
+      };
+    }
+
+    // see if they match
+    if (req.session.userId !== projRes?.authorId) {
+      return {
+        errors: [
+          {
+            field: "Authorization",
+            message: "You are not authorized to view this project! 👀",
           },
         ],
       };
@@ -165,7 +186,7 @@ export class ProjectResolver {
   async deleteProject(
     @Arg("id", () => Int) id: number,
     @Ctx() { req, prisma }: MyContext
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     const deletedProject = await prisma.project.findFirst({
       where: {
         id,
