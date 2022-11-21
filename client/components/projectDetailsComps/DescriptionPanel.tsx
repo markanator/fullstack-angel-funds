@@ -20,7 +20,9 @@ const DescriptionPanel = ({ description }: Props) => {
             </Text>
           </Flex>
           {/* RIGHT */}
-          <Flex as="aside" w="33%"></Flex>
+          <Flex as="aside" w="33%">
+            {/* TODO: show rewards */}
+          </Flex>
         </Flex>
       </Container>
     </TabPanel>

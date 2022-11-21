@@ -205,7 +205,4 @@ export class ProjectResolver {
     console.log("### PROJECT DELETED??", deleteRes);
     return deleteRes;
   }
-
-  // TODO 1) add vote logic
-  // TODO 2) add donate logic
 }

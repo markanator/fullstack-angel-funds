@@ -105,6 +105,9 @@ const EditProjectPage = () => {
           <AddEditProjectForm
             handleProjectSubmit={onSubmit}
             initialValues={foundProjectToEdit}
+            // TODO: 1. add tabs
+            // TODO: 2. create addRewards Form on the 2nd panel
+            // TODO: 3. create addRewards gql mutation
           />
         )}
       </Container>

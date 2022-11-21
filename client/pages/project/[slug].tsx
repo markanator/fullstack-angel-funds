@@ -39,7 +39,7 @@ export default function ProjectDetails({
             <Container maxW="7xl" mx="auto" mt="-70px">
               <TabList bgColor="testimonial_bg">
                 <CustomTab>Description</CustomTab>
-                {/* <CustomTab>Updates</CustomTab> */}
+                {/* TODO: <CustomTab>Updates</CustomTab> */}
                 {project?.showContributors && (
                   <CustomTab>Backer List</CustomTab>
                 )}
