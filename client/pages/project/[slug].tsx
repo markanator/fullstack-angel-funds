@@ -9,6 +9,11 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -28,6 +33,9 @@ import { initializeApollo } from "utils/apolloClient";
 import getStripe from "utils/getStripe";
 import Layout from "../../components/Layout";
 import { DonoSchema } from "../../Forms/Schema/DonoSchema";
+import DescriptionPanel from "@/components/projectDetailsComps/DescriptionPanel";
+import React from "react";
+import BackerTablePanel from "@/components/projectDetailsComps/BackerTablePanel";
 
 dayjs.extend(relativeTime);
 
@@ -103,7 +111,7 @@ export default function ProjectDetails({
       <article>
         {/* TOP HALF */}
         <Flex as="section" w="full" h="full" bg="testimonial_bg">
-          <Container maxW="7xl" m="auto" py="6rem">
+          <Container maxW="7xl" m="auto" py="120px" pb="10rem">
             <Flex className="project_deets" direction="row" h="full">
               {/* LEFT SIDE IMAGE and blurb? */}
               <Flex w="50%" direction="column" h="full">
@@ -267,28 +275,43 @@ export default function ProjectDetails({
           </Container>
         </Flex>
         {/* BOTTOM */}
-        <Flex as="section" w="full" h="full" bg="white">
-          <Container maxW="7xl" m="auto" py="6rem">
-            <Flex>
-              {/* LEFT DESCRIPTION */}
-              <Flex as="article" w="66%" direction="column">
-                <Heading as="p" mb=".5rem">
-                  Desctiption
-                </Heading>
-                <Text color="text_tertiary" whiteSpace="pre-wrap">
-                  {project?.description}
-                </Text>
-              </Flex>
-              {/* RIGHT */}
-              <Flex as="aside" w="33%"></Flex>
-            </Flex>
-            {/* <p>{JSON.stringify(project, null, 2)}</p> */}
-          </Container>
+        <Flex as="section" flexDirection="column" w="full" h="full" bg="white">
+          <Tabs w="full" m="auto" variant="unstyled">
+            <Container maxW="7xl" mx="auto" mt="-70px">
+              <TabList bgColor="testimonial_bg">
+                <CustomTab>Description</CustomTab>
+                {/* <CustomTab>Updates</CustomTab> */}
+                <CustomTab>BackerList</CustomTab>
+              </TabList>
+            </Container>
+            <TabPanels>
+              <DescriptionPanel description={project?.description ?? ""} />
+              {/* TODO: project updates */}
+              <BackerTablePanel />
+            </TabPanels>
+          </Tabs>
         </Flex>
       </article>
     </Layout>
   );
 }
+
+const CustomTab = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Tab
+      p="15px 60px"
+      fontSize="20px"
+      fontWeight="bold"
+      mr={8}
+      lineHeight="40px"
+      bgColor="color_alt"
+      color="white"
+      _selected={{ color: "black", bg: "white" }}
+    >
+      {children}
+    </Tab>
+  );
+};
 
 export async function getServerSideProps({
   req,
