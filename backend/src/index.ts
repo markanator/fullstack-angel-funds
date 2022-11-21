@@ -17,11 +17,10 @@ import {
   ProjectResolver,
   UserResolver,
 } from "./resolvers";
-import { COOKIE_NAME, __prod__ } from "./utils/constants";
+import { CORS_OPTIONS, SESSION_CONFIG } from "./utils/constants";
 import { dbClient } from "./utils/prismaClient";
 
 const PORT = process.env.PORT || 7777;
-const whitelist = ["*", process.env.CORS_ORIGIN!, process.env.CORS_STUDIO!];
 
 const main = async () => {
   // init app
@@ -35,28 +34,15 @@ const main = async () => {
   app.set("trust proxy", 1);
 
   // cors
-  app.use(
-    cors({
-      origin: whitelist,
-      credentials: true,
-    })
-  );
+  app.use(cors(CORS_OPTIONS));
 
   // session middleware before Apollo
   app.use(
-    session({
-      name: COOKIE_NAME,
-      store: new RedisStore({ client: redisClient, disableTouch: true }),
-      cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 365 * 1, // 1 yrs
-        httpOnly: __prod__,
-        sameSite: "lax", // csrf protections
-        secure: __prod__, //cookie only works in https
-      },
-      saveUninitialized: false, // create sesh by default regardless of !data
-      secret: process.env.SESSION_SECRET as string,
-      resave: false,
-    })
+    session(
+      SESSION_CONFIG(
+        new RedisStore({ client: redisClient, disableTouch: true })
+      )
+    )
   );
 
   const apolloServer = new ApolloServer({
@@ -85,10 +71,7 @@ const main = async () => {
 
   apolloServer.applyMiddleware({
     app,
-    cors: {
-      credentials: true,
-      origin: whitelist,
-    },
+    cors: CORS_OPTIONS,
   });
 
   app.listen(PORT, () =>

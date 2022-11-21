@@ -17,7 +17,7 @@ import {
   ProjectResponse,
   UpdateProjectInput,
 } from "../types/ProjectTypes";
-import {Project, User} from '@generated/type-graphql'
+import { Project, User } from "@generated/type-graphql";
 
 @Resolver(Project)
 export class ProjectResolver {
@@ -33,7 +33,7 @@ export class ProjectResolver {
   @Query(() => [Project])
   async projects(@Ctx() { prisma }: MyContext) {
     // TODO FUTURE paginate the response
-    return prisma.project.findMany({ take: 10 })
+    return prisma.project.findMany({ take: 10 });
   }
 
   // GET PROJECT BY UserID
@@ -54,6 +54,30 @@ export class ProjectResolver {
     return prisma.project.findFirst({ where: { slug } });
   }
 
+  // GET AUTHORED PROJECT BY ID
+  @Query(() => Project, { nullable: true })
+  @UseMiddleware(isAuthed)
+  async getAuthoredProjectById(
+    @Arg("id") id: number,
+    @Ctx() { req, prisma }: MyContext
+  ): Promise<ProjectResponse> {
+    // find project
+    const projRes = await prisma.project.findUnique({ where: { id } });
+    // see if they match
+    if (req.session.userId !== projRes?.authorId) {
+      return {
+        errors: [
+          {
+            field: "Authorization",
+            message: "You are not authorized to update this project! 👀",
+          },
+        ],
+      };
+    }
+
+    return { project: projRes };
+  }
+
   // CREATE PROJECT
   @Mutation(() => Project)
   @UseMiddleware(isAuthed)
@@ -68,10 +92,11 @@ export class ProjectResolver {
     });
     return prisma.project.create({
       data: {
-      ...input,
-      slug,
-      authorId: req.session.userId,
-    }});
+        ...input,
+        slug,
+        authorId: req.session.userId,
+      },
+    });
   }
 
   // UPDATE PROJECT
@@ -102,8 +127,8 @@ export class ProjectResolver {
         data: {
           ...input,
           updatedAt: new Date(),
-        }
-      })
+        },
+      });
 
       console.log("update worked: ", updatedProject);
 
@@ -134,14 +159,17 @@ export class ProjectResolver {
       where: {
         id,
         AND: {
-          authorId: req.session.userId
-        }
-      }
-    })
+          authorId: req.session.userId,
+        },
+      },
+    });
     if (!deletedProject) {
       return false;
     }
-    const deleteRes = await prisma.project.delete({ where: { id: deletedProject.id }}).then(() => true).catch(()=> false)
+    const deleteRes = await prisma.project
+      .delete({ where: { id: deletedProject.id } })
+      .then(() => true)
+      .catch(() => false);
     console.log("### PROJECT DELETED??", deleteRes);
     return deleteRes;
   }
