@@ -15,6 +15,7 @@ import {
   DonationResolver,
   HelloResolver,
   ProjectResolver,
+  RewardsResolver,
   UserResolver,
 } from "./resolvers";
 import { CORS_OPTIONS, SESSION_CONFIG } from "./utils/constants";
@@ -52,6 +53,7 @@ const main = async () => {
         ProjectResolver,
         UserResolver,
         DonationResolver,
+        RewardsResolver,
       ],
       validate: false,
     }),
