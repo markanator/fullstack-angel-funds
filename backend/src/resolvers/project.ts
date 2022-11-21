@@ -55,14 +55,14 @@ export class ProjectResolver {
   }
 
   // GET AUTHORED PROJECT BY ID
-  @Query(() => Project, { nullable: true })
+  @Query(() => ProjectResponse)
   @UseMiddleware(isAuthed)
   async getAuthoredProjectById(
     @Arg("id") id: number,
     @Ctx() { req, prisma }: MyContext
   ): Promise<ProjectResponse> {
     // find project
-    const projRes = await prisma.project.findUnique({ where: { id } });
+    const projRes = await prisma.project.findFirst({ where: { id } });
     // see if they match
     if (req.session.userId !== projRes?.authorId) {
       return {
@@ -70,6 +70,17 @@ export class ProjectResolver {
           {
             field: "Authorization",
             message: "You are not authorized to update this project! 👀",
+          },
+        ],
+      };
+    }
+
+    if (!projRes) {
+      return {
+        errors: [
+          {
+            field: "Resource",
+            message: "Project not found!",
           },
         ],
       };
