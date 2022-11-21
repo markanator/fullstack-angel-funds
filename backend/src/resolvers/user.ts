@@ -7,7 +7,7 @@ import { UserResponse } from "../types/UserTypes";
 import { COOKIE_NAME, FORGOT_PASSWORD_PREFIX } from "../utils/constants";
 import { EmailPasswordInput } from "../utils/EmailPasswordInput";
 import { ValidateRegister } from "../utils/ValidateRegister";
-import { User } from '@generated/type-graphql'
+import { User } from "@generated/type-graphql";
 
 @Resolver(User)
 export class UserResolver {
@@ -47,8 +47,8 @@ export class UserResolver {
           email: options.email,
           fullName: options.fullName,
           password: hashpass,
-        }
-      })
+        },
+      });
     } catch (err) {
       console.log("message: ", err.message);
       if (err.code === "23505" || err.detail.includes("already exists")) {
@@ -64,12 +64,14 @@ export class UserResolver {
       }
     }
     if (!user) {
-      return { errors: [
-        {
-          field: 'feedback',
-          message: "Something went wrong, please try again later."
-        }
-      ]}
+      return {
+        errors: [
+          {
+            field: "feedback",
+            message: "Something went wrong, please try again later.",
+          },
+        ],
+      };
     }
     // set cookies
     req.session.userId = user.id;
@@ -139,7 +141,7 @@ export class UserResolver {
   @Mutation(() => Boolean) // decorator
   async forgotPassword(
     @Arg("email") email: string,
-    @Ctx() { redis, prisma }: MyContext
+    @Ctx() { redisClient, prisma }: MyContext
   ): Promise<Boolean> {
     const user = await prisma.user.findFirst({ where: { email } });
     if (!user) {
@@ -151,32 +153,34 @@ export class UserResolver {
     const token = crypto.randomUUID();
 
     try {
-        await redis.set(
-          FORGOT_PASSWORD_PREFIX + token,
-          user.id,
-          "EX",
-          1000 * 60 * 60 * 24 * 3 // days
-        );
+      await redisClient.set(
+        FORGOT_PASSWORD_PREFIX + token,
+        user.id,
+        "EX",
+        1000 * 60 * 60 * 24 * 3 // days
+      );
 
-        // send the email
-        await sendEmail(
-          email,
-          `<a href="${process.env.CORS_ORIGIN}/change-password/${token}">reset password</a>`,
-          "Change Password Requested"
-        );
-    
-        return true;
+      // send the email
+      await sendEmail(
+        email,
+        `<a href="${process.env.CORS_ORIGIN}/change-password/${token}">reset password</a>`,
+        "Change Password Requested"
+      );
+
+      return true;
     } catch (error) {
-      console.log(error)
-      return false
+      console.log(error);
+      return false;
     }
   }
 
   // GETBY USERID
   @Mutation(() => UserResponse)
-  async getUserById(@Arg("id", () => Int) id: number, 
-  @Ctx() { prisma }: MyContext): Promise<UserResponse> {
-    const user = await prisma.user.findFirst({ where: { id }});
+  async getUserById(
+    @Arg("id", () => Int) id: number,
+    @Ctx() { prisma }: MyContext
+  ): Promise<UserResponse> {
+    const user = await prisma.user.findFirst({ where: { id } });
     // oops, didn't find anything
     if (!user) {
       return {

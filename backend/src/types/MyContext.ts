@@ -10,7 +10,7 @@ export type MyContext = {
     session: Session & Partial<SessionData> & { userId: number };
   };
   res: Response;
-  redis: Redis;
+  redisClient: Redis;
   prisma: PrismaClient;
   userLoader: ReturnType<typeof createUserLoader>;
   projectLoader: ReturnType<typeof createProjectLoader>;
