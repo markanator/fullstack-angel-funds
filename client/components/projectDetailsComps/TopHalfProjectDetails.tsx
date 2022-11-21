@@ -133,7 +133,7 @@ const TopHalfProjectDetails = ({ project }: Props) => {
               />
             </Flex>
             {/* PROGRESS BAR w/ GOAL  */}
-            <Flex direction="column">
+            <Flex direction="column" mt={4}>
               <Flex direction="row" justifyContent="space-between" mb=".25rem">
                 <Text fontSize=".875rem" color="text_secondary">
                   Raised:

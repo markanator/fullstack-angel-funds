@@ -4,8 +4,19 @@ import ButtonAlternate from "./ButtonAlternate";
 
 export default function Newsletter() {
   return (
-    <Flex as="section" w="full" bgColor="color_alt" py="6rem">
-      <Container maxW="5xl">
+    <Flex
+      as="section"
+      w="full"
+      maxW="7xl"
+      m="auto"
+      bgColor="color_alt"
+      py="3rem"
+      backgroundImage="url('/images/bg-lines-transparent.png')"
+      backgroundPosition="center"
+      // backgroundSize="cover"
+      backgroundRepeat="no-repeat"
+    >
+      <Container maxW="3xl">
         <Text
           textAlign="center"
           fontSize="1.25rem"

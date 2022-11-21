@@ -79,6 +79,7 @@ export default function About() {
         bgColor="white"
         pos="relative"
         justifyContent="flex-start"
+        pt={4}
       >
         <Flex padding="0 1rem 2rem 3rem" w="auto" h="100%" pos="relative">
           <Flex
