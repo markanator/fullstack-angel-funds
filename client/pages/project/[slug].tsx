@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import AuthBanner from "components/authShared/AuthBanner";
 import { GetbySlugDocument, GetbySlugQuery } from "generated/grahpql";
+import cloneDeep from "lodash/cloneDeep";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import React from "react";
 import { addApolloState, initializeApollo } from "utils/apolloClient";
@@ -19,7 +20,6 @@ import Layout from "../../components/Layout";
 export default function ProjectDetails({
   project,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log({ project });
   return (
     <Layout
       SEO={{
@@ -40,7 +40,9 @@ export default function ProjectDetails({
               <TabList bgColor="testimonial_bg">
                 <CustomTab>Description</CustomTab>
                 {/* <CustomTab>Updates</CustomTab> */}
-                {project?.showContributors && <CustomTab>BackerList</CustomTab>}
+                {project?.showContributors && (
+                  <CustomTab>Backer List</CustomTab>
+                )}
               </TabList>
             </Container>
             <TabPanels>
@@ -49,7 +51,7 @@ export default function ProjectDetails({
               {project?.showContributors && (
                 <BackerTablePanel
                   donations={project?.donations ?? []}
-                  // showNames={project?.showContributorNames}
+                  showNames={project?.showContributorNames}
                 />
               )}
             </TabPanels>
@@ -63,13 +65,14 @@ export default function ProjectDetails({
 const CustomTab = ({ children }: { children: React.ReactNode }) => {
   return (
     <Tab
-      p="15px 60px"
       fontSize="20px"
       fontWeight="bold"
-      mr={8}
       lineHeight="40px"
+      letterSpacing=".125px"
       bgColor="color_alt"
       color="white"
+      p="15px 60px"
+      mr={8}
       _selected={{ color: "black", bg: "white" }}
     >
       {children}
@@ -102,17 +105,23 @@ export async function getServerSideProps({
     res.end();
     return { props: { project: undefined } };
   }
-  const shallowCopy = { ...(data?.getProjectBySlug ?? {}) };
+  const shallowCopy = cloneDeep(data?.getProjectBySlug ?? {});
 
-  if (shallowCopy?.donations?.length && !shallowCopy?.showContributorNames) {
-    shallowCopy?.donations.forEach((d) => ({
+  if (!shallowCopy.showContributors) {
+    shallowCopy.donations = null;
+  }
+
+  if (shallowCopy.showContributors && !shallowCopy.showContributorNames) {
+    shallowCopy.donations = shallowCopy.donations?.map((d) => ({
       ...d,
       donor: {
         ...d.donor,
-        fullName: "Anonymous Ssr",
+        fullName: "Anonymous",
       },
     }));
   }
+
+  console.log({ donos: shallowCopy?.donations?.map((d) => d.donor) });
 
   return addApolloState(apc, {
     props: {

@@ -46,7 +46,7 @@ const BackerTablePanel = ({ donations, showNames = true }: Props) => {
               {donations &&
                 donations.map((dono) => (
                   <Tr key={dono.id}>
-                    <Td>{showNames ? dono.donor.fullName : "Anonymous CSR"}</Td>
+                    <Td>{showNames ? dono.donor.fullName : "Anonymous"}</Td>
                     <Td>{formatAmountForDisplay(dono.amount)}</Td>
                     <Td>{dayjs(dono.createdAt).format("YYYY-MM-DD")}</Td>
                   </Tr>
