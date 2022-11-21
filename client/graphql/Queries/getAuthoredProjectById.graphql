@@ -1,0 +1,5 @@
+query GetAuthoredProjectById($getAuthoredProjectByIdId: Float!) {
+  getAuthoredProjectById(id: $getAuthoredProjectByIdId) {
+    ...ProjectResponseNoAuthor
+  }
+}

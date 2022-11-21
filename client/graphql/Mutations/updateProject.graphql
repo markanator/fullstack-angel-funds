@@ -1,0 +1,14 @@
+mutation UpdateAuthoredProject(
+  $input: UpdateProjectInput!
+  $updateProjectId: Int!
+) {
+  updateProject(input: $input, id: $updateProjectId) {
+    errors {
+      field
+      message
+    }
+    project {
+      ...ProjectResponseNoAuthor
+    }
+  }
+}

@@ -171,11 +171,17 @@ export type ProjectResponse = {
 
 export type Query = {
   __typename?: 'Query';
+  getAuthoredProjectById?: Maybe<Project>;
   getProjectBySlug?: Maybe<Project>;
   getProjectsByUserID?: Maybe<Array<Project>>;
   hello: Scalars['String'];
   me?: Maybe<User>;
   projects: Array<Project>;
+};
+
+
+export type QueryGetAuthoredProjectByIdArgs = {
+  id: Scalars['Float'];
 };
 
 
@@ -271,6 +277,14 @@ export type SyncStripePaymentMutationVariables = Exact<{
 
 export type SyncStripePaymentMutation = { __typename?: 'Mutation', syncStripeDono: { __typename?: 'DonationResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, data?: { __typename?: 'Donation', id: number, amount: number, projectId: number, donorId: number, status: DonationStatus, stripeCreatedAt: string, stripeReceiptUrl: string, createdAt: any } | null } };
 
+export type UpdateAuthoredProjectMutationVariables = Exact<{
+  input: UpdateProjectInput;
+  updateProjectId: Scalars['Int'];
+}>;
+
+
+export type UpdateAuthoredProjectMutation = { __typename?: 'Mutation', updateProject: { __typename?: 'ProjectResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, project?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string } | null } };
+
 export type FetchAllProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -280,6 +294,13 @@ export type FetchMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FetchMeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } | null };
+
+export type GetAuthoredProjectByIdQueryVariables = Exact<{
+  getAuthoredProjectByIdId: Scalars['Float'];
+}>;
+
+
+export type GetAuthoredProjectByIdQuery = { __typename?: 'Query', getAuthoredProjectById?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string } | null };
 
 export type GetbySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -560,6 +581,46 @@ export function useSyncStripePaymentMutation(baseOptions?: Apollo.MutationHookOp
 export type SyncStripePaymentMutationHookResult = ReturnType<typeof useSyncStripePaymentMutation>;
 export type SyncStripePaymentMutationResult = Apollo.MutationResult<SyncStripePaymentMutation>;
 export type SyncStripePaymentMutationOptions = Apollo.BaseMutationOptions<SyncStripePaymentMutation, SyncStripePaymentMutationVariables>;
+export const UpdateAuthoredProjectDocument = gql`
+    mutation UpdateAuthoredProject($input: UpdateProjectInput!, $updateProjectId: Int!) {
+  updateProject(input: $input, id: $updateProjectId) {
+    errors {
+      field
+      message
+    }
+    project {
+      ...ProjectResponseNoAuthor
+    }
+  }
+}
+    ${ProjectResponseNoAuthorFragmentDoc}`;
+export type UpdateAuthoredProjectMutationFn = Apollo.MutationFunction<UpdateAuthoredProjectMutation, UpdateAuthoredProjectMutationVariables>;
+
+/**
+ * __useUpdateAuthoredProjectMutation__
+ *
+ * To run a mutation, you first call `useUpdateAuthoredProjectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAuthoredProjectMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAuthoredProjectMutation, { data, loading, error }] = useUpdateAuthoredProjectMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *      updateProjectId: // value for 'updateProjectId'
+ *   },
+ * });
+ */
+export function useUpdateAuthoredProjectMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAuthoredProjectMutation, UpdateAuthoredProjectMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateAuthoredProjectMutation, UpdateAuthoredProjectMutationVariables>(UpdateAuthoredProjectDocument, options);
+      }
+export type UpdateAuthoredProjectMutationHookResult = ReturnType<typeof useUpdateAuthoredProjectMutation>;
+export type UpdateAuthoredProjectMutationResult = Apollo.MutationResult<UpdateAuthoredProjectMutation>;
+export type UpdateAuthoredProjectMutationOptions = Apollo.BaseMutationOptions<UpdateAuthoredProjectMutation, UpdateAuthoredProjectMutationVariables>;
 export const FetchAllProjectsDocument = gql`
     query FetchAllProjects {
   projects {
@@ -628,6 +689,41 @@ export function useFetchMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Fe
 export type FetchMeQueryHookResult = ReturnType<typeof useFetchMeQuery>;
 export type FetchMeLazyQueryHookResult = ReturnType<typeof useFetchMeLazyQuery>;
 export type FetchMeQueryResult = Apollo.QueryResult<FetchMeQuery, FetchMeQueryVariables>;
+export const GetAuthoredProjectByIdDocument = gql`
+    query GetAuthoredProjectById($getAuthoredProjectByIdId: Float!) {
+  getAuthoredProjectById(id: $getAuthoredProjectByIdId) {
+    ...ProjectResponseNoAuthor
+  }
+}
+    ${ProjectResponseNoAuthorFragmentDoc}`;
+
+/**
+ * __useGetAuthoredProjectByIdQuery__
+ *
+ * To run a query within a React component, call `useGetAuthoredProjectByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAuthoredProjectByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAuthoredProjectByIdQuery({
+ *   variables: {
+ *      getAuthoredProjectByIdId: // value for 'getAuthoredProjectByIdId'
+ *   },
+ * });
+ */
+export function useGetAuthoredProjectByIdQuery(baseOptions: Apollo.QueryHookOptions<GetAuthoredProjectByIdQuery, GetAuthoredProjectByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAuthoredProjectByIdQuery, GetAuthoredProjectByIdQueryVariables>(GetAuthoredProjectByIdDocument, options);
+      }
+export function useGetAuthoredProjectByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAuthoredProjectByIdQuery, GetAuthoredProjectByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAuthoredProjectByIdQuery, GetAuthoredProjectByIdQueryVariables>(GetAuthoredProjectByIdDocument, options);
+        }
+export type GetAuthoredProjectByIdQueryHookResult = ReturnType<typeof useGetAuthoredProjectByIdQuery>;
+export type GetAuthoredProjectByIdLazyQueryHookResult = ReturnType<typeof useGetAuthoredProjectByIdLazyQuery>;
+export type GetAuthoredProjectByIdQueryResult = Apollo.QueryResult<GetAuthoredProjectByIdQuery, GetAuthoredProjectByIdQueryVariables>;
 export const GetbySlugDocument = gql`
     query getbySlug($slug: String!) {
   getProjectBySlug(slug: $slug) {
