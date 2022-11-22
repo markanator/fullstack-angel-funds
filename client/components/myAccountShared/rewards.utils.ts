@@ -31,7 +31,8 @@ export const RewardSchema = yup.object({
   deliveredByYear: yup.string().required("Required"),
 });
 
-export interface IFormData {
+export interface ICreateRewardFormData {
+  title: string;
   amount: string;
   image: string;
   description: string;

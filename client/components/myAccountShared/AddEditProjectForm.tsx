@@ -104,7 +104,7 @@ const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
       <Flex direction="row" justifyContent="space-between">
         <Button
           as={Link}
-          href="/my-account"
+          href="/my-account/projects"
           my="1rem"
           type="button"
           colorScheme="red"

@@ -3,7 +3,9 @@ import CustomTab from "@/components/common/CustomTab";
 import Layout from "@/components/Layout";
 import AddEditProjectForm from "@/components/myAccountShared/AddEditProjectForm";
 import AddEditProjectRewards from "@/components/myAccountShared/AddEditRewards";
+import { ICreateRewardFormData } from "@/components/myAccountShared/rewards.utils";
 import {
+  useCreateRewardMutation,
   useGetAuthoredProjectByIdQuery,
   useUpdateAuthoredProjectMutation,
 } from "@/generated/grahpql";
@@ -36,6 +38,7 @@ const EditProjectPage = () => {
     variables: {
       getAuthoredProjectByIdId: +(id as string),
     },
+    fetchPolicy: "network-only",
   });
 
   const foundProjectToEdit = useMemo(() => {
@@ -94,6 +97,44 @@ const EditProjectPage = () => {
     }
   };
 
+  const [createReward] = useCreateRewardMutation();
+  const onCreateReward = async (formData: ICreateRewardFormData) => {
+    console.log({ formData });
+    if (!data?.getAuthoredProjectById?.project?.id) {
+      return;
+    }
+    const { data: createRewardData, errors: createRewardError } =
+      await createReward({
+        variables: {
+          input: {
+            title: formData.title,
+            description: formData.description,
+            image: formData.image,
+            amount: +formData.amount.replace("$", "").replace(".", ""),
+            deliveredByMonth: formData.deliveredByMonth,
+            deliveredByYear: formData.deliveredByYear,
+            projectId: data?.getAuthoredProjectById?.project?.id,
+            quantityRemaining: +formData.quantityRemaining,
+          },
+        },
+        update: (cache) => {
+          cache.evict({ fieldName: "Projects:{}" });
+        },
+      });
+
+    if (
+      !createRewardError &&
+      createRewardData?.createProjectReward?.reward?.id
+    ) {
+      toast({
+        title: "Project created.",
+        description: `Your Project: ${data.getAuthoredProjectById?.project?.title}, was successfully updated.`,
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
   return (
     <Layout SEO={{ title: "Edit a Project - Angel Funds" }}>
       <AuthBanner
@@ -126,6 +167,7 @@ const EditProjectPage = () => {
                 </TabPanel>
                 <TabPanel pt="5rem" pb="8rem">
                   <AddEditProjectRewards
+                    onCreateReward={onCreateReward}
                     existingRewards={
                       data?.getAuthoredProjectById?.project?.rewards ?? []
                     }
