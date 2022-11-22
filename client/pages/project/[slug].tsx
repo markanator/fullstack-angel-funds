@@ -1,3 +1,4 @@
+import CustomTab from "@/components/common/CustomTab";
 import BackerTablePanel from "@/components/projectDetailsComps/BackerTablePanel";
 import DescriptionPanel from "@/components/projectDetailsComps/DescriptionPanel";
 import TopHalfProjectDetails from "@/components/projectDetailsComps/TopHalfProjectDetails";
@@ -61,24 +62,6 @@ export default function ProjectDetails({
     </Layout>
   );
 }
-
-const CustomTab = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Tab
-      fontSize="20px"
-      fontWeight="bold"
-      lineHeight="40px"
-      letterSpacing=".125px"
-      bgColor="color_alt"
-      color="white"
-      p="15px 60px"
-      mr={8}
-      _selected={{ color: "black", bg: "white" }}
-    >
-      {children}
-    </Tab>
-  );
-};
 
 export async function getServerSideProps({
   req,

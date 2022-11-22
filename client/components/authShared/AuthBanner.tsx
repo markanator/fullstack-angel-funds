@@ -5,12 +5,14 @@ interface AuthBannerProps {
   bgImage?: string;
   title: string;
   overlay?: boolean;
+  extraBottomSpace?: boolean;
 }
 
 export default function AuthBanner({
   bgImage = "/images/breadcrumb.png",
   title,
   overlay = false,
+  extraBottomSpace = false,
 }: AuthBannerProps) {
   return (
     <Flex
@@ -24,9 +26,10 @@ export default function AuthBanner({
       backgroundSize="cover"
       backgroundRepeat="no-repeat"
       backgroundPosition="center"
-      zIndex="2"
+      zIndex={2}
       justifyContent="center"
       alignItems="flex-start"
+      pb={extraBottomSpace ? "5rem" : ""}
     >
       <Container maxW="7xl" m="auto" zIndex="5">
         <Heading

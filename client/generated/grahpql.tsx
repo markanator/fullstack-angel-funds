@@ -325,7 +325,7 @@ export type GetAuthoredProjectByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetAuthoredProjectByIdQuery = { __typename?: 'Query', getAuthoredProjectById: { __typename?: 'ProjectResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, project?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean } | null } };
+export type GetAuthoredProjectByIdQuery = { __typename?: 'Query', getAuthoredProjectById: { __typename?: 'ProjectResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, project?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean, rewards?: Array<{ __typename?: 'Reward', id: number, amount: number, image?: string | null, description: string, deliveredByMonth: any, deliveredByYear: any, quantityRemaining: number }> | null } | null } };
 
 export type GetbySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -739,10 +739,12 @@ export const GetAuthoredProjectByIdDocument = gql`
     }
     project {
       ...ProjectDetails
+      ...RewardsInfo
     }
   }
 }
-    ${ProjectDetailsFragmentDoc}`;
+    ${ProjectDetailsFragmentDoc}
+${RewardsInfoFragmentDoc}`;
 
 /**
  * __useGetAuthoredProjectByIdQuery__
