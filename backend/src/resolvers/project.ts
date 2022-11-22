@@ -77,7 +77,7 @@ export class ProjectResolver {
   @Query(() => ProjectResponse)
   @UseMiddleware(isAuthed)
   async getAuthoredProjectById(
-    @Arg("id") id: number,
+    @Arg("id", () => Int) id: number,
     @Ctx() { req, prisma }: MyContext
   ): Promise<ProjectResponse> {
     // find project
