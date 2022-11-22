@@ -25,10 +25,10 @@ export const years = range(
 export const RewardSchema = yup.object({
   description: yup.string().required("Required"),
   amount: yup.string().required("Required"),
-  image: yup.string().required("Required"),
-  quantityRemaining: yup.string().required("Required"),
-  deliveredByMonth: yup.date().required("Required"),
-  deliveredByYear: yup.date().required("Required"),
+  image: yup.string().url().optional(),
+  quantityRemaining: yup.number().required("Required"),
+  deliveredByMonth: yup.string().required("Required"),
+  deliveredByYear: yup.string().required("Required"),
 });
 
 export interface IFormData {

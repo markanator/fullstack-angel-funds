@@ -1,4 +1,4 @@
-query GetAuthoredProjectById($getAuthoredProjectByIdId: Float!) {
+query GetAuthoredProjectById($getAuthoredProjectByIdId: Int!) {
   getAuthoredProjectById(id: $getAuthoredProjectByIdId) {
     errors {
       field
