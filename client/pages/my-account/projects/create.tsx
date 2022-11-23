@@ -3,11 +3,11 @@ import { Container, Text, useToast } from "@chakra-ui/react";
 import { IProjectForm } from "Forms/Schema/createProjectSchema";
 import { useRouter } from "next/router";
 import { useIsAuth } from "utils/useIsAuth";
-import AuthBanner from "../../components/authShared/AuthBanner";
-import Layout from "../../components/Layout";
-import { useCreateProjectMutation } from "../../generated/grahpql";
+import AuthBanner from "../../../components/authShared/AuthBanner";
+import Layout from "../../../components/Layout";
+import { useCreateProjectMutation } from "../../../generated/grahpql";
 
-export default function AddProjectPage() {
+export default function CreateProjectPage() {
   const { isLoggedIn } = useIsAuth(); //logged in user
   const router = useRouter(); // for nav
   const [createProject, { loading }] = useCreateProjectMutation();

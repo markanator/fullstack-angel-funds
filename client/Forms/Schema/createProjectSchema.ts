@@ -15,7 +15,7 @@ export const projectCategories = [
   { label: "Design", value: "Design" },
   { label: "Education", value: "Education" },
   { label: "Fashion", value: "Fashion" },
-  { label: "Fine_Arts", value: "Fine_Arts" },
+  { label: "Fine Arts", value: "Fine_Arts" },
   { label: "Medical", value: "Medical" },
   { label: "Technology", value: "Technology" },
 ];
@@ -34,16 +34,7 @@ export const ProjectSchema = yup.object().shape({
     )
     .required("Required."),
   image: yup.string().url("Must be a valid URL").required("Required."),
-  fundTarget: yup
-    .number()
-    .min(500, "Minimum amount is $500.")
-    .max(
-      5000,
-      "Please contact support for amounts greater than $5,000. Thank you!"
-    )
-    .required("Required.")
-    .positive("Please enter a positive amount.")
-    .integer("Muste be a number."),
+  fundTarget: yup.string().required("Required."),
   publishDate: yup
     .date()
     .default(() => new Date())

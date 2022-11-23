@@ -5,10 +5,12 @@ import AddEditProjectForm from "@/components/myAccountShared/AddEditProjectForm"
 import AddEditProjectRewards from "@/components/myAccountShared/AddEditRewards";
 import { ICreateRewardFormData } from "@/components/myAccountShared/rewards.utils";
 import {
+  useCreateProjectMutation,
   useCreateRewardMutation,
   useGetAuthoredProjectByIdQuery,
   useUpdateAuthoredProjectMutation,
 } from "@/generated/grahpql";
+import { formatAmountForDisplay } from "@/utils/stripe-helpers";
 import { useIsAuth } from "@/utils/useIsAuth";
 import {
   Container,
@@ -34,6 +36,8 @@ const EditProjectPage = () => {
   const toast = useToast();
 
   const [updateProject] = useUpdateAuthoredProjectMutation();
+  const [createReward] = useCreateRewardMutation();
+
   const { data, loading } = useGetAuthoredProjectByIdQuery({
     variables: {
       getAuthoredProjectByIdId: +(id as string),
@@ -57,7 +61,7 @@ const EditProjectPage = () => {
         description,
         category,
         image: image ?? "",
-        fundTarget: fundTarget.toString(),
+        fundTarget: formatAmountForDisplay(fundTarget),
         publishDate: dayjs(publishDate).format("YYYY-MM-DD"),
         targetDate: dayjs(targetDate).format("YYYY-MM-DD"),
         terms: true,
@@ -67,17 +71,19 @@ const EditProjectPage = () => {
   }, [data?.getAuthoredProjectById?.project]);
 
   const onUpdateProject = async (formData: IProjectForm) => {
+    const formatedData = {
+      title: formData.title,
+      description: formData.description,
+      category: formData.category,
+      image: formData.image,
+      fundTarget: +formData.fundTarget.replace(/(\$|,|\.)/g, ""),
+      publishDate: formData.publishDate,
+      targetDate: formData.targetDate,
+    };
+    console.log({ formatedData });
     const { data, errors } = await updateProject({
       variables: {
-        input: {
-          title: formData.title,
-          description: formData.description,
-          category: formData.category,
-          image: formData.image,
-          fundTarget: +formData.fundTarget,
-          publishDate: formData.publishDate,
-          targetDate: formData.targetDate,
-        },
+        input: formatedData,
         updateProjectId: +(id as string),
       },
       update: (cache: any) => {
@@ -97,7 +103,6 @@ const EditProjectPage = () => {
     }
   };
 
-  const [createReward] = useCreateRewardMutation();
   const onCreateReward = async (formData: ICreateRewardFormData) => {
     console.log({ formData });
     if (!data?.getAuthoredProjectById?.project?.id) {

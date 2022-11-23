@@ -20,6 +20,7 @@ export default function Projects({}: IProjectsProps) {
   const { data, error } = useGetProjectsByUserIdQuery({
     variables: { id: user?.id ?? -1 },
     skip: !user?.id,
+    fetchPolicy: "cache-first",
   });
 
   return (

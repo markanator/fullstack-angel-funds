@@ -5,7 +5,7 @@ export default function WelcomeEmail(fullName: string, email: string) {
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Welcome to VR Fund Platform!</title>
+  <title>Welcome to Angel Funds Platform!</title>
   <style type="text/css">
   body {margin: 0; padding: 0; min-width: 100%!important;}
   img {height: auto;}

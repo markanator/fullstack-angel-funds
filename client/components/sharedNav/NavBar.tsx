@@ -75,7 +75,7 @@ export default function Navbar() {
               <ALink href="/auth">Sign In or Register</ALink>
             )}
 
-            <ALink href="/my-account/add-project" ml="2rem">
+            <ALink href="/my-account/projects/create" ml="2rem">
               Add a Project
             </ALink>
           </Flex>

@@ -1,3 +1,4 @@
+import ALink from "@/components/ALink";
 import {
   Box,
   Container,
@@ -8,9 +9,8 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/react";
-import { FiTwitter, FiSlack, FiGithub } from "react-icons/fi";
-import { FaTwitch } from "react-icons/fa";
-import ALink from "@/components/ALink";
+import { FaLinkedin } from "react-icons/fa";
+import { FiGithub, FiTwitter } from "react-icons/fi";
 
 export const Footer = () => {
   return (
@@ -40,7 +40,7 @@ export const Footer = () => {
           <Box w="33%">
             <ALink href="/" mb="1.5rem">
               <Heading fontSize="2rem" fontWeight="500">
-                VR Funding
+                Angel Funds
               </Heading>
             </ALink>
           </Box>
@@ -78,17 +78,20 @@ export const Footer = () => {
               pr="2rem"
             >
               <ListItem fontSize="4xl" mr={3}>
-                <Link href="https://www.twitch.tv/palante_mark" isExternal>
-                  <FaTwitch />
+                <Link
+                  href="https://www.linkedin.com/in/mark-ambrocio"
+                  isExternal
+                >
+                  <FaLinkedin />
                 </Link>
               </ListItem>
               <ListItem fontSize="4xl" mr={3}>
-                <Link href="https://twitter.com/_mark_ambro" isExternal>
+                <Link href="https://www.twitter.com/_mark_ambro" isExternal>
                   <FiTwitter />
                 </Link>
               </ListItem>
               <ListItem fontSize="4xl">
-                <Link href="https://github.com/markanator" isExternal>
+                <Link href="https://www.github.com/markanator" isExternal>
                   <FiGithub />
                 </Link>
               </ListItem>
@@ -101,9 +104,10 @@ export const Footer = () => {
           borderTop="2px solid var(--text_tertiary)"
           w="full"
         >
-          Copyright © 2020 Mark Ambrocio. All rights reserved. | Made with{" "}
+          Copyright © 2020-{new Date().getFullYear()} Mark Ambrocio. All rights
+          reserved. | Made with{" "}
           <span role="img" aria-label="brains" title="brains">
-            🧠
+            🧠{" "}
           </span>
           in Chicago,IL.
         </Text>
