@@ -10,7 +10,11 @@ import {
 } from "type-graphql";
 import { isAuthed } from "../middleware/isAuthed";
 import { MyContext } from "../types/MyContext";
-import { CreateRewardDto, RewardResponse } from "../types/RewardTypes";
+import {
+  CreateRewardDto,
+  RewardResponse,
+  UpdateRewardDto,
+} from "../types/RewardTypes";
 
 @Resolver(Reward)
 export class RewardsResolver {
@@ -65,6 +69,39 @@ export class RewardsResolver {
       });
 
       return { reward: newReward };
+    } catch (error) {
+      return {
+        errors: [{ field: "Server Error", message: error?.message }],
+      };
+    }
+  }
+
+  @Mutation(() => RewardResponse)
+  // @UseMiddleware(isAuthed)
+  async updateProjectReward(
+    @Arg("input") input: UpdateRewardDto,
+    @Ctx() { prisma }: MyContext
+  ): Promise<RewardResponse> {
+    try {
+      const { rewardId, ...restOfInput } = input;
+      const rewardToEdit = await prisma.reward.findUnique({
+        where: { id: rewardId },
+      });
+      if (!rewardToEdit) {
+        return {
+          errors: [{ field: "Resource", message: "Resource not found" }],
+        };
+      }
+
+      const updatedReward = await prisma.reward.update({
+        where: { id: rewardId },
+        data: {
+          ...restOfInput,
+          image: input.image ?? "",
+        },
+      });
+
+      return { reward: updatedReward };
     } catch (error) {
       return {
         errors: [{ field: "Server Error", message: error?.message }],

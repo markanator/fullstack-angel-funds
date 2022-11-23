@@ -24,6 +24,8 @@ export class CreateRewardDto {
 
 @InputType()
 export class UpdateRewardDto {
+  @Field(() => Int)
+  rewardId: number;
   @Field()
   title: string;
   @Field({ nullable: true })
