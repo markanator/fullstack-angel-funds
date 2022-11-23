@@ -23,7 +23,8 @@ export const years = range(
 ).map((year) => ({ value: year.toString(), label: year.toString() }));
 
 export const RewardSchema = yup.object({
-  description: yup.string().required("Required"),
+  title: yup.string().required("Required"),
+  description: yup.string().length(144, "Too long").required("Required"),
   amount: yup.string().required("Required"),
   image: yup.string().url().optional(),
   quantityRemaining: yup.number().required("Required"),

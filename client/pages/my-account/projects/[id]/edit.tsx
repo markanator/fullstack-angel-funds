@@ -9,6 +9,7 @@ import {
   useCreateRewardMutation,
   useGetAuthoredProjectByIdQuery,
   useUpdateAuthoredProjectMutation,
+  useUpdateRewardMutation,
 } from "@/generated/grahpql";
 import { formatAmountForDisplay } from "@/utils/stripe-helpers";
 import { useIsAuth } from "@/utils/useIsAuth";
@@ -37,6 +38,7 @@ const EditProjectPage = () => {
 
   const [updateProject] = useUpdateAuthoredProjectMutation();
   const [createReward] = useCreateRewardMutation();
+  const [updateReward] = useUpdateRewardMutation();
 
   const { data, loading } = useGetAuthoredProjectByIdQuery({
     variables: {
@@ -103,8 +105,8 @@ const EditProjectPage = () => {
     }
   };
 
-  const onCreateReward = async (formData: ICreateRewardFormData) => {
-    console.log({ formData });
+  const onCreateReward = async (createFormData: ICreateRewardFormData) => {
+    console.log({ createFormData });
     if (!data?.getAuthoredProjectById?.project?.id) {
       return;
     }
@@ -112,14 +114,14 @@ const EditProjectPage = () => {
       await createReward({
         variables: {
           input: {
-            title: formData.title,
-            description: formData.description,
-            image: formData.image,
-            amount: +formData.amount.replace("$", "").replace(".", ""),
-            deliveredByMonth: formData.deliveredByMonth,
-            deliveredByYear: formData.deliveredByYear,
+            title: createFormData.title,
+            description: createFormData.description,
+            image: createFormData.image,
+            amount: +createFormData.amount.replace("$", "").replace(".", ""),
+            deliveredByMonth: createFormData.deliveredByMonth,
+            deliveredByYear: createFormData.deliveredByYear,
             projectId: data?.getAuthoredProjectById?.project?.id,
-            quantityRemaining: +formData.quantityRemaining,
+            quantityRemaining: +createFormData.quantityRemaining,
           },
         },
         update: (cache) => {
@@ -136,6 +138,45 @@ const EditProjectPage = () => {
         description: `Your Project: ${data.getAuthoredProjectById?.project?.title}, was successfully updated.`,
         status: "success",
         duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
+  const onUpdateReward = async (
+    updateRewardFormData: ICreateRewardFormData
+  ) => {
+    console.log({ updateRewardFormData });
+    const rewardId = data?.getAuthoredProjectById?.project?.rewards?.[0]?.id;
+    if (!rewardId) {
+      return;
+    }
+    const { data: updateRewardData, errors: updateRewardError } =
+      await updateReward({
+        variables: {
+          input: {
+            rewardId,
+            title: updateRewardFormData.title,
+            description: updateRewardFormData.description,
+            image: updateRewardFormData.image,
+            deliveredByMonth: updateRewardFormData.deliveredByMonth,
+            deliveredByYear: updateRewardFormData.deliveredByYear,
+            quantityRemaining: +updateRewardFormData.quantityRemaining,
+          },
+        },
+        update: (cache) => {
+          cache.evict({ fieldName: "Projects:{}" });
+        },
+      });
+
+    if (
+      !updateRewardError?.length &&
+      updateRewardData?.updateProjectReward?.reward?.id
+    ) {
+      toast({
+        title: "Project created.",
+        description: `Your Reward was successfully updated.`,
+        status: "success",
+        // duration: 9000,
         isClosable: true,
       });
     }
@@ -173,6 +214,7 @@ const EditProjectPage = () => {
                 <TabPanel pt="5rem" pb="8rem">
                   <AddEditProjectRewards
                     onCreateReward={onCreateReward}
+                    onUpdateReward={onUpdateReward}
                     existingRewards={
                       data?.getAuthoredProjectById?.project?.rewards ?? []
                     }
@@ -182,9 +224,6 @@ const EditProjectPage = () => {
             </Tabs>
           </Container>
         </Flex>
-        // TODO: 1. add tabs
-        // TODO: 2. create addRewards Form on the 2nd panel
-        // TODO: 3. create addRewards gql mutation
       )}
     </Layout>
   );

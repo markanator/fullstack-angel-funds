@@ -102,6 +102,7 @@ export type Mutation = {
   register?: Maybe<UserResponse>;
   syncStripeDono: DonationResponse;
   updateProject: ProjectResponse;
+  updateProjectReward: RewardResponse;
 };
 
 
@@ -149,6 +150,11 @@ export type MutationSyncStripeDonoArgs = {
 export type MutationUpdateProjectArgs = {
   id: Scalars['Int'];
   input: UpdateProjectInput;
+};
+
+
+export type MutationUpdateProjectRewardArgs = {
+  input: UpdateRewardDto;
 };
 
 export type Project = {
@@ -249,6 +255,16 @@ export type UpdateProjectInput = {
   title: Scalars['String'];
 };
 
+export type UpdateRewardDto = {
+  deliveredByMonth: Scalars['String'];
+  deliveredByYear: Scalars['String'];
+  description: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  quantityRemaining: Scalars['Int'];
+  rewardId: Scalars['Int'];
+  title: Scalars['String'];
+};
+
 export type User = {
   __typename?: 'User';
   _count?: Maybe<UserCount>;
@@ -340,6 +356,13 @@ export type UpdateAuthoredProjectMutationVariables = Exact<{
 
 
 export type UpdateAuthoredProjectMutation = { __typename?: 'Mutation', updateProject: { __typename?: 'ProjectResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, project?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean } | null } };
+
+export type UpdateRewardMutationVariables = Exact<{
+  input: UpdateRewardDto;
+}>;
+
+
+export type UpdateRewardMutation = { __typename?: 'Mutation', updateProjectReward: { __typename?: 'RewardResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, reward?: { __typename?: 'Reward', id: number, title: string, amount: number, image?: string | null, description: string, deliveredByMonth: string, deliveredByYear: string, quantityRemaining: number } | null } };
 
 export type FetchAllProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -740,6 +763,52 @@ export function useUpdateAuthoredProjectMutation(baseOptions?: Apollo.MutationHo
 export type UpdateAuthoredProjectMutationHookResult = ReturnType<typeof useUpdateAuthoredProjectMutation>;
 export type UpdateAuthoredProjectMutationResult = Apollo.MutationResult<UpdateAuthoredProjectMutation>;
 export type UpdateAuthoredProjectMutationOptions = Apollo.BaseMutationOptions<UpdateAuthoredProjectMutation, UpdateAuthoredProjectMutationVariables>;
+export const UpdateRewardDocument = gql`
+    mutation UpdateReward($input: UpdateRewardDto!) {
+  updateProjectReward(input: $input) {
+    errors {
+      field
+      message
+    }
+    reward {
+      id
+      title
+      amount
+      image
+      description
+      deliveredByMonth
+      deliveredByYear
+      quantityRemaining
+    }
+  }
+}
+    `;
+export type UpdateRewardMutationFn = Apollo.MutationFunction<UpdateRewardMutation, UpdateRewardMutationVariables>;
+
+/**
+ * __useUpdateRewardMutation__
+ *
+ * To run a mutation, you first call `useUpdateRewardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRewardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRewardMutation, { data, loading, error }] = useUpdateRewardMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateRewardMutation(baseOptions?: Apollo.MutationHookOptions<UpdateRewardMutation, UpdateRewardMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateRewardMutation, UpdateRewardMutationVariables>(UpdateRewardDocument, options);
+      }
+export type UpdateRewardMutationHookResult = ReturnType<typeof useUpdateRewardMutation>;
+export type UpdateRewardMutationResult = Apollo.MutationResult<UpdateRewardMutation>;
+export type UpdateRewardMutationOptions = Apollo.BaseMutationOptions<UpdateRewardMutation, UpdateRewardMutationVariables>;
 export const FetchAllProjectsDocument = gql`
     query FetchAllProjects {
   projects {

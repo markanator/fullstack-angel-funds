@@ -28,9 +28,14 @@ type Props = {
   }[];
 
   onCreateReward: (formValues: ICreateRewardFormData) => Promise<void>;
+  onUpdateReward: (formValues: ICreateRewardFormData) => Promise<void>;
 };
 
-const AddEditProjectRewards = ({ existingRewards, onCreateReward }: Props) => {
+const AddEditProjectRewards = ({
+  existingRewards,
+  onCreateReward,
+  onUpdateReward,
+}: Props) => {
   const {
     control,
     handleSubmit,
@@ -66,7 +71,7 @@ const AddEditProjectRewards = ({ existingRewards, onCreateReward }: Props) => {
       <Flex
         direction="column"
         as="form"
-        onSubmit={handleSubmit(onCreateReward)}
+        onSubmit={handleSubmit(isEditing ? onUpdateReward : onCreateReward)}
       >
         <InputNumber
           control={control}
@@ -96,7 +101,7 @@ const AddEditProjectRewards = ({ existingRewards, onCreateReward }: Props) => {
           control={control}
           name="description"
           rows={3}
-          helperText="Put the reward description here"
+          helperText="Put the reward description here. Max 144 characters."
         />
         <Flex experimental_spaceX={4}>
           <InputSelect
