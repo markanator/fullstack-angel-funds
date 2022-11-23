@@ -47,7 +47,10 @@ export default function ProjectDetails({
               </TabList>
             </Container>
             <TabPanels>
-              <DescriptionPanel description={project?.description ?? ""} />
+              <DescriptionPanel
+                description={project?.description ?? ""}
+                rewards={project?.rewards}
+              />
               {/* TODO: project updates */}
               {project?.showContributors && (
                 <BackerTablePanel
@@ -71,31 +74,29 @@ export async function getServerSideProps({
   const apc = initializeApollo();
   const slug = query.slug;
 
-  const { data }: { data: GetbySlugQuery } = await apc.query({
+  const { data } = await apc.query<GetbySlugQuery>({
     query: GetbySlugDocument,
     variables: {
       slug,
     },
   });
 
-  console.log("project slug::", slug);
-
-  if (!data?.getProjectBySlug) {
+  if (!data?.getProjectBySlug?.id) {
     res.writeHead(307, {
       Location: "/404",
     });
 
     res.end();
-    return { props: { project: undefined } };
+    return addApolloState(apc, { props: { project: undefined } });
   }
-  const shallowCopy = cloneDeep(data?.getProjectBySlug ?? {});
+  const projectCopy = cloneDeep(data?.getProjectBySlug);
 
-  if (!shallowCopy.showContributors) {
-    shallowCopy.donations = null;
+  if (!projectCopy.showContributors) {
+    projectCopy.donations = null;
   }
 
-  if (shallowCopy.showContributors && !shallowCopy.showContributorNames) {
-    shallowCopy.donations = shallowCopy.donations?.map((d) => ({
+  if (projectCopy.showContributors && !projectCopy.showContributorNames) {
+    projectCopy.donations = projectCopy.donations?.map((d) => ({
       ...d,
       donor: {
         ...d.donor,
@@ -104,11 +105,9 @@ export async function getServerSideProps({
     }));
   }
 
-  console.log({ donos: shallowCopy?.donations?.map((d) => d.donor) });
-
   return addApolloState(apc, {
     props: {
-      project: shallowCopy as GetbySlugQuery["getProjectBySlug"],
+      project: projectCopy,
     },
   });
 }

@@ -20,7 +20,7 @@ export default function CreateProjectPage() {
       description: formData.description,
       category: formData.category,
       image: formData.image,
-      fundTarget: +formData.fundTarget,
+      fundTarget: +formData.fundTarget.replace(/(\$|,|\.)/g, ""),
       publishDate: formData.publishDate,
       targetDate: formData.targetDate,
       currentFunds: 0,
