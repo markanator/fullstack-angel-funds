@@ -100,7 +100,7 @@ const AddEditProjectRewards = ({
         <InputTextArea
           control={control}
           name="description"
-          rows={3}
+          rows={2}
           helperText="Put the reward description here. Max 144 characters."
         />
         <Flex experimental_spaceX={4}>

@@ -24,7 +24,7 @@ export const years = range(
 
 export const RewardSchema = yup.object({
   title: yup.string().required("Required"),
-  description: yup.string().length(144, "Too long").required("Required"),
+  description: yup.string().max(144, "Too long").required("Required"),
   amount: yup.string().required("Required"),
   image: yup.string().url().optional(),
   quantityRemaining: yup.number().required("Required"),
