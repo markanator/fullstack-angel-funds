@@ -8,7 +8,7 @@ mutation UpdateAuthoredProject(
       message
     }
     project {
-      ...ProjectResponseNoAuthor
+      ...ProjectDetails
     }
   }
 }

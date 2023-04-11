@@ -18,7 +18,7 @@ export default function CTA() {
             <Heading as="p" fontSize="2.125rem">
               Ready to Raise Funds for your Idea?
             </Heading>
-            <ButtonAlternate url="/my-account/add-project" />
+            <ButtonAlternate url="/my-account/projects/create" />
           </Flex>
         </Flex>
       </Container>

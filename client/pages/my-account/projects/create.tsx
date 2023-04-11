@@ -3,11 +3,11 @@ import { Container, Text, useToast } from "@chakra-ui/react";
 import { IProjectForm } from "Forms/Schema/createProjectSchema";
 import { useRouter } from "next/router";
 import { useIsAuth } from "utils/useIsAuth";
-import AuthBanner from "../../components/authShared/AuthBanner";
-import Layout from "../../components/Layout";
-import { useCreateProjectMutation } from "../../generated/grahpql";
+import AuthBanner from "../../../components/authShared/AuthBanner";
+import Layout from "../../../components/Layout";
+import { useCreateProjectMutation } from "../../../generated/grahpql";
 
-export default function AddProjectPage() {
+export default function CreateProjectPage() {
   const { isLoggedIn } = useIsAuth(); //logged in user
   const router = useRouter(); // for nav
   const [createProject, { loading }] = useCreateProjectMutation();
@@ -20,7 +20,7 @@ export default function AddProjectPage() {
       description: formData.description,
       category: formData.category,
       image: formData.image,
-      fundTarget: +formData.fundTarget,
+      fundTarget: +formData.fundTarget.replace(/(\$|,|\.)/g, ""),
       publishDate: formData.publishDate,
       targetDate: formData.targetDate,
       currentFunds: 0,

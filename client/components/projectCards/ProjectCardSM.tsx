@@ -1,21 +1,11 @@
-import { ProjectResponseWAuthorFragment } from "@/generated/grahpql";
-import { formatAmountForDisplay } from "@/utils/stripe-helpers";
-import { useIsAuth } from "@/utils/useIsAuth";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
-  Box,
-  Flex,
-  Heading,
-  IconButton,
-  Image,
-  Link,
-  Text,
-} from "@chakra-ui/react";
-import { formatDistanceStrict } from "date-fns";
+  ProjectResponseWAuthorFragment,
+} from "@/generated/grahpql";
+import { formatAmountForDisplay } from "@/utils/stripe-helpers";
+import { Box, Flex, Heading, Image, Link, Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { FaRegClock } from "react-icons/fa";
-import OwnerMenu from "./OwnerMenu";
 
 dayjs.extend(relativeTime);
 interface ICardSmProps {
@@ -23,7 +13,6 @@ interface ICardSmProps {
 }
 
 export default function ProjectCardSM({ proj }: ICardSmProps) {
-  const { user } = useIsAuth();
   const {
     title,
     slug,
@@ -35,13 +24,6 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
     targetDate,
   } = proj;
   const projectLink = `/project/${slug}`;
-  const daysLeft = formatDistanceStrict(
-    parseInt(publishDate),
-    parseInt(targetDate),
-    { unit: "day" }
-  );
-
-  const isAuthor = Boolean(proj?.author?.id === user?.id);
 
   return (
     <Flex
@@ -57,7 +39,6 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
       mx=".5rem"
     >
       <Box className="cardsm__parent" pos="relative">
-        {isAuthor && <OwnerMenu projectId={proj.id} />}
         <Box pos="relative">
           <Link
             href={projectLink}

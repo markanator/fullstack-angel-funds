@@ -51,6 +51,9 @@ const Index = () => {
         mt="-311px"
         bgColor="color_primary"
         padding="451px 0 0"
+        backgroundImage="url('/images/bg-lines-transparent-2.png')"
+        bgPosition="bottom right"
+        backgroundRepeat="repeat-x"
       />
       <Explore />
       <CTA2 />

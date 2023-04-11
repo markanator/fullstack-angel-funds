@@ -4290,6 +4290,7 @@ __metadata:
     react-dom: 18.2.0
     react-hook-form: ^7.39.4
     react-icons: ^4.6.0
+    react-number-format: ^5.1.2
     react-slick: ^0.29.0
     slick-carousel: ^1.8.1
     stripe: ^11.1.0
@@ -7919,6 +7920,18 @@ __metadata:
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
+  languageName: node
+  linkType: hard
+
+"react-number-format@npm:^5.1.2":
+  version: 5.1.2
+  resolution: "react-number-format@npm:5.1.2"
+  dependencies:
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^18.0.0
+    react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^18.0.0
+  checksum: 30af5da0866ffbe69c27704eda5b75e4dd5d6e3b2bc5506acff18732e915b10528669101c39da01337fed6003b2951274666f079d54c4f37f65791a8aecdf7f7
   languageName: node
   linkType: hard
 

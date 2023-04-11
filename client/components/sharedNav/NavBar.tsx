@@ -21,7 +21,9 @@ interface INavbarProps {
 
 export default function Navbar() {
   const router = useRouter();
-  const { user } = useIsAuth();
+  const { data } = useFetchMeQuery({
+    skip: isServer(),
+  });
   const [logout] = useLogoutMutation();
   const apolloClient = useApolloClient();
 
@@ -62,7 +64,7 @@ export default function Navbar() {
           </Flex>
           {/* RIGHT */}
           <Flex w="50%" justifyContent="flex-end" direction="row">
-            {!!user ? (
+            {!!data?.me ? (
               <>
                 <ALink href="/my-account" mr="2rem">
                   Dashboard
@@ -73,7 +75,7 @@ export default function Navbar() {
               <ALink href="/auth">Sign In or Register</ALink>
             )}
 
-            <ALink href="/my-account/add-project" ml="2rem">
+            <ALink href="/my-account/projects/create" ml="2rem">
               Add a Project
             </ALink>
           </Flex>

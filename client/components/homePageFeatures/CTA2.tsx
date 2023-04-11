@@ -34,7 +34,10 @@ export default function CTA2() {
         <Heading textAlign="center" color="white" fontSize="3.5rem" mb="2rem">
           Together We can Bring More Creativity into the World
         </Heading>
-        <ButtonNormal url="/my-account/add-project" text="Start a Project" />
+        <ButtonNormal
+          url="/my-account/projects/create"
+          text="Start a Project"
+        />
       </Container>
     </Flex>
   );

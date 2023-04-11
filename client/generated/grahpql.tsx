@@ -35,6 +35,17 @@ export type CreateProjectInput = {
   title: Scalars['String'];
 };
 
+export type CreateRewardDto = {
+  amount: Scalars['Int'];
+  deliveredByMonth: Scalars['String'];
+  deliveredByYear: Scalars['String'];
+  description: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  projectId: Scalars['Int'];
+  quantityRemaining: Scalars['Int'];
+  title: Scalars['String'];
+};
+
 export type Donation = {
   __typename?: 'Donation';
   amount: Scalars['Int'];
@@ -82,6 +93,7 @@ export type FieldError = {
 export type Mutation = {
   __typename?: 'Mutation';
   createProject: Project;
+  createProjectReward: RewardResponse;
   deleteProject: Scalars['Boolean'];
   forgotPassword: Scalars['Boolean'];
   getUserById: UserResponse;
@@ -90,11 +102,17 @@ export type Mutation = {
   register?: Maybe<UserResponse>;
   syncStripeDono: DonationResponse;
   updateProject: ProjectResponse;
+  updateProjectReward: RewardResponse;
 };
 
 
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
+};
+
+
+export type MutationCreateProjectRewardArgs = {
+  input: CreateRewardDto;
 };
 
 
@@ -134,19 +152,30 @@ export type MutationUpdateProjectArgs = {
   input: UpdateProjectInput;
 };
 
+
+export type MutationUpdateProjectRewardArgs = {
+  input: UpdateRewardDto;
+};
+
 export type Project = {
   __typename?: 'Project';
   _count?: Maybe<ProjectCount>;
   author: User;
   authorId: Scalars['Int'];
   category: Scalars['String'];
+  country?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   currentFunds: Scalars['Int'];
   description: Scalars['String'];
+  donations?: Maybe<Array<Donation>>;
   fundTarget: Scalars['Int'];
   id: Scalars['Int'];
   image?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']>;
   publishDate: Scalars['DateTime'];
+  rewards?: Maybe<Array<Reward>>;
+  showContributorNames: Scalars['Boolean'];
+  showContributors: Scalars['Boolean'];
   slug: Scalars['String'];
   targetDate: Scalars['DateTime'];
   title: Scalars['String'];
@@ -160,6 +189,7 @@ export type Project = {
 export type ProjectCount = {
   __typename?: 'ProjectCount';
   donations: Scalars['Int'];
+  rewards: Scalars['Int'];
   upvotes: Scalars['Int'];
 };
 
@@ -181,7 +211,7 @@ export type Query = {
 
 
 export type QueryGetAuthoredProjectByIdArgs = {
-  id: Scalars['Float'];
+  id: Scalars['Int'];
 };
 
 
@@ -194,6 +224,27 @@ export type QueryGetProjectsByUserIdArgs = {
   id: Scalars['Int'];
 };
 
+export type Reward = {
+  __typename?: 'Reward';
+  amount: Scalars['Int'];
+  author: User;
+  deliveredByMonth: Scalars['String'];
+  deliveredByYear: Scalars['String'];
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  image?: Maybe<Scalars['String']>;
+  project: Project;
+  projectId: Scalars['Int'];
+  quantityRemaining: Scalars['Int'];
+  title: Scalars['String'];
+};
+
+export type RewardResponse = {
+  __typename?: 'RewardResponse';
+  errors?: Maybe<Array<FieldError>>;
+  reward?: Maybe<Reward>;
+};
+
 export type UpdateProjectInput = {
   category: Scalars['String'];
   description: Scalars['String'];
@@ -201,6 +252,16 @@ export type UpdateProjectInput = {
   image: Scalars['String'];
   publishDate: Scalars['String'];
   targetDate: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type UpdateRewardDto = {
+  deliveredByMonth: Scalars['String'];
+  deliveredByYear: Scalars['String'];
+  description: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  quantityRemaining: Scalars['Int'];
+  rewardId: Scalars['Int'];
   title: Scalars['String'];
 };
 
@@ -230,18 +291,29 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
+export type DonationsInfoFragment = { __typename?: 'Project', donations?: Array<{ __typename?: 'Donation', id: number, amount: number, createdAt: any, donor: { __typename?: 'User', fullName: string } }> | null };
+
+export type ProjectDetailsFragment = { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean };
+
+export type RewardsInfoFragment = { __typename?: 'Project', rewards?: Array<{ __typename?: 'Reward', id: number, title: string, amount: number, image?: string | null, description: string, deliveredByMonth: string, deliveredByYear: string, quantityRemaining: number }> | null };
+
 export type FullUserDetailsFragment = { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any };
 
-export type ProjectResponseNoAuthorFragment = { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string };
-
-export type ProjectResponseWAuthorFragment = { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } };
+export type ProjectResponseWAuthorFragment = { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } };
 
 export type CreateProjectMutationVariables = Exact<{
   input: CreateProjectInput;
 }>;
 
 
-export type CreateProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } } };
+export type CreateProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } } };
+
+export type CreateRewardMutationVariables = Exact<{
+  input: CreateRewardDto;
+}>;
+
+
+export type CreateRewardMutation = { __typename?: 'Mutation', createProjectReward: { __typename?: 'RewardResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, reward?: { __typename?: 'Reward', id: number, title: string, amount: number, image?: string | null, description: string, deliveredByMonth: string, deliveredByYear: string, quantityRemaining: number } | null } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String'];
@@ -283,12 +355,19 @@ export type UpdateAuthoredProjectMutationVariables = Exact<{
 }>;
 
 
-export type UpdateAuthoredProjectMutation = { __typename?: 'Mutation', updateProject: { __typename?: 'ProjectResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, project?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string } | null } };
+export type UpdateAuthoredProjectMutation = { __typename?: 'Mutation', updateProject: { __typename?: 'ProjectResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, project?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean } | null } };
+
+export type UpdateRewardMutationVariables = Exact<{
+  input: UpdateRewardDto;
+}>;
+
+
+export type UpdateRewardMutation = { __typename?: 'Mutation', updateProjectReward: { __typename?: 'RewardResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, reward?: { __typename?: 'Reward', id: number, title: string, amount: number, image?: string | null, description: string, deliveredByMonth: string, deliveredByYear: string, quantityRemaining: number } | null } };
 
 export type FetchAllProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchAllProjectsQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string }> };
+export type FetchAllProjectsQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean }> };
 
 export type FetchMeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -296,28 +375,54 @@ export type FetchMeQueryVariables = Exact<{ [key: string]: never; }>;
 export type FetchMeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } | null };
 
 export type GetAuthoredProjectByIdQueryVariables = Exact<{
-  getAuthoredProjectByIdId: Scalars['Float'];
+  getAuthoredProjectByIdId: Scalars['Int'];
 }>;
 
 
-export type GetAuthoredProjectByIdQuery = { __typename?: 'Query', getAuthoredProjectById: { __typename?: 'ProjectResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, project?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string } | null } };
+export type GetAuthoredProjectByIdQuery = { __typename?: 'Query', getAuthoredProjectById: { __typename?: 'ProjectResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, project?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean, rewards?: Array<{ __typename?: 'Reward', id: number, title: string, amount: number, image?: string | null, description: string, deliveredByMonth: string, deliveredByYear: string, quantityRemaining: number }> | null } | null } };
 
 export type GetbySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type GetbySlugQuery = { __typename?: 'Query', getProjectBySlug?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } } | null };
+export type GetbySlugQuery = { __typename?: 'Query', getProjectBySlug?: { __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any }, donations?: Array<{ __typename?: 'Donation', id: number, amount: number, createdAt: any, donor: { __typename?: 'User', fullName: string } }> | null, rewards?: Array<{ __typename?: 'Reward', id: number, title: string, amount: number, image?: string | null, description: string, deliveredByMonth: string, deliveredByYear: string, quantityRemaining: number }> | null } | null };
 
 export type GetProjectsByUserIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type GetProjectsByUserIdQuery = { __typename?: 'Query', getProjectsByUserID?: Array<{ __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } }> | null };
+export type GetProjectsByUserIdQuery = { __typename?: 'Query', getProjectsByUserID?: Array<{ __typename?: 'Project', id: number, title: string, description: string, category: string, image?: string | null, fundTarget: number, currentFunds: number, publishDate: any, targetDate: any, totalDonation_sum: number, viewCount: number, votePoints?: number | null, slug: string, showContributors: boolean, showContributorNames: boolean, author: { __typename?: 'User', id: number, fullName: string, avatarUrl: string, email: string, createdAt: any } }> | null };
 
-export const ProjectResponseNoAuthorFragmentDoc = gql`
-    fragment ProjectResponseNoAuthor on Project {
+export const DonationsInfoFragmentDoc = gql`
+    fragment DonationsInfo on Project {
+  donations {
+    id
+    amount
+    createdAt
+    donor {
+      fullName
+    }
+  }
+}
+    `;
+export const RewardsInfoFragmentDoc = gql`
+    fragment RewardsInfo on Project {
+  rewards {
+    id
+    title
+    amount
+    image
+    description
+    deliveredByMonth
+    deliveredByYear
+    quantityRemaining
+  }
+}
+    `;
+export const ProjectDetailsFragmentDoc = gql`
+    fragment ProjectDetails on Project {
   id
   title
   description
@@ -331,6 +436,8 @@ export const ProjectResponseNoAuthorFragmentDoc = gql`
   viewCount
   votePoints
   slug
+  showContributors
+  showContributorNames
 }
     `;
 export const FullUserDetailsFragmentDoc = gql`
@@ -344,24 +451,13 @@ export const FullUserDetailsFragmentDoc = gql`
     `;
 export const ProjectResponseWAuthorFragmentDoc = gql`
     fragment ProjectResponseWAuthor on Project {
-  id
-  title
-  description
-  category
-  image
-  fundTarget
-  currentFunds
-  publishDate
-  targetDate
-  totalDonation_sum
-  viewCount
-  votePoints
-  slug
+  ...ProjectDetails
   author {
     ...FullUserDetails
   }
 }
-    ${FullUserDetailsFragmentDoc}`;
+    ${ProjectDetailsFragmentDoc}
+${FullUserDetailsFragmentDoc}`;
 export const CreateProjectDocument = gql`
     mutation CreateProject($input: CreateProjectInput!) {
   createProject(input: $input) {
@@ -395,6 +491,52 @@ export function useCreateProjectMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateProjectMutationHookResult = ReturnType<typeof useCreateProjectMutation>;
 export type CreateProjectMutationResult = Apollo.MutationResult<CreateProjectMutation>;
 export type CreateProjectMutationOptions = Apollo.BaseMutationOptions<CreateProjectMutation, CreateProjectMutationVariables>;
+export const CreateRewardDocument = gql`
+    mutation CreateReward($input: CreateRewardDto!) {
+  createProjectReward(input: $input) {
+    errors {
+      field
+      message
+    }
+    reward {
+      id
+      title
+      amount
+      image
+      description
+      deliveredByMonth
+      deliveredByYear
+      quantityRemaining
+    }
+  }
+}
+    `;
+export type CreateRewardMutationFn = Apollo.MutationFunction<CreateRewardMutation, CreateRewardMutationVariables>;
+
+/**
+ * __useCreateRewardMutation__
+ *
+ * To run a mutation, you first call `useCreateRewardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRewardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRewardMutation, { data, loading, error }] = useCreateRewardMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateRewardMutation(baseOptions?: Apollo.MutationHookOptions<CreateRewardMutation, CreateRewardMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateRewardMutation, CreateRewardMutationVariables>(CreateRewardDocument, options);
+      }
+export type CreateRewardMutationHookResult = ReturnType<typeof useCreateRewardMutation>;
+export type CreateRewardMutationResult = Apollo.MutationResult<CreateRewardMutation>;
+export type CreateRewardMutationOptions = Apollo.BaseMutationOptions<CreateRewardMutation, CreateRewardMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)
@@ -589,11 +731,11 @@ export const UpdateAuthoredProjectDocument = gql`
       message
     }
     project {
-      ...ProjectResponseNoAuthor
+      ...ProjectDetails
     }
   }
 }
-    ${ProjectResponseNoAuthorFragmentDoc}`;
+    ${ProjectDetailsFragmentDoc}`;
 export type UpdateAuthoredProjectMutationFn = Apollo.MutationFunction<UpdateAuthoredProjectMutation, UpdateAuthoredProjectMutationVariables>;
 
 /**
@@ -621,13 +763,59 @@ export function useUpdateAuthoredProjectMutation(baseOptions?: Apollo.MutationHo
 export type UpdateAuthoredProjectMutationHookResult = ReturnType<typeof useUpdateAuthoredProjectMutation>;
 export type UpdateAuthoredProjectMutationResult = Apollo.MutationResult<UpdateAuthoredProjectMutation>;
 export type UpdateAuthoredProjectMutationOptions = Apollo.BaseMutationOptions<UpdateAuthoredProjectMutation, UpdateAuthoredProjectMutationVariables>;
+export const UpdateRewardDocument = gql`
+    mutation UpdateReward($input: UpdateRewardDto!) {
+  updateProjectReward(input: $input) {
+    errors {
+      field
+      message
+    }
+    reward {
+      id
+      title
+      amount
+      image
+      description
+      deliveredByMonth
+      deliveredByYear
+      quantityRemaining
+    }
+  }
+}
+    `;
+export type UpdateRewardMutationFn = Apollo.MutationFunction<UpdateRewardMutation, UpdateRewardMutationVariables>;
+
+/**
+ * __useUpdateRewardMutation__
+ *
+ * To run a mutation, you first call `useUpdateRewardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRewardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRewardMutation, { data, loading, error }] = useUpdateRewardMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateRewardMutation(baseOptions?: Apollo.MutationHookOptions<UpdateRewardMutation, UpdateRewardMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateRewardMutation, UpdateRewardMutationVariables>(UpdateRewardDocument, options);
+      }
+export type UpdateRewardMutationHookResult = ReturnType<typeof useUpdateRewardMutation>;
+export type UpdateRewardMutationResult = Apollo.MutationResult<UpdateRewardMutation>;
+export type UpdateRewardMutationOptions = Apollo.BaseMutationOptions<UpdateRewardMutation, UpdateRewardMutationVariables>;
 export const FetchAllProjectsDocument = gql`
     query FetchAllProjects {
   projects {
-    ...ProjectResponseNoAuthor
+    ...ProjectDetails
   }
 }
-    ${ProjectResponseNoAuthorFragmentDoc}`;
+    ${ProjectDetailsFragmentDoc}`;
 
 /**
  * __useFetchAllProjectsQuery__
@@ -690,18 +878,20 @@ export type FetchMeQueryHookResult = ReturnType<typeof useFetchMeQuery>;
 export type FetchMeLazyQueryHookResult = ReturnType<typeof useFetchMeLazyQuery>;
 export type FetchMeQueryResult = Apollo.QueryResult<FetchMeQuery, FetchMeQueryVariables>;
 export const GetAuthoredProjectByIdDocument = gql`
-    query GetAuthoredProjectById($getAuthoredProjectByIdId: Float!) {
+    query GetAuthoredProjectById($getAuthoredProjectByIdId: Int!) {
   getAuthoredProjectById(id: $getAuthoredProjectByIdId) {
     errors {
       field
       message
     }
     project {
-      ...ProjectResponseNoAuthor
+      ...ProjectDetails
+      ...RewardsInfo
     }
   }
 }
-    ${ProjectResponseNoAuthorFragmentDoc}`;
+    ${ProjectDetailsFragmentDoc}
+${RewardsInfoFragmentDoc}`;
 
 /**
  * __useGetAuthoredProjectByIdQuery__
@@ -734,9 +924,13 @@ export const GetbySlugDocument = gql`
     query getbySlug($slug: String!) {
   getProjectBySlug(slug: $slug) {
     ...ProjectResponseWAuthor
+    ...DonationsInfo
+    ...RewardsInfo
   }
 }
-    ${ProjectResponseWAuthorFragmentDoc}`;
+    ${ProjectResponseWAuthorFragmentDoc}
+${DonationsInfoFragmentDoc}
+${RewardsInfoFragmentDoc}`;
 
 /**
  * __useGetbySlugQuery__

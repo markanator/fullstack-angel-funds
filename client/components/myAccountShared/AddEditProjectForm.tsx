@@ -7,6 +7,7 @@ import {
 } from "Forms/Schema/createProjectSchema";
 import { useForm } from "react-hook-form";
 import InputCheckbox from "../forms/InputCheckbox";
+import InputNumber from "../forms/InputNumber";
 import InputSelect from "../forms/InputSelect";
 import InputText from "../forms/InputText";
 import InputTextArea from "../forms/InputTextArea";
@@ -66,13 +67,20 @@ const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
         helperText="Upload a project feature image"
       />
       {/* fundTarget */}
-      <InputText
+      <InputNumber
         control={control}
         name="fundTarget"
         helperText="Campaign funding goal"
         type="number"
-        placeHolder="$0"
         disabled={isEditing}
+        numberInputProps={{
+          thousandSeparator: ",",
+          prefix: "$",
+          decimalScale: 2,
+          decimalSeparator: ".",
+          allowNegative: false,
+          placeholder: "$10,000.00",
+        }}
       />
       <Flex direction="row" experimental_spaceX={8}>
         {/* publishDate */}
@@ -104,7 +112,7 @@ const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
       <Flex direction="row" justifyContent="space-between">
         <Button
           as={Link}
-          href="/my-account"
+          href="/my-account/projects"
           my="1rem"
           type="button"
           colorScheme="red"

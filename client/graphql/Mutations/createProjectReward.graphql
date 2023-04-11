@@ -1,0 +1,18 @@
+mutation CreateReward($input: CreateRewardDto!) {
+  createProjectReward(input: $input) {
+    errors {
+      field
+      message
+    }
+    reward {
+      id
+      title
+      amount
+      image
+      description
+      deliveredByMonth
+      deliveredByYear
+      quantityRemaining
+    }
+  }
+}

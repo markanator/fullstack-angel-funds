@@ -1,0 +1,18 @@
+mutation UpdateReward($input: UpdateRewardDto!) {
+  updateProjectReward(input: $input) {
+    errors {
+      field
+      message
+    }
+    reward {
+      id
+      title
+      amount
+      image
+      description
+      deliveredByMonth
+      deliveredByYear
+      quantityRemaining
+    }
+  }
+}

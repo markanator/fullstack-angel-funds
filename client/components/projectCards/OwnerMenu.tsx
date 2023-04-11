@@ -25,6 +25,7 @@ const OwnerMenu = ({ projectId }: Props) => {
         // icon={<EditIcon />}
         aria-label="Edit Authored Project"
         title="Edit Authored Project"
+        disabled
       >
         Updates
       </Button>

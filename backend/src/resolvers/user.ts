@@ -1,5 +1,13 @@
 import argon2 from "argon2";
-import { Arg, Ctx, Int, Mutation, Query, Resolver } from "type-graphql";
+import {
+  Arg,
+  Ctx,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+  UseMiddleware,
+} from "type-graphql";
 import crypto from "node:crypto";
 import { sendEmail } from "../utils/sendEmail";
 import { MyContext } from "../types/MyContext";
@@ -8,6 +16,7 @@ import { COOKIE_NAME, FORGOT_PASSWORD_PREFIX } from "../utils/constants";
 import { EmailPasswordInput } from "../utils/EmailPasswordInput";
 import { ValidateRegister } from "../utils/ValidateRegister";
 import { User } from "@generated/type-graphql";
+import { isAuthed } from "../middleware/isAuthed";
 
 @Resolver(User)
 export class UserResolver {
@@ -176,6 +185,7 @@ export class UserResolver {
 
   // GETBY USERID
   @Mutation(() => UserResponse)
+  @UseMiddleware(isAuthed)
   async getUserById(
     @Arg("id", () => Int) id: number,
     @Ctx() { prisma }: MyContext
@@ -192,7 +202,6 @@ export class UserResolver {
         ],
       };
     }
-    // TODO if not user only return certain data
     return {
       user,
     };

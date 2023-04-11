@@ -8,9 +8,9 @@ export const createProjectLoader = () =>
     const projects = await dbClient.project.findMany({
       where: {
         id: {
-          in: pIDs as number[]
-        }
-      }
+          in: pIDs as number[],
+        },
+      },
     });
     // need to return data
     const idToProject: Record<number, Project> = {};
