@@ -82,7 +82,7 @@ const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
           placeholder: "$10,000.00",
         }}
       />
-      <Flex direction="row" experimental_spaceX={8}>
+      <Flex direction="row" gap={8}>
         {/* publishDate */}
         <InputText
           control={control}

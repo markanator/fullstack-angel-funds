@@ -16,7 +16,7 @@ const OwnerMenu = ({ projectId }: Props) => {
       top={4}
       right={4}
       color="black"
-      experimental_spaceX={4}
+      gap={4}
     >
       <Button
         as={Link}
