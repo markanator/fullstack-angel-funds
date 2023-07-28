@@ -32,10 +32,12 @@ const main = async () => {
   // init app
   const app = express();
   // redis
-  const redisClient = new Redis(
-    Number(process.env.REDIS_PORT!),
-    process.env.REDIS_URL!
-  );
+  const redisClient = new Redis({
+    port: Number(process.env.REDIS_PORT!),
+    host: process.env.REDIS_HOST,
+    username: process.env.REDIS_USERNAME,
+    password: process.env.REDIS_PASSWORD,
+  });
 
   app.set("trust proxy", 1);
 
