@@ -10,7 +10,7 @@ COPY ./backend/package.json ./backend/pnpm-lock.yaml .
 RUN pnpm i --frozen-lockfile
 
 # Rebuild the source code only when needed
-FROM base AS builder
+FROM base AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 ADD prisma .
