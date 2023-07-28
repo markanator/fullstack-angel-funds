@@ -6,7 +6,7 @@ RUN  yarn global add pnpm
 
 FROM base AS deps
 WORKDIR /app
-COPY ./backend/package.json ./backend/pnpm-lock.yaml .
+COPY ./package.json ./pnpm-lock.yaml .
 RUN pnpm i --frozen-lockfile
 
 # Rebuild the source code only when needed
@@ -15,16 +15,15 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 ADD prisma .
 RUN npx prisma generate
-COPY ./backend/ .
+COPY ./ .
 RUN pnpm build
 
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=build /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
-COPY --from=build /app/package*.json ./
+COPY --from=build /app/package.json /app/pnpm-lock.yaml ./
 ADD prisma ./prisma
 
 ENV NODE_ENV production
