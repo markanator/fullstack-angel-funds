@@ -45,6 +45,7 @@
     "@graphql-codegen/typescript": "3.0.4",
     "@graphql-codegen/typescript-operations": "^3.0.4",
     "@graphql-codegen/typescript-react-apollo": "3.3.7",
+    "@types/lodash": "^4.14.196",
     "@types/node": "^18.16.0",
     "@types/react": "^18.2.0",
     "@types/react-slick": "^0.23.10",
