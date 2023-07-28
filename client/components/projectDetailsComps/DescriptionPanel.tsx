@@ -28,7 +28,7 @@ const DescriptionPanel = ({ description, rewards }: Props) => {
   return (
     <TabPanel m="auto">
       <Container maxW="7xl" mx="auto" py="2.5rem">
-        <Flex experimental_spaceX={8}>
+        <Flex gap={8}>
           {/* LEFT DESCRIPTION */}
           <Flex as="article" w="66%" direction="column">
             <Heading as="p" mb=".5rem">

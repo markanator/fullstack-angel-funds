@@ -103,7 +103,7 @@ const AddEditProjectRewards = ({
           rows={2}
           helperText="Put the reward description here. Max 144 characters."
         />
-        <Flex experimental_spaceX={4}>
+        <Flex gap={4}>
           <InputSelect
             control={control}
             name="deliveredByMonth"
