@@ -17,8 +17,6 @@ import { isServer } from "@/utils/isServer";
 import { Flex } from "@chakra-ui/react";
 import React from "react";
 
-// interface IHomeProps {}
-
 const Index = () => {
   const { data, loading } = useFetchMeQuery({
     skip: isServer(),
@@ -36,8 +34,7 @@ const Index = () => {
         description:
           "Angel Funds - Help lift low income entreprenuers that are trying to break into the tech space!",
         image: "/images/hero.jpg",
-        keywords:
-          "funding platform, technology, startup, not really a bussiness, mark ambrocio",
+        keywords: "funding platform, technology, startup, not really a bussiness, mark ambrocio",
       }}
     >
       <Hero />
@@ -55,7 +52,7 @@ const Index = () => {
         bgPosition="bottom right"
         backgroundRepeat="repeat-x"
       />
-      <Explore />
+      {/* <Explore /> */}
       <CTA2 />
       <FeaturedHomepage />
       <Testimonial />
