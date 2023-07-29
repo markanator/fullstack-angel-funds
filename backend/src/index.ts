@@ -8,6 +8,7 @@ import session from "express-session";
 const RedisStore = require("connect-redis")(session);
 import Redis from "ioredis";
 import { buildSchema } from "type-graphql";
+import { InMemoryLRUCache } from "@apollo/utils.keyvaluecache";
 // locals
 import {
   DonationResolver,
@@ -45,23 +46,11 @@ const main = async () => {
   app.use(cors(CORS_OPTIONS));
 
   // session middleware before Apollo
-  app.use(
-    session(
-      SESSION_CONFIG(
-        new RedisStore({ client: redisClient, disableTouch: true })
-      )
-    )
-  );
+  app.use(session(SESSION_CONFIG(new RedisStore({ client: redisClient, disableTouch: true }))));
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [
-        HelloResolver,
-        ProjectResolver,
-        UserResolver,
-        DonationResolver,
-        RewardsResolver,
-      ],
+      resolvers: [HelloResolver, ProjectResolver, UserResolver, DonationResolver, RewardsResolver],
       validate: false,
     }),
     // deconstruct access
@@ -76,6 +65,7 @@ const main = async () => {
       donationsLoader: donationsLoader(),
     }),
     introspection: true,
+    cache: new InMemoryLRUCache(),
   });
 
   await apolloServer.start();
@@ -85,9 +75,7 @@ const main = async () => {
     cors: CORS_OPTIONS,
   });
 
-  app.listen(PORT, () =>
-    console.log(`### server started on http://localhost:${PORT}/graphql`)
-  );
+  app.listen(PORT, () => console.log(`### server started on http://localhost:${PORT}/graphql`));
 };
 
 // catch error
