@@ -37,25 +37,22 @@ const TopHalfProjectDetails = ({ project }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
   } = useForm<IFormData>({
     mode: "all",
+    criteriaMode: "all",
     resolver: yupResolver(DonoSchema),
-    defaultValues: {
-      donation: 25,
-    },
   });
 
-  const currentFundPercentage =
-    (project?.currentFunds! / project?.fundTarget!) * 100;
+  const currentFundPercentage = (project?.currentFunds! / project?.fundTarget!) * 100;
 
   const onSubmit = async ({ donation }: IFormData) => {
-    console.log("Submitted a dono:", donation);
+    console.log("Submitted a dono:", donation * 100);
     //* API:: Create a Checkout Session.
     const res = await apiFetcher<{ id?: string }>("/api/donations", {
       method: "POST",
       body: JSON.stringify({
-        amount: donation,
+        amount: donation * 100,
         projectTitle: project.title,
         projectSlug: project.slug as string,
         projectDesc: project.description.slice(0, 144),
@@ -93,13 +90,7 @@ const TopHalfProjectDetails = ({ project }: Props) => {
             />
           </Flex>
           {/* RIGHT SIDE DEETS */}
-          <Flex
-            w="50%"
-            direction="column"
-            pl="1rem"
-            h="auto"
-            justifyContent="space-between"
-          >
+          <Flex w="50%" direction="column" pl="1rem" h="auto" justifyContent="space-between">
             {/* CAT AND LOCATION */}
             <Flex>
               <Text
@@ -123,10 +114,7 @@ const TopHalfProjectDetails = ({ project }: Props) => {
                 content={formatAmountForDisplay(project?.currentFunds ?? 0)}
                 heading="Raised"
               />
-              <SmallDeetsBox
-                content={project?.totalDonation_sum ?? 0}
-                heading="Backers"
-              />
+              <SmallDeetsBox content={project?.totalDonation_sum ?? 0} heading="Backers" />
               <SmallDeetsBox
                 content={dayjs(Date.now()).to(project?.targetDate, true)}
                 heading="Days Left"
@@ -201,6 +189,7 @@ const TopHalfProjectDetails = ({ project }: Props) => {
                   fontWeight="bold"
                   size="lg"
                   rounded="none"
+                  isDisabled={!isValid || !isDirty}
                 >
                   Back Campaign
                 </Button>

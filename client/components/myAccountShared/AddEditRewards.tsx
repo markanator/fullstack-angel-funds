@@ -8,12 +8,7 @@ import InputNumber from "../forms/InputNumber";
 import InputSelect from "../forms/InputSelect";
 import InputText from "../forms/InputText";
 import InputTextArea from "../forms/InputTextArea";
-import {
-  ICreateRewardFormData,
-  months,
-  RewardSchema,
-  years,
-} from "./rewards.utils";
+import { ICreateRewardFormData, months, RewardSchema, years } from "./rewards.utils";
 
 type Props = {
   existingRewards?: {
@@ -31,11 +26,7 @@ type Props = {
   onUpdateReward: (formValues: ICreateRewardFormData) => Promise<void>;
 };
 
-const AddEditProjectRewards = ({
-  existingRewards,
-  onCreateReward,
-  onUpdateReward,
-}: Props) => {
+const AddEditProjectRewards = ({ existingRewards, onCreateReward, onUpdateReward }: Props) => {
   const {
     control,
     handleSubmit,
@@ -43,6 +34,7 @@ const AddEditProjectRewards = ({
     formState: { isSubmitting, isValid, isDirty },
   } = useForm<ICreateRewardFormData>({
     mode: "all",
+    // @ts-expect-error TODO: use Zod instead of Yup
     resolver: yupResolver(RewardSchema),
   });
 
@@ -55,7 +47,7 @@ const AddEditProjectRewards = ({
         image: firstItem?.image ?? "",
       });
     }
-  }, []);
+  }, [existingRewards, reset]);
 
   const isEditing = Boolean(existingRewards?.length);
 
@@ -87,16 +79,8 @@ const AddEditProjectRewards = ({
           }}
           disabled={isEditing}
         />
-        <InputText
-          control={control}
-          name="title"
-          helperText="Put the reward title here"
-        />
-        <InputText
-          control={control}
-          name="image"
-          helperText="Upload a reward image"
-        />
+        <InputText control={control} name="title" helperText="Put the reward title here" />
+        <InputText control={control} name="image" helperText="Upload a reward image" />
         <InputTextArea
           control={control}
           name="description"

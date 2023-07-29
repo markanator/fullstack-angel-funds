@@ -5,9 +5,7 @@ import React from "react";
 import AuthBanner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
 
-interface IAuthProps {}
-
-function Index({}: IAuthProps) {
+function Index() {
   return (
     <Layout SEO={{ title: "Login/Register - Angel Funds" }}>
       {/* BANNER */}

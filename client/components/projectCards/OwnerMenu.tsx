@@ -9,16 +9,9 @@ type Props = {
 
 const OwnerMenu = ({ projectId }: Props) => {
   return (
-    <Flex
-      flexDir="row-reverse"
-      zIndex={5}
-      pos="absolute"
-      top={4}
-      right={4}
-      color="black"
-      gap={4}
-    >
-      <Button
+    <Flex flexDir="row-reverse" zIndex={5} pos="absolute" top={4} right={4} color="black" gap={4}>
+      {/* TODO: Add blog style project update */}
+      {/* <Button
         as={Link}
         href={`/my-account/projects/${projectId}/updates`}
         colorScheme="green"
@@ -28,27 +21,27 @@ const OwnerMenu = ({ projectId }: Props) => {
         disabled
       >
         Updates
-      </Button>
+      </Button> */}
       <Button
         as={Link}
         href={`/my-account/projects/${projectId}/edit`}
         colorScheme="blue"
-        // icon={<EditIcon />}
+        leftIcon={<EditIcon />}
         aria-label="Edit Authored Project"
         title="Edit Authored Project"
       >
         Edit
       </Button>
-      <Button
+      {/* <Button
         as={Link}
         href={`/my-account/projects/${projectId}/delete`}
         colorScheme="red"
-        // icon={<DeleteIcon />}
+        leftIcon={<DeleteIcon />}
         aria-label="Delete Authored Project"
         title="Delete Authored Project"
       >
         Delete
-      </Button>
+      </Button> */}
     </Flex>
   );
 };

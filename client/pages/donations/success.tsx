@@ -16,12 +16,11 @@ export default function Success({ paymentInfo, syncInfo }: SuccessPageProps) {
   const router = useRouter();
   const { p_id }: { p_id?: string } = router.query;
   const didRender = useRef(false);
-  const [syncDono, { error, loading, data }] = useSyncStripePaymentMutation();
+  const [syncDono, { error, data }] = useSyncStripePaymentMutation();
 
   const formattedContent = useMemo(
-    () =>
-      JSON.stringify(data?.syncStripeDono?.data ?? {}, null, 2) ?? "loading...",
-    []
+    () => JSON.stringify(data?.syncStripeDono?.data ?? {}, null, 2) ?? "loading...",
+    [data?.syncStripeDono?.data],
   );
 
   useEffect(() => {
@@ -47,7 +46,7 @@ export default function Success({ paymentInfo, syncInfo }: SuccessPageProps) {
         });
     }
     console.log("ALREADY SYNCED");
-  }, []);
+  }, [p_id, paymentInfo, syncDono]);
 
   if (!paymentInfo) return <div>failed to load</div>;
   return (
@@ -62,9 +61,7 @@ export default function Success({ paymentInfo, syncInfo }: SuccessPageProps) {
           {paymentInfo && (
             <>
               <h1>Checkout Payment Result</h1>
-              <h2>
-                Status: {paymentInfo?.payment_intent?.status ?? "loading..."}
-              </h2>
+              <h2>Status: {paymentInfo?.payment_intent?.status ?? "loading..."}</h2>
               <h3>CheckoutSession response:</h3>
               <pre>{formattedContent}</pre>
               <pre>{error?.message}</pre>
@@ -74,9 +71,7 @@ export default function Success({ paymentInfo, syncInfo }: SuccessPageProps) {
             <Container maxW="7xl" m="auto">
               <Flex flexDirection="column" py="8rem">
                 <Heading>Howdy!</Heading>
-                <Text>
-                  Thanks for stopping by but there is nothing to show!
-                </Text>
+                <Text>Thanks for stopping by but there is nothing to show!</Text>
               </Flex>
             </Container>
           )}
@@ -87,7 +82,7 @@ export default function Success({ paymentInfo, syncInfo }: SuccessPageProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { session_id, p_id }: { session_id?: string; p_id?: string } = query;
+  const { session_id }: { session_id?: string; p_id?: string } = query;
 
   const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/donations/${session_id}`;
   const stripeDonoInfo: StripePaymentInfo | undefined = await fetch(url, {

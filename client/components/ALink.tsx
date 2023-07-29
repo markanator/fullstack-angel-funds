@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, ChakraComponent } from "@chakra-ui/react";
 import NextLink from "next/link";
 
 interface IALinkProps {

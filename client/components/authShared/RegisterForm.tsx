@@ -46,7 +46,7 @@ export default function RegisterForm({}: Props): ReactElement {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isLoading, isValid },
     setError,
   } = useForm<IFormInputs>({
     mode: "all",
@@ -173,6 +173,8 @@ export default function RegisterForm({}: Props): ReactElement {
         size="lg"
         mt="1rem"
         textTransform="uppercase"
+        isLoading={isLoading}
+        isDisabled={!isValid}
       >
         Register
       </Button>

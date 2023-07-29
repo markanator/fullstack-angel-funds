@@ -1,10 +1,6 @@
 import { Button, Divider, Flex, Link } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  IProjectForm,
-  projectCategories,
-  ProjectSchema,
-} from "Forms/Schema/createProjectSchema";
+import { IProjectForm, projectCategories, ProjectSchema } from "Forms/Schema/createProjectSchema";
 import { useForm } from "react-hook-form";
 import InputCheckbox from "../forms/InputCheckbox";
 import InputNumber from "../forms/InputNumber";
@@ -14,7 +10,7 @@ import InputTextArea from "../forms/InputTextArea";
 
 type Props = {
   handleProjectSubmit: (args: IProjectForm) => Promise<void>;
-  initialValues?: Omit<IProjectForm, "terms"> | undefined;
+  initialValues?: Omit<IProjectForm, "terms">;
 };
 
 const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
@@ -25,6 +21,7 @@ const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
     formState: { isValid, isSubmitting, isDirty },
   } = useForm<IProjectForm>({
     mode: "all",
+    // @ts-ignore TODO: use Zod instead of Yup
     resolver: yupResolver(ProjectSchema),
     defaultValues: initialValues,
   });
@@ -61,11 +58,7 @@ const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
         helperText="Select your campaign category"
       />
       {/* image */}
-      <InputText
-        control={control}
-        name="image"
-        helperText="Upload a project feature image"
-      />
+      <InputText control={control} name="image" helperText="Upload a project feature image" />
       {/* fundTarget */}
       <InputNumber
         control={control}

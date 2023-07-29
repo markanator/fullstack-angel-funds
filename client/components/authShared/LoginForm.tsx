@@ -40,7 +40,7 @@ export default function LoginForm(): ReactElement {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid, isLoading },
     setError,
   } = useForm<IFormInputs>({
     mode: "all",
@@ -146,11 +146,13 @@ export default function LoginForm(): ReactElement {
         size="lg"
         mt="1rem"
         textTransform="uppercase"
+        isLoading={isLoading}
+        isDisabled={!isValid}
       >
         Login
       </Button>
 
-      <ALink href="/auth/lost-password" mt="1rem">
+      <ALink href="/auth/lost-password" mt="1rem" _hover={{ textDecoration: "underline" }}>
         Forgot Password
       </ALink>
     </Flex>

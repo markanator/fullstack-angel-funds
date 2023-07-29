@@ -18,6 +18,7 @@ import * as yup from "yup";
 import Banner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
 import { useForgotPasswordMutation } from "../../generated/grahpql";
+import ALink from "@/components/ALink";
 
 interface ILostMyPasswordProps {}
 
@@ -113,6 +114,9 @@ export default function LostPassword({}: ILostMyPasswordProps) {
             >
               Reset Password
             </Button>
+            <ALink href="/auth" mt="1rem" _hover={{ textDecoration: "underline" }}>
+              Remember Password?
+            </ALink>
           </Flex>
         </Flex>
       </Container>
