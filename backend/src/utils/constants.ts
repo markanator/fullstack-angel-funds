@@ -1,6 +1,4 @@
-// const RedisStore = require("connect-redis")(session);
-
-import { SessionOptions } from "express-session";
+import type { SessionOptions } from "express-session";
 
 export const __prod__ = process.env.NODE_ENV === "production";
 export const COOKIE_NAME = "angl_funds";
@@ -20,8 +18,9 @@ export const SESSION_CONFIG = (store: any): SessionOptions => ({
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 365 * 1, // 1 yrs
     httpOnly: true,
-    sameSite: "lax", // csrf protections
+    sameSite: !__prod__ ? "lax" : "none", // csrf protections
     secure: __prod__, //cookie only works in https
+    domain: __prod__ ? ".markambrocio.com" : undefined,
   },
   saveUninitialized: false, // create sesh by default regardless of !data
   secret: process.env.SESSION_SECRET as string,

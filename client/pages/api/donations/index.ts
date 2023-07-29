@@ -8,12 +8,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const amount = +req.body.amount;
-    const projectTitle = req.body.projectTitle;
-    const projectSlug = req.body.projectSlug;
-    const projectDesc = req.body.projectDesc;
-    const projectImg = req.body.projectImg;
-    console.log({ amount, projectTitle, projectSlug, projectDesc, projectImg });
+    const body = JSON.parse(req.body);
+    const amount = +body.amount;
+    const projectTitle = body.projectTitle;
+    const projectSlug = body.projectSlug;
+    const projectDesc = body.projectDesc;
+    const projectImg = body.projectImg;
+
     try {
       // Validate the amount that was passed from the client.
       if (amount <= MIN_AMOUNT) {
