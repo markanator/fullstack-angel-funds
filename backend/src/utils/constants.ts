@@ -20,7 +20,6 @@ export const SESSION_CONFIG = (store: any): SessionOptions => ({
     httpOnly: true,
     sameSite: !__prod__ ? "lax" : "none", // csrf protections
     secure: __prod__, //cookie only works in https
-    domain: __prod__ ? "markambrocio.com" : undefined,
   },
   saveUninitialized: false, // create sesh by default regardless of !data
   secret: process.env.SESSION_SECRET as string,
