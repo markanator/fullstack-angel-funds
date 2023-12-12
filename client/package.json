@@ -22,7 +22,7 @@
     "dayjs": "^1.11.9",
     "deepmerge": "^4.3.1",
     "framer-motion": "^10.15.0",
-    "graphql": "^16.7.1",
+    "graphql": "^16.8.1",
     "lodash": "^4.17.21",
     "next": "13.5.1",
     "react": "18.2.0",
