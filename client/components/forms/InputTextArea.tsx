@@ -1,11 +1,4 @@
-import {
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
-  Text,
-  Textarea,
-} from "@chakra-ui/react";
+import { Field, Text, Textarea } from "@chakra-ui/react";
 import React from "react";
 import { useController } from "react-hook-form";
 
@@ -18,36 +11,28 @@ type Props = {
   cols?: number;
 };
 
-const InputTextArea = ({
-  control,
-  name,
-  helperText,
-  placeHolder,
-  rows = 8,
-  cols = 8,
-}: Props) => {
+const InputTextArea = ({ control, name, helperText, placeHolder, rows = 8, cols = 8 }: Props) => {
   const { field, fieldState } = useController({ control, name });
   return (
-    <FormControl id={name} mb="1.125rem">
-      <FormLabel textTransform="capitalize" htmlFor={name}>
+    <Field.Root id={name} mb="1.125rem">
+      <Field.Label textTransform="capitalize" htmlFor={name}>
         {name}
-      </FormLabel>
+      </Field.Label>
       <Textarea
         {...field}
         placeholder={placeHolder}
-        isInvalid={!!fieldState.error?.message}
+        invalid={!!fieldState.error?.message}
         rows={rows}
-        cols={cols}
         border="1px solid"
         borderColor="progress_bg"
         rounded="none"
         boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
       />
-      <FormHelperText>{helperText}</FormHelperText>
+      <Field.HelperText>{helperText}</Field.HelperText>
       <Text fontSize="sm" color="color_alt">
         {fieldState.error?.message?.toString()}
       </Text>
-    </FormControl>
+    </Field.Root>
   );
 };
 

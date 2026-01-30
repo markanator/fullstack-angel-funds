@@ -1,14 +1,6 @@
 import { useIsAuth } from "@/utils/useIsAuth";
-import { useApolloClient } from "@apollo/client";
-import {
-  Box,
-  Container,
-  Flex,
-  Heading,
-  Link,
-  List,
-  ListItem,
-} from "@chakra-ui/react";
+import { useApolloClient } from "@apollo/client/react";
+import { Box, Container, Flex, Heading, Link, List, ListItem } from "@chakra-ui/react";
 import { useFetchMeQuery, useLogoutMutation } from "generated/grahpql";
 import { useRouter } from "next/router";
 import React from "react";
@@ -82,13 +74,7 @@ export default function Navbar() {
         </Container>
       </Flex>
       {/* NAVIGATION */}
-      <Container
-        as="nav"
-        maxW="7xl"
-        display="flex"
-        flexDirection="row"
-        py="1.5rem"
-      >
+      <Container as="nav" maxW="7xl" display="flex" flexDirection="row" py="1.5rem">
         <Box w="50%">
           <Box display="inline-block">
             <ALink textColor="text_primary" href="/">

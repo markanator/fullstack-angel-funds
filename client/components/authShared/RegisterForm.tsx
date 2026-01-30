@@ -1,13 +1,5 @@
-import { useApolloClient } from "@apollo/client";
-import {
-  Button,
-  Checkbox,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { useApolloClient } from "@apollo/client/react";
+import { Button, Checkbox, Field, Flex, Input, Text } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FetchMeDocument, useRegisterMutation } from "generated/grahpql";
 import { useRouter } from "next/router";
@@ -26,18 +18,9 @@ interface IFormInputs {
 
 const RegSchema = yup.object().shape({
   fullName: yup.string().min(4, "Too short.").required("Required"),
-  email: yup
-    .string()
-    .email("Must be valid email.")
-    .required("Please enter an email address."),
-  password: yup
-    .string()
-    .min(8, "Too Short")
-    .required("Please enter a password."),
-  terms: yup
-    .boolean()
-    .oneOf([true], "You must read and accept.")
-    .required("Required."),
+  email: yup.string().email("Must be valid email.").required("Please enter an email address."),
+  password: yup.string().min(8, "Too Short").required("Please enter a password."),
+  terms: yup.boolean().oneOf([true], "You must read and accept.").required("Required."),
 });
 
 export default function RegisterForm({}: Props): ReactElement {
@@ -105,12 +88,12 @@ export default function RegisterForm({}: Props): ReactElement {
       onSubmit={handleSubmit(onSubmit as any)}
     >
       {/* FULL NAME */}
-      <FormControl id="fullName">
-        <FormLabel htmlFor="fullName">Full Name</FormLabel>
+      <Field.Root id="fullName">
+        <Field.Label htmlFor="fullName">Full Name</Field.Label>
         <Input
           type="text"
           {...register("fullName")}
-          isInvalid={!!errors?.fullName}
+          invalid={!!errors?.fullName}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
@@ -119,14 +102,14 @@ export default function RegisterForm({}: Props): ReactElement {
         <Text fontSize="sm" color="color_alt">
           {errors.fullName?.message?.toString()}
         </Text>
-      </FormControl>
+      </Field.Root>
 
-      <FormControl id="reg_email" mt="1rem">
-        <FormLabel htmlFor="reg_email">Email</FormLabel>
+      <Field.Root id="reg_email" mt="1rem">
+        <Field.Label htmlFor="reg_email">Email</Field.Label>
         <Input
           type="email"
           {...register("email")}
-          isInvalid={!!errors?.email}
+          invalid={!!errors?.email}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
@@ -135,14 +118,14 @@ export default function RegisterForm({}: Props): ReactElement {
         <Text fontSize="sm" color="color_alt">
           {errors.email?.message?.toString()}
         </Text>
-      </FormControl>
+      </Field.Root>
 
-      <FormControl id="password" mt="1rem">
-        <FormLabel htmlFor="password">Password address</FormLabel>
+      <Field.Root id="password" mt="1rem">
+        <Field.Label htmlFor="password">Password address</Field.Label>
         <Input
           type="password"
           {...register("password")}
-          isInvalid={!!errors?.password}
+          invalid={!!errors?.password}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
@@ -151,20 +134,18 @@ export default function RegisterForm({}: Props): ReactElement {
         <Text fontSize="sm" color="color_alt">
           {errors.password?.message?.toString()}
         </Text>
-      </FormControl>
+      </Field.Root>
 
-      <FormControl id="terms" mt="1.5rem">
-        <Checkbox
-          colorScheme="red"
-          {...register("terms")}
-          isInvalid={!!errors?.terms}
-        >
-          I agree to the Terms and Conditions and Privacy Policy.
-        </Checkbox>
+      <Field.Root id="terms" mt="1.5rem">
+        <Checkbox.Root colorPalette="red" {...register("terms")} invalid={!!errors?.terms}>
+          <Checkbox.HiddenInput />
+          <Checkbox.Control />
+          <Checkbox.Label>I agree to the Terms and Conditions and Privacy Policy.</Checkbox.Label>
+        </Checkbox.Root>
         <Text fontSize="sm" color="color_alt">
           {errors.terms?.message?.toString()}
         </Text>
-      </FormControl>
+      </Field.Root>
 
       <Button
         type="submit"
@@ -173,8 +154,8 @@ export default function RegisterForm({}: Props): ReactElement {
         size="lg"
         mt="1rem"
         textTransform="uppercase"
-        isLoading={isLoading}
-        isDisabled={!isValid}
+        loading={isLoading}
+        disabled={!isValid}
       >
         Register
       </Button>

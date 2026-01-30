@@ -1,4 +1,4 @@
-import { ApolloCache, useApolloClient } from "@apollo/client";
+import { ApolloCache } from "@apollo/client";
 import { FetchMeDocument, useFetchMeQuery } from "generated/grahpql";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";

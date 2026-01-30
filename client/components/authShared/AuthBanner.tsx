@@ -32,12 +32,7 @@ export default function AuthBanner({
       pb={extraBottomSpace ? "5rem" : ""}
     >
       <Container maxW="7xl" m="auto" zIndex="5">
-        <Heading
-          as="h1"
-          fontSize="3rem"
-          textColor="white"
-          textTransform="capitalize"
-        >
+        <Heading as="h1" fontSize="3rem" color="white" textTransform="capitalize">
           {title}
         </Heading>
       </Container>

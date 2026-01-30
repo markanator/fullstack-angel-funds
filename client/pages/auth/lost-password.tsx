@@ -1,15 +1,5 @@
-import {
-  Alert,
-  AlertIcon,
-  Button,
-  Container,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import { Alert, Button, Container, Field, Flex, Input, Text } from "@chakra-ui/react";
+import { toaster } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -34,7 +24,6 @@ const ForgotSchema = yup.object().shape({
 });
 
 export default function LostPassword({}: ILostMyPasswordProps) {
-  const toast = useToast();
   const {
     register,
     handleSubmit,
@@ -54,11 +43,9 @@ export default function LostPassword({}: ILostMyPasswordProps) {
     });
 
     if (res.data?.forgotPassword) {
-      toast({
+      toaster.create({
         title: "Email Sent!",
-        description:
-          "If the email address exists, we will immediately send instructions to you.",
-        isClosable: true,
+        description: "If the email address exists, we will immediately send instructions to you.",
         duration: 9000,
       });
     }
@@ -68,12 +55,13 @@ export default function LostPassword({}: ILostMyPasswordProps) {
     <Layout SEO={{ title: "Reset Password - Angel Funds" }}>
       <Banner bgImage="/images/breadcrumb.png" title="Forgot Password" />
       <Container maxW="7xl" pt="3rem">
-        <Alert status="info" mb="2rem">
-          <AlertIcon />
-          We have a demo account setup. Username:{" "}
-          <strong> demo@gmail.com </strong> and Password:{" "}
-          <strong>password123!@#</strong>
-        </Alert>
+        <Alert.Root status="info" mb="2rem">
+          <Alert.Indicator />
+          <Alert.Content>
+            We have a demo account setup. Username: <strong> demo@gmail.com </strong> and Password:{" "}
+            <strong>password123!@#</strong>
+          </Alert.Content>
+        </Alert.Root>
         <Flex w="50%" mr="1rem" flexDirection="column" pb="6rem">
           <Flex
             as="form"
@@ -84,17 +72,16 @@ export default function LostPassword({}: ILostMyPasswordProps) {
             p="2rem"
             onSubmit={handleSubmit(onSubmit as any)}
           >
-            <FormControl id="forgot_email">
-              <Text mb="1.5rem" fontSize="md" textColor="text_secondary">
-                Enter your email. You will receive a link to create a new
-                password via email.
+            <Field.Root id="forgot_email">
+              <Text mb="1.5rem" fontSize="md" color="text_secondary">
+                Enter your email. You will receive a link to create a new password via email.
               </Text>
-              <FormLabel htmlFor="forgot_email">Email</FormLabel>
+              <Field.Label htmlFor="forgot_email">Email</Field.Label>
               <Input
                 type="email"
                 border="1px solid"
                 {...register("forgot_email")}
-                isInvalid={!!errors?.forgot_email}
+                invalid={!!errors?.forgot_email}
                 borderColor="progress_bg"
                 rounded="none"
                 boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
@@ -102,7 +89,7 @@ export default function LostPassword({}: ILostMyPasswordProps) {
               <Text fontSize="sm" color="color_alt">
                 {errors.forgot_email?.message?.toString()}
               </Text>
-            </FormControl>
+            </Field.Root>
 
             <Button
               type="submit"

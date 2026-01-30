@@ -1,19 +1,8 @@
-import { useApolloClient } from "@apollo/client";
-import {
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { useApolloClient } from "@apollo/client/react";
+import { Button, Field, Flex, Input, Text } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ALink from "components/ALink";
-import {
-  FetchMeDocument,
-  useFetchMeQuery,
-  useLoginMutation,
-} from "generated/grahpql";
+import { FetchMeDocument, useFetchMeQuery, useLoginMutation } from "generated/grahpql";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import { useForm } from "react-hook-form";
@@ -27,10 +16,7 @@ interface IFormInputs {
 }
 
 const LoginSchema = yup.object().shape({
-  log_email: yup
-    .string()
-    .email("Must be valid email.")
-    .required("Please enter an email address."),
+  log_email: yup.string().email("Must be valid email.").required("Please enter an email address."),
   log_pass: yup.string().required("Please enter a password."),
 });
 
@@ -64,19 +50,17 @@ export default function LoginForm(): ReactElement {
 
     // ! error handle
     if (res.data?.login?.errors) {
-      res.data?.login?.errors.forEach(
-        (element: { field: string; message: string }) => {
-          if (element.field == "password") {
-            setError("log_pass", {
-              message: element.message,
-            });
-          } else {
-            setError("log_email", {
-              message: element.message,
-            });
-          }
+      res.data?.login?.errors.forEach((element: { field: string; message: string }) => {
+        if (element.field == "password") {
+          setError("log_pass", {
+            message: element.message,
+          });
+        } else {
+          setError("log_email", {
+            message: element.message,
+          });
         }
-      );
+      });
     } else if (res.data?.login?.user) {
       apolloClient.writeQuery({
         query: FetchMeDocument,
@@ -105,30 +89,29 @@ export default function LoginForm(): ReactElement {
       onSubmit={handleSubmit(onSubmit as any)}
     >
       {/* EMAIL */}
-      <FormControl id="log_email">
-        <FormLabel htmlFor="log_email">Email</FormLabel>
+      <Field.Root id="log_email">
+        <Field.Label htmlFor="log_email">Email</Field.Label>
         <Input
           type="email"
           {...register("log_email")}
-          isInvalid={!!errors?.log_email}
+          invalid={!!errors?.log_email}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
           boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
         />
         <Text fontSize="sm" color="color_alt">
-          {!!errors?.log_email?.message &&
-            errors?.log_email?.message.toString()}
+          {!!errors?.log_email?.message && errors?.log_email?.message.toString()}
         </Text>
-      </FormControl>
+      </Field.Root>
 
       {/* PASS */}
-      <FormControl id="log_pass" mt="1rem">
-        <FormLabel htmlFor="log_pass">Password</FormLabel>
+      <Field.Root id="log_pass" mt="1rem">
+        <Field.Label htmlFor="log_pass">Password</Field.Label>
         <Input
           type="password"
           {...register("log_pass")}
-          isInvalid={!!errors?.log_pass}
+          invalid={!!errors?.log_pass}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
@@ -137,7 +120,7 @@ export default function LoginForm(): ReactElement {
         <Text fontSize="sm" color="color_alt">
           {!!errors?.log_pass?.message && errors.log_pass?.message.toString()}
         </Text>
-      </FormControl>
+      </Field.Root>
 
       <Button
         type="submit"
@@ -146,8 +129,8 @@ export default function LoginForm(): ReactElement {
         size="lg"
         mt="1rem"
         textTransform="uppercase"
-        isLoading={isLoading}
-        isDisabled={!isValid}
+        loading={isLoading}
+        disabled={!isValid}
       >
         Login
       </Button>

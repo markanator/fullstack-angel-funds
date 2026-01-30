@@ -1,13 +1,4 @@
-import {
-  Button,
-  Container,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Input,
-} from "@chakra-ui/react";
+import { Button, Container, Flex, Field, Heading, Input } from "@chakra-ui/react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useIsAuth } from "utils/useIsAuth";
@@ -54,8 +45,8 @@ export default function Settings() {
             </Heading>
 
             {/* TITLE */}
-            <FormControl mb="1.125rem">
-              <FormLabel htmlFor="fullName">Full Name</FormLabel>
+            <Field.Root mb="1.125rem">
+              <Field.Label htmlFor="fullName">Full Name</Field.Label>
               <Input
                 {...register("fullName")}
                 border="1px solid"
@@ -63,14 +54,14 @@ export default function Settings() {
                 rounded="none"
                 boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
               />
-              <FormErrorMessage>
+              <Field.ErrorText>
                 {!!errors?.fullName && errors?.fullName?.message?.toString()}
-              </FormErrorMessage>
-            </FormControl>
+              </Field.ErrorText>
+            </Field.Root>
 
             {/* avatar */}
-            <FormControl mb="1.125rem">
-              <FormLabel htmlFor="avatarUrl">Avatar Url</FormLabel>
+            <Field.Root mb="1.125rem">
+              <Field.Label htmlFor="avatarUrl">Avatar Url</Field.Label>
               <Input
                 {...register("avatarUrl")}
                 border="1px solid"
@@ -78,14 +69,14 @@ export default function Settings() {
                 rounded="none"
                 boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
               />
-              <FormErrorMessage>
+              <Field.ErrorText>
                 {!!errors.avatarUrl && errors.avatarUrl.message?.toString()}
-              </FormErrorMessage>
-            </FormControl>
+              </Field.ErrorText>
+            </Field.Root>
 
             {/* email */}
-            <FormControl mb="1.125rem">
-              <FormLabel htmlFor="email">Email</FormLabel>
+            <Field.Root mb="1.125rem">
+              <Field.Label htmlFor="email">Email</Field.Label>
               <Input
                 {...register("email")}
                 border="1px solid"
@@ -93,15 +84,15 @@ export default function Settings() {
                 rounded="none"
                 boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
               />
-              <FormErrorMessage>
+              <Field.ErrorText>
                 {!!errors.email && errors.email.message?.toString()}
-              </FormErrorMessage>
-            </FormControl>
+              </Field.ErrorText>
+            </Field.Root>
 
             <Flex dir="row">
               {/* oldPassword */}
-              <FormControl mb="1.125rem" mr="1rem">
-                <FormLabel htmlFor="oldPassword">Old Password</FormLabel>
+              <Field.Root mb="1.125rem" mr="1rem">
+                <Field.Label htmlFor="oldPassword">Old Password</Field.Label>
                 <Input
                   {...register("oldPassword")}
                   border="1px solid"
@@ -109,15 +100,14 @@ export default function Settings() {
                   rounded="none"
                   boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
                 />
-                <FormErrorMessage>
-                  {!!errors.oldPassword &&
-                    errors.oldPassword.message?.toString()}
-                </FormErrorMessage>
-              </FormControl>
+                <Field.ErrorText>
+                  {!!errors.oldPassword && errors.oldPassword.message?.toString()}
+                </Field.ErrorText>
+              </Field.Root>
 
               {/* oldPassword */}
-              <FormControl mb="1.125rem" ml="1rem">
-                <FormLabel htmlFor="newPassword">New Password</FormLabel>
+              <Field.Root mb="1.125rem" ml="1rem">
+                <Field.Label htmlFor="newPassword">New Password</Field.Label>
                 <Input
                   {...register("newPassword")}
                   border="1px solid"
@@ -125,14 +115,13 @@ export default function Settings() {
                   rounded="none"
                   boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
                 />
-                <FormErrorMessage>
-                  {!!errors.newPassword &&
-                    errors.newPassword.message?.toString()}
-                </FormErrorMessage>
-              </FormControl>
+                <Field.ErrorText>
+                  {!!errors.newPassword && errors.newPassword.message?.toString()}
+                </Field.ErrorText>
+              </Field.Root>
             </Flex>
 
-            <Button my="1rem" type="submit" colorScheme="blue" size="lg">
+            <Button my="1rem" type="submit" colorPalette="blue" size="lg">
               Submit Changes
             </Button>
           </Flex>

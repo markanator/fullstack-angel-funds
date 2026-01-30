@@ -1,10 +1,4 @@
-import {
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Field, Input, Text } from "@chakra-ui/react";
 import React from "react";
 import { useController } from "react-hook-form";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
@@ -30,26 +24,26 @@ const InputNumber = ({
 }: Props) => {
   const { field, fieldState } = useController({ control, name });
   return (
-    <FormControl id={name} mb="1.125rem" isDisabled={disabled}>
-      <FormLabel textTransform="capitalize" htmlFor={name}>
+    <Field.Root id={name} mb="1.125rem" disabled={disabled}>
+      <Field.Label textTransform="capitalize" htmlFor={name}>
         {name}
-      </FormLabel>
+      </Field.Label>
       <Input
         {...field}
         as={NumericFormat}
         placeholder={placeHolder}
-        isInvalid={!!fieldState.error?.message}
+        invalid={!!fieldState.error?.message}
         border="1px solid"
         borderColor="progress_bg"
         rounded="none"
         boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"
         {...(numberInputProps as any)}
       />
-      <FormHelperText>{helperText}</FormHelperText>
+      <Field.HelperText>{helperText}</Field.HelperText>
       <Text fontSize="sm" color="color_alt">
         {fieldState.error?.message}
       </Text>
-    </FormControl>
+    </Field.Root>
   );
 };
 

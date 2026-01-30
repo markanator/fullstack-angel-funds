@@ -1,15 +1,6 @@
 import Banner from "@/components/authShared/AuthBanner";
-import {
-  Flex,
-  FormControl,
-  Heading,
-  Input,
-  Text,
-  Container,
-  Textarea,
-  Button,
-  useToast,
-} from "@chakra-ui/react";
+import { Flex, Field, Heading, Input, Text, Container, Textarea, Button } from "@chakra-ui/react";
+import { toaster } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -33,7 +24,6 @@ const ContactSchema = yup.object().shape({
 });
 
 export default function Contact() {
-  const toast = useToast();
   const {
     register,
     formState: { errors },
@@ -45,13 +35,10 @@ export default function Contact() {
   const onSubmit = (formData: IContactFormData) => {
     alert(JSON.stringify(formData, null, 2));
     // setSentStatus("Hooray, message sent!");
-    toast({
+    toaster.create({
       title: "Message Sent successfully!",
-      description:
-        "Thank you for the message. We'll get back to you as soon as we can!",
-      status: "success",
-      isClosable: true,
-      position: "bottom",
+      description: "Thank you for the message. We'll get back to you as soon as we can!",
+      type: "success",
       duration: 9000,
     });
   };
@@ -62,30 +49,25 @@ export default function Contact() {
         <Flex>
           {/* LEFT TEXT */}
           <Flex direction="column" w="40%" pr="2rem">
-            <Heading fontSize="5xl" textColor="text_primary" as="h3" mb="3rem">
+            <Heading fontSize="5xl" color="text_primary" as="h3" mb="3rem">
               Write Us a<br /> Message
             </Heading>
-            <Text textColor="text_secondary">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a
-              tortor turpis. Pellentesque in arcu id augue tempus imperdiet ac
-              sed metus. Praesent pellentesque nunc sed malesuada placerat.
-              Integer gravida facilisis fringilla.
+            <Text color="text_secondary">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a tortor turpis.
+              Pellentesque in arcu id augue tempus imperdiet ac sed metus. Praesent pellentesque
+              nunc sed malesuada placerat. Integer gravida facilisis fringilla.
             </Text>
           </Flex>
           {/* RIGHT FORM */}
           <Flex flexDirection="column" w="60%">
-            <Flex
-              as="form"
-              flexDirection="column"
-              onSubmit={handleSubmit(onSubmit as any)}
-            >
+            <Flex as="form" flexDirection="column" onSubmit={handleSubmit(onSubmit as any)}>
               <Flex direction="row" w="full" mb="2rem">
                 {/* FULL NAME */}
-                <FormControl id="name" isRequired mr="1rem">
+                <Field.Root id="name" required mr="1rem">
                   <Input
                     type="text"
                     {...register("name")}
-                    isInvalid={!!errors?.name}
+                    invalid={!!errors?.name}
                     placeholder="Your Name"
                     border="1px solid"
                     borderColor="progress_bg"
@@ -95,13 +77,13 @@ export default function Contact() {
                       color: "text_secondary",
                     }}
                   />
-                </FormControl>
+                </Field.Root>
                 {/* EMAIL */}
-                <FormControl id="email" isRequired ml="1rem">
+                <Field.Root id="email" required ml="1rem">
                   <Input
                     type="email"
                     {...register("email")}
-                    isInvalid={!!errors?.email}
+                    invalid={!!errors?.email}
                     placeholder="Your Email"
                     border="1px solid"
                     borderColor="progress_bg"
@@ -111,14 +93,14 @@ export default function Contact() {
                       color: "text_secondary",
                     }}
                   />
-                </FormControl>
+                </Field.Root>
               </Flex>
               {/* SUBJECT */}
-              <FormControl id="subject" mb="2rem">
+              <Field.Root id="subject" mb="2rem">
                 <Input
                   type="text"
                   {...register("subject")}
-                  isInvalid={!!errors?.subject}
+                  invalid={!!errors?.subject}
                   placeholder="Your Subject"
                   border="1px solid"
                   borderColor="progress_bg"
@@ -128,15 +110,14 @@ export default function Contact() {
                     color: "text_secondary",
                   }}
                 />
-              </FormControl>
+              </Field.Root>
               {/* Message */}
-              <FormControl id="message" mb="1.5rem">
+              <Field.Root id="message" mb="1.5rem">
                 <Textarea
                   {...register("message")}
-                  isInvalid={!!errors?.message}
+                  invalid={!!errors?.message}
                   placeholder="Your Message"
                   rows={8}
-                  cols={8}
                   border="1px solid"
                   borderColor="progress_bg"
                   rounded="none"
@@ -145,7 +126,7 @@ export default function Contact() {
                     color: "text_secondary",
                   }}
                 />
-              </FormControl>
+              </Field.Root>
               {/* SUBMIT */}
               <Flex flexDir="row">
                 <Button
@@ -164,25 +145,18 @@ export default function Contact() {
       </Container>
       {/* THREE SECTIONS */}
       <Flex flexDir="row">
-        <Flex
-          w="33%"
-          bgColor="color_icon"
-          direction="column"
-          px="2.5rem"
-          py="4rem"
-        >
+        <Flex w="33%" bgColor="color_icon" direction="column" px="2.5rem" py="4rem">
           <Heading mb=".5rem" fontSize="2xl">
             About Us
           </Heading>
           <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a
-            tortor turpis.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a tortor turpis.
           </Text>
         </Flex>
         <Flex
           w="33%"
           bgColor="color_primary"
-          textColor="white"
+          color="white"
           direction="column"
           px="2.5rem"
           py="4rem"
@@ -196,13 +170,7 @@ export default function Contact() {
             USA
           </Text>
         </Flex>
-        <Flex
-          w="33%"
-          bgColor="color_alt"
-          direction="column"
-          px="2.5rem"
-          py="4rem"
-        >
+        <Flex w="33%" bgColor="color_alt" direction="column" px="2.5rem" py="4rem">
           <Heading mb=".5rem" fontSize="2xl">
             Online Addesses
           </Heading>
