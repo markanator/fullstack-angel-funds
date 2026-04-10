@@ -1,14 +1,14 @@
 import "reflect-metadata";
 import { config } from "dotenv";
 config();
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@as-integrations/express5";
 import cors from "cors";
 import express from "express";
 import session from "express-session";
 const RedisStore = require("connect-redis")(session);
 import Redis from "ioredis";
 import { buildSchema } from "type-graphql";
-import { InMemoryLRUCache } from "@apollo/utils.keyvaluecache";
 // locals
 import {
   DonationResolver,
@@ -42,38 +42,36 @@ const main = async () => {
 
   app.set("trust proxy", 1);
 
-  // cors
-  app.use(cors(CORS_OPTIONS));
-
   // session middleware before Apollo
   app.use(session(SESSION_CONFIG(new RedisStore({ client: redisClient, disableTouch: true }))));
 
-  const apolloServer = new ApolloServer({
+  const apolloServer = new ApolloServer<MyContext>({
     schema: await buildSchema({
       resolvers: [HelloResolver, ProjectResolver, UserResolver, DonationResolver, RewardsResolver],
       validate: false,
     }),
-    // deconstruct access
-    context: ({ req, res }: any): MyContext => ({
-      req,
-      res,
-      redisClient,
-      prisma: dbClient,
-      userLoader: createUserLoader(),
-      projectLoader: createProjectLoader(),
-      projectRewardsLoader: ProjectRewardsLoader(),
-      donationsLoader: donationsLoader(),
-    }),
     introspection: true,
-    cache: new InMemoryLRUCache(),
   });
 
   await apolloServer.start();
 
-  apolloServer.applyMiddleware({
-    app,
-    cors: CORS_OPTIONS,
-  });
+  app.use(
+    "/graphql",
+    cors<cors.CorsRequest>(CORS_OPTIONS),
+    express.json(),
+    expressMiddleware(apolloServer, {
+      context: async ({ req, res }): Promise<MyContext> => ({
+        req: req as MyContext["req"],
+        res,
+        redisClient,
+        prisma: dbClient,
+        userLoader: createUserLoader(),
+        projectLoader: createProjectLoader(),
+        projectRewardsLoader: ProjectRewardsLoader(),
+        donationsLoader: donationsLoader(),
+      }),
+    }),
+  );
 
   app.listen(PORT, () => console.log(`### server started on http://localhost:${PORT}/graphql`));
 };
