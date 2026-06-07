@@ -86,12 +86,7 @@ const RewardsCard = ({ reward }: Props) => {
       <Text mt={2} fontWeight="bold">
         {reward.deliveredByMonth}, {reward.deliveredByYear}
       </Text>
-      <Text
-        mt={2}
-        fontWeight="medium"
-        letterSpacing="wide"
-        color="text_secondary"
-      >
+      <Text mt={2} fontWeight="medium" letterSpacing="wide" color="text_secondary">
         Estimated Delivery
       </Text>
       <Text

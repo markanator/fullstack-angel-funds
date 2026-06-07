@@ -24,37 +24,15 @@ interface ICardSmProps {
 
 function ProjectCardRow({ proj }: ICardSmProps) {
   const { user } = useIsAuth();
-  const {
-    title,
-    slug,
-    image,
-    category,
-    currentFunds,
-    fundTarget,
-    publishDate,
-    targetDate,
-  } = proj;
+  const { slug, image, currentFunds, fundTarget } = proj;
   const projectLink = `/project/${slug}`;
 
   const isAuthor = Boolean(proj?.author?.id === user?.id);
 
   return (
-    <Flex
-      p={4}
-      mb={8}
-      pos="relative"
-      shadow="lg"
-      bgColor="white"
-      rounded="sm"
-      w="full"
-    >
+    <Flex p={4} mb={8} pos="relative" shadow="lg" bgColor="white" rounded="sm" w="full">
       <Box pos="relative" w="20%">
-        <ALink
-          href={projectLink}
-          cursor="pointer"
-          textDecoration="none"
-          outline="none"
-        >
+        <ALink href={projectLink} cursor="pointer" textDecoration="none" outline="none">
           <Image
             src={image || "https://picsum.photos/seed/picsum/350"}
             objectFit="cover"
@@ -97,14 +75,8 @@ function ProjectCardRow({ proj }: ICardSmProps) {
                 </AbsoluteCenter>
               </ProgressCircle.Root>
             </Flex>
-            <StatBlockSmall
-              value={formatAmountForDisplay(currentFunds)}
-              label="Funds Raised"
-            />
-            <StatBlockSmall
-              value={formatAmountForDisplay(fundTarget)}
-              label="Funding Goal"
-            />
+            <StatBlockSmall value={formatAmountForDisplay(currentFunds)} label="Funds Raised" />
+            <StatBlockSmall value={formatAmountForDisplay(fundTarget)} label="Funding Goal" />
             <StatBlockSmall
               value={dayjs(Date.now()).to(proj?.targetDate, true)}
               label="Days to go"

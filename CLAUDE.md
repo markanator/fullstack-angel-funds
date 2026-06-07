@@ -37,11 +37,15 @@ pnpm build            # production build
 
 ### Code Quality (both directories)
 ```bash
-pnpm lint             # check with Biome
-pnpm lint:fix         # auto-fix
-pnpm format:fix       # format code
-pnpm check:fix        # full Biome check + fix
+pnpm lint             # lint with oxlint
+pnpm lint:fix         # auto-fix lint issues
+pnpm format           # check formatting with oxfmt
+pnpm format:fix       # format code with oxfmt
+pnpm check            # lint + format check (oxlint && oxfmt --check)
+pnpm check:fix        # lint --fix + format
 ```
+
+Linting config is `.oxlintrc.json`; formatting config is `.oxfmtrc.json` (per workspace).
 
 ## Key Patterns
 

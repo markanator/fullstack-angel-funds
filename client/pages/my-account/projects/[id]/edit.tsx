@@ -5,7 +5,6 @@ import AddEditProjectForm from "@/components/myAccountShared/AddEditProjectForm"
 import AddEditProjectRewards from "@/components/myAccountShared/AddEditRewards";
 import { ICreateRewardFormData } from "@/components/myAccountShared/rewards.utils";
 import {
-  useCreateProjectMutation,
   useCreateRewardMutation,
   useGetAuthoredProjectByIdQuery,
   useUpdateAuthoredProjectMutation,
@@ -19,8 +18,6 @@ import dayjs from "dayjs";
 import { IProjectForm } from "Forms/Schema/createProjectSchema";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
-
-type Props = {};
 
 const EditProjectPage = () => {
   const { isLoggedIn } = useIsAuth();
@@ -38,16 +35,9 @@ const EditProjectPage = () => {
   });
 
   const foundProjectToEdit = useMemo(() => {
-    if (data?.getAuthoredProjectById?.project?.id) {
-      const {
-        category,
-        description,
-        fundTarget,
-        image,
-        publishDate,
-        targetDate,
-        title,
-      } = data?.getAuthoredProjectById?.project;
+    const project = data?.getAuthoredProjectById?.project;
+    if (project?.id) {
+      const { category, description, fundTarget, image, publishDate, targetDate, title } = project;
       return {
         title,
         description,
@@ -100,29 +90,25 @@ const EditProjectPage = () => {
     if (!data?.getAuthoredProjectById?.project?.id) {
       return;
     }
-    const { data: createRewardData, error: createRewardError } =
-      await createReward({
-        variables: {
-          input: {
-            title: createFormData.title,
-            description: createFormData.description,
-            image: createFormData.image,
-            amount: +createFormData.amount.replace("$", "").replace(".", ""),
-            deliveredByMonth: createFormData.deliveredByMonth,
-            deliveredByYear: createFormData.deliveredByYear,
-            projectId: data?.getAuthoredProjectById?.project?.id,
-            quantityRemaining: +createFormData.quantityRemaining,
-          },
+    const { data: createRewardData, error: createRewardError } = await createReward({
+      variables: {
+        input: {
+          title: createFormData.title,
+          description: createFormData.description,
+          image: createFormData.image,
+          amount: +createFormData.amount.replace("$", "").replace(".", ""),
+          deliveredByMonth: createFormData.deliveredByMonth,
+          deliveredByYear: createFormData.deliveredByYear,
+          projectId: data?.getAuthoredProjectById?.project?.id,
+          quantityRemaining: +createFormData.quantityRemaining,
         },
-        update: (cache) => {
-          cache.evict({ fieldName: "Projects:{}" });
-        },
-      });
+      },
+      update: (cache) => {
+        cache.evict({ fieldName: "Projects:{}" });
+      },
+    });
 
-    if (
-      !createRewardError &&
-      createRewardData?.createProjectReward?.reward?.id
-    ) {
+    if (!createRewardError && createRewardData?.createProjectReward?.reward?.id) {
       toaster.create({
         title: "Project created.",
         description: `Your Project: ${data.getAuthoredProjectById?.project?.title}, was successfully updated.`,
@@ -132,36 +118,30 @@ const EditProjectPage = () => {
       });
     }
   };
-  const onUpdateReward = async (
-    updateRewardFormData: ICreateRewardFormData
-  ) => {
+  const onUpdateReward = async (updateRewardFormData: ICreateRewardFormData) => {
     console.log({ updateRewardFormData });
     const rewardId = data?.getAuthoredProjectById?.project?.rewards?.[0]?.id;
     if (!rewardId) {
       return;
     }
-    const { data: updateRewardData, error: updateRewardError } =
-      await updateReward({
-        variables: {
-          input: {
-            rewardId,
-            title: updateRewardFormData.title,
-            description: updateRewardFormData.description,
-            image: updateRewardFormData.image,
-            deliveredByMonth: updateRewardFormData.deliveredByMonth,
-            deliveredByYear: updateRewardFormData.deliveredByYear,
-            quantityRemaining: +updateRewardFormData.quantityRemaining,
-          },
+    const { data: updateRewardData, error: updateRewardError } = await updateReward({
+      variables: {
+        input: {
+          rewardId,
+          title: updateRewardFormData.title,
+          description: updateRewardFormData.description,
+          image: updateRewardFormData.image,
+          deliveredByMonth: updateRewardFormData.deliveredByMonth,
+          deliveredByYear: updateRewardFormData.deliveredByYear,
+          quantityRemaining: +updateRewardFormData.quantityRemaining,
         },
-        update: (cache) => {
-          cache.evict({ fieldName: "Projects:{}" });
-        },
-      });
+      },
+      update: (cache) => {
+        cache.evict({ fieldName: "Projects:{}" });
+      },
+    });
 
-    if (
-      !updateRewardError &&
-      updateRewardData?.updateProjectReward?.reward?.id
-    ) {
+    if (!updateRewardError && updateRewardData?.updateProjectReward?.reward?.id) {
       toaster.create({
         title: "Project created.",
         description: `Your Reward was successfully updated.`,
@@ -176,23 +156,14 @@ const EditProjectPage = () => {
       <AuthBanner
         bgImage="/images/breadcrumb.png"
         extraBottomSpace
-        title={
-          !foundProjectToEdit
-            ? "Editing..."
-            : `Editing: ${foundProjectToEdit.title}`
-        }
+        title={!foundProjectToEdit ? "Editing..." : `Editing: ${foundProjectToEdit.title}`}
       />
       {!isLoggedIn || loading ? (
         <Text>Loading...</Text>
       ) : (
         <Flex w="full" bgColor="testimonial_bg" zIndex={10}>
           <Container maxW="6xl" zIndex={10}>
-            <Tabs.Root
-              defaultValue="details"
-              size="lg"
-              variant="plain"
-              zIndex={10}
-            >
+            <Tabs.Root defaultValue="details" size="lg" variant="plain" zIndex={10}>
               <Tabs.List mt="-70px" zIndex={10}>
                 <CustomTab value="details" selectedColor="testimonial_bg">
                   Project Details
@@ -211,9 +182,7 @@ const EditProjectPage = () => {
                 <AddEditProjectRewards
                   onCreateReward={onCreateReward}
                   onUpdateReward={onUpdateReward}
-                  existingRewards={
-                    data?.getAuthoredProjectById?.project?.rewards ?? []
-                  }
+                  existingRewards={data?.getAuthoredProjectById?.project?.rewards ?? []}
                 />
               </Tabs.Content>
             </Tabs.Root>

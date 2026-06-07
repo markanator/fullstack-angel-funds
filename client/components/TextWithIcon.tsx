@@ -9,14 +9,7 @@ interface IconSectionProps {
 
 const IconSection = ({ title, blurb }: IconSectionProps) => (
   <Flex mb="2rem" direction="row" h="auto">
-    <Flex
-      padding="1rem"
-      h="58px"
-      w="58px"
-      mr="2rem"
-      mt="5px"
-      bgColor="rgba(238, 99, 82,.2)"
-    >
+    <Flex padding="1rem" h="58px" w="58px" mr="2rem" mt="5px" bgColor="rgba(238, 99, 82,.2)">
       <BsCheckCircle
         style={{
           margin: "0px",

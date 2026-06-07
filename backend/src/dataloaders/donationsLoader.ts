@@ -23,7 +23,6 @@ export const donationsLoader = () =>
       ];
     });
 
-    const donoArr =
-      entityIds.map((entityId) => projectIdToEntityMap[entityId]) ?? [];
+    const donoArr = entityIds.map((entityId) => projectIdToEntityMap[entityId]) ?? [];
     return donoArr;
   });

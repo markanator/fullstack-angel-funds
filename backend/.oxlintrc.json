@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "import"],
+  "env": {
+    "node": true,
+    "es2024": true
+  },
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "rules": {
+    "import/no-unassigned-import": "off",
+    "eslint/no-underscore-dangle": "off"
+  },
+  "ignorePatterns": ["dist/**", "node_modules/**", "prisma/generated/**"]
+}

@@ -1,13 +1,5 @@
 import ALink from "@/components/ALink";
-import {
-  Box,
-  Container,
-  Flex,
-  Heading,
-  Link,
-  List,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, Link, List, Text } from "@chakra-ui/react";
 import { FaLinkedin } from "react-icons/fa";
 import { FiGithub, FiTwitter } from "react-icons/fi";
 
@@ -29,13 +21,7 @@ export const Footer = () => {
         alignItems="center"
         // pt="4rem"
       >
-        <Flex
-          py="5rem"
-          color="text_four"
-          alignItems="start"
-          textAlign="left"
-          w="full"
-        >
+        <Flex py="5rem" color="text_four" alignItems="start" textAlign="left" w="full">
           <Box w="33%">
             <ALink href="/" mb="1.5rem">
               <Heading fontSize="2rem" fontWeight="500">
@@ -107,14 +93,10 @@ export const Footer = () => {
             </List.Root>
           </Box>
         </Flex>
-        <Text
-          color="text_four"
-          py="1.5rem"
-          borderTop="2px solid var(--text_tertiary)"
-          w="full"
-        >
-          Copyright © 2020-{new Date().getFullYear()} Mark Ambrocio. All rights
-          reserved. | Made with{" "}
+        <Text color="text_four" py="1.5rem" borderTop="2px solid var(--text_tertiary)" w="full">
+          Copyright © 2020-{new Date().getFullYear()} Mark Ambrocio. All rights reserved. | Made
+          with{" "}
+          {/* oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- role="img" + aria-label is the correct a11y pattern for emoji */}
           <span role="img" aria-label="brains" title="brains">
             🧠{" "}
           </span>

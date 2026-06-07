@@ -14,13 +14,7 @@ export default function TeamMemberCardMD() {
           objectFit="cover"
           objectPosition="top"
         />
-        <Box
-          pos="absolute"
-          bottom="0"
-          left="0"
-          color="white"
-          className="team__share"
-        >
+        <Box pos="absolute" bottom="0" left="0" color="white" className="team__share">
           <Link href="https://markambrocio.com/" target="_blank" rel="noopener noreferrer">
             <Flex
               w="60px"
@@ -35,12 +29,7 @@ export default function TeamMemberCardMD() {
           </Link>
         </Box>
       </Box>
-      <Flex
-        direction="column"
-        bgColor="progress_bg"
-        textAlign="center"
-        py="1rem"
-      >
+      <Flex direction="column" bgColor="progress_bg" textAlign="center" py="1rem">
         <Text color="text_primary" fontSize="1.25rem" fontWeight="500">
           Mark Ambrocio
         </Text>

@@ -2,12 +2,10 @@ import Banner from "@/components/authShared/AuthBanner";
 import { toaster } from "@/utils/toaster";
 import { Flex, Field, Heading, Input, Text, Container, Textarea, Button } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import Layout from "@/components/Layout";
 import * as yup from "yup";
-
-interface IHomeProps {}
 
 interface IContactFormData {
   name: string;

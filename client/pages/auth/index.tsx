@@ -15,18 +15,11 @@ function Index() {
         <Alert.Root status="info" mt="2rem" color="text_primary">
           <Alert.Indicator />
           <Alert.Title>
-            We have a demo account setup. email: demo@gmail.com and Password:
-            password123!@#
+            We have a demo account setup. email: demo@gmail.com and Password: password123!@#
           </Alert.Title>
         </Alert.Root>
         {/* FORMS */}
-        <Flex
-          dir="row"
-          pt="2rem"
-          pb="6rem"
-          justifyContent="space-evenly"
-          color="text_primary"
-        >
+        <Flex dir="row" pt="2rem" pb="6rem" justifyContent="space-evenly" color="text_primary">
           {/* LEFT SIDE - LOGIN */}
           <Flex w="50%" mr="1rem" flexDirection="column">
             <Heading as="h2" fontSize="2rem" mb="1rem">

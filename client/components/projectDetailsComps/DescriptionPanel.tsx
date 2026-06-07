@@ -36,13 +36,7 @@ const DescriptionPanel = ({ value, description, rewards }: Props) => {
             <Heading as="p" mb=".5rem">
               Rewards
             </Heading>
-            {
-              !rewards?.length ? (
-                <Text>
-                  This project has no rewards yet.
-                </Text>
-              ) : null
-            }
+            {!rewards?.length ? <Text>This project has no rewards yet.</Text> : null}
             {rewards && (
               <List.Root display="flex" flexDir="column">
                 {rewards.map((reward) => (

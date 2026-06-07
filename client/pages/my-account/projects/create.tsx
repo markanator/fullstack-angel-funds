@@ -11,7 +11,7 @@ import { useCreateProjectMutation } from "../../../generated/grahpql";
 export default function CreateProjectPage() {
   const { isLoggedIn } = useIsAuth(); //logged in user
   const router = useRouter(); // for nav
-  const [createProject, { loading }] = useCreateProjectMutation();
+  const [createProject] = useCreateProjectMutation();
 
   const onSubmit = async (formData: IProjectForm) => {
     const project = {

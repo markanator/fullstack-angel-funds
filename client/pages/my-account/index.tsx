@@ -1,14 +1,11 @@
 import { Container, Flex, Text, Image } from "@chakra-ui/react";
-import { NextPage } from "next";
 import React from "react";
 import { useIsAuth } from "utils/useIsAuth";
 import AuthBanner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
 import AccountNavbar from "../../components/myAccountShared/AccountNavbar";
 
-interface IAccountProps {}
-
-export default function MyAccountPage({}: IAccountProps) {
+export default function MyAccountPage() {
   const { isLoggedIn } = useIsAuth();
 
   return (

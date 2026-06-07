@@ -30,12 +30,7 @@ export default function HomeTeamSection({ showBG = true }) {
           alignItems="center"
           flexDirection="column"
         >
-          <Text
-            textAlign="center"
-            fontSize="1.25rem"
-            color="color_alt"
-            mb="1rem"
-          >
+          <Text textAlign="center" fontSize="1.25rem" color="color_alt" mb="1rem">
             Meet the Team
           </Text>
           <Heading

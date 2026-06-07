@@ -81,10 +81,33 @@ const TestimonialSlide = ({ info }: ISlideProps) => (
   </Box>
 );
 
+const arrowResetStyle = {
+  background: "transparent",
+  border: "none",
+  padding: 0,
+  cursor: "pointer",
+};
+
 function PrevArrow({ className, onClick }: { className?: string; onClick?: () => void }) {
-  return <div className={`${className} prev_arr`} style={{}} onClick={onClick} />;
+  return (
+    <button
+      type="button"
+      className={`${className} prev_arr`}
+      aria-label="Previous testimonial"
+      style={arrowResetStyle}
+      onClick={onClick}
+    />
+  );
 }
 
 function NextArrow({ className, onClick }: { className?: string; onClick?: () => void }) {
-  return <div className={`${className} next_arr`} onClick={onClick} />;
+  return (
+    <button
+      type="button"
+      className={`${className} next_arr`}
+      aria-label="Next testimonial"
+      style={arrowResetStyle}
+      onClick={onClick}
+    />
+  );
 }

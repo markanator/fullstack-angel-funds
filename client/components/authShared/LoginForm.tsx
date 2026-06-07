@@ -2,7 +2,7 @@ import { useApolloClient } from "@apollo/client/react";
 import { Button, Field, Flex, Input, Text } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ALink from "components/ALink";
-import { FetchMeDocument, useFetchMeQuery, useLoginMutation } from "generated/grahpql";
+import { FetchMeDocument, useLoginMutation } from "generated/grahpql";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import { useForm } from "react-hook-form";

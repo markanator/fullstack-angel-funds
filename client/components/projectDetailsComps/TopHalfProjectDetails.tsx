@@ -42,7 +42,7 @@ const TopHalfProjectDetails = ({ project }: Props) => {
     resolver: yupResolver(DonoSchema),
   });
 
-  const currentFundPercentage = (project?.currentFunds! / project?.fundTarget!) * 100;
+  const currentFundPercentage = ((project?.currentFunds ?? 0) / (project?.fundTarget ?? 1)) * 100;
 
   const onSubmit = async ({ donation }: IFormData) => {
     console.log("Submitted a dono:", donation * 100);
@@ -132,7 +132,7 @@ const TopHalfProjectDetails = ({ project }: Props) => {
               <Text mt=".5rem" fontWeight="700" fontSize="1.125rem">
                 Goal:{" "}
                 <Box as="span" color="color_primary">
-                  {formatAmountForDisplay(project?.fundTarget!)}
+                  {formatAmountForDisplay(project?.fundTarget ?? 0)}
                 </Box>
               </Text>
             </Flex>

@@ -41,8 +41,9 @@ export default function TopCategories() {
             Top Categories
           </Heading>
           <Text lineHeight="2rem">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dolor ex, laoreet ac scelerisque
-            eu, lobortis sit amet nibh. Quisque ultricies ipsum volutpat, auctor augue at, volutpat ligula.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dolor ex, laoreet ac
+            scelerisque eu, lobortis sit amet nibh. Quisque ultricies ipsum volutpat, auctor augue
+            at, volutpat ligula.
           </Text>
           <Flex mt="1rem" h="full" w="full" alignItems="flex-end">
             <Flex borderLeft="5px solid" borderColor="color_alt" h="85px" alignItems="center">

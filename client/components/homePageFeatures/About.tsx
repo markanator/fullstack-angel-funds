@@ -20,12 +20,7 @@ export default function About() {
               alignItems="center"
               m="0 1px 0 0"
             >
-              <Heading
-                fontSize="1.875rem"
-                maxW="185px"
-                textAlign="left"
-                color="white"
-              >
+              <Heading fontSize="1.875rem" maxW="185px" textAlign="left" color="white">
                 We’re a trusted platform
               </Heading>
             </Flex>
@@ -91,12 +86,7 @@ export default function About() {
             h="full"
             zIndex="2"
           >
-            <Text
-              textAlign="left"
-              fontSize="1.125rem"
-              color="color_alt"
-              mb="1rem"
-            >
+            <Text textAlign="left" fontSize="1.125rem" color="color_alt" mb="1rem">
               A Bussiness You Can Trust
             </Text>
             <Heading textAlign="left" fontSize="3.5rem" mb="3rem">

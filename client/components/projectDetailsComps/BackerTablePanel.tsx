@@ -35,13 +35,9 @@ const BackerTablePanel = ({ value, donations, showNames = true }: Props) => {
               {donations &&
                 donations.map((dono) => (
                   <Table.Row key={dono.id}>
-                    <Table.Cell>
-                      {showNames ? dono.donor.fullName : "Anonymous"}
-                    </Table.Cell>
+                    <Table.Cell>{showNames ? dono.donor.fullName : "Anonymous"}</Table.Cell>
                     <Table.Cell>{formatAmountForDisplay(dono.amount)}</Table.Cell>
-                    <Table.Cell>
-                      {dayjs(dono.createdAt).format("YYYY-MM-DD")}
-                    </Table.Cell>
+                    <Table.Cell>{dayjs(dono.createdAt).format("YYYY-MM-DD")}</Table.Cell>
                   </Table.Row>
                 ))}
             </Table.Body>

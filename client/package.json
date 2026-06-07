@@ -8,12 +8,12 @@
     "build": "next build",
     "start": "next start",
     "gen": "graphql-codegen --config codegen.yml",
-    "lint": "biome lint .",
-    "lint:fix": "biome lint . --write",
-    "format": "biome format .",
-    "format:fix": "biome format . --write",
-    "check": "biome check .",
-    "check:fix": "biome check . --write"
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt --check",
+    "format:fix": "oxfmt",
+    "check": "oxlint && oxfmt --check",
+    "check:fix": "oxlint --fix && oxfmt"
   },
   "dependencies": {
     "@apollo/client": "^4.2.2",
@@ -44,7 +44,6 @@
     "yup": "^1.7.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.16",
     "@graphql-codegen/cli": "7.1.2",
     "@graphql-codegen/typescript": "6.0.2",
     "@graphql-codegen/typescript-operations": "6.0.3",
@@ -56,6 +55,8 @@
     "@types/title": "^4.0.0",
     "globby": "^16.2.0",
     "next-sitemap": "^4.2.3",
+    "oxfmt": "^0.53.0",
+    "oxlint": "^1.68.0",
     "typescript": "^6.0.3"
   },
   "packageManager": "pnpm@11.5.2"

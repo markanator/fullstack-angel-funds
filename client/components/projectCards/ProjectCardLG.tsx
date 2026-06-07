@@ -23,9 +23,13 @@ interface IProjCards {
 
 export default function ProjectCardLG({ project }: IProjCards) {
   const projectLink = `/project/${project.slug}`;
-  const daysLeft = formatDistanceStrict(parseInt(project.publishDate), parseInt(project.targetDate), {
-    unit: "day",
-  });
+  const daysLeft = formatDistanceStrict(
+    parseInt(project.publishDate),
+    parseInt(project.targetDate),
+    {
+      unit: "day",
+    },
+  );
   return (
     <Flex direction="column" w="full" boxShadow="md" maxW="370px">
       <Box>

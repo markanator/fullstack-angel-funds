@@ -2,6 +2,9 @@
   "name": "vr-funding-backend",
   "version": "1.0.0",
   "description": "vr-funding-backend",
+  "keywords": [],
+  "license": "CPAL-1.0",
+  "author": "mark ambrocio<hey@markambrocio.com>",
   "main": "index.js",
   "scripts": {
     "prebuild": "prisma generate",
@@ -9,32 +12,12 @@
     "start": "node ./dist/index.js",
     "watch": "tsc -w",
     "dev": "docker compose -f ../docker-compose.yml up -d && nodemon ./src/index.ts",
-    "lint": "biome lint .",
-    "lint:fix": "biome lint . --write",
-    "format": "biome format .",
-    "format:fix": "biome format . --write",
-    "check": "biome check .",
-    "check:fix": "biome check . --write"
-  },
-  "keywords": [],
-  "author": "mark ambrocio<hey@markambrocio.com>",
-  "license": "CPAL-1.0",
-  "devDependencies": {
-    "@biomejs/biome": "2.4.16",
-    "@types/connect-redis": "^0.0.23",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
-    "@types/express-session": "^1.19.0",
-    "@types/ioredis": "^5.0.0",
-    "@types/node": "^25.9.2",
-    "@types/nodemailer": "^8.0.0",
-    "@types/redis": "^4.0.11",
-    "@types/uuid": "^11.0.0",
-    "nodemon": "^3.1.14",
-    "prisma": "^7.8.0",
-    "ts-node": "^10.9.2",
-    "typegraphql-prisma": "^0.28.0",
-    "typescript": "^6.0.3"
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt --check",
+    "format:fix": "oxfmt",
+    "check": "oxlint && oxfmt --check",
+    "check:fix": "oxlint --fix && oxfmt"
   },
   "dependencies": {
     "@apollo/server": "^5.5.1",
@@ -62,6 +45,24 @@
     "type-graphql": "2.0.0-rc.3",
     "typeorm": "^1.0.0",
     "uuid": "^14.0.0"
+  },
+  "devDependencies": {
+    "@types/connect-redis": "^0.0.23",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/express-session": "^1.19.0",
+    "@types/ioredis": "^5.0.0",
+    "@types/node": "^25.9.2",
+    "@types/nodemailer": "^8.0.0",
+    "@types/redis": "^4.0.11",
+    "@types/uuid": "^11.0.0",
+    "nodemon": "^3.1.14",
+    "oxfmt": "^0.53.0",
+    "oxlint": "^1.68.0",
+    "prisma": "^7.8.0",
+    "ts-node": "^10.9.2",
+    "typegraphql-prisma": "^0.28.0",
+    "typescript": "^6.0.3"
   },
   "packageManager": "pnpm@11.5.2"
 }

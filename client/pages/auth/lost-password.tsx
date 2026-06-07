@@ -10,8 +10,6 @@ import Layout from "../../components/Layout";
 import { useForgotPasswordMutation } from "../../generated/grahpql";
 import ALink from "@/components/ALink";
 
-interface ILostMyPasswordProps {}
-
 interface IFormInputs {
   forgot_email: string;
 }
@@ -23,7 +21,7 @@ const ForgotSchema = yup.object().shape({
     .required("Please enter an email address."),
 });
 
-export default function LostPassword({}: ILostMyPasswordProps) {
+export default function LostPassword() {
   const {
     register,
     handleSubmit,

@@ -13,13 +13,7 @@ import {
 
 async function main() {
   const schema = await buildSchema({
-    resolvers: [
-      HelloResolver,
-      ProjectResolver,
-      UserResolver,
-      DonationResolver,
-      RewardsResolver,
-    ],
+    resolvers: [HelloResolver, ProjectResolver, UserResolver, DonationResolver, RewardsResolver],
     validate: false,
   });
   const out = path.resolve(__dirname, "../schema.graphql");
@@ -27,7 +21,9 @@ async function main() {
   console.log("Wrote SDL to", out);
 }
 
-main().then(() => process.exit(0)).catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+main()
+  .then(() => process.exit(0))
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });

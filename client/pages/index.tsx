@@ -3,7 +3,6 @@ import About from "@/components/homePageFeatures/About";
 // locals
 import CTA from "@/components/homePageFeatures/CTA";
 import CTA2 from "@/components/homePageFeatures/CTA2";
-import Explore from "@/components/homePageFeatures/Explore";
 import FeaturedProjects from "@/components/homePageFeatures/FeaturedProjects";
 import Hero from "@/components/homePageFeatures/Hero";
 import HomeTeamSection from "@/components/homePageFeatures/HomeTeamSection";

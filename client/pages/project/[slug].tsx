@@ -29,19 +29,12 @@ export default function ProjectDetails({
         <TopHalfProjectDetails project={project as any} />
         {/* BOTTOM */}
         <Flex as="section" flexDirection="column" w="full" h="full" bg="white">
-          <Tabs.Root
-            defaultValue="description"
-            w="full"
-            m="auto"
-            variant="plain"
-          >
+          <Tabs.Root defaultValue="description" w="full" m="auto" variant="plain">
             <Container maxW="7xl" mx="auto" mt="-70px">
               <Tabs.List bgColor="testimonial_bg">
                 <CustomTab value="description">Description</CustomTab>
                 {/* TODO: <CustomTab value="updates">Updates</CustomTab> */}
-                {project?.showContributors && (
-                  <CustomTab value="backers">Backer List</CustomTab>
-                )}
+                {project?.showContributors && <CustomTab value="backers">Backer List</CustomTab>}
               </Tabs.List>
             </Container>
             <DescriptionPanel
@@ -64,11 +57,7 @@ export default function ProjectDetails({
   );
 }
 
-export async function getServerSideProps({
-  req,
-  res,
-  query,
-}: GetServerSidePropsContext) {
+export async function getServerSideProps({ res, query }: GetServerSidePropsContext) {
   const apc = initializeApollo();
   const slug = query.slug;
 

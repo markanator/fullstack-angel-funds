@@ -12,11 +12,7 @@ import {
 import slugify from "slugify";
 import { isAuthed } from "../middleware/isAuthed";
 import { MyContext } from "../types/MyContext";
-import {
-  CreateProjectInput,
-  ProjectResponse,
-  UpdateProjectInput,
-} from "../types/ProjectTypes";
+import { CreateProjectInput, ProjectResponse, UpdateProjectInput } from "../types/ProjectTypes";
 import { Project, User, Donation, Reward } from "@generated/type-graphql";
 
 @Resolver(Project)
@@ -28,19 +24,13 @@ export class ProjectResolver {
     return userLoader.load(project.authorId);
   }
   @FieldResolver(() => [Reward], { nullable: true })
-  async rewards(
-    @Root() project: Project,
-    @Ctx() { projectRewardsLoader }: MyContext
-  ) {
+  async rewards(@Root() project: Project, @Ctx() { projectRewardsLoader }: MyContext) {
     console.log("DATA LOADING REWARD FOR PROJECT :: %d", project.id);
     // will batch all users into a single call
     return projectRewardsLoader.load(project.id);
   }
   @FieldResolver(() => [Donation], { nullable: true })
-  async donations(
-    @Root() project: Project,
-    @Ctx() { donationsLoader }: MyContext
-  ) {
+  async donations(@Root() project: Project, @Ctx() { donationsLoader }: MyContext) {
     // will batch all users into a single call
     console.log("DATA LOADING DONO FOR PROJECT :: %d", project.id);
     return donationsLoader.load(project.id);
@@ -57,7 +47,7 @@ export class ProjectResolver {
   @Query(() => [Project], { nullable: true })
   getProjectsByUserID(
     @Arg("id", () => Int) id: number,
-    @Ctx() { prisma }: MyContext
+    @Ctx() { prisma }: MyContext,
   ): Promise<Project[] | undefined> {
     return prisma.project.findMany({ where: { authorId: id } });
   }
@@ -66,7 +56,7 @@ export class ProjectResolver {
   @Query(() => Project, { nullable: true })
   getProjectBySlug(
     @Arg("slug") slug: string,
-    @Ctx() { prisma }: MyContext
+    @Ctx() { prisma }: MyContext,
   ): Promise<Project | null> {
     return prisma.project.findUnique({
       where: { slug },
@@ -78,7 +68,7 @@ export class ProjectResolver {
   @UseMiddleware(isAuthed)
   async getAuthoredProjectById(
     @Arg("id", () => Int) id: number,
-    @Ctx() { req, prisma }: MyContext
+    @Ctx() { req, prisma }: MyContext,
   ): Promise<ProjectResponse> {
     // find project
     const projRes = await prisma.project.findFirst({
@@ -115,7 +105,7 @@ export class ProjectResolver {
   @UseMiddleware(isAuthed)
   createProject(
     @Arg("input") input: CreateProjectInput,
-    @Ctx() { req, prisma }: MyContext
+    @Ctx() { req, prisma }: MyContext,
   ): Promise<Project> {
     const slug = slugify(input.title, {
       lower: true,
@@ -137,7 +127,7 @@ export class ProjectResolver {
   async updateProject(
     @Arg("id", () => Int) id: number,
     @Arg("input") input: UpdateProjectInput,
-    @Ctx() { req, prisma }: MyContext
+    @Ctx() { req, prisma }: MyContext,
   ): Promise<ProjectResponse> {
     // find project
     const projRes = await prisma.project.findFirst({ where: { id } });
@@ -185,7 +175,7 @@ export class ProjectResolver {
   @UseMiddleware(isAuthed)
   async deleteProject(
     @Arg("id", () => Int) id: number,
-    @Ctx() { req, prisma }: MyContext
+    @Ctx() { req, prisma }: MyContext,
   ): Promise<boolean> {
     const deletedProject = await prisma.project.findFirst({
       where: {

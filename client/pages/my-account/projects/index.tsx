@@ -1,10 +1,5 @@
 import { Container, Flex, List, Text } from "@chakra-ui/react";
-import ProjectCardSM from "@/components/projectCards/ProjectCardSM";
-import {
-  GetProjectsByUserIdQuery,
-  ProjectResponseWAuthorFragment,
-  useGetProjectsByUserIdQuery,
-} from "generated/grahpql";
+import { ProjectResponseWAuthorFragment, useGetProjectsByUserIdQuery } from "generated/grahpql";
 import React from "react";
 import { useIsAuth } from "utils/useIsAuth";
 import AuthBanner from "../../../components/authShared/AuthBanner";
@@ -12,12 +7,10 @@ import Layout from "../../../components/Layout";
 import AccountNavbar from "../../../components/myAccountShared/AccountNavbar";
 import ProjectCardRow from "@/components/projectCards/ProjectCardRow";
 
-interface IProjectsProps {}
-
-export default function Projects({}: IProjectsProps) {
+export default function Projects() {
   const { isLoggedIn, user } = useIsAuth();
 
-  const { data, error } = useGetProjectsByUserIdQuery({
+  const { data } = useGetProjectsByUserIdQuery({
     variables: { id: user?.id ?? -1 },
     skip: !user?.id,
     fetchPolicy: "cache-first",
@@ -36,13 +29,11 @@ export default function Projects({}: IProjectsProps) {
               <Flex direction="row" my="3rem">
                 <List.Root display="flex" flexDir="column" w="full">
                   {data?.getProjectsByUserID &&
-                    data?.getProjectsByUserID?.map(
-                      (proj: ProjectResponseWAuthorFragment) => (
-                        <List.Item key={proj?.id} m="auto" w="full">
-                          <ProjectCardRow proj={proj} />
-                        </List.Item>
-                      )
-                    )}
+                    data?.getProjectsByUserID?.map((proj: ProjectResponseWAuthorFragment) => (
+                      <List.Item key={proj?.id} m="auto" w="full">
+                        <ProjectCardRow proj={proj} />
+                      </List.Item>
+                    ))}
                 </List.Root>
               </Flex>
             </>

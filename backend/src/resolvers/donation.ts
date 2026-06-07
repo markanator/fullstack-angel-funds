@@ -1,12 +1,4 @@
-import {
-  Arg,
-  Ctx,
-  FieldResolver,
-  Mutation,
-  Resolver,
-  Root,
-  UseMiddleware,
-} from "type-graphql";
+import { Arg, Ctx, FieldResolver, Mutation, Resolver, Root, UseMiddleware } from "type-graphql";
 import { User, Donation, Project } from "@generated/type-graphql";
 import { isAuthed } from "../middleware/isAuthed";
 import { MyContext } from "../types/MyContext";
@@ -24,10 +16,7 @@ export class DonationResolver {
 
   // get project for a donation
   @FieldResolver(() => Project)
-  async project(
-    @Root() donation: Donation,
-    @Ctx() { projectLoader }: MyContext
-  ) {
+  async project(@Root() donation: Donation, @Ctx() { projectLoader }: MyContext) {
     // will batch all users into a single call
     // and return them
     return projectLoader.load(donation.projectId);
@@ -38,7 +27,7 @@ export class DonationResolver {
   @UseMiddleware(isAuthed)
   async syncStripeDono(
     @Arg("order") order: CreateDonoInput,
-    @Ctx() { req, prisma }: MyContext
+    @Ctx() { req, prisma }: MyContext,
   ): Promise<DonationResponse> {
     try {
       const project = await prisma.project.findFirst({

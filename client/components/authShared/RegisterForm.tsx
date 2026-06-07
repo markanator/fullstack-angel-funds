@@ -7,8 +7,6 @@ import React, { ReactElement } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
-interface Props {}
-
 interface IFormInputs {
   fullName: string;
   email: string;
@@ -23,7 +21,7 @@ const RegSchema = yup.object().shape({
   terms: yup.boolean().oneOf([true], "You must read and accept.").required("Required."),
 });
 
-export default function RegisterForm({}: Props): ReactElement {
+export default function RegisterForm(): ReactElement {
   const router = useRouter();
   const apolloClient = useApolloClient();
   const {

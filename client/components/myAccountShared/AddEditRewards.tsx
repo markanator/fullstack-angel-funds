@@ -1,5 +1,5 @@
 import { formatAmountForDisplay } from "@/utils/stripe-helpers";
-import { Button, Flex, List, ListItem } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useEffect } from "react";

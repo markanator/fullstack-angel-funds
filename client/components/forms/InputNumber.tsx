@@ -19,7 +19,6 @@ const InputNumber = ({
   helperText,
   placeHolder,
   numberInputProps,
-  type = "text",
   disabled = false,
 }: Props) => {
   const { field, fieldState } = useController({ control, name });

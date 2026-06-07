@@ -1,4 +1,3 @@
-import { useIsAuth } from "@/utils/useIsAuth";
 import { useApolloClient } from "@apollo/client/react";
 import { Box, Container, Flex, Heading, Link, List } from "@chakra-ui/react";
 import { useFetchMeQuery, useLogoutMutation } from "generated/grahpql";
@@ -6,10 +5,6 @@ import { useRouter } from "next/router";
 import React from "react";
 import { isServer } from "utils/isServer";
 import ALink from "../ALink";
-
-interface INavbarProps {
-  user: any | null;
-}
 
 export default function Navbar() {
   const router = useRouter();
@@ -56,7 +51,7 @@ export default function Navbar() {
           </Flex>
           {/* RIGHT */}
           <Flex w="50%" justifyContent="flex-end" direction="row">
-            {!!data?.me ? (
+            {data?.me ? (
               <>
                 <ALink href="/my-account" mr="2rem">
                   Dashboard
