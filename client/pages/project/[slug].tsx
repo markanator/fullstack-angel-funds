@@ -2,14 +2,7 @@ import CustomTab from "@/components/common/CustomTab";
 import BackerTablePanel from "@/components/projectDetailsComps/BackerTablePanel";
 import DescriptionPanel from "@/components/projectDetailsComps/DescriptionPanel";
 import TopHalfProjectDetails from "@/components/projectDetailsComps/TopHalfProjectDetails";
-import {
-  Container,
-  Flex,
-  Tab,
-  TabList,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
+import { Container, Flex, Tabs } from "@chakra-ui/react";
 import AuthBanner from "components/authShared/AuthBanner";
 import { GetbySlugDocument, GetbySlugQuery } from "generated/grahpql";
 import cloneDeep from "lodash/cloneDeep";
@@ -36,30 +29,35 @@ export default function ProjectDetails({
         <TopHalfProjectDetails project={project as any} />
         {/* BOTTOM */}
         <Flex as="section" flexDirection="column" w="full" h="full" bg="white">
-          <Tabs w="full" m="auto" variant="unstyled">
+          <Tabs.Root
+            defaultValue="description"
+            w="full"
+            m="auto"
+            variant="plain"
+          >
             <Container maxW="7xl" mx="auto" mt="-70px">
-              <TabList bgColor="testimonial_bg">
-                <CustomTab>Description</CustomTab>
-                {/* TODO: <CustomTab>Updates</CustomTab> */}
+              <Tabs.List bgColor="testimonial_bg">
+                <CustomTab value="description">Description</CustomTab>
+                {/* TODO: <CustomTab value="updates">Updates</CustomTab> */}
                 {project?.showContributors && (
-                  <CustomTab>Backer List</CustomTab>
+                  <CustomTab value="backers">Backer List</CustomTab>
                 )}
-              </TabList>
+              </Tabs.List>
             </Container>
-            <TabPanels>
-              <DescriptionPanel
-                description={project?.description ?? ""}
-                rewards={project?.rewards}
+            <DescriptionPanel
+              value="description"
+              description={project?.description ?? ""}
+              rewards={project?.rewards}
+            />
+            {/* TODO: project updates */}
+            {project?.showContributors && (
+              <BackerTablePanel
+                value="backers"
+                donations={project?.donations ?? []}
+                showNames={project?.showContributorNames}
               />
-              {/* TODO: project updates */}
-              {project?.showContributors && (
-                <BackerTablePanel
-                  donations={project?.donations ?? []}
-                  showNames={project?.showContributorNames}
-                />
-              )}
-            </TabPanels>
-          </Tabs>
+            )}
+          </Tabs.Root>
         </Flex>
       </article>
     </Layout>

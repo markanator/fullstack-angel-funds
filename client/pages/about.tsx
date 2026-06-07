@@ -19,7 +19,7 @@ export default function about() {
           {/* LEFT IMAGE */}
           <Flex w="50%" direction="column" justifyContent="space-between">
             <Heading as="h3">Learn About Us</Heading>
-            <Text textColor="text_secondary">
+            <Text color="text_secondary">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a
               tortor turpis. Pellentesque in arcu id augue tempus imperdiet ac
               sed metus. Praesent pellentesque nunc sed malesuada placerat.
@@ -48,7 +48,7 @@ export default function about() {
                 bottom="20px"
                 left="20px"
                 bg="color_alt"
-                textColor="text_primary"
+                color="text_primary"
                 p="2rem"
               >
                 <Heading as="p">321</Heading>

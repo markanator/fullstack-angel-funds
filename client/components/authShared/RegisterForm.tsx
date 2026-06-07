@@ -88,12 +88,11 @@ export default function RegisterForm({}: Props): ReactElement {
       onSubmit={handleSubmit(onSubmit as any)}
     >
       {/* FULL NAME */}
-      <Field.Root id="fullName">
+      <Field.Root id="fullName" invalid={!!errors?.fullName}>
         <Field.Label htmlFor="fullName">Full Name</Field.Label>
         <Input
           type="text"
           {...register("fullName")}
-          invalid={!!errors?.fullName}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
@@ -104,12 +103,11 @@ export default function RegisterForm({}: Props): ReactElement {
         </Text>
       </Field.Root>
 
-      <Field.Root id="reg_email" mt="1rem">
+      <Field.Root id="reg_email" mt="1rem" invalid={!!errors?.email}>
         <Field.Label htmlFor="reg_email">Email</Field.Label>
         <Input
           type="email"
           {...register("email")}
-          invalid={!!errors?.email}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
@@ -120,12 +118,11 @@ export default function RegisterForm({}: Props): ReactElement {
         </Text>
       </Field.Root>
 
-      <Field.Root id="password" mt="1rem">
+      <Field.Root id="password" mt="1rem" invalid={!!errors?.password}>
         <Field.Label htmlFor="password">Password address</Field.Label>
         <Input
           type="password"
           {...register("password")}
-          invalid={!!errors?.password}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"

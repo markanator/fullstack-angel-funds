@@ -29,7 +29,7 @@ export default function Custom404() {
           m="auto"
           justifyContent="space-between"
           alignItems="center"
-          textColor="white"
+          color="white"
         >
           <Heading as="p" fontSize="8xl">
             404

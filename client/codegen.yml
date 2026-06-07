@@ -7,3 +7,7 @@ generates:
       - "typescript"
       - "typescript-operations"
       - "typescript-react-apollo"
+    config:
+      # Apollo Client v4 moved hooks/types to the `@apollo/client/react` entrypoint.
+      apolloReactCommonImportFrom: "@apollo/client/react"
+      apolloReactHooksImportFrom: "@apollo/client/react"

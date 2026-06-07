@@ -1,0 +1,27 @@
+diff --git a/lib/cli/prisma-generator.js b/lib/cli/prisma-generator.js
+index 4e6f4c5b13091ede0803201359d8385f1f2af8a9..a76c65dca0fa3db2524c2acb17882d8fd0881969 100644
+--- a/lib/cli/prisma-generator.js
++++ b/lib/cli/prisma-generator.js
+@@ -16,7 +16,7 @@ async function generate(options) {
+     const prismaClientProvider = options.otherGenerators.find(it => (0, internals_1.parseEnvValue)(it.provider) === "prisma-client-js");
+     const prismaClientPath = (0, internals_1.parseEnvValue)(prismaClientProvider.output);
+     const prismaClientDmmf = await (0, internals_1.getDMMF)({
+-        datamodel: options.datamodel,
++        datamodel: options.datamodel.replace(/datasource\s+\w+\s*\{[^}]*\}/g, ""),
+         previewFeatures: prismaClientProvider.previewFeatures,
+     });
+     const generatorConfig = options.generator.config;
+diff --git a/lib/utils/prisma-version.js b/lib/utils/prisma-version.js
+index 283aae1b4609c72530e8c46ca5ecf91948ad9d93..bb4c58975270b438660181a374a4864584d5d578 100644
+--- a/lib/utils/prisma-version.js
++++ b/lib/utils/prisma-version.js
+@@ -16,6 +16,9 @@ function getPeerDependencyPrismaRequirement() {
+     return ownPackageJson.peerDependencies["prisma"];
+ }
+ function ensureInstalledCorrectPrismaPackage() {
++    // Patched: Prisma 7 is intentionally installed; skip the v5-only peer check.
++    return;
++    // eslint-disable-next-line no-unreachable
+     if (shouldSkipPrismaVersionCheck()) {
+         return;
+     }

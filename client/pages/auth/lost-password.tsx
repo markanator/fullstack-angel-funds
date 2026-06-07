@@ -1,5 +1,5 @@
+import { toaster } from "@/utils/toaster";
 import { Alert, Button, Container, Field, Flex, Input, Text } from "@chakra-ui/react";
-import { toaster } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -72,7 +72,7 @@ export default function LostPassword({}: ILostMyPasswordProps) {
             p="2rem"
             onSubmit={handleSubmit(onSubmit as any)}
           >
-            <Field.Root id="forgot_email">
+            <Field.Root id="forgot_email" invalid={!!errors?.forgot_email}>
               <Text mb="1.5rem" fontSize="md" color="text_secondary">
                 Enter your email. You will receive a link to create a new password via email.
               </Text>
@@ -81,7 +81,6 @@ export default function LostPassword({}: ILostMyPasswordProps) {
                 type="email"
                 border="1px solid"
                 {...register("forgot_email")}
-                invalid={!!errors?.forgot_email}
                 borderColor="progress_bg"
                 rounded="none"
                 boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"

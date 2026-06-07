@@ -1,0 +1,473 @@
+type Query {
+  hello: String!
+  projects: [Project!]!
+  getProjectsByUserID(id: Int!): [Project!]
+  getProjectBySlug(slug: String!): Project
+  getAuthoredProjectById(id: Int!): ProjectResponse!
+  me: User
+}
+
+type Project {
+  id: Int!
+  title: String!
+  slug: String!
+  description: String!
+  category: String!
+  image: String
+  fundTarget: Int!
+  currentFunds: Int!
+  publishDate: DateTimeISO!
+  targetDate: DateTimeISO!
+  totalDonation_sum: Int!
+  viewCount: Int!
+  votePoints: Int
+  voteStatus: Int
+  country: String
+  location: String
+  showContributors: Boolean!
+  showContributorNames: Boolean!
+  createdAt: DateTimeISO!
+  updatedAt: DateTimeISO!
+  authorId: Int!
+  _count: ProjectCount
+  author: User!
+  rewards: [Reward!]
+  donations: [Donation!]
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
+"""
+scalar DateTimeISO
+
+type ProjectCount {
+  donations(where: DonationWhereInput): Int!
+  upvotes(where: UpvoteWhereInput): Int!
+  rewards(where: RewardWhereInput): Int!
+}
+
+input DonationWhereInput {
+  AND: [DonationWhereInput!]
+  OR: [DonationWhereInput!]
+  NOT: [DonationWhereInput!]
+  id: IntFilter
+  amount: IntFilter
+  stripeCreatedAt: StringFilter
+  customerId: StringFilter
+  stripeReceiptUrl: StringFilter
+  status: EnumDonationStatusFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  projectId: IntFilter
+  donorId: IntFilter
+  project: ProjectRelationFilter
+  donor: UserRelationFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input NestedIntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input EnumDonationStatusFilter {
+  equals: DonationStatus
+  in: [DonationStatus!]
+  notIn: [DonationStatus!]
+  not: NestedEnumDonationStatusFilter
+}
+
+enum DonationStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  DISPUTED
+  FULL_REFUND
+  PARTIAL_REFUND
+  CHARGEBACK
+}
+
+input NestedEnumDonationStatusFilter {
+  equals: DonationStatus
+  in: [DonationStatus!]
+  notIn: [DonationStatus!]
+  not: NestedEnumDonationStatusFilter
+}
+
+input DateTimeFilter {
+  equals: DateTimeISO
+  in: [DateTimeISO!]
+  notIn: [DateTimeISO!]
+  lt: DateTimeISO
+  lte: DateTimeISO
+  gt: DateTimeISO
+  gte: DateTimeISO
+  not: NestedDateTimeFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTimeISO
+  in: [DateTimeISO!]
+  notIn: [DateTimeISO!]
+  lt: DateTimeISO
+  lte: DateTimeISO
+  gt: DateTimeISO
+  gte: DateTimeISO
+  not: NestedDateTimeFilter
+}
+
+input ProjectRelationFilter {
+  is: ProjectWhereInput
+  isNot: ProjectWhereInput
+}
+
+input ProjectWhereInput {
+  AND: [ProjectWhereInput!]
+  OR: [ProjectWhereInput!]
+  NOT: [ProjectWhereInput!]
+  id: IntFilter
+  title: StringFilter
+  slug: StringFilter
+  description: StringFilter
+  category: StringFilter
+  image: StringNullableFilter
+  fundTarget: IntFilter
+  currentFunds: IntFilter
+  publishDate: DateTimeFilter
+  targetDate: DateTimeFilter
+  totalDonation_sum: IntFilter
+  viewCount: IntFilter
+  votePoints: IntNullableFilter
+  voteStatus: IntNullableFilter
+  country: StringNullableFilter
+  location: StringNullableFilter
+  showContributors: BoolFilter
+  showContributorNames: BoolFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  authorId: IntFilter
+  author: UserRelationFilter
+  donations: DonationListRelationFilter
+  upvotes: UpvoteListRelationFilter
+  rewards: RewardListRelationFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input NestedStringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input IntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntNullableFilter
+}
+
+input NestedIntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntNullableFilter
+}
+
+input BoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input UserRelationFilter {
+  is: UserWhereInput
+  isNot: UserWhereInput
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  id: IntFilter
+  fullName: StringFilter
+  avatarUrl: StringFilter
+  cust_id: StringFilter
+  email: StringFilter
+  password: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  projects: ProjectListRelationFilter
+  donations: DonationListRelationFilter
+  upvotes: UpvoteListRelationFilter
+}
+
+input ProjectListRelationFilter {
+  every: ProjectWhereInput
+  some: ProjectWhereInput
+  none: ProjectWhereInput
+}
+
+input DonationListRelationFilter {
+  every: DonationWhereInput
+  some: DonationWhereInput
+  none: DonationWhereInput
+}
+
+input UpvoteListRelationFilter {
+  every: UpvoteWhereInput
+  some: UpvoteWhereInput
+  none: UpvoteWhereInput
+}
+
+input UpvoteWhereInput {
+  AND: [UpvoteWhereInput!]
+  OR: [UpvoteWhereInput!]
+  NOT: [UpvoteWhereInput!]
+  id: IntFilter
+  value: IntFilter
+  userId: IntFilter
+  projectId: IntFilter
+  user: UserRelationFilter
+  project: ProjectRelationFilter
+}
+
+input RewardListRelationFilter {
+  every: RewardWhereInput
+  some: RewardWhereInput
+  none: RewardWhereInput
+}
+
+input RewardWhereInput {
+  AND: [RewardWhereInput!]
+  OR: [RewardWhereInput!]
+  NOT: [RewardWhereInput!]
+  id: IntFilter
+  amount: IntFilter
+  title: StringFilter
+  image: StringNullableFilter
+  description: StringFilter
+  deliveredByMonth: StringFilter
+  deliveredByYear: StringFilter
+  quantityRemaining: IntFilter
+  projectId: IntFilter
+  project: ProjectRelationFilter
+}
+
+type User {
+  id: Int!
+  fullName: String!
+  avatarUrl: String!
+  cust_id: String!
+  email: String!
+  password: String!
+  createdAt: DateTimeISO!
+  updatedAt: DateTimeISO!
+  _count: UserCount
+}
+
+type UserCount {
+  projects(where: ProjectWhereInput): Int!
+  donations(where: DonationWhereInput): Int!
+  upvotes(where: UpvoteWhereInput): Int!
+}
+
+type Reward {
+  id: Int!
+  amount: Int!
+  title: String!
+  image: String
+  description: String!
+  deliveredByMonth: String!
+  deliveredByYear: String!
+  quantityRemaining: Int!
+  projectId: Int!
+  author: User!
+  project: Project!
+}
+
+type Donation {
+  id: Int!
+  amount: Int!
+  stripeCreatedAt: String!
+  customerId: String!
+  stripeReceiptUrl: String!
+  status: DonationStatus!
+  createdAt: DateTimeISO!
+  updatedAt: DateTimeISO!
+  projectId: Int!
+  donorId: Int!
+  donor: User!
+  project: Project!
+}
+
+type ProjectResponse {
+  errors: [FieldError!]
+  project: Project
+}
+
+type FieldError {
+  field: String!
+  message: String!
+}
+
+type Mutation {
+  syncStripeDono(order: CreateDonoInput!): DonationResponse!
+  createProject(input: CreateProjectInput!): Project!
+  updateProject(input: UpdateProjectInput!, id: Int!): ProjectResponse!
+  deleteProject(id: Int!): Boolean!
+  register(options: EmailPasswordInput!): UserResponse
+  login(password: String!, email: String!): UserResponse!
+  logout: Boolean!
+  forgotPassword(email: String!): Boolean!
+  getUserById(id: Int!): UserResponse!
+  createProjectReward(input: CreateRewardDto!): RewardResponse!
+  updateProjectReward(input: UpdateRewardDto!): RewardResponse!
+}
+
+type DonationResponse {
+  errors: [FieldError!]
+  data: Donation
+}
+
+input CreateDonoInput {
+  projectSlug: String!
+  customerEmail: String!
+  amount: Int!
+  stripeCreatedAt: String!
+  stripeReceiptUrl: String!
+}
+
+input CreateProjectInput {
+  title: String!
+  description: String!
+  category: String!
+  image: String!
+  fundTarget: Float!
+  publishDate: String!
+  targetDate: String!
+  currentFunds: Float!
+}
+
+input UpdateProjectInput {
+  title: String!
+  description: String!
+  category: String!
+  image: String!
+  fundTarget: Float!
+  publishDate: String!
+  targetDate: String!
+}
+
+type UserResponse {
+  errors: [FieldError!]
+  user: User
+}
+
+input EmailPasswordInput {
+  email: String!
+  fullName: String!
+  password: String!
+}
+
+type RewardResponse {
+  errors: [FieldError!]
+  reward: Reward
+}
+
+input CreateRewardDto {
+  amount: Int!
+  title: String!
+  image: String
+  description: String!
+  deliveredByMonth: String!
+  deliveredByYear: String!
+  quantityRemaining: Int!
+  projectId: Int!
+}
+
+input UpdateRewardDto {
+  rewardId: Int!
+  title: String!
+  image: String
+  description: String!
+  deliveredByMonth: String!
+  deliveredByYear: String!
+  quantityRemaining: Int!
+}

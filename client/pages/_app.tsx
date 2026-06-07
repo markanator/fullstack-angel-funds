@@ -1,4 +1,4 @@
-import { ApolloProvider } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AppProps } from "next/app";
 import "slick-carousel/slick/slick-theme.css";
@@ -7,6 +7,7 @@ import "typeface-dancing-script";
 import "typeface-montserrat";
 import "typeface-roboto";
 import { useApollo } from "utils/apolloClient";
+import { Toaster } from "utils/toaster";
 import "../styles/globals.css";
 // locals
 import theme from "../theme";
@@ -16,8 +17,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <ChakraProvider resetCSS theme={theme}>
+      <ChakraProvider value={theme}>
         <Component {...pageProps} />
+        <Toaster />
       </ChakraProvider>
     </ApolloProvider>
   );

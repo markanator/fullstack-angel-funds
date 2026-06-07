@@ -6,7 +6,6 @@ import {
   Heading,
   Link,
   List,
-  ListItem,
   Text,
 } from "@chakra-ui/react";
 import { FaLinkedin } from "react-icons/fa";
@@ -32,7 +31,7 @@ export const Footer = () => {
       >
         <Flex
           py="5rem"
-          textColor="text_four"
+          color="text_four"
           alignItems="start"
           textAlign="left"
           w="full"
@@ -48,58 +47,68 @@ export const Footer = () => {
             <Heading fontSize="1.25rem" mb="1rem">
               Company
             </Heading>
-            <List display="flex" flexDirection="column">
-              <ListItem>
+            <List.Root display="flex" flexDirection="column" listStyleType="none">
+              <List.Item>
                 <ALink href="/explore">Explore</ALink>
-              </ListItem>
-              <ListItem>
+              </List.Item>
+              <List.Item>
                 <ALink href="/about">About</ALink>
-              </ListItem>
-              <ListItem>
+              </List.Item>
+              <List.Item>
                 <ALink href="/contact">Contact</ALink>
-              </ListItem>
-              <ListItem>
+              </List.Item>
+              <List.Item>
                 <ALink href="/#">Terms of Use</ALink>
-              </ListItem>
-              <ListItem>
+              </List.Item>
+              <List.Item>
                 <ALink href="/#">Privacy Policy</ALink>
-              </ListItem>
-            </List>
+              </List.Item>
+            </List.Root>
           </Box>
           <Box w="33%" mt="1rem">
             <Heading fontSize="1.25rem">Find Us</Heading>
-            <List
+            <List.Root
               mt={2}
               w="full"
               display="flex"
               flexDirection="row"
+              listStyleType="none"
               // justifyContent="space-between"
               // fontSize="2xl"
               pr="2rem"
             >
-              <ListItem fontSize="4xl" mr={3}>
+              <List.Item fontSize="4xl" mr={3}>
                 <Link
                   href="https://www.linkedin.com/in/mark-ambrocio"
-                  isExternal
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <FaLinkedin />
                 </Link>
-              </ListItem>
-              <ListItem fontSize="4xl" mr={3}>
-                <Link href="https://www.twitter.com/_mark_ambro" isExternal>
+              </List.Item>
+              <List.Item fontSize="4xl" mr={3}>
+                <Link
+                  href="https://www.twitter.com/_mark_ambro"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <FiTwitter />
                 </Link>
-              </ListItem>
-              <ListItem fontSize="4xl">
-                <Link href="https://www.github.com/markanator" isExternal>
+              </List.Item>
+              <List.Item fontSize="4xl">
+                <Link
+                  href="https://www.github.com/markanator"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <FiGithub />
                 </Link>
-              </ListItem>
-            </List>
+              </List.Item>
+            </List.Root>
           </Box>
         </Flex>
         <Text
-          textColor="text_four"
+          color="text_four"
           py="1.5rem"
           borderTop="2px solid var(--text_tertiary)"
           w="full"

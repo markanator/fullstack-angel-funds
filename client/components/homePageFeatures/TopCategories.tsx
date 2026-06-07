@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Container, Flex, Heading, Image, List, ListItem, Text } from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, Image, List, Text } from "@chakra-ui/react";
 import { FiCpu } from "react-icons/fi";
 import { MdSchool } from "react-icons/md";
 import { FaPhotoVideo, FaBook, FaStethoscope, FaStar } from "react-icons/fa";
@@ -71,7 +71,7 @@ export default function TopCategories() {
           flexDirection={["column", "column", "column", "row"]}
           m="auto"
         >
-          <List
+          <List.Root
             className="das__list"
             display="flex"
             flexDirection={["column", "column", "row", "row"]}
@@ -86,7 +86,7 @@ export default function TopCategories() {
             <CategoryIconBox Icon={FaStethoscope} text="Medical" />
             <CategoryIconBox Icon={FaStar} text="Fashion" />
             <CategoryIconBox Icon={MdSchool} text="Education" />
-          </List>
+          </List.Root>
         </Flex>
       </Container>
     </Flex>
@@ -95,7 +95,7 @@ export default function TopCategories() {
 
 function CategoryIconBox({ Icon, text }: { Icon: IconType; text: string }) {
   return (
-    <ListItem
+    <List.Item
       display="flex"
       w="full"
       h="full"
@@ -118,6 +118,6 @@ function CategoryIconBox({ Icon, text }: { Icon: IconType; text: string }) {
           {text}
         </Text>
       </Flex>
-    </ListItem>
+    </List.Item>
   );
 }

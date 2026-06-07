@@ -2,13 +2,13 @@ import { ProjectResponseWAuthorFragment } from "@/generated/grahpql";
 import { formatAmountForDisplay } from "@/utils/stripe-helpers";
 import { useIsAuth } from "@/utils/useIsAuth";
 import {
+  AbsoluteCenter,
   Box,
-  CircularProgress,
-  CircularProgressLabel,
   Flex,
   Heading,
   HStack,
   Image,
+  ProgressCircle,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -82,14 +82,20 @@ function ProjectCardRow({ proj }: ICardSmProps) {
           </HStack>
           <Flex mt={2}>
             <Flex>
-              <CircularProgress
+              <ProgressCircle.Root
                 value={Math.floor((currentFunds / fundTarget) * 100)}
-                color="green.400"
+                colorPalette="green"
               >
-                <CircularProgressLabel>
-                  {Math.floor((currentFunds / fundTarget) * 100)}%
-                </CircularProgressLabel>
-              </CircularProgress>
+                <ProgressCircle.Circle>
+                  <ProgressCircle.Track />
+                  <ProgressCircle.Range />
+                </ProgressCircle.Circle>
+                <AbsoluteCenter>
+                  <ProgressCircle.ValueText>
+                    {Math.floor((currentFunds / fundTarget) * 100)}%
+                  </ProgressCircle.ValueText>
+                </AbsoluteCenter>
+              </ProgressCircle.Root>
             </Flex>
             <StatBlockSmall
               value={formatAmountForDisplay(currentFunds)}
@@ -115,7 +121,7 @@ interface StatProps {
 }
 const StatBlockSmall = ({ value, label }: StatProps) => {
   return (
-    <Flex flexDir="column" ml="50px" fontSize="14px" textColor="gray.700">
+    <Flex flexDir="column" ml="50px" fontSize="14px" color="gray.700">
       <Box fontWeight="bold">{value}</Box>
       <Box>{label}</Box>
     </Flex>

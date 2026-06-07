@@ -17,12 +17,10 @@
   },
   "dependencies": {
     "@apollo/client": "^4.2.2",
-    "@chakra-ui/icons": "^2.2.4",
     "@chakra-ui/react": "^3.35.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@hookform/resolvers": "5.4.0",
-    "@stripe/stripe-js": "^9.7.0",
     "cross-fetch": "^4.1.0",
     "date-fns": "^4.4.0",
     "dayjs": "^1.11.21",

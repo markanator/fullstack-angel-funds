@@ -41,7 +41,7 @@ export default function Newsletter() {
             bg="white"
             rounded="0px"
             placeholder="Enter E-Mail Address"
-            textColor="text_primary"
+            color="text_primary"
             fontSize="1.125rem"
             _placeholder={{
               color: "text_tertiary",

@@ -49,7 +49,7 @@ const Index = () => {
         bgColor="color_primary"
         padding="451px 0 0"
         backgroundImage="url('/images/bg-lines-transparent-2.png')"
-        bgPosition="bottom right"
+        backgroundPosition="bottom right"
         backgroundRepeat="repeat-x"
       />
       {/* <Explore /> */}

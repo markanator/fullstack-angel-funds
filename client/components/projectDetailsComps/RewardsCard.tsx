@@ -1,5 +1,4 @@
 import { apiFetcher } from "@/utils/api-helpers";
-import getStripe from "@/utils/getStripe";
 import { formatAmountForDisplay } from "@/utils/stripe-helpers";
 import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -31,7 +30,7 @@ const RewardsCard = ({ reward }: Props) => {
     setIsLoading(true);
     console.log("Claiming a reward:", reward);
     try {
-      const res = await apiFetcher<{ id?: string }>("/api/donations/rewards", {
+      const res = await apiFetcher<{ id?: string; url?: string }>("/api/donations/rewards", {
         method: "POST",
         body: JSON.stringify({
           rewardAmount: reward.amount,
@@ -44,18 +43,9 @@ const RewardsCard = ({ reward }: Props) => {
 
       console.log("FETCH CALL RESPONSE:::", res);
       setIsLoading(false);
-      if (!!res?.id) {
-        //* redirect to checkout
-        const stripe = await getStripe();
-        const result = await stripe!.redirectToCheckout({
-          sessionId: res.id,
-        });
-
-        console.log("STRIPE REDIRECT RES:::", result);
-        if (result?.error) {
-          console.warn(result?.error?.message);
-        }
-        //* API:: Create a Checkout Session.
+      if (res?.url) {
+        //* redirect to the Stripe-hosted checkout
+        window.location.href = res.url;
       }
     } catch (error) {
       console.log(error);
@@ -127,8 +117,7 @@ const RewardsCard = ({ reward }: Props) => {
         fontWeight="bold"
         size="lg"
         rounded="none"
-        disabled={isLoading}
-        isLoading={isLoading}
+        loading={isLoading}
         onClick={onClaimReward}
       >
         Select Reward

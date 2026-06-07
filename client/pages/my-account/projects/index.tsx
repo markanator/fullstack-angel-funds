@@ -1,4 +1,4 @@
-import { Container, Flex, List, ListItem, Text } from "@chakra-ui/react";
+import { Container, Flex, List, Text } from "@chakra-ui/react";
 import ProjectCardSM from "@/components/projectCards/ProjectCardSM";
 import {
   GetProjectsByUserIdQuery,
@@ -34,16 +34,16 @@ export default function Projects({}: IProjectsProps) {
             <>
               <AccountNavbar />
               <Flex direction="row" my="3rem">
-                <List display="flex" flexDir="column" w="full">
+                <List.Root display="flex" flexDir="column" w="full">
                   {data?.getProjectsByUserID &&
                     data?.getProjectsByUserID?.map(
                       (proj: ProjectResponseWAuthorFragment) => (
-                        <ListItem key={proj?.id} m="auto" w="full">
+                        <List.Item key={proj?.id} m="auto" w="full">
                           <ProjectCardRow proj={proj} />
-                        </ListItem>
+                        </List.Item>
                       )
                     )}
-                </List>
+                </List.Root>
               </Flex>
             </>
           )}

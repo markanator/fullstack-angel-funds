@@ -18,10 +18,10 @@ export default function TeamMemberCardMD() {
           pos="absolute"
           bottom="0"
           left="0"
-          textColor="white"
+          color="white"
           className="team__share"
         >
-          <Link href="https://markambrocio.com/" isExternal>
+          <Link href="https://markambrocio.com/" target="_blank" rel="noopener noreferrer">
             <Flex
               w="60px"
               h="60px"

@@ -24,7 +24,7 @@ export default function About() {
                 fontSize="1.875rem"
                 maxW="185px"
                 textAlign="left"
-                textColor="white"
+                color="white"
               >
                 We’re a trusted platform
               </Heading>

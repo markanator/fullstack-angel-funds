@@ -1,3 +1,8 @@
+allowBuilds:
+  '@apollo/protobufjs': true
+  '@prisma/engines': true
+  argon2: true
+  prisma: true
 onlyBuiltDependencies:
   - '@apollo/protobufjs'
   - '@prisma/engines'
@@ -11,3 +16,5 @@ overrides:
   '@protobufjs/utf8@<=1.1.0': '>=1.1.1'
   brace-expansion@>=5.0.0 <5.0.6: '>=5.0.6'
   qs@>=6.11.1 <=6.15.1: '>=6.15.2'
+patchedDependencies:
+  typegraphql-prisma@0.28.0: patches/typegraphql-prisma@0.28.0.patch

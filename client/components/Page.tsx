@@ -4,11 +4,11 @@
 import Head from "next/head";
 import { withRouter } from "next/router";
 import React from "react";
-import format from "date-fns/format";
+import { format } from "date-fns";
 import Title from "title";
 
 const dateTime = (date: string | Date) => new Date(date).toISOString();
-const fullDate = (date: Date) => format(date, "MMMM D, YYYY");
+const fullDate = (date: Date) => format(date, "MMMM d, yyyy");
 
 interface ISeoProps {
   date?: string;
