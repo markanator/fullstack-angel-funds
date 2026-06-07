@@ -8,9 +8,9 @@ export const createUserLoader = () =>
     const users = await dbClient.user.findMany({
       where: {
         id: {
-          in: userIds as number[]
-        }
-      }
+          in: userIds as number[],
+        },
+      },
     });
     // need to return data
     const userIdToUser: Record<number, User> = {};

@@ -1,16 +1,14 @@
 import { ProjectResponseWAuthorFragment } from "@/generated/grahpql";
 import { apiFetcher } from "@/utils/api-helpers";
-import getStripe from "@/utils/getStripe";
 import { formatAmountForDisplay } from "@/utils/stripe-helpers";
 import {
   Flex,
   Container,
   Heading,
   VStack,
+  Field,
   InputGroup,
-  InputLeftElement,
   Input,
-  InputRightElement,
   Button,
   Text,
   Box,
@@ -44,12 +42,12 @@ const TopHalfProjectDetails = ({ project }: Props) => {
     resolver: yupResolver(DonoSchema),
   });
 
-  const currentFundPercentage = (project?.currentFunds! / project?.fundTarget!) * 100;
+  const currentFundPercentage = ((project?.currentFunds ?? 0) / (project?.fundTarget ?? 1)) * 100;
 
   const onSubmit = async ({ donation }: IFormData) => {
     console.log("Submitted a dono:", donation * 100);
     //* API:: Create a Checkout Session.
-    const res = await apiFetcher<{ id?: string }>("/api/donations", {
+    const res = await apiFetcher<{ id?: string; url?: string }>("/api/donations", {
       method: "POST",
       body: JSON.stringify({
         amount: donation * 100,
@@ -61,17 +59,9 @@ const TopHalfProjectDetails = ({ project }: Props) => {
     });
 
     console.log("FETCH CALL RESPONSE:::", res);
-    if (!!res?.id) {
-      //* redirect to checkout
-      const stripe = await getStripe();
-      const result = await stripe!.redirectToCheckout({
-        sessionId: res.id,
-      });
-
-      console.log("STRIPE REDIRECT RES:::", result);
-      if (result?.error) {
-        console.warn(result?.error?.message);
-      }
+    if (res?.url) {
+      //* redirect to the Stripe-hosted checkout
+      window.location.href = res.url;
     }
   };
   return (
@@ -95,7 +85,7 @@ const TopHalfProjectDetails = ({ project }: Props) => {
             <Flex>
               <Text
                 fontSize=".875rem"
-                textColor="white"
+                color="white"
                 bgColor="color_primary"
                 py="4px"
                 px="1rem"
@@ -142,40 +132,31 @@ const TopHalfProjectDetails = ({ project }: Props) => {
               <Text mt=".5rem" fontWeight="700" fontSize="1.125rem">
                 Goal:{" "}
                 <Box as="span" color="color_primary">
-                  {formatAmountForDisplay(project?.fundTarget!)}
+                  {formatAmountForDisplay(project?.fundTarget ?? 0)}
                 </Box>
               </Text>
             </Flex>
             {/* DONATE FORM */}
             <Flex as="form" onSubmit={handleSubmit(onSubmit)} w="full">
               <VStack w="full">
-                <InputGroup bgColor="white">
-                  <InputLeftElement
-                    pt="10px"
-                    pointerEvents="none"
-                    color="gray.300"
-                    fontSize="1.2em"
+                <Field.Root invalid={!!errors?.donation} w="full">
+                  <InputGroup
+                    bgColor="white"
+                    startElement={
+                      <Box color="gray.300" fontSize="1.2em">
+                        $
+                      </Box>
+                    }
+                    endElement={
+                      <Box color="gray.300" fontSize="1.2em">
+                        .00
+                      </Box>
+                    }
                   >
-                    $
-                  </InputLeftElement>
-                  <Input
-                    id="donation"
-                    {...register("donation")}
-                    isInvalid={!!errors?.donation}
-                    type="number"
-                    size="lg"
-                  />
-                  <InputRightElement
-                    pt="10px"
-                    right="1rem"
-                    pointerEvents="none"
-                    color="gray.300"
-                    fontSize="1.2em"
-                  >
-                    .00
-                  </InputRightElement>
-                </InputGroup>
-                <Text>{errors?.donation?.message?.toString()}</Text>
+                    <Input id="donation" {...register("donation")} type="number" size="lg" />
+                  </InputGroup>
+                  <Field.ErrorText>{errors?.donation?.message?.toString()}</Field.ErrorText>
+                </Field.Root>
               </VStack>
               <Box ml="1rem">
                 <Button
@@ -189,7 +170,7 @@ const TopHalfProjectDetails = ({ project }: Props) => {
                   fontWeight="bold"
                   size="lg"
                   rounded="none"
-                  isDisabled={!isValid || !isDirty}
+                  disabled={!isValid || !isDirty}
                 >
                   Back Campaign
                 </Button>

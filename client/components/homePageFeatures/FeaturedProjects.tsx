@@ -1,12 +1,5 @@
 import { useFetchAllProjectsQuery } from "@/generated/grahpql";
-import {
-  Container,
-  Flex,
-  Heading,
-  List,
-  ListItem,
-  Text,
-} from "@chakra-ui/react";
+import { Container, Flex, Heading, List, Text } from "@chakra-ui/react";
 import React from "react";
 import ProjectCardSM from "../projectCards/ProjectCardSM";
 
@@ -17,18 +10,13 @@ export default function FeaturedProjects() {
     <Flex as="section" w="full" pt="7rem" pb="5rem">
       <Container maxW="7xl">
         <Flex direction="column" justifyContent="center" alignItems="center">
-          <Text
-            textAlign="center"
-            fontSize="1.125rem"
-            color="color_alt"
-            mb="1rem"
-          >
+          <Text textAlign="center" fontSize="1.125rem" color="color_alt" mb="1rem">
             Projects You Can Back
           </Text>
           <Heading textAlign="center" fontSize="3rem" mb="3rem">
             Featured Projects
           </Heading>
-          <List
+          <List.Root
             display="flex"
             w="full"
             justifyContent="space-between"
@@ -36,11 +24,11 @@ export default function FeaturedProjects() {
             flexWrap="nowrap"
           >
             {data.projects.slice(0, 3).map((proj) => (
-              <ListItem m="auto" mb="1rem" key={proj.id}>
+              <List.Item m="auto" mb="1rem" key={proj.id}>
                 <ProjectCardSM proj={proj as any} />
-              </ListItem>
+              </List.Item>
             ))}
-          </List>
+          </List.Root>
         </Flex>
       </Container>
     </Flex>

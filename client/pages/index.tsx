@@ -3,7 +3,6 @@ import About from "@/components/homePageFeatures/About";
 // locals
 import CTA from "@/components/homePageFeatures/CTA";
 import CTA2 from "@/components/homePageFeatures/CTA2";
-import Explore from "@/components/homePageFeatures/Explore";
 import FeaturedProjects from "@/components/homePageFeatures/FeaturedProjects";
 import Hero from "@/components/homePageFeatures/Hero";
 import HomeTeamSection from "@/components/homePageFeatures/HomeTeamSection";
@@ -49,7 +48,7 @@ const Index = () => {
         bgColor="color_primary"
         padding="451px 0 0"
         backgroundImage="url('/images/bg-lines-transparent-2.png')"
-        bgPosition="bottom right"
+        backgroundPosition="bottom right"
         backgroundRepeat="repeat-x"
       />
       {/* <Explore /> */}

@@ -1,6 +1,7 @@
-import { Button, Divider, Flex, Link } from "@chakra-ui/react";
+import { Button, Flex, Separator } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IProjectForm, projectCategories, ProjectSchema } from "Forms/Schema/createProjectSchema";
+import NextLink from "next/link";
 import { useForm } from "react-hook-form";
 import InputCheckbox from "../forms/InputCheckbox";
 import InputNumber from "../forms/InputNumber";
@@ -19,7 +20,7 @@ const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
     control,
     handleSubmit,
     formState: { isValid, isSubmitting, isDirty },
-  } = useForm<IProjectForm>({
+  } = useForm<IProjectForm, any, IProjectForm>({
     mode: "all",
     // @ts-ignore TODO: use Zod instead of Yup
     resolver: yupResolver(ProjectSchema),
@@ -94,7 +95,7 @@ const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
         {/* targetDate */}
       </Flex>
       {/* terms and conditions */}
-      <Divider my="1.125rem" />
+      <Separator my="1.125rem" />
       <InputCheckbox
         control={control}
         name="terms"
@@ -103,26 +104,17 @@ const AddEditProjectForm = ({ handleProjectSubmit, initialValues }: Props) => {
       />
 
       <Flex direction="row" justifyContent="space-between">
-        <Button
-          as={Link}
-          href="/my-account/projects"
-          my="1rem"
-          type="button"
-          colorScheme="red"
-          size="lg"
-          disabled={isSubmitting}
-          isLoading={isSubmitting}
-        >
-          Cancel
+        <Button my="1rem" colorPalette="red" size="lg" asChild>
+          <NextLink href="/my-account/projects">Cancel</NextLink>
         </Button>
 
         <Button
           my="1rem"
           type="submit"
-          colorScheme="blue"
+          colorPalette="blue"
           size="lg"
           disabled={isSubmitting || !isValid || !isDirty}
-          isLoading={isSubmitting}
+          loading={isSubmitting}
         >
           {isEditing ? "Submit Changes" : "Submit Project"}
         </Button>

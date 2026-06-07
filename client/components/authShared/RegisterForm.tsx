@@ -7,8 +7,6 @@ import React, { ReactElement } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
-interface Props {}
-
 interface IFormInputs {
   fullName: string;
   email: string;
@@ -23,7 +21,7 @@ const RegSchema = yup.object().shape({
   terms: yup.boolean().oneOf([true], "You must read and accept.").required("Required."),
 });
 
-export default function RegisterForm({}: Props): ReactElement {
+export default function RegisterForm(): ReactElement {
   const router = useRouter();
   const apolloClient = useApolloClient();
   const {
@@ -88,12 +86,11 @@ export default function RegisterForm({}: Props): ReactElement {
       onSubmit={handleSubmit(onSubmit as any)}
     >
       {/* FULL NAME */}
-      <Field.Root id="fullName">
+      <Field.Root id="fullName" invalid={!!errors?.fullName}>
         <Field.Label htmlFor="fullName">Full Name</Field.Label>
         <Input
           type="text"
           {...register("fullName")}
-          invalid={!!errors?.fullName}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
@@ -104,12 +101,11 @@ export default function RegisterForm({}: Props): ReactElement {
         </Text>
       </Field.Root>
 
-      <Field.Root id="reg_email" mt="1rem">
+      <Field.Root id="reg_email" mt="1rem" invalid={!!errors?.email}>
         <Field.Label htmlFor="reg_email">Email</Field.Label>
         <Input
           type="email"
           {...register("email")}
-          invalid={!!errors?.email}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
@@ -120,12 +116,11 @@ export default function RegisterForm({}: Props): ReactElement {
         </Text>
       </Field.Root>
 
-      <Field.Root id="password" mt="1rem">
+      <Field.Root id="password" mt="1rem" invalid={!!errors?.password}>
         <Field.Label htmlFor="password">Password address</Field.Label>
         <Input
           type="password"
           {...register("password")}
-          invalid={!!errors?.password}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"

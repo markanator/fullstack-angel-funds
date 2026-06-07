@@ -1,15 +1,10 @@
-import { useIsAuth } from "@/utils/useIsAuth";
 import { useApolloClient } from "@apollo/client/react";
-import { Box, Container, Flex, Heading, Link, List, ListItem } from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, Link, List } from "@chakra-ui/react";
 import { useFetchMeQuery, useLogoutMutation } from "generated/grahpql";
 import { useRouter } from "next/router";
 import React from "react";
 import { isServer } from "utils/isServer";
 import ALink from "../ALink";
-
-interface INavbarProps {
-  user: any | null;
-}
 
 export default function Navbar() {
   const router = useRouter();
@@ -45,7 +40,7 @@ export default function Navbar() {
           flexDirection="row"
           py=".5rem"
           fontSize=".875rem"
-          textColor="white"
+          color="white"
         >
           {/* LEFT */}
           <Flex w="50%" direction="row">
@@ -56,7 +51,7 @@ export default function Navbar() {
           </Flex>
           {/* RIGHT */}
           <Flex w="50%" justifyContent="flex-end" direction="row">
-            {!!data?.me ? (
+            {data?.me ? (
               <>
                 <ALink href="/my-account" mr="2rem">
                   Dashboard
@@ -77,35 +72,35 @@ export default function Navbar() {
       <Container as="nav" maxW="7xl" display="flex" flexDirection="row" py="1.5rem">
         <Box w="50%">
           <Box display="inline-block">
-            <ALink textColor="text_primary" href="/">
-              <Heading as="p" fontSize="20px" textColor="text_primary">
+            <ALink color="text_primary" href="/">
+              <Heading as="p" fontSize="20px" color="text_primary">
                 Virtual Reality Funds
               </Heading>
             </ALink>
           </Box>
         </Box>
-        <List w="50%" display="inline-flex" justifyContent="flex-end">
-          <ListItem mr="1rem">
-            <ALink textColor="text_primary" href="/" color="white">
+        <List.Root w="50%" display="inline-flex" justifyContent="flex-end">
+          <List.Item mr="1rem" listStyleType="none">
+            <ALink href="/" color="white">
               Home
             </ALink>
-          </ListItem>
-          <ListItem mr="1rem">
-            <ALink textColor="text_primary" href="/explore" color="white">
+          </List.Item>
+          <List.Item mr="1rem" listStyleType="none">
+            <ALink href="/explore" color="white">
               Explore
             </ALink>
-          </ListItem>
-          <ListItem mr="1rem">
-            <ALink textColor="text_primary" href="/about" color="white">
+          </List.Item>
+          <List.Item mr="1rem" listStyleType="none">
+            <ALink href="/about" color="white">
               About
             </ALink>
-          </ListItem>
-          <ListItem>
-            <ALink textColor="text_primary" href="/contact" color="white">
+          </List.Item>
+          <List.Item listStyleType="none">
+            <ALink href="/contact" color="white">
               Contact
             </ALink>
-          </ListItem>
-        </List>
+          </List.Item>
+        </List.Root>
       </Container>
     </Flex>
   );

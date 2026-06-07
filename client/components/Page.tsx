@@ -4,11 +4,9 @@
 import Head from "next/head";
 import { withRouter } from "next/router";
 import React from "react";
-import format from "date-fns/format";
 import Title from "title";
 
 const dateTime = (date: string | Date) => new Date(date).toISOString();
-const fullDate = (date: Date) => format(date, "MMMM D, YYYY");
 
 interface ISeoProps {
   date?: string;
@@ -43,33 +41,12 @@ const Page = ({
         <meta content="follow, index" name="robots" />
         <meta content="#ffffff" name="theme-color" />
         <meta content="#ffffff" name="msapplication-TileColor" />
-        <meta
-          content="/favicons/browserconfig.xml"
-          name="msapplication-config"
-        />
-        <link
-          href="/favicons/apple-touch-icon.png"
-          rel="apple-touch-icon"
-          sizes="180x180"
-        />
-        <link
-          href="/favicons/favicon-32x32.png"
-          rel="icon"
-          sizes="32x32"
-          type="image/png"
-        />
-        <link
-          href="/favicons/favicon-16x16.png"
-          rel="icon"
-          sizes="16x16"
-          type="image/png"
-        />
+        <meta content="/favicons/browserconfig.xml" name="msapplication-config" />
+        <link href="/favicons/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
+        <link href="/favicons/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
+        <link href="/favicons/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
         <link href="/favicons/site.webmanifest" rel="manifest" />
-        <link
-          color="#5bbad5"
-          href="/favicons/safari-pinned-tab.svg"
-          rel="mask-icon"
-        />
+        <link color="#5bbad5" href="/favicons/safari-pinned-tab.svg" rel="mask-icon" />
         <link href="/favicons/favicon.ico" rel="shortcut icon" />
 
         {url && <link href={canonical} rel="canonical" />}

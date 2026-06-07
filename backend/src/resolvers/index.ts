@@ -4,10 +4,4 @@ import { ProjectResolver } from "./project";
 import { UserResolver } from "./user";
 import { RewardsResolver } from "./projectRewards";
 
-export {
-  DonationResolver,
-  HelloResolver,
-  ProjectResolver,
-  UserResolver,
-  RewardsResolver,
-};
+export { DonationResolver, HelloResolver, ProjectResolver, UserResolver, RewardsResolver };

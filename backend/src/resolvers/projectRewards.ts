@@ -1,20 +1,8 @@
 import { Project, Reward, User } from "@generated/type-graphql";
-import {
-  Arg,
-  Ctx,
-  FieldResolver,
-  Mutation,
-  Resolver,
-  Root,
-  UseMiddleware,
-} from "type-graphql";
+import { Arg, Ctx, FieldResolver, Mutation, Resolver, Root, UseMiddleware } from "type-graphql";
 import { isAuthed } from "../middleware/isAuthed";
 import { MyContext } from "../types/MyContext";
-import {
-  CreateRewardDto,
-  RewardResponse,
-  UpdateRewardDto,
-} from "../types/RewardTypes";
+import { CreateRewardDto, RewardResponse, UpdateRewardDto } from "../types/RewardTypes";
 
 @Resolver(Reward)
 export class RewardsResolver {
@@ -35,7 +23,7 @@ export class RewardsResolver {
   @UseMiddleware(isAuthed)
   async createProjectReward(
     @Arg("input") input: CreateRewardDto,
-    @Ctx() { req, prisma }: MyContext
+    @Ctx() { req, prisma }: MyContext,
   ): Promise<RewardResponse> {
     try {
       const projectToEdit = await prisma.project.findFirst({
@@ -51,9 +39,7 @@ export class RewardsResolver {
       }
       if (projectToEdit.rewards?.length > 0) {
         return {
-          errors: [
-            { field: "Resource", message: "Project already contains rewards." },
-          ],
+          errors: [{ field: "Resource", message: "Project already contains rewards." }],
         };
       }
       const { projectId, ...restOfInput } = input;
@@ -80,7 +66,7 @@ export class RewardsResolver {
   // @UseMiddleware(isAuthed)
   async updateProjectReward(
     @Arg("input") input: UpdateRewardDto,
-    @Ctx() { prisma }: MyContext
+    @Ctx() { prisma }: MyContext,
   ): Promise<RewardResponse> {
     try {
       const { rewardId, ...restOfInput } = input;

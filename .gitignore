@@ -107,3 +107,6 @@ typings/
 
 data/
 .vscode
+
+# AI planning artifacts (specs, spikes, diagnoses)
+.ai/

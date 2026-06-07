@@ -22,15 +22,12 @@ export const projectCategories = [
 
 export const ProjectSchema = yup.object().shape({
   title: yup.string().required("Required."),
-  description: yup
-    .string()
-    .min(144, `Minimum characters is 144.`)
-    .required("Required."),
+  description: yup.string().min(144, `Minimum characters is 144.`).required("Required."),
   category: yup
     .string()
     .oneOf(
       ["Design", "Education", "Fashion", "Medical", "Fine_Arts", "Technology"],
-      "Please select from the dropdown"
+      "Please select from the dropdown",
     )
     .required("Required."),
   image: yup.string().url("Must be a valid URL").required("Required."),
@@ -40,8 +37,5 @@ export const ProjectSchema = yup.object().shape({
     .default(() => new Date())
     .required("Required."),
   targetDate: yup.date().required("Required."),
-  terms: yup
-    .boolean()
-    .oneOf([true], "Must Accept Terms and Condition")
-    .required("Required."),
+  terms: yup.boolean().oneOf([true], "Must Accept Terms and Condition").required("Required."),
 });

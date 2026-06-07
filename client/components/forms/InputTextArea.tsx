@@ -11,17 +11,16 @@ type Props = {
   cols?: number;
 };
 
-const InputTextArea = ({ control, name, helperText, placeHolder, rows = 8, cols = 8 }: Props) => {
+const InputTextArea = ({ control, name, helperText, placeHolder, rows = 8 }: Props) => {
   const { field, fieldState } = useController({ control, name });
   return (
-    <Field.Root id={name} mb="1.125rem">
+    <Field.Root id={name} mb="1.125rem" invalid={!!fieldState.error?.message}>
       <Field.Label textTransform="capitalize" htmlFor={name}>
         {name}
       </Field.Label>
       <Textarea
         {...field}
         placeholder={placeHolder}
-        invalid={!!fieldState.error?.message}
         rows={rows}
         border="1px solid"
         borderColor="progress_bg"

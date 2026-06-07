@@ -3,7 +3,7 @@ import Stripe from "stripe";
 import { MIN_AMOUNT_CENTS } from "../../../utils/constants";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2022-11-15",
+  apiVersion: "2026-05-27.dahlia",
 });
 export const config = {
   api: {
@@ -49,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         cancel_url: `${req.headers.origin}/project/${projectSlug}`,
       });
 
-      res.status(200).json(checkoutSession);
+      res.status(200).json({ id: checkoutSession.id, url: checkoutSession.url });
     } catch (err: any) {
       res.status(500).json({ statusCode: 500, message: err.message });
     }

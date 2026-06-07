@@ -1,6 +1,4 @@
-import {
-  ProjectResponseWAuthorFragment,
-} from "@/generated/grahpql";
+import { ProjectResponseWAuthorFragment } from "@/generated/grahpql";
 import { formatAmountForDisplay } from "@/utils/stripe-helpers";
 import { Box, Flex, Heading, Image, Link, Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
@@ -13,16 +11,7 @@ interface ICardSmProps {
 }
 
 export default function ProjectCardSM({ proj }: ICardSmProps) {
-  const {
-    title,
-    slug,
-    image,
-    category,
-    currentFunds,
-    fundTarget,
-    publishDate,
-    targetDate,
-  } = proj;
+  const { title, slug, image, category, currentFunds, fundTarget } = proj;
   const projectLink = `/project/${slug}`;
 
   return (
@@ -40,12 +29,7 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
     >
       <Box className="cardsm__parent" pos="relative">
         <Box pos="relative">
-          <Link
-            href={projectLink}
-            cursor="pointer"
-            textDecoration="none"
-            outline="none"
-          >
+          <Link href={projectLink} cursor="pointer" textDecoration="none" outline="none">
             <Image
               display="inline-block"
               objectFit="cover"
@@ -78,12 +62,7 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
           background="0 0"
           transition="all .3s"
         >
-          <Box
-            display="inline-flex"
-            mb="1rem"
-            alignItems="center"
-            fontSize=".875rem"
-          >
+          <Box display="inline-flex" mb="1rem" alignItems="center" fontSize=".875rem">
             <Text
               mr="1.5rem"
               backgroundColor="color_alt"
@@ -103,19 +82,11 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
               {title}
             </Link>
           </Heading>
-          <Flex
-            direction="row"
-            justifyContent="space-between"
-            color="white"
-            mb=".5rem"
-          >
+          <Flex direction="row" justifyContent="space-between" color="white" mb=".5rem">
             <Text className="__norm">
-              {formatAmountForDisplay(currentFunds)} raised of{" "}
-              {formatAmountForDisplay(fundTarget)}
+              {formatAmountForDisplay(currentFunds)} raised of {formatAmountForDisplay(fundTarget)}
             </Text>
-            <Text className="__norm">
-              {Math.floor((currentFunds / fundTarget) * 100)}%
-            </Text>
+            <Text className="__norm">{Math.floor((currentFunds / fundTarget) * 100)}%</Text>
           </Flex>
           <Box h=".65rem" bgColor="progress_bg">
             <Box

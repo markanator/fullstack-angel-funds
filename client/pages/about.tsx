@@ -19,11 +19,11 @@ export default function about() {
           {/* LEFT IMAGE */}
           <Flex w="50%" direction="column" justifyContent="space-between">
             <Heading as="h3">Learn About Us</Heading>
-            <Text textColor="text_secondary">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a
-              tortor turpis. Pellentesque in arcu id augue tempus imperdiet ac
-              sed metus. Praesent pellentesque nunc sed malesuada placerat.
-              Integer gravida facilisis fringilla. Aenean aliquet odio justo.
+            <Text color="text_secondary">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a tortor turpis.
+              Pellentesque in arcu id augue tempus imperdiet ac sed metus. Praesent pellentesque
+              nunc sed malesuada placerat. Integer gravida facilisis fringilla. Aenean aliquet odio
+              justo.
             </Text>
             <IconSection
               title="Highest Success Rates"
@@ -37,18 +37,13 @@ export default function about() {
           {/* RIGHT IMAGE */}
           <Flex w="50%" direction="column">
             <Flex pos="relative">
-              <Image
-                src="/images/about-us.jpg"
-                alt="about us"
-                width="800"
-                height="750"
-              />
+              <Image src="/images/about-us.jpg" alt="about us" width="800" height="750" />
               <Box
                 pos="absolute"
                 bottom="20px"
                 left="20px"
                 bg="color_alt"
-                textColor="text_primary"
+                color="text_primary"
                 p="2rem"
               >
                 <Heading as="p">321</Heading>

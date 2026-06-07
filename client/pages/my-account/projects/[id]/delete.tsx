@@ -1,8 +1,6 @@
 import React from "react";
 
-type Props = {};
-
-const DeleteProjectPage = (props: Props) => {
+const DeleteProjectPage = () => {
   return <div>DeleteProjectPage</div>;
 };
 

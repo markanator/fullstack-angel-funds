@@ -1,13 +1,11 @@
 import Banner from "@/components/authShared/AuthBanner";
+import { toaster } from "@/utils/toaster";
 import { Flex, Field, Heading, Input, Text, Container, Textarea, Button } from "@chakra-ui/react";
-import { toaster } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import Layout from "@/components/Layout";
 import * as yup from "yup";
-
-interface IHomeProps {}
 
 interface IContactFormData {
   name: string;
@@ -63,11 +61,10 @@ export default function Contact() {
             <Flex as="form" flexDirection="column" onSubmit={handleSubmit(onSubmit as any)}>
               <Flex direction="row" w="full" mb="2rem">
                 {/* FULL NAME */}
-                <Field.Root id="name" required mr="1rem">
+                <Field.Root id="name" required mr="1rem" invalid={!!errors?.name}>
                   <Input
                     type="text"
                     {...register("name")}
-                    invalid={!!errors?.name}
                     placeholder="Your Name"
                     border="1px solid"
                     borderColor="progress_bg"
@@ -79,11 +76,10 @@ export default function Contact() {
                   />
                 </Field.Root>
                 {/* EMAIL */}
-                <Field.Root id="email" required ml="1rem">
+                <Field.Root id="email" required ml="1rem" invalid={!!errors?.email}>
                   <Input
                     type="email"
                     {...register("email")}
-                    invalid={!!errors?.email}
                     placeholder="Your Email"
                     border="1px solid"
                     borderColor="progress_bg"
@@ -96,11 +92,10 @@ export default function Contact() {
                 </Field.Root>
               </Flex>
               {/* SUBJECT */}
-              <Field.Root id="subject" mb="2rem">
+              <Field.Root id="subject" mb="2rem" invalid={!!errors?.subject}>
                 <Input
                   type="text"
                   {...register("subject")}
-                  invalid={!!errors?.subject}
                   placeholder="Your Subject"
                   border="1px solid"
                   borderColor="progress_bg"
@@ -112,10 +107,9 @@ export default function Contact() {
                 />
               </Field.Root>
               {/* Message */}
-              <Field.Root id="message" mb="1.5rem">
+              <Field.Root id="message" mb="1.5rem" invalid={!!errors?.message}>
                 <Textarea
                   {...register("message")}
-                  invalid={!!errors?.message}
                   placeholder="Your Message"
                   rows={8}
                   border="1px solid"

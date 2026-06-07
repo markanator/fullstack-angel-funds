@@ -11,6 +11,8 @@
     "moduleResolution": "node",
     "removeComments": true,
     "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "useUnknownInCatchVariables": false,
     "strictFunctionTypes": true,
     "noImplicitThis": true,
     "noImplicitAny": true,

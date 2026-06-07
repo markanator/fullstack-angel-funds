@@ -1,5 +1,6 @@
 import AddEditProjectForm from "@/components/myAccountShared/AddEditProjectForm";
-import { Container, Text, useToast } from "@chakra-ui/react";
+import { Container, Text } from "@chakra-ui/react";
+import { toaster } from "@/utils/toaster";
 import { IProjectForm } from "Forms/Schema/createProjectSchema";
 import { useRouter } from "next/router";
 import { useIsAuth } from "utils/useIsAuth";
@@ -10,9 +11,7 @@ import { useCreateProjectMutation } from "../../../generated/grahpql";
 export default function CreateProjectPage() {
   const { isLoggedIn } = useIsAuth(); //logged in user
   const router = useRouter(); // for nav
-  const [createProject, { loading }] = useCreateProjectMutation();
-
-  const toast = useToast();
+  const [createProject] = useCreateProjectMutation();
 
   const onSubmit = async (formData: IProjectForm) => {
     const project = {
@@ -25,7 +24,7 @@ export default function CreateProjectPage() {
       targetDate: formData.targetDate,
       currentFunds: 0,
     };
-    const { data, errors } = await createProject({
+    const { data, error } = await createProject({
       variables: {
         input: project,
       },
@@ -34,14 +33,14 @@ export default function CreateProjectPage() {
       },
     });
 
-    if (!errors) {
+    if (!error) {
       if (data?.createProject?.id) {
-        toast({
+        toaster.create({
           title: "Project created.",
           description: `Your Project: ${data.createProject?.title}, was successfully created.`,
-          status: "success",
+          type: "success",
           duration: 9000,
-          isClosable: true,
+          closable: true,
         });
         router.push(`/project/${data?.createProject?.slug}`);
       }

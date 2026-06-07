@@ -6,10 +6,7 @@ interface Props {
   heading: string;
 }
 
-export default function SmallDeetsBox({
-  content,
-  heading,
-}: Props): ReactElement {
+export default function SmallDeetsBox({ content, heading }: Props): ReactElement {
   return (
     <Flex
       direction="column"

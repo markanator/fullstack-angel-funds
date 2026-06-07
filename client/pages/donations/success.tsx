@@ -12,7 +12,7 @@ interface SuccessPageProps {
   syncInfo: boolean;
 }
 
-export default function Success({ paymentInfo, syncInfo }: SuccessPageProps) {
+export default function Success({ paymentInfo }: SuccessPageProps) {
   const router = useRouter();
   const { p_id }: { p_id?: string } = router.query;
   const didRender = useRef(false);

@@ -1,5 +1,5 @@
 import { formatAmountForDisplay } from "@/utils/stripe-helpers";
-import { Button, Flex, List, ListItem } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -32,7 +32,7 @@ const AddEditProjectRewards = ({ existingRewards, onCreateReward, onUpdateReward
     handleSubmit,
     reset,
     formState: { isSubmitting, isValid, isDirty },
-  } = useForm<ICreateRewardFormData>({
+  } = useForm<ICreateRewardFormData, any, ICreateRewardFormData>({
     mode: "all",
     // @ts-expect-error TODO: use Zod instead of Yup
     resolver: yupResolver(RewardSchema),
@@ -111,23 +111,15 @@ const AddEditProjectRewards = ({ existingRewards, onCreateReward, onUpdateReward
           helperText="Quantity of physical products"
         />
         <Flex mt={8} justifyContent="space-between">
-          <Button
-            as={Link}
-            href="/my-account/projects"
-            type="button"
-            colorScheme="red"
-            size="lg"
-            disabled={isSubmitting}
-            isLoading={isSubmitting}
-          >
-            Cancel
+          <Button colorPalette="red" size="lg" asChild>
+            <Link href="/my-account/projects">Cancel</Link>
           </Button>
           <Button
             type="submit"
-            colorScheme="blue"
+            colorPalette="blue"
             size="lg"
             disabled={!isValid || !isDirty || isSubmitting}
-            isLoading={isSubmitting}
+            loading={isSubmitting}
           >
             {isEditing ? "Update Reward" : "Add Reward"}
           </Button>

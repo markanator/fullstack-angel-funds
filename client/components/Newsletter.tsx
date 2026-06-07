@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Heading, Input, Text } from "@chakra-ui/react";
+import { Container, Flex, Heading, Input, Text } from "@chakra-ui/react";
 import React from "react";
 import ButtonAlternate from "./ButtonAlternate";
 
@@ -17,20 +17,10 @@ export default function Newsletter() {
       backgroundRepeat="no-repeat"
     >
       <Container maxW="3xl">
-        <Text
-          textAlign="center"
-          fontSize="1.25rem"
-          color="text_primary"
-          mb="1rem"
-        >
+        <Text textAlign="center" fontSize="1.25rem" color="text_primary" mb="1rem">
           Get Our Complete
         </Text>
-        <Heading
-          textAlign="center"
-          color="text_primary"
-          fontSize="3.5rem"
-          mb="2rem"
-        >
+        <Heading textAlign="center" color="text_primary" fontSize="3.5rem" mb="2rem">
           Crowdfunding Guide
         </Heading>
         <Flex as="form" w="full" justifyContent="center" alignItems="center">
@@ -41,7 +31,7 @@ export default function Newsletter() {
             bg="white"
             rounded="0px"
             placeholder="Enter E-Mail Address"
-            textColor="text_primary"
+            color="text_primary"
             fontSize="1.125rem"
             _placeholder={{
               color: "text_tertiary",

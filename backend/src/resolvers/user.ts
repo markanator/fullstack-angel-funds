@@ -1,13 +1,5 @@
 import argon2 from "argon2";
-import {
-  Arg,
-  Ctx,
-  Int,
-  Mutation,
-  Query,
-  Resolver,
-  UseMiddleware,
-} from "type-graphql";
+import { Arg, Ctx, Int, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import crypto from "node:crypto";
 import { sendEmail } from "../utils/sendEmail";
 import { MyContext } from "../types/MyContext";
@@ -24,7 +16,7 @@ export class UserResolver {
   @Mutation(() => UserResponse, { nullable: true })
   async register(
     @Arg("options") options: EmailPasswordInput,
-    @Ctx() { req, prisma }: MyContext
+    @Ctx() { req, prisma }: MyContext,
   ): Promise<UserResponse> {
     // validation stuff
     const errors = ValidateRegister(options);
@@ -93,7 +85,7 @@ export class UserResolver {
   async login(
     @Arg("email") email: string,
     @Arg("password") password: string,
-    @Ctx() { req, prisma }: MyContext
+    @Ctx() { req, prisma }: MyContext,
   ): Promise<UserResponse> {
     const user = await prisma.user.findFirst({ where: { email: email } });
 
@@ -150,8 +142,8 @@ export class UserResolver {
   @Mutation(() => Boolean) // decorator
   async forgotPassword(
     @Arg("email") email: string,
-    @Ctx() { redisClient, prisma }: MyContext
-  ): Promise<Boolean> {
+    @Ctx() { redisClient, prisma }: MyContext,
+  ): Promise<boolean> {
     const user = await prisma.user.findFirst({ where: { email } });
     if (!user) {
       // the email is not in the DB
@@ -166,14 +158,14 @@ export class UserResolver {
         FORGOT_PASSWORD_PREFIX + token,
         user.id,
         "EX",
-        1000 * 60 * 60 * 24 * 3 // days
+        1000 * 60 * 60 * 24 * 3, // days
       );
 
       // send the email
       await sendEmail(
         email,
         `<a href="${process.env.CORS_ORIGIN}/change-password/${token}">reset password</a>`,
-        "Change Password Requested"
+        "Change Password Requested",
       );
 
       return true;
@@ -188,7 +180,7 @@ export class UserResolver {
   @UseMiddleware(isAuthed)
   async getUserById(
     @Arg("id", () => Int) id: number,
-    @Ctx() { prisma }: MyContext
+    @Ctx() { prisma }: MyContext,
   ): Promise<UserResponse> {
     const user = await prisma.user.findFirst({ where: { id } });
     // oops, didn't find anything

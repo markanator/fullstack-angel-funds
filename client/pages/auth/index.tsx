@@ -1,4 +1,4 @@
-import { Alert, AlertIcon, Container, Flex, Heading } from "@chakra-ui/react";
+import { Alert, Container, Flex, Heading } from "@chakra-ui/react";
 import LoginForm from "components/authShared/LoginForm";
 import RegisterForm from "components/authShared/RegisterForm";
 import React from "react";
@@ -12,19 +12,14 @@ function Index() {
       <AuthBanner bgImage="/images/breadcrumb.png" title="Login" />
 
       <Container maxW="7xl">
-        <Alert status="info" mt="2rem" textColor="text_primary">
-          <AlertIcon />
-          We have a demo account setup. email: demo@gmail.com and Password:
-          password123!@#
-        </Alert>
+        <Alert.Root status="info" mt="2rem" color="text_primary">
+          <Alert.Indicator />
+          <Alert.Title>
+            We have a demo account setup. email: demo@gmail.com and Password: password123!@#
+          </Alert.Title>
+        </Alert.Root>
         {/* FORMS */}
-        <Flex
-          dir="row"
-          pt="2rem"
-          pb="6rem"
-          justifyContent="space-evenly"
-          textColor="text_primary"
-        >
+        <Flex dir="row" pt="2rem" pb="6rem" justifyContent="space-evenly" color="text_primary">
           {/* LEFT SIDE - LOGIN */}
           <Flex w="50%" mr="1rem" flexDirection="column">
             <Heading as="h2" fontSize="2rem" mb="1rem">

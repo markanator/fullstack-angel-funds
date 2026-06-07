@@ -20,8 +20,7 @@ const testimonial: ITestimonial[] = [
   },
   {
     name: "Nobuyuki Láska",
-    image:
-      "https://pbs.twimg.com/profile_images/1315519591263531009/HamQZFnt_400x400.jpg",
+    image: "https://pbs.twimg.com/profile_images/1315519591263531009/HamQZFnt_400x400.jpg",
     message:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut semper elementum lacus, sit amet dapibus sapien consequat id. Morbi at accumsan lorem, vitae egestas sem. Donec imperdiet quis nisi eu aliquam. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
   },

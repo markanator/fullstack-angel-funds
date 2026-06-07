@@ -21,7 +21,7 @@ const InputText = ({
 }: Props) => {
   const { field, fieldState } = useController({ control, name });
   return (
-    <Field.Root id={name} mb="1.125rem" disabled={disabled}>
+    <Field.Root id={name} mb="1.125rem" disabled={disabled} invalid={!!fieldState.error?.message}>
       <Field.Label textTransform="capitalize" htmlFor={name}>
         {name}
       </Field.Label>
@@ -29,7 +29,6 @@ const InputText = ({
         {...field}
         placeholder={placeHolder}
         type={type}
-        invalid={!!fieldState.error?.message}
         border="1px solid"
         borderColor="progress_bg"
         rounded="none"

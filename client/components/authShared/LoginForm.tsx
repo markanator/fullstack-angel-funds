@@ -2,7 +2,7 @@ import { useApolloClient } from "@apollo/client/react";
 import { Button, Field, Flex, Input, Text } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ALink from "components/ALink";
-import { FetchMeDocument, useFetchMeQuery, useLoginMutation } from "generated/grahpql";
+import { FetchMeDocument, useLoginMutation } from "generated/grahpql";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import { useForm } from "react-hook-form";
@@ -89,12 +89,11 @@ export default function LoginForm(): ReactElement {
       onSubmit={handleSubmit(onSubmit as any)}
     >
       {/* EMAIL */}
-      <Field.Root id="log_email">
+      <Field.Root id="log_email" invalid={!!errors?.log_email}>
         <Field.Label htmlFor="log_email">Email</Field.Label>
         <Input
           type="email"
           {...register("log_email")}
-          invalid={!!errors?.log_email}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"
@@ -106,12 +105,11 @@ export default function LoginForm(): ReactElement {
       </Field.Root>
 
       {/* PASS */}
-      <Field.Root id="log_pass" mt="1rem">
+      <Field.Root id="log_pass" mt="1rem" invalid={!!errors?.log_pass}>
         <Field.Label htmlFor="log_pass">Password</Field.Label>
         <Input
           type="password"
           {...register("log_pass")}
-          invalid={!!errors?.log_pass}
           border="1px solid"
           borderColor="progress_bg"
           rounded="none"

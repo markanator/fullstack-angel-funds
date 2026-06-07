@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import * as Apollo from '@apollo/client/react';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -465,7 +465,7 @@ export const CreateProjectDocument = gql`
   }
 }
     ${ProjectResponseWAuthorFragmentDoc}`;
-export type CreateProjectMutationFn = Apollo.MutationFunction<CreateProjectMutation, CreateProjectMutationVariables>;
+export type CreateProjectMutationFn = Apollo.useMutation.MutationFunction<CreateProjectMutation, CreateProjectMutationVariables>;
 
 /**
  * __useCreateProjectMutation__
@@ -490,7 +490,7 @@ export function useCreateProjectMutation(baseOptions?: Apollo.MutationHookOption
       }
 export type CreateProjectMutationHookResult = ReturnType<typeof useCreateProjectMutation>;
 export type CreateProjectMutationResult = Apollo.MutationResult<CreateProjectMutation>;
-export type CreateProjectMutationOptions = Apollo.BaseMutationOptions<CreateProjectMutation, CreateProjectMutationVariables>;
+export type CreateProjectMutationOptions = Apollo.MutationFunctionOptions<CreateProjectMutation, CreateProjectMutationVariables>;
 export const CreateRewardDocument = gql`
     mutation CreateReward($input: CreateRewardDto!) {
   createProjectReward(input: $input) {
@@ -511,7 +511,7 @@ export const CreateRewardDocument = gql`
   }
 }
     `;
-export type CreateRewardMutationFn = Apollo.MutationFunction<CreateRewardMutation, CreateRewardMutationVariables>;
+export type CreateRewardMutationFn = Apollo.useMutation.MutationFunction<CreateRewardMutation, CreateRewardMutationVariables>;
 
 /**
  * __useCreateRewardMutation__
@@ -536,13 +536,13 @@ export function useCreateRewardMutation(baseOptions?: Apollo.MutationHookOptions
       }
 export type CreateRewardMutationHookResult = ReturnType<typeof useCreateRewardMutation>;
 export type CreateRewardMutationResult = Apollo.MutationResult<CreateRewardMutation>;
-export type CreateRewardMutationOptions = Apollo.BaseMutationOptions<CreateRewardMutation, CreateRewardMutationVariables>;
+export type CreateRewardMutationOptions = Apollo.MutationFunctionOptions<CreateRewardMutation, CreateRewardMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)
 }
     `;
-export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
+export type ForgotPasswordMutationFn = Apollo.useMutation.MutationFunction<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
 
 /**
  * __useForgotPasswordMutation__
@@ -567,7 +567,7 @@ export function useForgotPasswordMutation(baseOptions?: Apollo.MutationHookOptio
       }
 export type ForgotPasswordMutationHookResult = ReturnType<typeof useForgotPasswordMutation>;
 export type ForgotPasswordMutationResult = Apollo.MutationResult<ForgotPasswordMutation>;
-export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
+export type ForgotPasswordMutationOptions = Apollo.MutationFunctionOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($password: String!, $email: String!) {
   login(email: $email, password: $password) {
@@ -581,7 +581,7 @@ export const LoginDocument = gql`
   }
 }
     ${FullUserDetailsFragmentDoc}`;
-export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+export type LoginMutationFn = Apollo.useMutation.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
  * __useLoginMutation__
@@ -607,13 +607,13 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
       }
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export type LoginMutationOptions = Apollo.MutationFunctionOptions<LoginMutation, LoginMutationVariables>;
 export const LogoutDocument = gql`
     mutation Logout {
   logout
 }
     `;
-export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+export type LogoutMutationFn = Apollo.useMutation.MutationFunction<LogoutMutation, LogoutMutationVariables>;
 
 /**
  * __useLogoutMutation__
@@ -637,7 +637,7 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
       }
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
-export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export type LogoutMutationOptions = Apollo.MutationFunctionOptions<LogoutMutation, LogoutMutationVariables>;
 export const RegisterDocument = gql`
     mutation Register($options: EmailPasswordInput!) {
   register(options: $options) {
@@ -651,7 +651,7 @@ export const RegisterDocument = gql`
   }
 }
     ${FullUserDetailsFragmentDoc}`;
-export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
+export type RegisterMutationFn = Apollo.useMutation.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
 /**
  * __useRegisterMutation__
@@ -676,7 +676,7 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
       }
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
-export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export type RegisterMutationOptions = Apollo.MutationFunctionOptions<RegisterMutation, RegisterMutationVariables>;
 export const SyncStripePaymentDocument = gql`
     mutation SyncStripePayment($order: CreateDonoInput!) {
   syncStripeDono(order: $order) {
@@ -697,7 +697,7 @@ export const SyncStripePaymentDocument = gql`
   }
 }
     `;
-export type SyncStripePaymentMutationFn = Apollo.MutationFunction<SyncStripePaymentMutation, SyncStripePaymentMutationVariables>;
+export type SyncStripePaymentMutationFn = Apollo.useMutation.MutationFunction<SyncStripePaymentMutation, SyncStripePaymentMutationVariables>;
 
 /**
  * __useSyncStripePaymentMutation__
@@ -722,7 +722,7 @@ export function useSyncStripePaymentMutation(baseOptions?: Apollo.MutationHookOp
       }
 export type SyncStripePaymentMutationHookResult = ReturnType<typeof useSyncStripePaymentMutation>;
 export type SyncStripePaymentMutationResult = Apollo.MutationResult<SyncStripePaymentMutation>;
-export type SyncStripePaymentMutationOptions = Apollo.BaseMutationOptions<SyncStripePaymentMutation, SyncStripePaymentMutationVariables>;
+export type SyncStripePaymentMutationOptions = Apollo.MutationFunctionOptions<SyncStripePaymentMutation, SyncStripePaymentMutationVariables>;
 export const UpdateAuthoredProjectDocument = gql`
     mutation UpdateAuthoredProject($input: UpdateProjectInput!, $updateProjectId: Int!) {
   updateProject(input: $input, id: $updateProjectId) {
@@ -736,7 +736,7 @@ export const UpdateAuthoredProjectDocument = gql`
   }
 }
     ${ProjectDetailsFragmentDoc}`;
-export type UpdateAuthoredProjectMutationFn = Apollo.MutationFunction<UpdateAuthoredProjectMutation, UpdateAuthoredProjectMutationVariables>;
+export type UpdateAuthoredProjectMutationFn = Apollo.useMutation.MutationFunction<UpdateAuthoredProjectMutation, UpdateAuthoredProjectMutationVariables>;
 
 /**
  * __useUpdateAuthoredProjectMutation__
@@ -762,7 +762,7 @@ export function useUpdateAuthoredProjectMutation(baseOptions?: Apollo.MutationHo
       }
 export type UpdateAuthoredProjectMutationHookResult = ReturnType<typeof useUpdateAuthoredProjectMutation>;
 export type UpdateAuthoredProjectMutationResult = Apollo.MutationResult<UpdateAuthoredProjectMutation>;
-export type UpdateAuthoredProjectMutationOptions = Apollo.BaseMutationOptions<UpdateAuthoredProjectMutation, UpdateAuthoredProjectMutationVariables>;
+export type UpdateAuthoredProjectMutationOptions = Apollo.MutationFunctionOptions<UpdateAuthoredProjectMutation, UpdateAuthoredProjectMutationVariables>;
 export const UpdateRewardDocument = gql`
     mutation UpdateReward($input: UpdateRewardDto!) {
   updateProjectReward(input: $input) {
@@ -783,7 +783,7 @@ export const UpdateRewardDocument = gql`
   }
 }
     `;
-export type UpdateRewardMutationFn = Apollo.MutationFunction<UpdateRewardMutation, UpdateRewardMutationVariables>;
+export type UpdateRewardMutationFn = Apollo.useMutation.MutationFunction<UpdateRewardMutation, UpdateRewardMutationVariables>;
 
 /**
  * __useUpdateRewardMutation__
@@ -808,7 +808,7 @@ export function useUpdateRewardMutation(baseOptions?: Apollo.MutationHookOptions
       }
 export type UpdateRewardMutationHookResult = ReturnType<typeof useUpdateRewardMutation>;
 export type UpdateRewardMutationResult = Apollo.MutationResult<UpdateRewardMutation>;
-export type UpdateRewardMutationOptions = Apollo.BaseMutationOptions<UpdateRewardMutation, UpdateRewardMutationVariables>;
+export type UpdateRewardMutationOptions = Apollo.MutationFunctionOptions<UpdateRewardMutation, UpdateRewardMutationVariables>;
 export const FetchAllProjectsDocument = gql`
     query FetchAllProjects {
   projects {

@@ -19,7 +19,7 @@ export const months = [
 export const years = range(
   new Date().getFullYear(),
   new Date(new Date().setFullYear(2050)).getFullYear(),
-  1
+  1,
 ).map((year) => ({ value: year.toString(), label: year.toString() }));
 
 export const RewardSchema = yup.object({

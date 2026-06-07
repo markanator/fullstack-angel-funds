@@ -1,7 +1,6 @@
 import { Field, InputType, ObjectType } from "type-graphql";
 import { FieldError } from "./UserTypes";
-import { Project } from '@generated/type-graphql'
-
+import { Project } from "@generated/type-graphql";
 
 @InputType()
 export class CreateProjectInput {

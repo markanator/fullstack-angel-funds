@@ -1,13 +1,15 @@
-import { Tab } from "@chakra-ui/react";
+import { Tabs } from "@chakra-ui/react";
 
 interface ICustomTab {
   children?: React.ReactNode;
+  value: string;
   selectedColor?: string;
 }
 
-const CustomTab = ({ children, selectedColor = "white" }: ICustomTab) => {
+const CustomTab = ({ children, value, selectedColor = "white" }: ICustomTab) => {
   return (
-    <Tab
+    <Tabs.Trigger
+      value={value}
       fontSize="20px"
       fontWeight="bold"
       lineHeight="40px"
@@ -19,7 +21,7 @@ const CustomTab = ({ children, selectedColor = "white" }: ICustomTab) => {
       _selected={{ color: "black", bg: selectedColor }}
     >
       {children}
-    </Tab>
+    </Tabs.Trigger>
   );
 };
 

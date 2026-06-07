@@ -33,10 +33,7 @@ const Hero = () => {
             >
               We help low-income entrepreneurs bring their ideas to market
             </Heading>
-            <ButtonNormal
-              url="/my-account/projects/create"
-              text="Start a Project"
-            />
+            <ButtonNormal url="/my-account/projects/create" text="Start a Project" />
           </Container>
         </Flex>
       </Container>

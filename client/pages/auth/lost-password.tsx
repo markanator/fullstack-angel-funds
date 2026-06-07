@@ -1,5 +1,5 @@
+import { toaster } from "@/utils/toaster";
 import { Alert, Button, Container, Field, Flex, Input, Text } from "@chakra-ui/react";
-import { toaster } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -9,8 +9,6 @@ import Banner from "../../components/authShared/AuthBanner";
 import Layout from "../../components/Layout";
 import { useForgotPasswordMutation } from "../../generated/grahpql";
 import ALink from "@/components/ALink";
-
-interface ILostMyPasswordProps {}
 
 interface IFormInputs {
   forgot_email: string;
@@ -23,7 +21,7 @@ const ForgotSchema = yup.object().shape({
     .required("Please enter an email address."),
 });
 
-export default function LostPassword({}: ILostMyPasswordProps) {
+export default function LostPassword() {
   const {
     register,
     handleSubmit,
@@ -72,7 +70,7 @@ export default function LostPassword({}: ILostMyPasswordProps) {
             p="2rem"
             onSubmit={handleSubmit(onSubmit as any)}
           >
-            <Field.Root id="forgot_email">
+            <Field.Root id="forgot_email" invalid={!!errors?.forgot_email}>
               <Text mb="1.5rem" fontSize="md" color="text_secondary">
                 Enter your email. You will receive a link to create a new password via email.
               </Text>
@@ -81,7 +79,6 @@ export default function LostPassword({}: ILostMyPasswordProps) {
                 type="email"
                 border="1px solid"
                 {...register("forgot_email")}
-                invalid={!!errors?.forgot_email}
                 borderColor="progress_bg"
                 rounded="none"
                 boxShadow="0 0 2px 2px rgba(0, 0, 0, 0.02) inset"

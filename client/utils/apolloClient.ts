@@ -1,4 +1,9 @@
-import { ApolloClient, InMemoryCache, NormalizedCacheObject, createHttpLink } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  type NormalizedCacheObject,
+  createHttpLink,
+} from "@apollo/client";
 import merge from "deepmerge";
 import isEqual from "lodash/isEqual";
 import { useMemo } from "react";
@@ -10,29 +15,27 @@ const link = createHttpLink({
   credentials: "include",
 });
 
-let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
+let apolloClient: ApolloClient | undefined;
 
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
-    uri: process.env.NEXT_PUBLIC_BACKEND as string,
-    credentials: "include",
     cache: new InMemoryCache(),
     link,
   });
 }
 
 export function initializeApollo(initialState = null) {
-  const _apolloClient: ApolloClient<NormalizedCacheObject> = apolloClient ?? createApolloClient();
+  const _apolloClient: ApolloClient = apolloClient ?? createApolloClient();
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here
   if (initialState) {
     // Get existing cache, loaded during client side data fetching
-    const existingCache = _apolloClient.extract();
+    const existingCache = _apolloClient.extract() as NormalizedCacheObject;
 
     // Merge the existing cache into data passed from getStaticProps/getServerSideProps
-    const data = merge(initialState, existingCache, {
+    const data = merge<NormalizedCacheObject>(initialState, existingCache, {
       // combine arrays using object equality (like in sets)
       arrayMerge: (destinationArray, sourceArray) => [
         ...sourceArray,

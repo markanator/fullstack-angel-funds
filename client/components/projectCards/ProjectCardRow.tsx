@@ -2,13 +2,13 @@ import { ProjectResponseWAuthorFragment } from "@/generated/grahpql";
 import { formatAmountForDisplay } from "@/utils/stripe-helpers";
 import { useIsAuth } from "@/utils/useIsAuth";
 import {
+  AbsoluteCenter,
   Box,
-  CircularProgress,
-  CircularProgressLabel,
   Flex,
   Heading,
   HStack,
   Image,
+  ProgressCircle,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -24,37 +24,15 @@ interface ICardSmProps {
 
 function ProjectCardRow({ proj }: ICardSmProps) {
   const { user } = useIsAuth();
-  const {
-    title,
-    slug,
-    image,
-    category,
-    currentFunds,
-    fundTarget,
-    publishDate,
-    targetDate,
-  } = proj;
+  const { slug, image, currentFunds, fundTarget } = proj;
   const projectLink = `/project/${slug}`;
 
   const isAuthor = Boolean(proj?.author?.id === user?.id);
 
   return (
-    <Flex
-      p={4}
-      mb={8}
-      pos="relative"
-      shadow="lg"
-      bgColor="white"
-      rounded="sm"
-      w="full"
-    >
+    <Flex p={4} mb={8} pos="relative" shadow="lg" bgColor="white" rounded="sm" w="full">
       <Box pos="relative" w="20%">
-        <ALink
-          href={projectLink}
-          cursor="pointer"
-          textDecoration="none"
-          outline="none"
-        >
+        <ALink href={projectLink} cursor="pointer" textDecoration="none" outline="none">
           <Image
             src={image || "https://picsum.photos/seed/picsum/350"}
             objectFit="cover"
@@ -82,23 +60,23 @@ function ProjectCardRow({ proj }: ICardSmProps) {
           </HStack>
           <Flex mt={2}>
             <Flex>
-              <CircularProgress
+              <ProgressCircle.Root
                 value={Math.floor((currentFunds / fundTarget) * 100)}
-                color="green.400"
+                colorPalette="green"
               >
-                <CircularProgressLabel>
-                  {Math.floor((currentFunds / fundTarget) * 100)}%
-                </CircularProgressLabel>
-              </CircularProgress>
+                <ProgressCircle.Circle>
+                  <ProgressCircle.Track />
+                  <ProgressCircle.Range />
+                </ProgressCircle.Circle>
+                <AbsoluteCenter>
+                  <ProgressCircle.ValueText>
+                    {Math.floor((currentFunds / fundTarget) * 100)}%
+                  </ProgressCircle.ValueText>
+                </AbsoluteCenter>
+              </ProgressCircle.Root>
             </Flex>
-            <StatBlockSmall
-              value={formatAmountForDisplay(currentFunds)}
-              label="Funds Raised"
-            />
-            <StatBlockSmall
-              value={formatAmountForDisplay(fundTarget)}
-              label="Funding Goal"
-            />
+            <StatBlockSmall value={formatAmountForDisplay(currentFunds)} label="Funds Raised" />
+            <StatBlockSmall value={formatAmountForDisplay(fundTarget)} label="Funding Goal" />
             <StatBlockSmall
               value={dayjs(Date.now()).to(proj?.targetDate, true)}
               label="Days to go"
@@ -115,7 +93,7 @@ interface StatProps {
 }
 const StatBlockSmall = ({ value, label }: StatProps) => {
   return (
-    <Flex flexDir="column" ml="50px" fontSize="14px" textColor="gray.700">
+    <Flex flexDir="column" ml="50px" fontSize="14px" color="gray.700">
       <Box fontWeight="bold">{value}</Box>
       <Box>{label}</Box>
     </Flex>

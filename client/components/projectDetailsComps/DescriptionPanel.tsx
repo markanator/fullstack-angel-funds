@@ -1,15 +1,8 @@
-import {
-  Container,
-  Flex,
-  Heading,
-  List,
-  ListItem,
-  TabPanel,
-  Text,
-} from "@chakra-ui/react";
+import { Container, Flex, Heading, List, Tabs, Text } from "@chakra-ui/react";
 import RewardsCard from "./RewardsCard";
 
 type Props = {
+  value: string;
   description: string;
   rewards?: {
     __typename?: "Reward";
@@ -24,9 +17,9 @@ type Props = {
   }[];
 };
 
-const DescriptionPanel = ({ description, rewards }: Props) => {
+const DescriptionPanel = ({ value, description, rewards }: Props) => {
   return (
-    <TabPanel m="auto">
+    <Tabs.Content value={value} m="auto">
       <Container maxW="7xl" mx="auto" py="2.5rem">
         <Flex gap={8}>
           {/* LEFT DESCRIPTION */}
@@ -43,27 +36,21 @@ const DescriptionPanel = ({ description, rewards }: Props) => {
             <Heading as="p" mb=".5rem">
               Rewards
             </Heading>
-            {
-              !rewards?.length ? (
-                <Text>
-                  This project has no rewards yet.
-                </Text>
-              ) : null
-            }
+            {!rewards?.length ? <Text>This project has no rewards yet.</Text> : null}
             {rewards && (
-              <List display="flex" flexDir="column">
+              <List.Root display="flex" flexDir="column">
                 {rewards.map((reward) => (
-                  <ListItem key={reward.id}>
+                  <List.Item key={reward.id}>
                     <RewardsCard reward={reward} />
-                  </ListItem>
+                  </List.Item>
                 ))}
-              </List>
+              </List.Root>
             )}
             {/* TODO: show rewards */}
           </Flex>
         </Flex>
       </Container>
-    </TabPanel>
+    </Tabs.Content>
   );
 };
 
