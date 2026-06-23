@@ -36,7 +36,7 @@
     "graphql-fields": "^2.0.3",
     "graphql-scalars": "^1.25.0",
     "ioredis": "^5.11.1",
-    "nodemailer": "^8.0.10",
+    "nodemailer": "^9.0.1",
     "pg": "^8.21.0",
     "reflect-metadata": "^0.2.2",
     "slugify": "^1.6.9",
