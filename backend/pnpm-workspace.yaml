@@ -5,6 +5,11 @@ allowBuilds:
   prisma: true
 minimumReleaseAgeExclude:
   - hono@4.12.25
+  - nodemailer@10.0.13
+  - pg-cloudflare@1.4.1
+  - pg-connection-string@2.14.1
+  - pg-protocol@1.16.1
+  - pg@8.23.1
 onlyBuiltDependencies:
   - "@apollo/protobufjs"
   - "@prisma/engines"
