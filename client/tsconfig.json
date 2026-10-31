@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
-    "target": "es5",
+    "target": "es2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipDefaultLibCheck": true,
@@ -15,19 +14,19 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "strict": true,
-    "baseUrl": ".",
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/forms/*": ["forms/*"],
-      "@/generated/*": ["generated/*"],
-      "@/graphql/*": ["graphql/*"],
-      "@/hooks/*": ["hooks/*"],
-      "@/types/*": ["types/*"],
-      "@/utils/*": ["utils/*"],
-      "@/dummydata/*": ["dummydata/*"]
+      "*": ["./*"],
+      "@/components/*": ["./components/*"],
+      "@/forms/*": ["./forms/*"],
+      "@/generated/*": ["./generated/*"],
+      "@/graphql/*": ["./graphql/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/types/*": ["./types/*"],
+      "@/utils/*": ["./utils/*"],
+      "@/dummydata/*": ["./dummydata/*"]
     },
     "incremental": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.d.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["./node_modules"]
 }

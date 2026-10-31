@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { MIN_AMOUNT } from "../../../utils/constants";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2026-05-27.dahlia",
+  apiVersion: "2026-10-28.endive",
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create({
         mode: "payment",
         submit_type: "pay",
-        payment_method_types: ["card"],
+        allowed_payment_method_types: ["card"],
         billing_address_collection: "required",
         line_items: [
           {

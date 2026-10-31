@@ -61,7 +61,7 @@ const TopHalfProjectDetails = ({ project }: Props) => {
     console.log("FETCH CALL RESPONSE:::", res);
     if (res?.url) {
       //* redirect to the Stripe-hosted checkout
-      window.location.href = res.url;
+      window.location.assign(res.url);
     }
   };
   return (
@@ -105,10 +105,7 @@ const TopHalfProjectDetails = ({ project }: Props) => {
                 heading="Raised"
               />
               <SmallDeetsBox content={project?.totalDonation_sum ?? 0} heading="Backers" />
-              <SmallDeetsBox
-                content={dayjs(Date.now()).to(project?.targetDate, true)}
-                heading="Days Left"
-              />
+              <SmallDeetsBox content={dayjs().to(project?.targetDate, true)} heading="Days Left" />
             </Flex>
             {/* PROGRESS BAR w/ GOAL  */}
             <Flex direction="column" mt={4}>

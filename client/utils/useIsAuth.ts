@@ -1,6 +1,6 @@
 import { useFetchMeQuery } from "generated/grahpql";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { isServer } from "./isServer";
 
 export const useIsAuth = () => {
@@ -9,13 +9,11 @@ export const useIsAuth = () => {
     fetchPolicy: "network-only",
     skip: isServer(),
   });
-  const [isLoggedIn, setIsloggedIn] = useState(false);
+  const isLoggedIn = loading || !!data?.me;
 
   useEffect(() => {
     if (!loading && !data?.me) {
       router.replace("/auth?next=" + router.pathname);
-    } else {
-      setIsloggedIn(true);
     }
   }, [loading, data?.me, router]);
 

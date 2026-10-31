@@ -77,10 +77,7 @@ function ProjectCardRow({ proj }: ICardSmProps) {
             </Flex>
             <StatBlockSmall value={formatAmountForDisplay(currentFunds)} label="Funds Raised" />
             <StatBlockSmall value={formatAmountForDisplay(fundTarget)} label="Funding Goal" />
-            <StatBlockSmall
-              value={dayjs(Date.now()).to(proj?.targetDate, true)}
-              label="Days to go"
-            />
+            <StatBlockSmall value={dayjs().to(proj?.targetDate, true)} label="Days to go" />
           </Flex>
         </VStack>
       </Box>

@@ -4,8 +4,8 @@ import {
   type NormalizedCacheObject,
   createHttpLink,
 } from "@apollo/client";
-import merge from "deepmerge";
 import isEqual from "lodash/isEqual";
+import mergeWith from "lodash/mergeWith";
 import { useMemo } from "react";
 
 export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
@@ -35,13 +35,19 @@ export function initializeApollo(initialState = null) {
     const existingCache = _apolloClient.extract() as NormalizedCacheObject;
 
     // Merge the existing cache into data passed from getStaticProps/getServerSideProps
-    const data = merge<NormalizedCacheObject>(initialState, existingCache, {
+    const data = mergeWith(
+      {} as NormalizedCacheObject,
+      initialState,
+      existingCache,
       // combine arrays using object equality (like in sets)
-      arrayMerge: (destinationArray, sourceArray) => [
-        ...sourceArray,
-        ...destinationArray.filter((d) => sourceArray.every((s) => !isEqual(d, s))),
-      ],
-    });
+      (destinationArray: unknown, sourceArray: unknown) =>
+        Array.isArray(destinationArray) && Array.isArray(sourceArray)
+          ? [
+              ...sourceArray,
+              ...destinationArray.filter((d) => sourceArray.every((s) => !isEqual(d, s))),
+            ]
+          : undefined,
+    );
 
     // Restore the cache with the merged data
     _apolloClient.cache.restore(data);
