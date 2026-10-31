@@ -1,5 +1,6 @@
 import ALink from "@/components/ALink";
 import { Box, Container, Flex, Heading, Link, List, Text } from "@chakra-ui/react";
+import dayjs from "dayjs";
 import { FaLinkedin } from "react-icons/fa";
 import { FiGithub, FiTwitter } from "react-icons/fi";
 
@@ -94,8 +95,7 @@ export const Footer = () => {
           </Box>
         </Flex>
         <Text color="text_four" py="1.5rem" borderTop="2px solid var(--text_tertiary)" w="full">
-          Copyright © 2020-{new Date().getFullYear()} Mark Ambrocio. All rights reserved. | Made
-          with{" "}
+          Copyright © 2020-{dayjs().year()} Mark Ambrocio. All rights reserved. | Made with{" "}
           {/* oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- role="img" + aria-label is the correct a11y pattern for emoji */}
           <span role="img" aria-label="brains" title="brains">
             🧠{" "}

@@ -74,7 +74,7 @@ export default function ProjectCardSM({ proj }: ICardSmProps) {
             </Text>
             <Text className="__norm" display="flex" alignItems="center">
               <FaRegClock style={{ marginRight: ".5rem" }} />
-              {dayjs(Date.now()).to(proj?.targetDate, true)} left
+              {dayjs().to(proj?.targetDate, true)} left
             </Text>
           </Box>
           <Heading className="__dark" as="p" fontSize="1.25rem" mb="1rem">
