@@ -6,7 +6,7 @@ import { expressMiddleware } from "@as-integrations/express5";
 import cors from "cors";
 import express from "express";
 import session from "express-session";
-const RedisStore = require("connect-redis")(session);
+import { RedisStore } from "connect-redis";
 import Redis from "ioredis";
 import { buildSchema } from "type-graphql";
 // locals
