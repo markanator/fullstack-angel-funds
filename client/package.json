@@ -31,12 +31,12 @@
     "next": "16.4.3",
     "react": "19.3.1",
     "react-dom": "19.3.1",
-    "react-hook-form": "^7.89.0",
+    "react-hook-form": "^7.91.0",
     "react-icons": "^5.7.0",
     "react-number-format": "^5.4.5",
     "react-slick": "^0.31.0",
     "slick-carousel": "^1.8.1",
-    "stripe": "22.2.3",
+    "stripe": "22.6.2",
     "title": "^4.0.1",
     "typeface-dancing-script": "^1.1.13",
     "typeface-montserrat": "^1.1.13",
@@ -46,7 +46,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "7.4.6",
     "@graphql-codegen/typescript": "6.1.2",
-    "@graphql-codegen/typescript-operations": "6.1.10",
+    "@graphql-codegen/typescript-operations": "6.2.0",
     "@graphql-codegen/typescript-react-apollo": "4.4.2",
     "@types/lodash": "^4.17.27",
     "@types/node": "^25.9.9",
@@ -55,9 +55,9 @@
     "@types/title": "^4.0.0",
     "globby": "^16.2.4",
     "next-sitemap": "^4.2.3",
-    "oxfmt": "^0.71.0",
-    "oxlint": "^1.86.0",
+    "oxfmt": "^0.75.0",
+    "oxlint": "^1.90.0",
     "typescript": "^6.0.3"
   },
-  "packageManager": "pnpm@11.25.0"
+  "packageManager": "pnpm@11.28.10"
 }
