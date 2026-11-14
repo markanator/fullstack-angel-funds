@@ -20,7 +20,7 @@
     "@chakra-ui/react": "^3.38.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@hookform/resolvers": "^6.0.2",
+    "@hookform/resolvers": "^7.0.6",
     "cross-fetch": "^4.1.0",
     "date-fns": "^4.4.0",
     "dayjs": "^1.11.23",
@@ -43,10 +43,10 @@
     "yup": "^1.7.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "7.4.6",
-    "@graphql-codegen/typescript": "6.1.2",
-    "@graphql-codegen/typescript-operations": "6.2.0",
-    "@graphql-codegen/typescript-react-apollo": "^5.0.0",
+    "@graphql-codegen/cli": "8.0.0",
+    "@graphql-codegen/typescript": "7.0.1",
+    "@graphql-codegen/typescript-operations": "7.0.1",
+    "@graphql-codegen/typescript-react-apollo": "^6.0.1",
     "@types/lodash": "^4.17.27",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
