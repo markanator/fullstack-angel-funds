@@ -40,11 +40,11 @@ importers:
   .:
     dependencies:
       '@apollo/server':
-        specifier: ^5.5.1
-        version: 5.5.1(graphql@16.14.2)(supports-color@5.5.0)
+        specifier: ^5.5.2
+        version: 5.5.2(graphql@16.14.2)(supports-color@5.5.0)
       '@as-integrations/express5':
         specifier: ^1.1.2
-        version: 1.1.2(@apollo/server@5.5.1(graphql@16.14.2)(supports-color@5.5.0))(express@5.3.0(supports-color@5.5.0))
+        version: 1.1.2(@apollo/server@5.5.2(graphql@16.14.2)(supports-color@5.5.0))(express@5.3.0(supports-color@5.5.0))
       '@prisma/client':
         specifier: ^7.10.1
         version: 7.10.1(prisma@7.10.1(@types/node@26.6.6)(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@7.0.2))(typescript@7.0.2)
@@ -52,8 +52,8 @@ importers:
         specifier: ^1.3.9
         version: 1.3.9
       argon2:
-        specifier: ^0.45.1
-        version: 0.45.1
+        specifier: ^0.45.2
+        version: 0.45.2
       class-validator:
         specifier: ^0.15.1
         version: 0.15.1
@@ -67,8 +67,8 @@ importers:
         specifier: ^2.2.3
         version: 2.2.3
       dotenv:
-        specifier: ^18.0.9
-        version: 18.0.9
+        specifier: ^18.0.10
+        version: 18.0.10
       express:
         specifier: ^5.3.0
         version: 5.3.0(supports-color@5.5.0)
@@ -109,8 +109,8 @@ importers:
         specifier: 2.0.0-rc.4
         version: 2.0.0-rc.4(class-validator@0.15.1)(graphql-scalars@2.0.1(graphql@16.14.2))(graphql@16.14.2)
       typeorm:
-        specifier: ^1.1.2
-        version: 1.1.2(ioredis@6.0.0(supports-color@5.5.0))(mysql2@3.24.4(@types/node@26.6.6))(pg@8.23.1)(redis@5.12.1)(supports-color@5.5.0)(ts-node@10.9.2(@types/node@26.6.6)(typescript@7.0.2))
+        specifier: ^1.1.3
+        version: 1.1.3(ioredis@6.0.0(supports-color@5.5.0))(mysql2@3.24.4(@types/node@26.6.6))(pg@8.23.1)(redis@5.12.1)(supports-color@5.5.0)(ts-node@10.9.2(@types/node@26.6.6)(typescript@7.0.2))
       uuid:
         specifier: ^14.0.3
         version: 14.0.3
@@ -168,8 +168,8 @@ packages:
     peerDependencies:
       graphql: 14.x || 15.x || 16.x
 
-  '@apollo/server@5.5.1':
-    resolution: {integrity: sha512-Rn3g5TJQsMSUY23CWZTghWdBWyjX7dP1eaEBPkvmM2RHi82cDcpgTIkSCbGvtTUEGjwopLv1AAooU/n7iIZ20A==}
+  '@apollo/server@5.5.2':
+    resolution: {integrity: sha512-VTEEQdI2T6L5h9DFe/Bh75EBnGabqdFvYYbLjGwJ2G2kKik5gWINBpkK6vLfEwBaSgL2mBjd1o9GDBn+xde/AQ==}
     engines: {node: '>=20'}
     peerDependencies:
       graphql: ^16.11.0
@@ -1114,8 +1114,8 @@ packages:
   arg@5.0.2:
     resolution: {integrity: sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg==}
 
-  argon2@0.45.1:
-    resolution: {integrity: sha512-skm+/WCjkGqCQxF7FG1LuZXM5yvbFjgbfiCGsud2oLgaDhh6b6dbH0b1EkghbM+xx4Bj8Ape+KKgixoIlWZicQ==}
+  argon2@0.45.2:
+    resolution: {integrity: sha512-41gOiSQBpQf+7H7HyLZbUqRZxrNk5ps39TsJKILjWuOyAOialUkztuIVL/Y/l+n5iSA2C4/jFg3FUYso/cX7TA==}
     engines: {node: '>=16.17.0'}
 
   async-retry@1.3.3:
@@ -1373,8 +1373,8 @@ packages:
     resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
     engines: {node: '>=12'}
 
-  dotenv@18.0.9:
-    resolution: {integrity: sha512-3fVOW4cB02R066PUSwn8O4TJyz9NckQl7F81blIbaq9jKBm2tSmOKky7ZHIXzGvkVPXCSn6jkpziBPZdGFs8Tw==}
+  dotenv@18.0.10:
+    resolution: {integrity: sha512-89FAA1xchzK2mxVWdr5F/0rldwiueXs6zJM86rO66EzekR1iBdiXRthyG+m5GvkJaFH3C2LESzamTkgndmLT2A==}
     engines: {node: '>=12'}
     hasBin: true
 
@@ -2241,8 +2241,8 @@ packages:
       tslib: ^2.6.3
       type-graphql: ^1.1.1 || >=1.2.0-rc || >=2.0.0-beta || >=2.0.0-rc
 
-  typeorm@1.1.2:
-    resolution: {integrity: sha512-UDQ8++2oFCK4fETiRKEC0eCES/i+/1SB4NBqXWeJNosI1i2SVFCDPhqIsXHWpFzFHTBOA553upQZj0NKVbNdUQ==}
+  typeorm@1.1.3:
+    resolution: {integrity: sha512-zpBWklzlWjoPFKZ5Frf1TWT9OzXqtJaej7HvdGGvx0TQLsKgSoG2HeKVbORXZhJNWhJ8BNFK+WqsogyuMGN2dQ==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24.11.0}
     hasBin: true
     peerDependencies:
@@ -2411,7 +2411,7 @@ snapshots:
       '@apollo/utils.logger': 3.0.0
       graphql: 16.14.2
 
-  '@apollo/server@5.5.1(graphql@16.14.2)(supports-color@5.5.0)':
+  '@apollo/server@5.5.2(graphql@16.14.2)(supports-color@5.5.0)':
     dependencies:
       '@apollo/cache-control-types': 1.0.3(graphql@16.14.2)
       '@apollo/server-gateway-interface': 2.0.0(graphql@16.14.2)
@@ -2423,7 +2423,9 @@ snapshots:
       '@apollo/utils.logger': 3.0.0
       '@apollo/utils.usagereporting': 2.1.0(graphql@16.14.2)
       '@apollo/utils.withrequired': 3.0.0
+      '@graphql-tools/merge': 9.1.9(graphql@16.14.2)
       '@graphql-tools/schema': 10.0.33(graphql@16.14.2)
+      '@graphql-tools/utils': 12.1.0(graphql@16.14.2)
       async-retry: 1.3.3
       body-parser: 2.4.0(supports-color@5.5.0)
       content-type: 1.0.5
@@ -2490,9 +2492,9 @@ snapshots:
 
   '@apollo/utils.withrequired@3.0.0': {}
 
-  '@as-integrations/express5@1.1.2(@apollo/server@5.5.1(graphql@16.14.2)(supports-color@5.5.0))(express@5.3.0(supports-color@5.5.0))':
+  '@as-integrations/express5@1.1.2(@apollo/server@5.5.2(graphql@16.14.2)(supports-color@5.5.0))(express@5.3.0(supports-color@5.5.0))':
     dependencies:
-      '@apollo/server': 5.5.1(graphql@16.14.2)(supports-color@5.5.0)
+      '@apollo/server': 5.5.2(graphql@16.14.2)(supports-color@5.5.0)
       express: 5.3.0(supports-color@5.5.0)
 
   '@cspotcode/source-map-support@0.8.1':
@@ -3223,7 +3225,7 @@ snapshots:
 
   arg@5.0.2: {}
 
-  argon2@0.45.1:
+  argon2@0.45.2:
     dependencies:
       '@phc/format': 1.0.0
       cross-env: 10.1.0
@@ -3469,7 +3471,7 @@ snapshots:
 
   dotenv@17.4.2: {}
 
-  dotenv@18.0.9: {}
+  dotenv@18.0.10: {}
 
   dunder-proto@1.0.1:
     dependencies:
@@ -4334,7 +4336,7 @@ snapshots:
       tslib: 2.9.1
       type-graphql: 2.0.0-rc.4(class-validator@0.15.1)(graphql-scalars@2.0.1(graphql@16.14.2))(graphql@16.14.2)
 
-  typeorm@1.1.2(ioredis@6.0.0(supports-color@5.5.0))(mysql2@3.24.4(@types/node@26.6.6))(pg@8.23.1)(redis@5.12.1)(supports-color@5.5.0)(ts-node@10.9.2(@types/node@26.6.6)(typescript@7.0.2)):
+  typeorm@1.1.3(ioredis@6.0.0(supports-color@5.5.0))(mysql2@3.24.4(@types/node@26.6.6))(pg@8.23.1)(redis@5.12.1)(supports-color@5.5.0)(ts-node@10.9.2(@types/node@26.6.6)(typescript@7.0.2)):
     dependencies:
       '@sqltools/formatter': 1.2.5
       ansis: 4.3.1
