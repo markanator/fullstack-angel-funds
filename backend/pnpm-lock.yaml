@@ -58,8 +58,8 @@ importers:
         specifier: ^0.15.1
         version: 0.15.1
       connect-redis:
-        specifier: ^10.0.0
-        version: 10.0.0(express-session@1.19.0(supports-color@5.5.0))(redis@5.12.1)
+        specifier: ^11.0.0
+        version: 11.0.0(express-session@1.19.0(supports-color@5.5.0))(redis@5.12.1)
       cors:
         specifier: ^2.8.6
         version: 2.8.6
@@ -1208,8 +1208,8 @@ packages:
   confbox@0.2.4:
     resolution: {integrity: sha512-ysOGlgTFbN2/Y6Cg3Iye8YKulHw+R2fNXHrgSmXISQdMnomY6eNDprVdW9R5xBguEqI954+S6709UyiO7B+6OQ==}
 
-  connect-redis@10.0.0:
-    resolution: {integrity: sha512-x6EotIY20pvocamMtcOsgxFzYufAMfipE+rjWa0cZMeSx+3K0yoHi4Nv4sfMlgF+Z5KnUbMFxyCx9pDZP39p0Q==}
+  connect-redis@11.0.0:
+    resolution: {integrity: sha512-lVO16GY2/iNmddbOkjU7nZJtCS4ArDA+BHK+3mLVOEjcs6LyIzuDqa0EaTA7iP9eg2meLZ8uSis7byiwv+beWA==}
     engines: {node: '>=22'}
     peerDependencies:
       express-session: '>=1'
@@ -3342,7 +3342,7 @@ snapshots:
 
   confbox@0.2.4: {}
 
-  connect-redis@10.0.0(express-session@1.19.0(supports-color@5.5.0))(redis@5.12.1):
+  connect-redis@11.0.0(express-session@1.19.0(supports-color@5.5.0))(redis@5.12.1):
     dependencies:
       express-session: 1.19.0(supports-color@5.5.0)
       redis: 5.12.1
