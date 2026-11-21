@@ -60,8 +60,8 @@
     "typegraphql-prisma": "^0.28.0",
     "typescript": "^7.0.2"
   },
-  "packageManager": "pnpm@11.28.10",
   "engines": {
     "node": "26.13.1"
-  }
+  },
+  "packageManager": "pnpm@11.28.10"
 }
