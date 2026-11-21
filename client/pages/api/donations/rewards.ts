@@ -3,7 +3,7 @@ import Stripe from "stripe";
 import { MIN_AMOUNT_CENTS } from "../../../utils/constants";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2026-10-28.endive",
+  apiVersion: "2026-11-18.endive",
 });
 export const config = {
   api: {
