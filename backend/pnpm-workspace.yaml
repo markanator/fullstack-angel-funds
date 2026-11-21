@@ -42,5 +42,6 @@ overrides:
   qs@>=6.14.2 <=6.15.3: ^6.16.0
   "@graphql-tools/utils@<12.0.2": ^12.0.2
   minimatch@<11.0.1: ^11.0.1
+  effect@<=3.22.0: ^3.22.1
 patchedDependencies:
   typegraphql-prisma@0.28.0: patches/typegraphql-prisma@0.28.0.patch

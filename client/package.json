@@ -20,12 +20,12 @@
     "@chakra-ui/react": "^3.38.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@hookform/resolvers": "^7.0.6",
+    "@hookform/resolvers": "^7.0.7",
     "cross-fetch": "^4.1.0",
     "date-fns": "^4.4.0",
     "dayjs": "^1.11.23",
-    "framer-motion": "^14.13.0",
-    "graphql": "^16.14.2",
+    "framer-motion": "^14.14.0",
+    "graphql": "^17.1.0",
     "lodash": "^4.18.1",
     "next": "16.4.6",
     "react": "19.3.1",
@@ -35,7 +35,7 @@
     "react-number-format": "^5.4.5",
     "react-slick": "^0.31.0",
     "slick-carousel": "^2.0.0",
-    "stripe": "^23.1.0",
+    "stripe": "^23.2.0",
     "title": "^4.0.1",
     "typeface-dancing-script": "^1.1.13",
     "typeface-montserrat": "^1.1.13",
@@ -53,12 +53,12 @@
     "@types/react-slick": "^0.23.13",
     "globby": "^16.2.4",
     "next-sitemap": "^4.2.3",
-    "oxfmt": "^0.78.0",
-    "oxlint": "^1.93.0",
+    "oxfmt": "^0.79.0",
+    "oxlint": "^1.94.0",
     "typescript": "^7.0.2"
   },
-  "packageManager": "pnpm@11.28.10",
   "engines": {
     "node": "26.13.1"
-  }
+  },
+  "packageManager": "pnpm@11.28.10"
 }

@@ -6,7 +6,6 @@ import { expressMiddleware } from "@as-integrations/express5";
 import cors from "cors";
 import express from "express";
 import session from "express-session";
-import { RedisStore } from "connect-redis";
 import Redis from "ioredis";
 import { buildSchema } from "type-graphql";
 // locals
@@ -30,6 +29,8 @@ import type { MyContext } from "./types/MyContext";
 const PORT = process.env.PORT || 7777;
 
 const main = async () => {
+  // connect-redis v11 is ESM-only; load via dynamic import from this CommonJS build
+  const { RedisStore } = await import("connect-redis");
   // init app
   const app = express();
   // redis
