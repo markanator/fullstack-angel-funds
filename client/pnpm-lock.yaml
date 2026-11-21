@@ -40,8 +40,8 @@ importers:
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(react@19.3.1)
       '@hookform/resolvers':
-        specifier: ^7.0.6
-        version: 7.0.6(react-hook-form@7.92.0(@types/react@19.3.0)(react@19.3.1))(yup@1.7.1)
+        specifier: ^7.0.7
+        version: 7.0.7(react-hook-form@7.92.0(@types/react@19.3.0)(react@19.3.1))(yup@1.7.1)
       cross-fetch:
         specifier: ^4.1.0
         version: 4.1.0
@@ -652,8 +652,8 @@ packages:
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
 
-  '@hookform/resolvers@7.0.6':
-    resolution: {integrity: sha512-LSTMwW4tmRWtM7pS5HkSqahi71USbhrmjc9pNHNa7UyYTbKIK/e0G1EAw6xsEnp9GahTjXhunxRJp0Bd8E6NZA==}
+  '@hookform/resolvers@7.0.7':
+    resolution: {integrity: sha512-sxiEGu5dhg6gMEsGznEQ/++634YiRLmxclw+/B1+yNN9uuhKIfNCRTE4xwqkRcKNqBPwtmDXg5oDhLw3i/wklw==}
     peerDependencies:
       '@standard-schema/spec': ^1.0.0
       '@vinejs/vine': ^2.0.0 || ^3.0.0 || ^4.0.0
@@ -3785,7 +3785,7 @@ snapshots:
     dependencies:
       graphql: 16.14.2
 
-  '@hookform/resolvers@7.0.6(react-hook-form@7.92.0(@types/react@19.3.0)(react@19.3.1))(yup@1.7.1)':
+  '@hookform/resolvers@7.0.7(react-hook-form@7.92.0(@types/react@19.3.0)(react@19.3.1))(yup@1.7.1)':
     dependencies:
       '@standard-schema/utils': 0.3.0
       react-hook-form: 7.92.0(@types/react@19.3.0)(react@19.3.1)

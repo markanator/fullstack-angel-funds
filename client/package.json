@@ -20,7 +20,7 @@
     "@chakra-ui/react": "^3.38.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@hookform/resolvers": "^7.0.6",
+    "@hookform/resolvers": "^7.0.7",
     "cross-fetch": "^4.1.0",
     "date-fns": "^4.4.0",
     "dayjs": "^1.11.23",
